@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'title' => 'Gestion Ventas',
+    'title' => 'Gestion Itatí',
 
     'title_prefix' => '',
 
@@ -30,9 +30,9 @@ return [
     |
     */
 
-    'logo' => '<b>Gestion</b>Ventas',
+    'logo' => '<b>Gestion</b>Itatí',
 
-    'logo_mini' => '<b>V</b>en',
+    'logo_mini' => '<b>G</b>I',
 
     /*
     |--------------------------------------------------------------------------

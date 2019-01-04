@@ -29,8 +29,8 @@ class ArticuloStoreRequest extends FormRequest
             'descripcion' => 'required|max:250|unique:articulos,descripcion',
             'stock' => 'required',
             'stockminimo' => 'required',
-            'preciounitario' => 'required',
-            'estado'    => 'required|in:Activo,Inactivo'
+            'preciounitario' => 'required'//,
+            //'estado'    => 'required|in:Activo,Inactivo'
         ];
     }
 }
