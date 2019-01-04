@@ -1,0 +1,26 @@
+
+.go-up {
+  display:none;
+  padding:12px;
+  background:#4682B4;
+  font-size:12px;
+  color:#fff;
+  cursor:pointer;
+  position: fixed;
+  bottom:20px;
+  right:20px;
+}
+
+
+.go-up:hover {
+  display:none;
+  padding:12px;
+  background:#33AFFF;
+  font-size:12px;
+  color:#fff;
+  cursor:pointer;
+  position: fixed;
+  bottom:20px;
+  right:20px;
+}
+
