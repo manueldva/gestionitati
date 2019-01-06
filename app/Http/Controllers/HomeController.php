@@ -14,6 +14,8 @@ use App\Models\Venta;
 use App\Models\Ventapago;
 use App\Models\Cliente;
 use Illuminate\Support\Facades\Input;*/
+use App\Models\Modulo;
+use App\Models\Perfil;
 
 use App\Helpers\FechaHelper;
 
@@ -41,7 +43,12 @@ class HomeController extends Controller
         $otrastareasabiertas  = Tarea::where('usuario_alta', '<>' , Auth::user()->username)->where('estado','Abierta')->count();*/
         
         //return view('home', compact('mistareasabiertas', 'otrastareasabiertas'));
-        return view('home');
+        $perfil = Perfil::find(Auth::user()->perfil_id);
+        $modulo_actual = Modulo::where('valor', '=', 'TABLERO')->get();
+        $modulos = $perfil->modulos()->where('modulo_id', '=', $modulo_actual[0]->id)->get();
+        $permiso = $modulos[0]->pivot->permiso;
+ 
+        return view('home', compact('permiso'));
     }
 
 

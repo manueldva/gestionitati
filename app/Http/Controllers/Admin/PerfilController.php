@@ -38,6 +38,8 @@ class PerfilController extends Controller
 
         $perfiles->setPath('perfiles');
 
+        if ($permiso == 0 ) return back();
+
        return view('admin..seguridad.perfiles.index', compact('perfiles', 'permiso'));
     }
 
@@ -122,7 +124,7 @@ class PerfilController extends Controller
     public function asignarmodulo($id)
     {
         $perfil = Perfil::findOrFail($id);
-        $modulos = Modulo::get();
+        $modulos = Modulo::orderby('descripcion')->get();
 
         $modulos_permisos = $perfil->modulos()->get();
 

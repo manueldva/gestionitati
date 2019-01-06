@@ -3,7 +3,7 @@
 @section('title', 'Gestión - Tablero')
 
 @section('content_header')
-@if(Auth::user()->userType !== 'READONLY')
+@if($permiso == 2 )
   <h1>
     Tablero
     <!--<small>Listado</small>-->

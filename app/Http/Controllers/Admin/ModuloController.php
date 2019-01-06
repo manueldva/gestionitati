@@ -38,6 +38,8 @@ class ModuloController extends Controller
 
         $modulos->setPath('modulos');
 
+        if ($permiso == 0 ) return back();
+
        return view('admin..seguridad.modulos.index', compact('modulos', 'permiso'));
     }
 

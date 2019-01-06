@@ -49,6 +49,8 @@ class ManageuserController extends Controller
         
        $users = User::where('username','!=','admin')->orderBy('name')->paginate(10);
 
+       if ($permiso == 0 ) return back();
+
        return view('admin.manageusers.index', compact('users','permiso'));
     }
 

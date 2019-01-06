@@ -46,6 +46,7 @@ class ArticuloController extends Controller
         $articulos->setPath('articulos');
 
          //dd($motivos);
+        if ($permiso == 0 ) return back();
 
        return view('admin.articulos.index', compact('articulos', 'permiso'));
     }
