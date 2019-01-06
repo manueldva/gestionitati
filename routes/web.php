@@ -22,7 +22,11 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/detalleotrastareasabiertas', 'HomeController@detalleotrastareasabiertas')->name('detalleotrastareasabiertas');*/
 
 
-//admin
+//
+//seguridad
+route::resource('modulos', 		'Admin\ModuloController');
+route::resource('perfiles', 	'Admin\PerfilController');
+
 route::resource('manageusers', 		'Admin\ManageuserController');
 route::get('/showSetting/{id}',		'Admin\ManageuserController@showSetting')->name('showSetting');
 route::put('/setting/{id}',		'Admin\ManageuserController@setting')->name('setting');
@@ -42,3 +46,7 @@ route::resource('articulos', 		'Admin\ArticuloController');
 route::resource('rubros', 		'Admin\Complementos\RubroController');
 /*route::resource('servidores', 		'Admin\Complementos\ServidorController');
 route::resource('bases', 		'Admin\Complementos\BaseController');*/
+
+// servicios
+Route::get('/habilitarmodulos/{user}', 'Service\ServiceController@habilitarmodulos')->name('habilitarmodulos');
+//

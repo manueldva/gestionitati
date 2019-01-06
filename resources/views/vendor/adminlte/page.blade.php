@@ -140,7 +140,7 @@
             <section class="sidebar">
 
                 <!-- Sidebar Menu -->
-                <ul class="sidebar-menu" data-widget="tree">
+                <ul class="sidebar-menu" data-widget="tree" id ="menutemp">
                     @each('adminlte::partials.menu-item', $adminlte->menu(), 'item')
                 </ul>
                 <!-- /.sidebar-menu -->
@@ -227,6 +227,10 @@
     <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
     <script type="text/javascript">
 
+        /*$('.Gestion_de_Articulos').text('Gestión de Artículos');
+        $('.Remitos_Internos').text('Remitos Internos');
+        $('.Manual_de_usuario').text('Manual de Usuario');*/
+
 
         $('div.alert').not('.alert-important').delay(3000).fadeOut(350) 
 
@@ -248,6 +252,53 @@
             } else {
                 $('.go-up').slideUp(300);
             }
+        });
+
+
+
+        var user = {!! json_encode((array)auth()->user()->id) !!};
+       
+        var APP_URL = "{{ url('/') }}";
+
+        $.ajax({
+        url: APP_URL + '/habilitarmodulos/' + user,
+        
+        //url: "/habilitarmodulos/" + user
+        }).done(function(resultado) {
+            console.log(resultado);
+            //alert(resultado);
+            
+            if (resultado == 0) {
+                
+                $("#menutemp").hide();
+            } else {
+
+
+                for(var i = 0; i < resultado.length; i++){
+                    
+
+                    if(resultado[i]['permiso'] == 0){
+                        if(resultado[i]['descripcion'] == 'Gestión de Artículos')
+                        {
+                            $('#Gestion_de_Articulos').hide();
+                        }if(resultado[i]['descripcion'] == 'Remitos Internos')
+                        {
+                            $('#Remitos_Internos').hide();
+
+                        }if(resultado[i]['descripcion'] == 'Manual de usuario')
+                        {
+                            $('#Manual_de_usuario').hide();
+
+                        }else  {
+                            $('#' + resultado[i]['descripcion']).hide();
+                        }
+                        
+                    }
+                }
+            }
+            //alert(resultado);
+
+        
         });
     </script>
 

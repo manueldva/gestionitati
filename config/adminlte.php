@@ -127,9 +127,22 @@ return [
             'icon' => 'truck',
         ],
         [
-            'text'        => 'Usuarios',
-            'url'         => 'manageusers',
-            'icon'        => 'users',
+            'text'    => 'Seguridad',
+            'icon'    => 'key',
+            'submenu' => [
+                [
+                    'text' => 'Usuarios',
+                    'url'  => 'manageusers',
+                ],
+                 [
+                    'text' => 'Modulos',
+                    'url'  => 'modulos',
+                ],
+                [
+                    'text' => 'Perfiles',
+                    'url'  => 'perfiles',
+                ]
+            ]
         ],       
         [
             'text'    => 'Complementos',

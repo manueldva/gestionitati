@@ -1,0 +1,49 @@
+@extends('adminlte::page')
+
+@section('title', 'MC_V2 - Perfiles')
+
+@section('content_header')
+  <h1>
+    Gestionar Perfiles
+    <!--<small>Listado</small>-->
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a href="{{ route('perfiles.index')}}">Perfiles</a></li>
+    <li class="active">Ver</li>
+  </ol>
+
+
+@stop
+@section('content')
+
+<div class="box box-primary">
+	<div class="box-header with-border box-default">
+	   <strong> Ver Perfil </strong>
+	</div>
+		
+	<div class="panel-body">
+	    	<div class="row">
+					<div class="col-md-12">
+						<div class="row col-md-12">
+							<div class="form-group pull-right">
+										<a href="{{ route('perfiles.index') }}" type="button" class="btn btn btn-default">
+											<span class="fa fa-list">
+											</span>
+												Listado
+										</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<p> <strong>Perfil:</strong> {{ $perfil->perfil }}</p>
+						@if($perfil->descripcion)
+							<p> <strong>Descripcion:</strong> {{ $perfil->descripcion }}</p>
+						@endif
+					</div>
+
+				</div>
+	</div>
+</div>
+
+@endsection

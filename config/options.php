@@ -37,7 +37,21 @@ return array(
 	   ''    		=> 'Seleccionar',
 	   'codigo'  => 'Codigo',
 	   'fecha'	=> 'Fecha Venta'
-   ]
+   ],
+	
+	
+   'modulotypes' => [
+		''    		   => 'Seleccionar',
+		'descripcion'  => 'Modulo',
+		'link'	   => 'Link'/*,
+		'status'	=> 'Estado'*/
+	],
+
+	'perfiltypes' => [
+		''    		   => 'Seleccionar',
+		'perfil'  	   => 'Perfil',
+		'descripcion'  => 'Descripcion'
+	],
 
 
 );
