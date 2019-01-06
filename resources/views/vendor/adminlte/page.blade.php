@@ -278,7 +278,10 @@
                     
 
                     if(resultado[i]['permiso'] == 0){
-                        if(resultado[i]['descripcion'] == 'Gestión de Artículos')
+
+                        $('#' + resultado[i]['descripcion']).hide();
+
+                        /*if(resultado[i]['descripcion'] == 'Gestión de Artículos')
                         {
                             $('#Gestion_de_Articulos').hide();
                         }if(resultado[i]['descripcion'] == 'Remitos Internos')
@@ -291,7 +294,7 @@
 
                         }else  {
                             $('#' + resultado[i]['descripcion']).hide();
-                        }
+                        }*/
                         
                     }
                 }

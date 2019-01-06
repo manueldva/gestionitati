@@ -1,12 +1,12 @@
 <div class="col-md-6">
 	
 	<div class="form-group">
-		{{ form::label('name', 'Nombre:') }}
+		{{ form::label('name', 'Nombre *') }}
 		{{ form::text('name', null, ['class' => 'form-control', 'id' => 'name']) }}
 	</div>
 
 	<div class="form-group">
-		{{ form::label('username', ' Usuario:') }}
+		{{ form::label('username', ' Usuario *') }}
 		{{ form::text('username', null, ['class' => 'form-control', 'id' => 'username']) }}
 		
 	</div>
@@ -16,9 +16,12 @@
 		{{ form::email('email', null, ['class' => 'form-control', 'id' => 'email']) }}
 	</div>
 
-
-
 	<div class="form-group">
+		{{ form::label('perfil_id', 'Perfil *') }}
+		{{ form::select('perfil_id', $perfiles,  null, ['class' => 'form-control','placeholder' => 'Seleccionar...'] ) }}
+	</div>
+
+	<!--<div class="form-group">
 		{{ form::label('userType', 'Tipo Usuario:') }}
 		<label>
 			{{ Form::radio('userType','ADMINISTRATOR')}} Administrador
@@ -29,7 +32,7 @@
 		<label>
 			{{ Form::radio('userType','READONLY')}} Solo Lectura
 		</label>
-	</div>
+	</div>-->
 
 	<div id="resetpass" class="form-group " style="display:none">
 
@@ -51,6 +54,7 @@
 @push('js')
 	<script type="text/javascript">
 
+		$("#perfil_id").select2();
 
 
 	</script>

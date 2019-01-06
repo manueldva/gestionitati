@@ -36,7 +36,7 @@
 						&nbsp;
 			      <button type="submit" class="form-control btn btn-sm btn-success"><span class="glyphicon glyphicon-search"></span> Buscar</button>
 						&nbsp;
-			      @if(Auth::user()->userType !== 'READONLY')
+			      @if($permiso == 2)
 			      <a href="{{ route('articulos.create')}}" class="form-control btn btn-sm btn-primary">
 			        <span class="glyphicon glyphicon-plus"></span> Crear
 			      </a>  
@@ -77,19 +77,19 @@
 	                    </td>
 	                    
 	                    <td width="10px">
-													@if(Auth::user()->userType !== 'READONLY')
-															<a href="{{ route('articulos.edit', $articulo->id) }}" class="btn btn-sm btn-default">
-																Editar
-															</a>
-													@endif
+							@if($permiso == 2)
+									<a href="{{ route('articulos.edit', $articulo->id) }}" class="btn btn-sm btn-default">
+										Editar
+									</a>
+							@endif
 	                    </td>
 	                    <td width="10px">
-												@if(Auth::user()->userType !== 'READONLY')
-													{!! Form::model($articulo, ['method' => 'delete', 'route' => ['articulos.destroy', $articulo->id], 'class' =>'form-inline form-delete']) !!}
-													{!! Form::hidden('id', $articulo->id) !!}
-													{!! Form::submit('Eliminar', ['class' => 'btn btn-sm btn-danger delete', 'name' => 'delete_modal']) !!}
-													{!! Form::close() !!}
-												@endif
+							@if(Auth::user()->userType !== 'READONLY')
+								{!! Form::model($articulo, ['method' => 'delete', 'route' => ['articulos.destroy', $articulo->id], 'class' =>'form-inline form-delete']) !!}
+								{!! Form::hidden('id', $articulo->id) !!}
+								{!! Form::submit('Eliminar', ['class' => 'btn btn-sm btn-danger delete', 'name' => 'delete_modal']) !!}
+								{!! Form::close() !!}
+							@endif
 	                    </td>
 	                  
 

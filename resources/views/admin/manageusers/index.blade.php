@@ -33,7 +33,7 @@
 			      {{ form::text('val', null, ['class' => 'form-control', 'id' => 'val']) }}
 			      
 			      <button type="submit" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-search"></span> Buscar</button>
-			      @if(Auth::user()->userType !== 'READONLY')
+			      @if($permiso == 2)
 			      <a href="{{ route('manageusers.create')}}" class="btn btn-sm btn-primary">
 			        <span class="glyphicon glyphicon-plus"></span> Crear
 			      </a>  
@@ -69,18 +69,20 @@
 										Ver
 									</a>
 								</td>
-								<td width="10px">
-									<a href="{{ route('manageusers.edit', $user->id) }}" class="btn btn-sm btn-default">
-										Editar
-									</a>
-								</td>
-								<td width="10px">
-									{!! Form::model($user, ['method' => 'delete', 'route' => ['manageusers.destroy', $user->id], 'class' =>'form-inline form-delete']) !!}
-        							{!! Form::hidden('id', $user->id) !!}
-        							{!! Form::submit('Eliminar', ['class' => 'btn btn-sm btn-danger delete', 'name' => 'delete_modal']) !!}
-        							{!! Form::close() !!}
+								@if($permiso == 2)
+									<td width="10px">
+										<a href="{{ route('manageusers.edit', $user->id) }}" class="btn btn-sm btn-default">
+											Editar
+										</a>
+									</td>
+									<td width="10px">
+										{!! Form::model($user, ['method' => 'delete', 'route' => ['manageusers.destroy', $user->id], 'class' =>'form-inline form-delete']) !!}
+	        							{!! Form::hidden('id', $user->id) !!}
+	        							{!! Form::submit('Eliminar', ['class' => 'btn btn-sm btn-danger delete', 'name' => 'delete_modal']) !!}
+	        							{!! Form::close() !!}
 
-								</td>
+									</td>
+								@endif
 							</tr>
 						@endforeach
 					</tbody>

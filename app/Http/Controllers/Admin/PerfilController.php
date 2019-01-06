@@ -119,6 +119,52 @@ class PerfilController extends Controller
         return redirect()->route('perfiles.edit', $perfil->id);
     }
 
+    public function asignarmodulo($id)
+    {
+        $perfil = Perfil::findOrFail($id);
+        $modulos = Modulo::get();
+
+        $modulos_permisos = $perfil->modulos()->get();
+
+        //echo $x[4]->pivot->permiso;
+
+        //highlight_string(var_export($x,true));
+        //exit;
+
+        return view(
+            'admin.seguridad.perfiles.asignarmodulo',
+            [
+                'perfil' => $perfil,
+                'modulos' => $modulos,
+                'modulos_permisos' => $modulos_permisos
+            ]
+        );
+    }
+
+    public function guardarpermisos(Request $request, $id)
+    {
+        $perfil = Perfil::findOrFail($id);
+        $modulos = Modulo::get();
+
+        foreach ($modulos as $modulo) {
+
+            $perfil->modulos()->detach($modulo->id);
+
+            $permiso = $request->input($modulo->id);
+
+            $perfil->modulos()->attach(
+                $modulo->id,
+                array('permiso' => $permiso)
+                );
+        }
+
+        Alert::success('Permisos actualizados correctamente.')->persistent("Cerrar");
+        return back();
+
+        //return redirect('seguridad/perfiles/asignarmodulo/'.$id);
+    }
+
+
     /**
      * Remove the specified resource from storage.
      *

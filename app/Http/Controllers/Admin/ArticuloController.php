@@ -11,6 +11,8 @@ use Alert;
 use App\Models\Articulo;
 use App\Models\Proveedor;
 use App\Models\Rubro;
+use App\Models\Modulo;
+use App\Models\Perfil;
 use Auth;
 
 use App\Helpers\FechaHelper;
@@ -30,6 +32,11 @@ class ArticuloController extends Controller
     public function index(Request $request)
     {
 
+        $perfil = Perfil::find(Auth::user()->perfil_id);
+        $modulo_actual = Modulo::where('valor', '=', 'ARTICULO')->get();
+        $modulos = $perfil->modulos()->where('modulo_id', '=', $modulo_actual[0]->id)->get();
+        $permiso = $modulos[0]->pivot->permiso;
+ 
         $articulos = Articulo::type($request->get('type'), $request->get('val'))->paginate(10);
 
         foreach($articulos as $articulo){
@@ -40,7 +47,7 @@ class ArticuloController extends Controller
 
          //dd($motivos);
 
-       return view('admin.articulos.index', compact('articulos'));
+       return view('admin.articulos.index', compact('articulos', 'permiso'));
     }
 
     /**

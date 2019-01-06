@@ -26,6 +26,9 @@ Route::get('/detalleotrastareasabiertas', 'HomeController@detalleotrastareasabie
 //seguridad
 route::resource('modulos', 		'Admin\ModuloController');
 route::resource('perfiles', 	'Admin\PerfilController');
+Route::get('/asignarmodulo/{id}', 'Admin\PerfilController@asignarmodulo');
+Route::post('/guardarpermisos/{id}', 'Admin\PerfilController@guardarpermisos');
+
 
 route::resource('manageusers', 		'Admin\ManageuserController');
 route::get('/showSetting/{id}',		'Admin\ManageuserController@showSetting')->name('showSetting');

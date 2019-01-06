@@ -69,6 +69,11 @@
 	                      </a>
 	                    </td>
 	                    @if($permiso == 2)
+						<td width="10px">
+	                      <a  href="{{ asset('asignarmodulo/') . '/' . $perfil->id }}" class="btn btn-sm btn-default">
+	                        Asignar Permisos
+	                      </a>
+	                    </td>
 	                    <td width="10px">
 	                      <a href="{{ route('perfiles.edit', $perfil->id) }}" class="btn btn-sm btn-default">
 	                        Editar

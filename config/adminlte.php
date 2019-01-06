@@ -111,21 +111,21 @@ return [
     'menu' => [
 
         'MENU PRINCIPAL',
-        [
+        /*[
             'text' => 'Ventas',
             'url'  => 'ventas',
             'icon' => 'money',
-        ],
+        ],*/
         [
             'text' => 'Articulos',
             'url'  => 'articulos',
             'icon' => 'archive',
-        ],
+        ],/*
         [
             'text' => 'Proveedores',
             'url'  => 'proveedores',
             'icon' => 'truck',
-        ],
+        ],*/
         [
             'text'    => 'Seguridad',
             'icon'    => 'key',
@@ -144,7 +144,7 @@ return [
                 ]
             ]
         ],       
-        [
+        /*[
             'text'    => 'Complementos',
             'icon'    => 'cog',
             'submenu' => [
@@ -158,7 +158,7 @@ return [
             'text' => 'Informes',
             'url'  => 'informes',
             'icon' => 'file-pdf-o',
-        ],
+        ],*/
         
         
     ],

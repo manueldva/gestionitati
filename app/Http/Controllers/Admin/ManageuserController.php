@@ -13,6 +13,8 @@ use Auth;
 use Alert;
 use Validator;
 use App\Helpers\Animate;
+use App\Models\Modulo;
+use App\Models\Perfil;
 
 use App\User;
 use App\Models\Tarea;
@@ -32,17 +34,22 @@ class ManageuserController extends Controller
     public function index()
     {
      
-       if (Auth::user()->userType !== 'ADMINISTRATOR') {
+       /*if (Auth::user()->userType !== 'ADMINISTRATOR') {
 
         Alert::error('El usuario no esta autorizado para ingresar a este modulo');
         return redirect()->route('home');
-       }
+       }*/
+
+        $perfil = Perfil::find(Auth::user()->perfil_id);
+        $modulo_actual = Modulo::where('valor', '=', 'SEGURIDAD')->get();
+        $modulos = $perfil->modulos()->where('modulo_id', '=', $modulo_actual[0]->id)->get();
+        $permiso = $modulos[0]->pivot->permiso;
 
 
         
        $users = User::where('username','!=','admin')->orderBy('name')->paginate(10);
 
-       return view('admin.manageusers.index', compact('users'));
+       return view('admin.manageusers.index', compact('users','permiso'));
     }
 
     /**
@@ -53,7 +60,10 @@ class ManageuserController extends Controller
     public function create()
     {
 
-        return view('admin.manageusers.create');
+        $perfiles  = Perfil::orderBy('perfil', 'ASC')->pluck('perfil' , 'id');
+
+
+        return view('admin.manageusers.create', compact('perfiles'));
     }
 
     /**
@@ -119,8 +129,10 @@ class ManageuserController extends Controller
     {
         $user = User::find($id);
 
+        $perfiles  = Perfil::orderBy('perfil', 'ASC')->pluck('perfil' , 'id');
 
-        return view('admin.manageusers.edit', compact('user'));
+
+        return view('admin.manageusers.edit', compact('user', 'perfiles'));
     }
 
     /**
@@ -154,13 +166,13 @@ class ManageuserController extends Controller
 
         $user = User::find($id);
 
-        $existe = Tarea::where('usuario_alta', $user->username)->count();
+        /*$existe = Tarea::where('usuario_alta', $user->username)->count();
 
         if($existe > 0) 
         {
             Alert::error('No se puede modificar el nombre de usuario de este registro')->persistent("Cerrar");
             return back();
-        }
+        }*/
 
     
 
