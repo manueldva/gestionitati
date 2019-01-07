@@ -102,7 +102,7 @@ class ManageuserController extends Controller
         $user->password = bcrypt('123456');
         $user->save();
 
-        Alert::success('Usuario creado con exito')->persistent("Cerrar");;
+        Alert::success('Contraseña inicial: 123456', 'Usuario creado con exito')->persistent("Cerrar");
         return redirect()->route('manageusers.index');
     }
 
@@ -198,7 +198,7 @@ class ManageuserController extends Controller
     public function destroy($id)
     {
         
-        $user = User::find($id);
+        /*$user = User::find($id);
 
         $existe = Tarea::where('usuario_alta', $user->username)->count();
 
@@ -206,7 +206,7 @@ class ManageuserController extends Controller
         {
             Alert::error('No se puede eliminar el registro')->persistent("Cerrar");
             return back();
-        }
+        }*/
 
 
         User::find($id)->delete();
