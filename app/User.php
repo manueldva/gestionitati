@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'username', 'userType', 'file'
+        'name', 'email', 'password', 'perfil_id','username', 'file'
     ];
 
     /**
@@ -29,4 +29,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+        public function perfil(){
+        
+        return $this->belongsTo(Models\Perfil::class);
+    }
 }

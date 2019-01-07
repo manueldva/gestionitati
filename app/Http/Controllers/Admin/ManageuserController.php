@@ -176,16 +176,17 @@ class ManageuserController extends Controller
             return back();
         }*/
 
-    
-
-        //$user = User::find($id);
-
         $user->fill($request->all())->save();
-
-        if($request->input('resetpass') == 'on') $user->fill(['password' => bcrypt('123456')])->save();
         
+       if($request->get('resetpass') == "on")
+        {
+            $user->password = bcrypt('123456');
+            $user->save();
+            Alert::success('La contraseña reseteada es: 123456','Usuario actualizado con exito')->persistent("Cerrar");
+        }else {
+            Alert::success('Usuario actualizado con exito')->persistent("Cerrar");
+        } 
 
-        Alert::success('Usuario actualizado con exito')->persistent("Cerrar");;
         return redirect()->route('manageusers.index');
     }
 

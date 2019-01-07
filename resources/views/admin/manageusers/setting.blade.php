@@ -58,8 +58,8 @@
 
 
 					<div class="form-group">
-		                <label for="userType">Tipo Usuario:</label>
-		                <input id="userType" type="text" class="form-control" name="userType" value= "{{ trans("resource.$user->userType") }}" disabled>
+		                <label for="userType">Perfil:</label>
+		                <input id="userType" type="text" class="form-control" name="userType" value= "{{ $user->perfil->perfil }}" disabled>
 		            </div>
 
 

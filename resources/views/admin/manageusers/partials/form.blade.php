@@ -1,3 +1,22 @@
+<div class="col-md-12">
+	<div class="row col-md-12">
+		<div class="form-group pull-right">
+		      <button type="submit" class="btn btn btn-primary">
+		      	<span class="glyphicon glyphicon-floppy-disk">
+		      	</span>
+		      		Guardar
+		      </button>
+
+		      <a href="{{ route('manageusers.index') }}" type="button" class="btn btn btn-default">
+		      	<span class="fa fa-list">
+		      	</span>
+		      		Listado
+		      </a>
+
+		</div>
+	</div>
+</div>
+
 <div class="col-md-6">
 	
 	<div class="form-group">
@@ -21,18 +40,6 @@
 		{{ form::select('perfil_id', $perfiles,  null, ['class' => 'form-control','placeholder' => 'Seleccionar...'] ) }}
 	</div>
 
-	<!--<div class="form-group">
-		{{ form::label('userType', 'Tipo Usuario:') }}
-		<label>
-			{{ Form::radio('userType','ADMINISTRATOR')}} Administrador
-		</label>
-		<label>
-			{{ Form::radio('userType','MANAGMENT')}} Gestión
-		</label>
-		<label>
-			{{ Form::radio('userType','READONLY')}} Solo Lectura
-		</label>
-	</div>-->
 
 	<div id="resetpass" class="form-group " style="display:none">
 
@@ -42,10 +49,7 @@
 			</label>	
 	</div>
 
-	<div class="form-group">
-		<button type="submit" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
-	</div>
-
+	
 
 </div>
 

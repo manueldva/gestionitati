@@ -53,7 +53,7 @@
 							<th width="10px"> Codigo</th>
 							<th> Nombre</th>
 							<th> Usuario</th>
-							<th> Tipo Usuario</th>
+							<th> Perfil</th>
 							<th colspan="3">&nbsp;</th>
 						</tr>
 					</thead>
@@ -63,7 +63,7 @@
 								<td>{{ $user->id }}</td>
 								<td>{{ $user->name }}</td>
 								<td>{{ $user->username }}</td>
-								<td>{{ trans("resource.$user->userType") }}</td>
+								<td>{{ $user->perfil->perfil }}</td>
 								<td width="10px">
 									<a href="{{ route('manageusers.show', $user->id) }}" class="btn btn-sm btn-default">
 										Ver

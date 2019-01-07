@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('password')->default('123456');
             $table->integer('perfil_id')->unsigned()->nullable();
             $table->foreign('perfil_id')->references('id')->on('perfiles');
-            $table->enum('userType',['ADMINISTRATOR', 'MANAGMENT ', 'READONLY'])->default('READONLY');
+            //$table->enum('userType',['ADMINISTRATOR', 'MANAGMENT ', 'READONLY'])->default('READONLY');
             $table->string('file', 128)->nullable();
             $table->rememberToken();
             //$table->timestamps();

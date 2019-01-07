@@ -25,23 +25,36 @@
 	<div class="panel-body">
 	    <div class="panel-body">
 	        <div class="row">
-				<p> <strong>Codigo:</strong> {{ $user->id }}</p>
-				
-				<p> <strong>Nombre:</strong> {{ $user->name }}</p>
-
-				<p> <strong>Usuario:</strong> {{ $user->username }}</p>
-
-				<p> <strong>Email:</strong> {{ $user->email }}</p>
-
-				<p> <strong>Tipo Usuario:</strong> {{ trans("resource.$user->userType") }}</p>
-				
-
-				@if($user->file)
-                    <div class="form-group  {{ $image }}">
-						<p> <strong>Imagen:</strong></p>
-	                    <img src="{{ asset($user->file) }}" height="300" width="300">
+	        	<div class="col-md-12">
+					<div class="row col-md-12">
+						<div class="form-group pull-right">
+							<a href="{{ route('manageusers.index') }}" type="button" class="btn btn btn-default">
+								<span class="fa fa-list">
+								</span>
+									Listado
+							</a>
+						</div>
 					</div>
-				@endif
+				</div>
+				<div class="col-md-8">
+					<p> <strong>Codigo:</strong> {{ $user->id }}</p>
+					
+					<p> <strong>Nombre:</strong> {{ $user->name }}</p>
+
+					<p> <strong>Usuario:</strong> {{ $user->username }}</p>
+
+					<p> <strong>Email:</strong> {{ $user->email }}</p>
+
+					<p> <strong>Perfil:</strong> {{ $user->perfil->perfil }}</p>
+					
+
+					@if($user->file)
+	                    <div class="form-group  {{ $image }}">
+							<p> <strong>Imagen:</strong></p>
+		                    <img src="{{ asset($user->file) }}" height="300" width="300">
+						</div>
+					@endif
+				</div>
 			</div>
 		</div>
 	</div>

@@ -64,6 +64,21 @@ class ModuloController extends Controller
     {
         $modulo = Modulo::create($request->all());
 
+        $perfiles = Perfil::get();
+
+        foreach ($perfiles as $perfil) {
+
+            $perfil->modulos()->attach($modulo->id);
+
+            $permiso = 0;
+
+            $perfil->modulos()->attach(
+                $modulo->id,
+                array('permiso' => $permiso)
+                );
+        }
+
+
         //auditoria
         $modulo->fill(['usuario_alta' => Auth::user()->username , 'fecha_alta' => date('Y-m-d H:i:s')])->save();
         //

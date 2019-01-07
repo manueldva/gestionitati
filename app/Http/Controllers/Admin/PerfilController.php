@@ -11,6 +11,7 @@ use Alert;
 
 use App\Models\Modulo;
 use App\Models\Perfil;
+use App\User;
 use Auth;
 
 class PerfilController extends Controller
@@ -68,8 +69,9 @@ class PerfilController extends Controller
         $perfil->fill(['usuario_modi' => Auth::user()->username , 'fecha_alta' => date('Y-m-d H:i:s')])->save();
         //
         
-        Alert::success('Perfil creado con exito')->persistent("Cerrar");
-        return redirect()->route('perfiles.edit', $perfil->id);
+        Alert::success('Debe asignar los permisos a este nuevo perfil','Perfil creado con exito')->persistent("Cerrar");
+        //return redirect()->route('perfiles.edit', $perfil->id);
+        return $this->asignarmodulo($perfil->id);
     }
 
     /**
@@ -161,7 +163,8 @@ class PerfilController extends Controller
         }
 
         Alert::success('Permisos actualizados correctamente.')->persistent("Cerrar");
-        return back();
+        return $this->asignarmodulo($id);
+        //return back();
 
         //return redirect('seguridad/perfiles/asignarmodulo/'.$id);
     }
@@ -176,7 +179,8 @@ class PerfilController extends Controller
     public function destroy($id)
     {
 
-        $existe = Perfil::find($id)->modulos()->count();
+        //$existe = Perfil::find($id)->modulos()->count();
+        $existe = User::where('perfil_id', $id)->count();
 
         //dd($existe);
 
@@ -184,6 +188,15 @@ class PerfilController extends Controller
         {
             Alert::error('No se puede eliminar el registro')->persistent("Cerrar");
             return back();
+        }
+
+        $perfil = Perfil::findOrFail($id);
+        $modulos = Modulo::get();
+
+        foreach ($modulos as $modulo) {
+
+            $perfil->modulos()->detach($modulo->id);
+
         }
 
         Perfil::find($id)->delete();

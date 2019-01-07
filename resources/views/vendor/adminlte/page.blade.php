@@ -83,14 +83,9 @@
                               <p>
                                 {{ Auth::user()->name }} 
                               </p>
-                               <p>
-                                @if (Auth::user()->userType == 'READONLY')
-                                    Solo Lectura
-                                @elseif  (Auth::user()->userType == 'ADMINISTRATOR')
-                                    Administrador
-                                @else
-                                    Gestión
-                                @endif
+                              <p>
+                                {{ Auth::user()->perfil->perfil }} 
+  
                               </p>
 
                             </li>

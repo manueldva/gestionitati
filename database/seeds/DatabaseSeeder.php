@@ -23,8 +23,20 @@ class DatabaseSeeder extends Seeder
             'valor' => 'SEGURIDAD',
         ]);
 
+        DB::table('modulos')->insert([
+            'descripcion' => 'Tablero',
+            'link' => 'home',
+            'valor' => 'TABLERO',
+        ]);
+
         DB::table('modulo_perfil')->insert([
             'modulo_id' => 1,
+            'perfil_id' => 1,
+            'permiso' => 2,
+        ]);
+
+        DB::table('modulo_perfil')->insert([
+            'modulo_id' => 2,
             'perfil_id' => 1,
             'permiso' => 2,
         ]);
@@ -35,7 +47,7 @@ class DatabaseSeeder extends Seeder
             'username' => 'admin',
             'email' => 'admin@admin.com',
             'password' => bcrypt('P@ssword123'),
-            'userType' => 'ADMINISTRATOR',
+            //'userType' => 'ADMINISTRATOR',
             'perfil_id' => 1,
         ]);
 
@@ -44,7 +56,7 @@ class DatabaseSeeder extends Seeder
             'username' => 'mavila',
             'email' => 'manudva22@gmail.com',
             'password' => bcrypt('123456'),
-            'userType' => 'ADMINISTRATOR',
+            //'userType' => 'ADMINISTRATOR',
             'perfil_id' => 1,
         ]);
 
