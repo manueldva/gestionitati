@@ -23,6 +23,14 @@ Route::get('/detalleotrastareasabiertas', 'HomeController@detalleotrastareasabie
 
 
 //
+
+//menu principal
+route::resource('clientes', 		'Admin\ClienteController');
+/*route::resource('tareas', 		'Admin\TareaController');
+route::get('/TA_obtenerbases/{id}',		'Admin\TareaController@TA_obtenerbases')->name('TA_obtenerbases');
+route::resource('informes', 		'Admin\InformeController');
+route::get('/informeprint/{usuario}/{fechadesde}/{fechahasta}',		'Admin\InformeController@informeprint')->name('informeprint');*/
+
 //seguridad
 route::resource('modulos', 		'Admin\ModuloController');
 route::resource('perfiles', 	'Admin\PerfilController');
@@ -35,14 +43,6 @@ route::get('/showSetting/{id}',		'Admin\ManageuserController@showSetting')->name
 route::put('/setting/{id}',		'Admin\ManageuserController@setting')->name('setting');
 //
 
-//menu principal
-/*route::resource('tareas', 		'Admin\TareaController');
-route::get('/TA_obtenerbases/{id}',		'Admin\TareaController@TA_obtenerbases')->name('TA_obtenerbases');
-route::resource('informes', 		'Admin\InformeController');
-route::get('/informeprint/{usuario}/{fechadesde}/{fechahasta}',		'Admin\InformeController@informeprint')->name('informeprint');*/
-route::resource('ventas', 		'Admin\VentaController');
-route::resource('proveedores', 		'Admin\ProveedorController');
-route::resource('articulos', 		'Admin\ArticuloController');
 //
 
 // complementos

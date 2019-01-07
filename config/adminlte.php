@@ -117,9 +117,9 @@ return [
             'icon' => 'money',
         ],*/
         [
-            'text' => 'Articulos',
-            'url'  => 'articulos',
-            'icon' => 'archive',
+            'text' => 'Clientes',
+            'url'  => 'clientes',
+            'icon' => 'users',
         ],/*
         [
             'text' => 'Proveedores',
