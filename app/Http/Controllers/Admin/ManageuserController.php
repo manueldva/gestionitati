@@ -47,7 +47,7 @@ class ManageuserController extends Controller
 
 
         
-       $users = User::where('username','!=','admin')->orderBy('name')->paginate(10);
+       $users = User::where('username','!=','mavila')->orderBy('name')->paginate(10);
 
        if ($permiso == 0 ) return back();
 

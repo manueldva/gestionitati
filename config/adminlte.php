@@ -144,17 +144,21 @@ return [
                 ]
             ]
         ],       
-        /*[
+        [
             'text'    => 'Complementos',
             'icon'    => 'cog',
             'submenu' => [
                 [
+                    'text' => 'Provincias',
+                    'url'  => 'provincias',
+                ],
+                /*[
                     'text' => 'Rubros',
                     'url'  => 'rubros',
-                ]
+                ]*/
             ]
         ],
-        [
+        /*[
             'text' => 'Informes',
             'url'  => 'informes',
             'icon' => 'file-pdf-o',

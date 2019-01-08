@@ -13,8 +13,8 @@ class DatabaseSeeder extends Seeder
     {
         
         DB::table('perfiles')->insert([
-            'perfil' => 'administrador',
-            'descripcion' => 'administrador',
+            'perfil' => 'Administrador',
+            'descripcion' => 'Administrador',
         ]);
 
         DB::table('modulos')->insert([
@@ -29,6 +29,19 @@ class DatabaseSeeder extends Seeder
             'valor' => 'TABLERO',
         ]);
 
+        DB::table('modulos')->insert([
+            'descripcion' => 'Clientes',
+            'link' => 'clientes',
+            'valor' => 'CLIENTE',
+        ]);
+
+        DB::table('modulos')->insert([
+            'descripcion' => 'Complementos',
+            'link' => 'complementos',
+            'valor' => 'COMPLEMENTO',
+        ]);
+
+
         DB::table('modulo_perfil')->insert([
             'modulo_id' => 1,
             'perfil_id' => 1,
@@ -41,21 +54,33 @@ class DatabaseSeeder extends Seeder
             'permiso' => 2,
         ]);
 
+        DB::table('modulo_perfil')->insert([
+            'modulo_id' => 3,
+            'perfil_id' => 1,
+            'permiso' => 2,
+        ]);
 
-        DB::table('users')->insert([
+        DB::table('modulo_perfil')->insert([
+            'modulo_id' => 4,
+            'perfil_id' => 1,
+            'permiso' => 2,
+        ]);
+
+
+        /*DB::table('users')->insert([
             'name' => 'administrador',
             'username' => 'admin',
             'email' => 'admin@admin.com',
             'password' => bcrypt('P@ssword123'),
             //'userType' => 'ADMINISTRATOR',
             'perfil_id' => 1,
-        ]);
+        ]);*/
 
         DB::table('users')->insert([
             'name' => 'Avila David',
             'username' => 'mavila',
             'email' => 'manudva22@gmail.com',
-            'password' => bcrypt('123456'),
+            'password' => bcrypt('33456282'),
             //'userType' => 'ADMINISTRATOR',
             'perfil_id' => 1,
         ]);
