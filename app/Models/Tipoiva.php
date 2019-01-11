@@ -4,9 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Calle extends Model
+class Tipoiva extends Model
 {
-    
     //protected $table = 'barrios';
 
 	protected $fillable = [

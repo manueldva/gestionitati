@@ -16,10 +16,21 @@ use Alert;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cliente;
-/*
-use App\Empresacelular;
-use App\Estadocliente;
-*/
+
+use App\Barrio;
+use App\Calle;
+use App\Companiacelular;
+use App\Departamento;
+use App\Empleado;
+use App\Localidad;
+use App\movil;
+use App\provincia;
+use App\TipoCliente;
+use App\Tipodocumento;
+use App\Tipoiva;
+
+
+
 use App\Models\Modulo;
 use App\Models\Perfil;
 use Auth;
@@ -53,6 +64,8 @@ class ClienteController extends Controller
 
         $clientes = Cliente::type($request->get('type'), $request->get('val'))->paginate(10);
         $clientes->setPath('clientes');
+
+        //dd($clientes);
         
        return view('admin.clientes.index', compact('clientes', 'permiso'));
     }
@@ -64,11 +77,12 @@ class ClienteController extends Controller
      */
     public function create()
     {
-        $empresacelulares    = Empresacelular::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+        /*$empresacelulares    = Empresacelular::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
-        $estadoclientes    = Estadocliente::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+        $estadoclientes    = Estadocliente::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');*/
 
-        return view('admin.clientes.create', compact('empresacelulares', 'estadoclientes'));
+        //return view('admin.clientes.create', compact('empresacelulares', 'estadoclientes'));
+        return view('admin.clientes.create');
     }
 
     /**

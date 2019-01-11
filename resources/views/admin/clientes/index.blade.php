@@ -29,13 +29,13 @@
 	       {{ Form::model(Request::only('type', 'val'), array('route' => 'clientes.index', 'method' => 'GET'), array('role' => 'form', 'class' => 'navbar-form pull-right')) }}
 			    <div class="form-group">
 			      {{ form::label('buscar', 'Tipo Busqueda:') }}
-			      {{ form::select('type', config('options.clienttypes'), null, ['class' => 'form-control', 'id' => 'type'] ) }}
+			      {{ form::select('type', config('options.clientetypes'), null, ['class' => 'form-control', 'id' => 'type'] ) }}
 						&nbsp;
 			      {{ form::text('val', null, ['class' => 'form-control', 'id' => 'val']) }}
 			      &nbsp;
 			      <button type="submit" class="form-control btn btn-sm btn-success"><span class="glyphicon glyphicon-search"></span> Buscar</button>
 						&nbsp;
-			      @if(Auth::user()->userType !== 'READONLY')
+			      @if($permiso == 2)
 			      <a href="{{ route('clientes.create')}}" class="form-control btn btn-sm btn-primary">
 			        <span class="glyphicon glyphicon-plus"></span> Crear
 			      </a>  
@@ -53,37 +53,40 @@
 	              <thead>
 	                <tr>
 	                  <!--<th width="10px"> ID</th>-->
-	                  <th> Nro Socio</th>
-										<th> Nombre</th>
-	                  <th> Nro Documento</th>
+	                  <th> Codigo</th>
+					  <th> Cliente</th>
+	                  <th> Tipo Cliente</th>
+	                  <th>Domicilio</th>
+	                  <th>Celular</th>
 	                  <th>Estado</th>
 	                  <th colspan="3">&nbsp;</th>
 	                </tr>
 	              </thead>
 	              <tbody>
+
 	                @foreach ($clientes as $cliente)
 	                  <tr>
-	                   
-										<td>{{ $cliente->nrosocio }}</td>
-											<td>{{ $cliente->nombre }}</td>
-	                    <td>{{ $cliente->nrodocumento }}</td>
-	                    <td>{{ $cliente->estadocliente->descripcion }}</td>
+						<td>{{ $cliente->codigo }}</td>
+						<td>{{ $cliente->cliente }}</td>
+	                    <td>{{ $cliente->tipocliente->descripcion }}</td>
+	                    <td>{{ $cliente->barrio->descripcion }}</td>
+						<td>{{ $cliente->celular }}</td>		
 	                    <td width="10px">
 	                      <a href="{{ route('clientes.show', $cliente->id) }}" class="btn btn-sm btn-default">
 	                        Ver
 	                      </a>
 	                    </td>
-	                    @if(Auth::user()->userType !== 'READONLY')
+	                    @if($permiso == 2)
 	                    <td width="10px">
 	                      <a href="{{ route('clientes.edit', $cliente->id) }}" class="btn btn-sm btn-default">
 	                        Editar
 	                      </a>
 	                    </td>
 	                    <td width="10px">
-												{!! Form::model($cliente, ['method' => 'delete', 'route' => ['clientes.destroy', $cliente->id], 'class' =>'form-inline form-delete']) !!}
-												{!! Form::hidden('id', $cliente->id) !!}
-												{!! Form::submit('Eliminar', ['class' => 'btn btn-sm btn-danger delete', 'name' => 'delete_modal']) !!}
-												{!! Form::close() !!}
+							{!! Form::model($cliente, ['method' => 'delete', 'route' => ['clientes.destroy', $cliente->id], 'class' =>'form-inline form-delete']) !!}
+							{!! Form::hidden('id', $cliente->id) !!}
+							{!! Form::submit('Eliminar', ['class' => 'btn btn-sm btn-danger delete', 'name' => 'delete_modal']) !!}
+							{!! Form::close() !!}
 
 	                    </td>
 	                    @endif

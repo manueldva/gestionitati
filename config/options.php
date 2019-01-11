@@ -3,6 +3,13 @@
 
 return array(
 
+	'clientetypes' => [
+		''    		=> 'Seleccionar',
+		'cliente'  => 'Cliente',
+		'nrodocumento'		=> 'Nro Documento'/*,
+		'status'	=> 'Estado'*/
+	] ,
+
 
 	'proveedortypes' => [
 		''    		=> 'Seleccionar',

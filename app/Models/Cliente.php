@@ -13,16 +13,62 @@ class Cliente extends Model
 
 
 
-    /*public function estadocliente(){
-		
-		return $this->belongsTo(Estadocliente::class);
+    public function barrio(){
+        
+        return $this->belongsTo(Barrio::class);
+    }
+
+    public function calle(){
+        
+        return $this->belongsTo(Calle::class);
+    }
+
+        public function companiatelefonica(){
+        
+        return $this->belongsTo(Companiatelefonica::class);
+    }
+
+        public function departamento(){
+        
+        return $this->belongsTo(Departamento::class);
+    }
+
+        public function empleado(){
+        
+        return $this->belongsTo(Empleado::class);
+    }
+
+        public function localidad(){
+        
+        return $this->belongsTo(Localidad::class);
+    }
+
+        public function movil(){
+        
+        return $this->belongsTo(Movil::class);
+    }
+
+        public function provincia(){
+        
+        return $this->belongsTo(Provincia::class);
+    }
+
+        public function tipocliente(){
+        
+        return $this->belongsTo(Tipocliente::class);
+    }
+
+        public function tipodocumento(){
+        
+        return $this->belongsTo(Tipodocumento::class);
+    }
+
+        public function tipoiva(){
+        
+        return $this->belongsTo(Tipoiva::class);
     }
 
 
-    public function empresacelular(){
-		
-		return $this->belongsTo(Empresacelular::class);
-    }*/
     
     
 
