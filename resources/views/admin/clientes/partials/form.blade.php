@@ -25,7 +25,7 @@
 			      </div>
 			      <div class="form-group">
 			      	{{ form::label('referente', 'Referente') }}
-					{{ form::text('cliente', null, ['class' => 'form-control', 'id' => 'cliente', 'placeholder'=> 'Representante de la entidad', 'readonly' => 'readonly']) }}
+					{{ form::text('referente', null, ['class' => 'form-control', 'id' => 'referente', 'placeholder'=> 'Representante de la entidad', 'readonly' => 'readonly']) }}
 			      </div>
 			      <div class="form-group">
 					<div class="table-responsive">
@@ -175,10 +175,8 @@
 
 			    </div>
 			    <!-- /.box-body -->
-			  </div>
-			  <!-- /.box -->
-			<!--</div>-->
-			<!-- /.col -->
+			</div>
+
 	 	</div>
 	    <!-- /.box-body -->
 	  </div>
@@ -192,7 +190,7 @@
 	<div class="col-md-12">
 	  <div class="box box-default">
 	  	<div class="box-header with-border">
-	      <i class="fa fa-user"></i>
+	      <i class="fa fa-home"></i>
 
 	      <h3 class="box-title">Dirección Particular</h3>
 	    </div>
@@ -308,6 +306,102 @@
 	    <!-- /.box-body -->
 	</div>
 	  <!-- /.box -->
+
+	 <!-- tercer div general -->
+
+	<div class="col-md-12">
+	  <div class="box box-default">
+	    <!-- /.box-header -->
+	    <div class="box-body">
+
+			<div class="col-md-6">
+			  <!--<div class="box box-default">-->
+			    <div class="box-header with-border">
+			      <i class="fa fa-mobile-phone"></i>
+
+			      <h3 class="box-title">Contacto</h3>
+			    </div>
+			    <!-- /.box-header -->
+			    <div class="box-body">
+			      <div class="form-group">
+					{{ form::label('telefonoparticular', 'Telefono Particulo') }}
+					{{ form::number('telefonoparticular', null, ['class' => 'form-control', 'id' => 'telefonoparticular']) }}
+				  </div>
+
+			      <div class="form-group">
+					<div class="table-responsive">
+						<table class="table table-striped table-hover" data-form="Form">
+							<thead>
+								<tr>
+									<td> 
+										{{ form::label('celular', 'Celular') }}
+										{{ form::number('celular', null, ['class' => 'form-control', 'id' => 'celular']) }}
+									</td>
+									<td> 
+										{{ form::label('tipodocumento_id', 'Tipo de Documento') }}
+										{{ form::select('tipodocumento_id', [1 => 'Personal'], null, ['class' => 'form-control','placeholder' => 'Seleccionar...'] ) }} 
+									</td>
+								</tr>		
+								
+							</thead>
+						</table>
+					</div>
+				  </div>	
+			      <div class="form-group">
+			      	{{ form::label('email', 'Email') }}
+					{{ form::email('email', null, ['class' => 'form-control', 'id' => 'email', 'placeholder'=> 'juan@gmail.com']) }}
+			      </div>
+			    </div>
+			    <!-- /.box-body -->
+			  <!--</div>-->
+			  <!-- /.box -->
+			</div>
+			<!-- /.col -->
+
+			<div class="col-md-4">
+			  <!--<div class="box box-default">-->
+			    
+			    <div class="box-header with-border">
+			      <i class="fa fa-user"></i>
+
+			      <h3 class="box-title">Datos del Vendedor</h3>
+			    </div>
+			    <!-- /.box-header -->
+			    <div class="box-body">
+			       <div class="form-group">
+						{{ form::label('movil_id', 'Tipo de Movil') }}
+						{{ form::select('movil_id', [],  null, ['class' => 'form-control inline-search', 'id' => 'movil_id','placeholder' => 'Seleccionar...'] ) }}
+				  </div>
+				  <div class="form-group">
+					<div class="table-responsive">
+						<table class="table table-striped table-hover" data-form="Form">
+							<thead>
+								<tr>
+									<td class="col-md-3"> 
+										{{ form::label('codigovendedor', 'Codigo') }}
+										{{ form::number('codigovendedor', null, ['class' => 'form-control', 'id' => 'codigovendedor']) }}
+									</td>
+									<td> 
+										{{ form::label('empleado_id', 'Tipo de Documento') }}
+										{{ form::select('empleado_id', [1 => 'Juan Perez'], null, ['class' => 'form-control','placeholder' => 'Seleccionar...'] ) }} 
+									</td>
+								</tr>	
+								
+							</thead>
+						</table>
+					</div>
+				  </div>
+				 
+			    </div>
+			    <!-- /.box-body -->
+			</div>
+			
+	 	</div>
+	    <!-- /.box-body -->
+	  </div>
+	  <!-- /.box -->
+	</div>
+
 </div>
 	<!-- /.col -->
 
