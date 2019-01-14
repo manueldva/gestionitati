@@ -71,6 +71,17 @@
 										{{ form::text('motivo', null, ['class' => 'form-control', 'id' => 'motivo', 'readonly' => 'readonly']) }}
 									</td>
 								</tr>	
+								<tr>
+									<td> 
+										
+									</td>
+									<td style="text-align:right;"> 
+										{{ form::label('sincargo', 'Cliente Sin Cargo') }}
+										<label>
+											{{ Form::checkbox('sincargo','1')}} 
+										</label>
+									</td>
+								</tr>	
 							</thead>
 						</table>
 					</div>
@@ -119,6 +130,46 @@
 								
 							</thead>
 						</table>
+						<div class="form-group">
+							<div class="table-responsive">
+								<table   id="table_ventas" class="table table-striped table-hover" data-form="Form">
+									<thead>
+										<tr>
+										<!--<th width="10px"> ID</th>-->
+											<th> Articulo</th>
+											<th> Cantidad</th>
+											<th> </th>
+										</tr>
+									</thead>
+									<tbody>
+										<!--prueba-->
+										<tr>
+											<td>
+												Articulo 1
+											</td>
+											<td>
+												1
+											</td>
+											<td>
+												Editar
+											</td>
+										</tr>
+										<tr>
+											<td>
+												Articulo 2
+											</td>
+											<td>
+												2
+											</td>
+											<td>
+												Editar
+											</td>
+										</tr>
+										<!--	-->
+									</tbody>
+								</table>
+							</div>
+						</div>
 					</div>
 				  </div>
 
@@ -134,7 +185,132 @@
 	  <!-- /.box -->
 	</div>
 	<!-- /.col -->
+
+<!--      segundo div general                              -->
+
+
+	<div class="col-md-12">
+	  <div class="box box-default">
+	  	<div class="box-header with-border">
+	      <i class="fa fa-user"></i>
+
+	      <h3 class="box-title">Dirección Particular</h3>
+	    </div>
+
+	    <!-- /.box-header -->
+	    <div class="box-body">
+
+			<div class="col-md-6">
+			  <!--<div class="box box-default">-->
+			    <!-- /.box-header -->
+			    <div class="box-body">
+			      	<div class="form-group">
+						{{ form::label('provincia_id', 'Provincia') }}
+						{{ form::select('provincia_id', [],  null, ['class' => 'form-control inline-search', 'id' => 'provincia_id','placeholder' => 'Seleccionar...'] ) }}
+					</div>
+					<div class="form-group">
+						{{ form::label('departamento_id', 'Departamento') }}
+						{{ form::select('departamento_id', [],  null, ['class' => 'form-control inline-search', 'id' => 'departamento_id','placeholder' => 'Seleccionar...'] ) }}
+					</div>
+					<div class="form-group">
+						{{ form::label('localidad_id', 'Localidad') }}
+						{{ form::select('localidad_id', [],  null, ['class' => 'form-control inline-search', 'id' => 'localidad_id','placeholder' => 'Seleccionar...'] ) }}
+					</div>
+					<div class="form-group">
+						{{ form::label('barrio_id', 'Barrio') }}
+						{{ form::select('barrio_id', [],  null, ['class' => 'form-control inline-search', 'id' => 'barrio_id','placeholder' => 'Seleccionar...'] ) }}
+					</div>
+
+			     
+			    </div>
+			    <!-- /.box-body -->
+			  <!--</div>-->
+			  <!-- /.box -->
+			</div>
+			<!-- /.col -->
+
+			<div class="col-md-4">
+			  <!--<div class="box box-default">-->
+			  
+			    <!-- /.box-header -->
+			    <div class="box-body">
+			     	<div class="form-group">
+						{{ form::label('calle_id', 'Calle ') }}
+						{{ form::select('calle_id', [],  null, ['class' => 'form-control inline-search', 'id' => 'calle_id','placeholder' => 'Seleccionar...'] ) }}
+					</div>
+					<div class="form-group">
+						<div class="table-responsive">
+							<table class="table table-striped table-hover" data-form="Form">
+								<thead>
+									<tr>
+										<td> 
+											{{ form::label('numero', 'Numero') }}
+											{{ form::number('numero', null, ['class' => 'form-control', 'id' => 'numero']) }}
+										</td>
+										<td> 
+											{{ form::label('codigopostal', 'Codigo Postal') }}
+											{{ form::number('codigopostal', null, ['class' => 'form-control', 'id' => 'codigopostal']) }}
+										</td>
+									</tr>	
+
+									<tr>
+										<td> 
+											{{ form::label('manzana', 'Manzana') }}
+											{{ form::text('manzana', null, ['class' => 'form-control', 'id' => 'manzana']) }}
+										</td>
+										<td> 
+											{{ form::label('casa', 'Casa') }}
+											{{ form::text('casa', null, ['class' => 'form-control', 'id' => 'casa']) }}
+										</td>
+									</tr>	
+									<tr>
+										<td> 
+											{{ form::label('edificiotorre', 'Edificio/Torre') }}
+											{{ form::text('edificiotorre', null, ['class' => 'form-control', 'id' => 'edificiotorre']) }}
+										</td>
+										<td> 
+											{{ form::label('piso', 'Piso') }}
+											{{ form::text('piso', null, ['class' => 'form-control', 'id' => 'piso']) }}
+										</td>
+									</tr>	
+									<tr>
+										<td> 
+											{{ form::label('seccion', 'Seccion') }}
+											{{ form::number('seccion', null, ['class' => 'form-control', 'id' => 'seccion']) }}
+										</td>
+										<td> 
+											{{ form::label('lote', 'Lote') }}
+											{{ form::number('lote', null, ['class' => 'form-control', 'id' => 'lote']) }}
+										</td>
+									</tr>	
+								</thead>
+							</table>
+						</div>
+					</div>	
+				</div>
+
+			</div>
+			    <!-- /.box-body -->
+			<div class="col-md-10">
+			    <div class="box-body">
+			    	<hr>
+			      	<div class="form-group">
+						{{ form::label('observaciondomicilio', 'Observacion') }}
+						{{ form::text('observaciondomicilio', null, ['class' => 'form-control', 'id' => 'observaciondomicilio']) }}
+					</div>
+			    </div>
+			</div>
+	    </div>
+			  <!-- /.box -->
+			<!--</div>-->
+			<!-- /.col -->
+	  </div>
+	    <!-- /.box-body -->
+	</div>
+	  <!-- /.box -->
 </div>
+	<!-- /.col -->
+
 
 
 
@@ -142,8 +318,12 @@
 @push('js')
 	<script type="text/javascript">
 
-		 $('#articulo_id').select2();
-
+		$('#articulo_id').select2();
+		$('#provincia_id').select2();
+		$('#departamento_id').select2();
+		$('#localidad_id').select2();
+		$('#barrio_id').select2();
+ 		$('#calle_id').select2();
 		/*para calcular edad a partir de una fecha de nacimientpo*/
 		function CalcularEdad() {
 			FechaNacimiento = $('#fechanacimiento').val();
