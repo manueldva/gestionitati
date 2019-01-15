@@ -16,9 +16,16 @@ use Illuminate\Http\Request;
 /*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });*/
-
+/*
 
 Route::get('articulos', function() {
 
     return App\Models\Articulo::where('descripcion', 'LIKE', '%' . request('q') . '%')->paginate(10);
+});
+
+*/
+
+Route::get('departamentos', function() {
+
+    return App\Models\Departamento::where('provincia_id', '=', request('provincia_id'))->get();
 });

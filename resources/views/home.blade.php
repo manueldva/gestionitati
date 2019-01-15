@@ -3,7 +3,7 @@
 @section('title', 'Gestión - Tablero')
 
 @section('content_header')
-@if($permiso == 2 )
+{{-- @if($permiso == 2 ) --}}
   <h1>
     Tablero
     <!--<small>Listado</small>-->
@@ -12,7 +12,7 @@
     <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
     <li class="active">Tablero</li>
   </ol>
-@endif
+{{-- @endif --}}
 @stop
 
 

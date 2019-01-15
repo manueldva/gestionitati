@@ -33,11 +33,11 @@
 			      {{ form::text('val', null, ['class' => 'form-control', 'id' => 'val']) }}
 			      
 			      <button type="submit" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-search"></span> Buscar</button>
-			      @if($permiso == 2)
+			      {{-- @if($permiso == 2) --}}
 			      <a href="{{ route('manageusers.create')}}" class="btn btn-sm btn-primary">
 			        <span class="glyphicon glyphicon-plus"></span> Crear
 			      </a>  
-			      @endif
+			      {{-- @endif --}}
 			    </div>
 		    {{ Form::close() }}
       </form>
@@ -69,7 +69,7 @@
 										Ver
 									</a>
 								</td>
-								@if($permiso == 2)
+								{{-- @if($permiso == 2) --}}
 									<td width="10px">
 										<a href="{{ route('manageusers.edit', $user->id) }}" class="btn btn-sm btn-default">
 											Editar
@@ -82,7 +82,7 @@
 	        							{!! Form::close() !!}
 
 									</td>
-								@endif
+								{{-- @endif --}}
 							</tr>
 						@endforeach
 					</tbody>

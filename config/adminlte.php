@@ -133,7 +133,7 @@ return [
                 [
                     'text' => 'Usuarios',
                     'url'  => 'manageusers',
-                ],
+                ]/*,
                  [
                     'text' => 'Modulos',
                     'url'  => 'modulos',
@@ -141,7 +141,7 @@ return [
                 [
                     'text' => 'Perfiles',
                     'url'  => 'perfiles',
-                ]
+                ]*/
             ]
         ],       
         [
@@ -155,6 +155,10 @@ return [
                  [
                     'text' => 'Departamentos',
                     'url'  => 'departamentos',
+                ],
+                [
+                    'text' => 'Localidades',
+                    'url'  => 'localidades',
                 ],
                 [
                     'text' => 'Calles',

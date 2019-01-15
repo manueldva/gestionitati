@@ -15,6 +15,10 @@ class CreateBarriosTable extends Migration
     {
         Schema::create('barrios', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('provincia_id')->unsigned();
+            $table->foreign('provincia_id')->references('id')->on('provincias');
+            $table->integer('departamento_id')->unsigned();
+            $table->foreign('departamento_id')->references('id')->on('departamentos');
             $table->integer('localidad_id')->unsigned();
             $table->foreign('localidad_id')->references('id')->on('localidades');
             $table->string('descripcion', 350);

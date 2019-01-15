@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Gym - Clientes')
+@section('title', 'Gestión - Clientes')
 
 @section('content_header')
   <h1>
@@ -35,11 +35,11 @@
 			      &nbsp;
 			      <button type="submit" class="form-control btn btn-sm btn-success"><span class="glyphicon glyphicon-search"></span> Buscar</button>
 						&nbsp;
-			      @if($permiso == 2)
+			      {{-- @if($permiso == 2) --}}
 			      <a href="{{ route('clientes.create')}}" class="form-control btn btn-sm btn-primary">
 			        <span class="glyphicon glyphicon-plus"></span> Crear
 			      </a>  
-			      @endif
+			      {{-- @endif --}}
 			    </div>
 		    {{ Form::close() }}
       </form>
@@ -76,7 +76,7 @@
 	                        Ver
 	                      </a>
 	                    </td>
-	                    @if($permiso == 2)
+	                    {{-- @if($permiso == 2) --}}
 	                    <td width="10px">
 	                      <a href="{{ route('clientes.edit', $cliente->id) }}" class="btn btn-sm btn-default">
 	                        Editar
@@ -89,7 +89,7 @@
 							{!! Form::close() !!}
 
 	                    </td>
-	                    @endif
+	                    {{-- @endif --}}
 	                  </tr>
 	                @endforeach
 	              </tbody>

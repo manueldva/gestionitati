@@ -35,11 +35,11 @@
 						&nbsp;
 			      <button type="submit" class="form-control btn btn-sm btn-success"><span class="glyphicon glyphicon-search"></span> Buscar</button>
 						&nbsp;
-			      @if($permiso == 2)
+			      {{-- @if($permiso == 2) --}}
 			      <a href="{{ route('provincias.create')}}" class="form-control btn btn-sm btn-primary">
 			        <span class="glyphicon glyphicon-plus"></span> Crear
 			      </a>  
-			      @endif
+			      {{-- @endif --}}
 			    </div>
 		    {{ Form::close() }}
       </form>
@@ -70,20 +70,20 @@
 	                        Ver
 	                      </a>
 	                    </td>
-	                    @if($permiso == 2)
+	                    {{-- @if($permiso == 2) --}}
 	                    <td width="10px">
 	                      <a href="{{ route('provincias.edit', $provincia->id) }}" class="btn btn-sm btn-default">
 	                        Editar
 	                      </a>
 	                    </td>
 	                    <td width="10px">
-												{!! Form::model($provincia, ['method' => 'delete', 'route' => ['provincias.destroy', $provincia->id], 'class' =>'form-inline form-delete']) !!}
-												{!! Form::hidden('id', $provincia->id) !!}
-												{!! Form::submit('Eliminar', ['class' => 'btn btn-sm btn-danger delete', 'name' => 'delete_modal']) !!}
-												{!! Form::close() !!}
+							{!! Form::model($provincia, ['method' => 'delete', 'route' => ['provincias.destroy', $provincia->id], 'class' =>'form-inline form-delete']) !!}
+							{!! Form::hidden('id', $provincia->id) !!}
+							{!! Form::submit('Eliminar', ['class' => 'btn btn-sm btn-danger delete', 'name' => 'delete_modal']) !!}
+							{!! Form::close() !!}
 
 	                    </td>
-	                    @endif
+	                    {{-- @endif --}}
 	                  </tr>
 	                @endforeach
 	              </tbody>

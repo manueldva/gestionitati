@@ -18,6 +18,12 @@ class Departamento extends Model
     	return $this->HasMany(Cliente::class);
     }
 
+
+    public function localidades(){
+        return $this->HasMany(Localidad::class);
+    }
+
+
     public function provincia(){
         
         return $this->belongsTo(Provincia::class);

@@ -9,7 +9,7 @@ class Localidad extends Model
     protected $table = 'localidades';
 
 	protected $fillable = [
-    	'departamento_id','descripcion', 'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
+    	'provincia_id', 'departamento_id','descripcion', 'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
 	];
 
 
@@ -17,20 +17,26 @@ class Localidad extends Model
     	return $this->HasMany(Cliente::class);
     }
 
-    /*
+    public function departamento(){
+        
+        return $this->belongsTo(Departamento::class);
+    }
+
+
+    
 	public function scopeType($query, $type, $valor) 
     {
 		
-		if($type == 'perfil')
+		if($type == 'descripcion')
 		{
-			$query->where('perfil', 'like', '%' . $valor . '%')->orderBy('perfil', 'ASC');
+			$query->where('descripcion', 'like', '%' . $valor . '%')->orderBy('descripcion', 'ASC');
 
-		} elseif ($type == 'descripcion')
+		} elseif ($type == 'codigo')
         {
-            $query->where('descripcion', 'like', '%' . $valor . '%')->orderBy('perfil', 'ASC');
+            $query->where('codigo', '=',  $valor)->orderBy('descripcion', 'ASC');
         } else
         {
-            $query->orderBy('perfil', 'ASC');
+            $query->orderBy('descripcion', 'ASC');
         }
-    }*/
+    }
 }

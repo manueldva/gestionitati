@@ -35,11 +35,11 @@
 						&nbsp;
 			      <button type="submit" class="form-control btn btn-sm btn-success"><span class="glyphicon glyphicon-search"></span> Buscar</button>
 						&nbsp;
-			      @if($permiso == 2)
+			      {{-- @if($permiso == 2) --}}
 			      <a href="{{ route('departamentos.create')}}" class="form-control btn btn-sm btn-primary">
 			        <span class="glyphicon glyphicon-plus"></span> Crear
 			      </a>  
-			      @endif
+			      {{-- @endif --}}
 			    </div>
 		    {{ Form::close() }}
       </form>
@@ -72,7 +72,7 @@
 	                        Ver
 	                      </a>
 	                    </td>
-	                    @if($permiso == 2)
+	                    {{-- @if($permiso == 2) --}}
 	                    <td width="10px">
 	                      <a href="{{ route('departamentos.edit', $departamento->id) }}" class="btn btn-sm btn-default">
 	                        Editar
@@ -85,7 +85,7 @@
 							{!! Form::close() !!}
 
 	                    </td>
-	                    @endif
+	                    {{-- @endif --}}
 	                  </tr>
 	                @endforeach
 	              </tbody>
