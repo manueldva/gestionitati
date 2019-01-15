@@ -10,7 +10,7 @@ use App\Http\Requests\Complementos\ProvinciaUpdateRequest;
 use Alert;
 
 use App\Models\Provincia;
-//use App\Models\Articulo;
+use App\Models\Cliente;
 use App\Models\Modulo;
 use App\Models\Perfil;
 use Auth;
@@ -139,13 +139,13 @@ class ProvinciaController extends Controller
     public function destroy($id)
     {
 
-        /*$existe = Articulo::where('provincia_id', $id)->count();
+        $existe = Cliente::where('provincia_id', $id)->count();
 
         if($existe > 0) 
         {
             Alert::error('No se puede eliminar el registro')->persistent("Cerrar");
             return back();
-        }*/
+        }
         
         Provincia::find($id)->delete();
 

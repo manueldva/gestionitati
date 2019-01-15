@@ -1,15 +1,15 @@
 @extends('adminlte::page')
 
-@section('title', 'Gestión - Rubros')
+@section('title', 'Gestión - Calles')
 
 @section('content_header')
   <h1>
-    Gestionar Rubros
+    Gestionar Calles
     <!--<small>Listado</small>-->
   </h1>
   <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li><a href="{{ route('rubros.index')}}">Rubros</a></li>
+    <li><a href="{{ route('calles.index')}}">Calles</a></li>
     <li class="active">Listado</li>
   </ol>
 
@@ -24,9 +24,9 @@
 
 <div class="box box-primary">
 	<div class="box-header with-border box-default">
-	   <strong> Listado Rubros </strong>
+	   <strong> Listado Calles </strong>
 	   <form class="navbar-form navbar-right" role="search">
-	       {{ Form::model(Request::only('type', 'val'), array('route' => 'rubros.index', 'method' => 'GET'), array('role' => 'form', 'class' => 'navbar-form pull-right')) }}
+	       {{ Form::model(Request::only('type', 'val'), array('route' => 'calles.index', 'method' => 'GET'), array('role' => 'form', 'class' => 'navbar-form pull-right')) }}
 			    <div class="form-group">
 			      {{ form::label('buscar', 'Tipo Busqueda:') }}
 			      {{ form::select('type', config('options.complementotypes'), null, ['class' => 'form-control', 'id' => 'type'] ) }}
@@ -35,8 +35,8 @@
 						&nbsp;
 			      <button type="submit" class="form-control btn btn-sm btn-success"><span class="glyphicon glyphicon-search"></span> Buscar</button>
 						&nbsp;
-			      @if(Auth::user()->userType !== 'READONLY')
-			      <a href="{{ route('rubros.create')}}" class="form-control btn btn-sm btn-primary">
+			      @if($permiso == 2)
+			      <a href="{{ route('calles.create')}}" class="form-control btn btn-sm btn-primary">
 			        <span class="glyphicon glyphicon-plus"></span> Crear
 			      </a>  
 			      @endif
@@ -60,25 +60,25 @@
 	                </tr>
 	              </thead>
 	              <tbody>
-	                @foreach ($rubros as $rubro)
+	                @foreach ($calles as $calle)
 	                  <tr>
-	                    <td>{{ $rubro->id }}</td>
-	                    <td>{{ $rubro->descripcion }}</td>
-						<td>{{ $rubro->fecha_alta }}</td>
+	                    <td>{{ $calle->id }}</td>
+	                    <td>{{ $calle->descripcion }}</td>
+						<td>{{ $calle->fecha_alta }}</td>
 	                    <td width="10px">
-	                      <a href="{{ route('rubros.show', $rubro->id) }}" class="btn btn-sm btn-default">
+	                      <a href="{{ route('calles.show', $calle->id) }}" class="btn btn-sm btn-default">
 	                        Ver
 	                      </a>
 	                    </td>
-	                    @if(Auth::user()->userType !== 'READONLY')
+	                    @if($permiso == 2)
 	                    <td width="10px">
-	                      <a href="{{ route('rubros.edit', $rubro->id) }}" class="btn btn-sm btn-default">
+	                      <a href="{{ route('calles.edit', $calle->id) }}" class="btn btn-sm btn-default">
 	                        Editar
 	                      </a>
 	                    </td>
 	                    <td width="10px">
-							{!! Form::model($rubro, ['method' => 'delete', 'route' => ['rubros.destroy', $rubro->id], 'class' =>'form-inline form-delete']) !!}
-							{!! Form::hidden('id', $rubro->id) !!}
+							{!! Form::model($calle, ['method' => 'delete', 'route' => ['calles.destroy', $calle->id], 'class' =>'form-inline form-delete']) !!}
+							{!! Form::hidden('id', $calle->id) !!}
 							{!! Form::submit('Eliminar', ['class' => 'btn btn-sm btn-danger delete', 'name' => 'delete_modal']) !!}
 							{!! Form::close() !!}
 
@@ -89,8 +89,8 @@
 	              </tbody>
 	            </table>
 	          </div>  
-						<div> <?php echo  'Mostrando ' . $rubros->firstItem() . ' a ' . $rubros->lastItem() . ' de ' . $rubros->total() . ' registros'; ?>	</div>
-	          {{ $rubros->appends(Request::only(['type', 'val']))->render() }}
+						<div> <?php echo  'Mostrando ' . $calles->firstItem() . ' a ' . $calles->lastItem() . ' de ' . $calles->total() . ' registros'; ?>	</div>
+	          {{ $calles->appends(Request::only(['type', 'val']))->render() }}
 	        </div>
 	    </div>
     </div>

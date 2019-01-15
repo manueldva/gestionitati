@@ -152,10 +152,10 @@ return [
                     'text' => 'Provincias',
                     'url'  => 'provincias',
                 ],
-                /*[
-                    'text' => 'Rubros',
-                    'url'  => 'rubros',
-                ]*/
+                [
+                    'text' => 'Calles',
+                    'url'  => 'calles',
+                ]
             ]
         ],
         /*[

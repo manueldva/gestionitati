@@ -7,7 +7,7 @@
 		      		Guardar
 		      </button>
 
-		      <a href="{{ route('rubros.index') }}" type="button" class="btn btn btn-default">
+		      <a href="{{ route('calles.index') }}" type="button" class="btn btn btn-default">
 		      	<span class="fa fa-list">
 		      	</span>
 		      		Listado

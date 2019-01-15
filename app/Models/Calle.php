@@ -18,20 +18,20 @@ class Calle extends Model
     	return $this->HasMany(Cliente::class);
     }
 
-    /*
+    
 	public function scopeType($query, $type, $valor) 
     {
 		
-		if($type == 'perfil')
+		if($type == 'descripcion')
 		{
-			$query->where('perfil', 'like', '%' . $valor . '%')->orderBy('perfil', 'ASC');
+			$query->where('descripcion', 'like', '%' . $valor . '%')->orderBy('descripcion', 'ASC');
 
-		} elseif ($type == 'descripcion')
+		} elseif ($type == 'codigo')
         {
-            $query->where('descripcion', 'like', '%' . $valor . '%')->orderBy('perfil', 'ASC');
+            $query->where('codigo', '=',  $valor)->orderBy('descripcion', 'ASC');
         } else
         {
-            $query->orderBy('perfil', 'ASC');
+            $query->orderBy('descripcion', 'ASC');
         }
-    }*/
+    }
 }

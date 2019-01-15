@@ -1,15 +1,15 @@
 @extends('adminlte::page')
 
-@section('title', 'Gestión - Rubros')
+@section('title', 'Gestión - Calles')
 
 @section('content_header')
   <h1>
-    Gestionar Rubros
+    Gestionar Calles
     <!--<small>Listado</small>-->
   </h1>
   <ol class="breadcrumb">
     <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li><a href="{{ route('rubros.index')}}">Rubros</a></li>
+    <li><a href="{{ route('calles.index')}}">Calles</a></li>
     <li class="active">Ver</li>
   </ol>
 
@@ -19,7 +19,7 @@
 
 <div class="box box-primary">
 	<div class="box-header with-border box-default">
-	   <strong> Ver Rubro </strong>
+	   <strong> Ver Calle </strong>
 	</div>
 		
 	<div class="panel-body">
@@ -27,7 +27,7 @@
 			<div class="col-md-12">
 				<div class="row col-md-12">
 					<div class="form-group pull-right">
-								<a href="{{ route('rubros.index') }}" type="button" class="btn btn btn-default">
+								<a href="{{ route('calles.index') }}" type="button" class="btn btn btn-default">
 									<span class="fa fa-list">
 									</span>
 										Listado
@@ -37,11 +37,11 @@
 			</div>
 			<div class="col-md-6">
 
-				<p> <strong>Codigo:</strong> {{ $rubro->id }}</p>
+				<p> <strong>Codigo:</strong> {{ $calle->id }}</p>
 
-				<p> <strong>descripción:</strong> {{ $rubro->descripcion }}</p>
+				<p> <strong>descripción:</strong> {{ $calle->descripcion }}</p>
 
-				<p> <strong>Fecha Alta:</strong> {{ $rubro->fecha_alta }}</p>
+				<p> <strong>Fecha Alta:</strong> {{ $calle->fecha_alta }}</p>
 			</div>
 		</div>
 	</div>

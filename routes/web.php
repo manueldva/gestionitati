@@ -47,9 +47,9 @@ route::put('/setting/{id}',		'Admin\ManageuserController@setting')->name('settin
 
 // complementos
 route::resource('provincias', 		'Admin\Complementos\ProvinciaController');
-/*route::resource('rubros', 		'Admin\Complementos\RubroController');
-route::resource('servidores', 		'Admin\Complementos\ServidorController');
-route::resource('bases', 		'Admin\Complementos\BaseController');*/
+
+route::resource('calles', 		'Admin\Complementos\CalleController');
+
 
 // servicios
 Route::get('/habilitarmodulos/{user}', 'Service\ServiceController@habilitarmodulos')->name('habilitarmodulos');
