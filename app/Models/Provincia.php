@@ -15,9 +15,14 @@ class Provincia extends Model
     ];
 
 
-    /*public function articulos(){
-    	return $this->HasMany(Articulo::class);
-    }*/
+    public function clientes(){
+    	return $this->HasMany(Cliente::class);
+    }
+
+
+    public function departamentos(){
+      return $this->HasMany(Departamento::class);
+    }
 
     
 

@@ -18,20 +18,27 @@ class Departamento extends Model
     	return $this->HasMany(Cliente::class);
     }
 
-    /*
+    public function provincia(){
+        
+        return $this->belongsTo(Provincia::class);
+    }
+
+    
 	public function scopeType($query, $type, $valor) 
     {
-		
-		if($type == 'perfil')
-		{
-			$query->where('perfil', 'like', '%' . $valor . '%')->orderBy('perfil', 'ASC');
+        
+      if ($type == 'codigo') 
+      {
+        $query->where('id', '=',  $valor)->orderBy('descripcion');
+      
+      }else if ($type == 'descripcion') 
+      {
+        $query->where('descripcion', 'like', '%' . $valor . '%')->orderBy('descripcion');
 
-		} elseif ($type == 'descripcion')
-        {
-            $query->where('descripcion', 'like', '%' . $valor . '%')->orderBy('perfil', 'ASC');
-        } else
-        {
-            $query->orderBy('perfil', 'ASC');
-        }
-    }*/
+      } else
+      {
+          $query->orderBy('descripcion');
+      
+      }
+    }
 }

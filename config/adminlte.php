@@ -152,6 +152,10 @@ return [
                     'text' => 'Provincias',
                     'url'  => 'provincias',
                 ],
+                 [
+                    'text' => 'Departamentos',
+                    'url'  => 'departamentos',
+                ],
                 [
                     'text' => 'Calles',
                     'url'  => 'calles',

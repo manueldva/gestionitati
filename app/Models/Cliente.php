@@ -28,7 +28,7 @@ class Cliente extends Model
         return $this->belongsTo(Companiatelefonica::class);
     }
 
-        public function departamento(){
+    public function departamento(){
         
         return $this->belongsTo(Departamento::class);
     }
@@ -48,7 +48,7 @@ class Cliente extends Model
         return $this->belongsTo(Movil::class);
     }
 
-        public function provincia(){
+    public function provincia(){
         
         return $this->belongsTo(Provincia::class);
     }

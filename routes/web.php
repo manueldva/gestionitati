@@ -47,7 +47,7 @@ route::put('/setting/{id}',		'Admin\ManageuserController@setting')->name('settin
 
 // complementos
 route::resource('provincias', 		'Admin\Complementos\ProvinciaController');
-
+route::resource('departamentos', 		'Admin\Complementos\DepartamentoController');
 route::resource('calles', 		'Admin\Complementos\CalleController');
 
 

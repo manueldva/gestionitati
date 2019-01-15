@@ -27,11 +27,11 @@
 			<div class="col-md-12">
 				<div class="row col-md-12">
 					<div class="form-group pull-right">
-								<a href="{{ route('calles.index') }}" type="button" class="btn btn btn-default">
-									<span class="fa fa-list">
-									</span>
-										Listado
-								</a>
+						<a href="{{ route('calles.index') }}" type="button" class="btn btn btn-default">
+							<span class="fa fa-list">
+							</span>
+								Listado
+						</a>
 					</div>
 				</div>
 			</div>

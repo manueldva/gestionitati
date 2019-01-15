@@ -7,7 +7,7 @@
 		      		Guardar
 		      </button>
 
-		      <a href="{{ route('rubros.index') }}" type="button" class="btn btn btn-default">
+		      <a href="{{ route('departamentos.index') }}" type="button" class="btn btn btn-default">
 		      	<span class="fa fa-list">
 		      	</span>
 		      		Listado
@@ -18,6 +18,11 @@
 </div>
 
 <div class="col-md-6">
+	<div class="form-group">
+		{{ form::label('provincia_id', 'Provincia *') }}
+		{{ form::select('provincia_id',$provincias, null, ['class' => 'form-control','placeholder'=> 'Seleccionar...'] ) }} 
+	</div>
+
 	<div class="form-group">
 		{{ form::label('descripcion', 'Descripción *') }}
 		{{ form::text('descripcion', null, ['class' => 'form-control', 'id' => 'descripcion']) }}

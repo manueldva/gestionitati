@@ -1,15 +1,15 @@
 @extends('adminlte::page')
 
-@section('title', 'Gestión - Rubros')
+@section('title', 'Gestión - Departamentos')
 
 @section('content_header')
     <h1>
-      Gestionar Rubros
+      Gestionar Departamentos
       <!--<small>Listado</small>-->
     </h1>
     <ol class="breadcrumb">
       <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="{{ route('rubros.index')}}">Rubros</a></li>
+      <li><a href="{{ route('departamentos.index')}}">Departamentos</a></li>
       <li class="active">Nuevo</li>
     </ol>
 
@@ -20,15 +20,15 @@
 
 <div class="box box-primary">
   <div class="box-header with-border box-default">
-    <strong>Nuevo Rubro</strong>
+    <strong>Nuevo Departamento</strong>
   </div>
     
   <div class="panel-body">
     <div class="row">
 
-			{!! Form::open(['route' => 'rubros.store']) !!}
+			{!! Form::open(['route' => 'departamentos.store']) !!}
 
-				@include('admin.complementos.rubros.partials.form')
+				@include('admin.complementos.departamentos.partials.form')
 
 			{!! Form::close() !!}
 		</div>
