@@ -16,6 +16,24 @@
 			    <!-- /.box-header -->
 			    <div class="box-body">
 			      <div class="form-group">
+					<div class="table-responsive">
+						<table class="table table-striped table-hover" data-form="Form">
+							<thead>
+								<tr>
+									<td> 
+										{{ form::label('tipodocumento_id', 'Tipo de Documento') }}
+										{{ form::select('tipodocumento_id', [1 => 'DNI'], null, ['class' => 'form-control','placeholder' => 'Seleccionar...'] ) }} 
+									</td>
+									<td> 
+										{{ form::label('numerodocumento', 'Nro Docuemento *') }}
+										{{ form::number('numerodocumento', null, ['class' => 'form-control', 'id' => 'numerodocumento']) }}
+									</td>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				  </div>
+			      <div class="form-group">
 					{{ form::label('tipocliente_id', 'Tipo de Cliente *') }}
 					{{ form::select('tipocliente_id', [1 => 'Persona Fisica'], null, ['class' => 'form-control'] ) }} 
 				  </div>
@@ -31,16 +49,6 @@
 					<div class="table-responsive">
 						<table class="table table-striped table-hover" data-form="Form">
 							<thead>
-								<tr>
-									<td> 
-										{{ form::label('tipodocumento_id', 'Tipo de Documento') }}
-										{{ form::select('tipodocumento_id', [1 => 'DNI'], null, ['class' => 'form-control','placeholder' => 'Seleccionar...'] ) }} 
-									</td>
-									<td> 
-										{{ form::label('numerodocumento', 'Nro Docuemento *') }}
-										{{ form::number('numerodocumento', null, ['class' => 'form-control', 'id' => 'numerodocumento']) }}
-									</td>
-								</tr>	
 								<tr>
 									<td> 
 										{{ form::label('fechanacimiento', 'Fecha de Nacimiento') }}
@@ -411,6 +419,70 @@
 
 @push('js')
 	<script type="text/javascript">
+		/*swal({
+		  title: "An input!",
+		  text: "Write something interesting:",
+		  type: "input",
+		  showCancelButton: true,
+		  closeOnConfirm: false,
+		  //animation: "slide-from-top",
+		  inputPlaceholder: "Write something"
+		},
+		function(inputValue){
+		  if (inputValue === false) return false;
+
+		  if (inputValue === "") {
+		    swal.showInputError("You need to write something!");
+		    return false
+		  }
+
+		  swal("Nice!", "You wrote: " + inputValue, "success");
+		});*/
+		
+		function sweetDelete(id){
+			swal({
+			  title: 'Are you sure?',
+			  text: "You won't be able to revert this!",
+			  type: "input",
+			  //type: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  confirmButtonText: 'Guardar',
+			  cancelButtonText: 'Cancelar',
+			  confirmButtonClass: 'btn btn-success',
+			  cancelButtonClass: 'btn btn-danger',
+			  buttonsStyling: false
+			}).then(function () {
+			  // código que elimina
+			  $.ajax({
+			    url:'../Controllers/libros.php',
+			    type:'POST',
+			    data:'idusuario='+id+'&boton=eliminar'
+			   }).done(function(resp){
+			    lista_libros('');
+			   });
+			  swal(
+			    'Deleted!',
+			    'Your file has been deleted.',
+			    'success'
+			  )
+			}, function (dismiss) {
+			  // dismiss can be 'cancel', 'overlay',
+			  // 'close', and 'timer'
+			  if (dismiss === 'cancel') {
+			    swal(
+			      'Cancelled',
+			      'Your imaginary file is safe :)',
+			      'error'
+			    )
+			  }
+			})
+		};
+
+
+		sweetDelete(1);
+		
 
 		$('#articulo_id').select2();
 		$('#provincia_id').select2();
