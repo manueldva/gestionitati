@@ -54,9 +54,6 @@ class CreateClientesTable extends Migration
 
             $table->integer('empleado_id')->unsigned()->nullable();
             $table->foreign('empleado_id')->references('id')->on('empleados');
-            $table->integer('movil_id')->unsigned()->nullable();
-            $table->foreign('movil_id')->references('id')->on('moviles');
-
             $table->boolean('estado')->default(0);
             $table->string('motivoestado', 100)->nullable();
             $table->string('usuario_alta',50)->nullable();

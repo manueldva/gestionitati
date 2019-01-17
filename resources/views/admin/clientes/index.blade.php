@@ -68,8 +68,14 @@
 	                  <tr>
 						<td>{{ $cliente->codigo }}</td>
 						<td>{{ $cliente->cliente }}</td>
-	                    <td>{{ $cliente->tipocliente->descripcion }}</td>
-	                    <td>{{ $cliente->barrio->descripcion }}</td>
+	                    <td>@if($cliente->tipocliente_id !== null)
+	                    	{{ $cliente->tipocliente->descripcion }}
+	                    	@endif
+	                    </td>
+	                    <td>@if($cliente->barrio_id !== null)
+	                    	{{ $cliente->barrio->descripcion }}
+	                    	@endif
+	                    </td>
 						<td>{{ $cliente->celular }}</td>		
 	                    <td width="10px">
 	                      <a href="{{ route('clientes.show', $cliente->id) }}" class="btn btn-sm btn-default">

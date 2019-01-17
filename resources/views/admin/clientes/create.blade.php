@@ -31,15 +31,15 @@
         <div class="col-md-12" >
           <div class="row col-md-12">
             <div class="form-group" style="text-align: center">
-                 @if(!isset($guardar))
+
                 <button type="submit" class="btn btn btn-primary">
                     <span class="glyphicon glyphicon-floppy-disk">
                     </span>
                       Guardar
-                 </button>
-                @endif
+                </button>
 
-                  <a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">
+
+                <a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">
                 <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
                     <span class="fa fa-list">
                     </span>

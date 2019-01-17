@@ -7,8 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Cliente extends Model
 {
     protected $fillable = [
-        'tipocliente_id', 'cliente', 'referente', 'nrodocumento', 'direccion', 'celular', 'empresacelular_id', 'email', 
-        'nrosocio', 'fechaingreso', 'estadocliente_id', 'motivo', 'file', 'celularemergencia', 'telefonoemergencia'
+        'tipocliente_id', 'cliente', 'referente', 'tipodocumento_id', 'numerodocumento', 'fechanacimiento', 'tipoiva_id', 'cuit', 'sincargo', 'provincia_id', 'departamento_id', 'localidad_id', 'barrio_id', 'calle_id', 'manzana', 'casa', 'numero','edificiotorre','piso','seccion','lote','codigopostal','observaciondomicilio','telefonoparticular','celular','companiatelefonica_id','email','empleado_id','estado','motivoestado','usuario_alta','fecha_alta','usuario_modi','fecha_modi',
 	];
 
 
@@ -23,7 +22,7 @@ class Cliente extends Model
         return $this->belongsTo(Calle::class);
     }
 
-        public function companiatelefonica(){
+    public function companiatelefonica(){
         
         return $this->belongsTo(Companiatelefonica::class);
     }
@@ -33,37 +32,32 @@ class Cliente extends Model
         return $this->belongsTo(Departamento::class);
     }
 
-        public function empleado(){
+    public function empleado(){
         
         return $this->belongsTo(Empleado::class);
     }
 
-        public function localidad(){
+    public function localidad(){
         
         return $this->belongsTo(Localidad::class);
     }
 
-        public function movil(){
-        
-        return $this->belongsTo(Movil::class);
-    }
-
     public function provincia(){
         
-        return $this->belongsTo(Provincia::class);
+    return $this->belongsTo(Provincia::class);
     }
 
-        public function tipocliente(){
+    public function tipocliente(){
         
         return $this->belongsTo(Tipocliente::class);
     }
 
-        public function tipodocumento(){
+    public function tipodocumento(){
         
         return $this->belongsTo(Tipodocumento::class);
     }
 
-        public function tipoiva(){
+    public function tipoiva(){
         
         return $this->belongsTo(Tipoiva::class);
     }
@@ -75,9 +69,9 @@ class Cliente extends Model
 	public function scopeType($query, $type, $valor) 
     {
 		
-		if ($type == 'nrodocumento')
+		if ($type == 'numerodocumento')
         {
-            $query->where('nrodocumento', 'like', '%' . $valor . '%')->orderBy('cliente', 'DESC');
+            $query->where('numerodocumento', 'like', '%' . $valor . '%')->orderBy('cliente', 'DESC');
         } else if ($type == 'cliente') 
         {
 			//$query->where('id', $valor)->orderBy('id', 'ASC');

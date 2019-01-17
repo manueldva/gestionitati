@@ -17,17 +17,17 @@ use Alert;
 use App\Http\Controllers\Controller;
 use App\Models\Cliente;
 
-use App\Barrio;
-use App\Calle;
-use App\Companiacelular;
-use App\Departamento;
-use App\Empleado;
-use App\Localidad;
-use App\movil;
-use App\provincia;
-use App\TipoCliente;
-use App\Tipodocumento;
-use App\Tipoiva;
+use App\Models\Barrio;
+use App\Models\Calle;
+use App\Models\Departamento;
+use App\Models\Empleado;
+use App\Models\Localidad;
+use App\Models\movil;
+use App\Models\provincia;
+use App\Models\TipoCliente;
+use App\Models\Tipodocumento;
+use App\Models\Companiatelefonica;
+use App\Models\Tipoiva;
 
 
 
@@ -129,13 +129,13 @@ class ClienteController extends Controller
 
         $cliente->fechaingreso = FechaHelper::getFechaInputDate( $cliente->fechaingreso); 
 
-        $empresacelulares    = Empresacelular::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+        $companiatelefonicas    = Companiatelefonica::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
         $estadoclientes    = Estadocliente::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
         $guardar = 0; 
 
-        return view('admin.clientes.show', compact('cliente','empresacelulares', 'estadoclientes', 'guardar'));
+        return view('admin.clientes.show', compact('cliente','companiatelefonicas', 'estadoclientes', 'guardar'));
     }
 
     /**
@@ -146,18 +146,19 @@ class ClienteController extends Controller
      */
     public function edit($id)
     {
+
         $cliente = Cliente::find($id);
 
         $cliente->fechanacimiento = FechaHelper::getFechaInputDate( $cliente->fechanacimiento); 
 
         $cliente->fechaingreso = FechaHelper::getFechaInputDate( $cliente->fechaingreso); 
 
-        $empresacelulares    = Empresacelular::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+        $companiatelefonicas  = Companiatelefonica::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
-        $estadoclientes    = Estadocliente::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+       $estadoclientes    = [ 0 => 'Inactivo', 1 => 'Activo'];
 
 
-        return view('admin.clientes.edit', compact('cliente','empresacelulares', 'estadoclientes'));
+        return view('admin.clientes.edit', compact('cliente','companiatelefonicas', 'estadoclientes'));
     }
 
     /**

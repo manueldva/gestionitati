@@ -16,6 +16,10 @@
 			    <!-- /.box-header -->
 			    <div class="box-body">
 			      <div class="form-group">
+			      	{{ form::label('id', 'Codigo *') }}
+					{{ form::text('id', null, ['class' => 'form-control', 'id' => 'id', 'readonly'=> 'readonly']) }}
+			      </div>
+			      <div class="form-group">
 					<div class="table-responsive">
 						<table class="table table-striped table-hover" data-form="Form">
 							<thead>
@@ -226,7 +230,10 @@
 						{{ form::label('barrio_id', 'Barrio') }}
 						{{ form::select('barrio_id', [],  null, ['class' => 'form-control inline-search', 'id' => 'barrio_id','placeholder' => 'Seleccionar...'] ) }}
 					</div>
-
+					<div class="form-group">
+						{{ form::label('calle_id', 'Calle ') }}
+						{{ form::select('calle_id', [],  null, ['class' => 'form-control inline-search', 'id' => 'calle_id','placeholder' => 'Seleccionar...'] ) }}
+					</div>
 			     
 			    </div>
 			    <!-- /.box-body -->
@@ -240,10 +247,6 @@
 			  
 			    <!-- /.box-header -->
 			    <div class="box-body">
-			     	<div class="form-group">
-						{{ form::label('calle_id', 'Calle ') }}
-						{{ form::select('calle_id', [],  null, ['class' => 'form-control inline-search', 'id' => 'calle_id','placeholder' => 'Seleccionar...'] ) }}
-					</div>
 					<div class="form-group">
 						<div class="table-responsive">
 							<table class="table table-striped table-hover" data-form="Form">
@@ -346,8 +349,8 @@
 										{{ form::number('celular', null, ['class' => 'form-control', 'id' => 'celular']) }}
 									</td>
 									<td> 
-										{{ form::label('tipodocumento_id', 'Tipo de Documento') }}
-										{{ form::select('tipodocumento_id', [1 => 'Personal'], null, ['class' => 'form-control','placeholder' => 'Seleccionar...'] ) }} 
+										{{ form::label('companiatelefonica_id', 'Proveedor') }}
+										{{ form::select('companiatelefonica_id', [1 => 'Personal'], null, ['class' => 'form-control','placeholder' => 'Seleccionar...'] ) }} 
 									</td>
 								</tr>		
 								
@@ -376,10 +379,6 @@
 			    </div>
 			    <!-- /.box-header -->
 			    <div class="box-body">
-			       <div class="form-group">
-						{{ form::label('movil_id', 'Tipo de Movil') }}
-						{{ form::select('movil_id', [],  null, ['class' => 'form-control inline-search', 'id' => 'movil_id','placeholder' => 'Seleccionar...'] ) }}
-				  </div>
 				  <div class="form-group">
 					<div class="table-responsive">
 						<table class="table table-striped table-hover" data-form="Form">
@@ -390,8 +389,18 @@
 										{{ form::number('codigovendedor', null, ['class' => 'form-control', 'id' => 'codigovendedor']) }}
 									</td>
 									<td> 
-										{{ form::label('empleado_id', 'Tipo de Documento') }}
+										{{ form::label('empleado_id', 'Vendedor') }}
 										{{ form::select('empleado_id', [1 => 'Juan Perez'], null, ['class' => 'form-control','placeholder' => 'Seleccionar...'] ) }} 
+									</td>
+								</tr>	
+								<tr>
+									<td class="col-md-3"> 
+										{{ form::label('movil', 'Tipo Movil') }}
+										{{ form::text('movil', null, ['class' => 'form-control', 'id' => 'movil', 'readonly' => 'readonly']) }}
+									</td>
+									<td> 
+										{{ form::label('patente', 'Patente') }}
+										{{ form::text('patente', null, ['class' => 'form-control', 'id' => 'patente', 'readonly' => 'readonly']) }}
 									</td>
 								</tr>	
 								
@@ -439,7 +448,7 @@
 		  swal("Nice!", "You wrote: " + inputValue, "success");
 		});*/
 		
-		function sweetDelete(id){
+		/*function sweetDelete(id){
 			swal({
 			  title: 'Are you sure?',
 			  text: "You won't be able to revert this!",
@@ -481,8 +490,7 @@
 		};
 
 
-		sweetDelete(1);
-		
+		sweetDelete(1);*/		
 
 		$('#articulo_id').select2();
 		$('#provincia_id').select2();
@@ -508,12 +516,6 @@
 			}
 			
 		}
-		
-		/*function Edad() {
-			fecha = $('#fechanacimiento').val();
-			var edad = CalcularEdad(fecha);
-			$('#edad').val(edad);
-		}*/
 
 		CalcularEdad();
 
@@ -521,26 +523,38 @@
 			CalcularEdad();
 		});
 
-		/* edad */
+		
+		$('#numerodocumento').focusout(function(e) {
 
-		/* para actualizar en tiempo real la imagen seleccionada*/
-		/*function readURL(input) {
+			/*recuper si existe cliente*/
+			
+			var nrodoc = $('#numerodocumento').val();
+			var APP_URL = "{{ url('/') }}";
+			$.ajax({
+		    	dataType: 'json',
+		    	url: APP_URL + '/api/validardocumento',
+		    	data: {q: nrodoc}
+			}).done(function(data) {
 
-			if (input.files && input.files[0]) {
-			var reader = new FileReader();
+				if(data !== 0) {
+					if(parseInt($('#id').val()) !== parseInt(data)){
+						swal({
+						  title: "Ya existe un cliente con este numero de documento",
+						  text: "¿Desea recuperar sus datos?",
+						  type: "info",
+						  showCancelButton: true,
+						  closeOnConfirm: false//,
+						  //showLoaderOnConfirm: true
+						}, function () {
+						  window.location.replace("../clientes/"+ data +"/edit");
 
-			reader.onload = function(e) {
-				$('#viewimage').attr('src', e.target.result);
-			}
+						});
+					}
+				}
+				
+			});
 
-			reader.readAsDataURL(input.files[0]);
-			}
-		}
-
-		$("#image").change(function() {
-			readURL(this);
-		});*/
-		/* imagen */
+		});
 
 	</script>
 @endpush

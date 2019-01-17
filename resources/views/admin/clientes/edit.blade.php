@@ -3,7 +3,6 @@
 @section('title', 'Gestión - Clientes')
 
 @section('content_header')
-
     <h1>
       Gestionar Clientes
       <!--<small>Listado</small>-->
@@ -16,6 +15,7 @@
 
 @stop
 
+
 @section('content')
 
 <div class="box box-primary">
@@ -26,15 +26,42 @@
   <div class="panel-body">
     <div class="row">
 
-			{!! Form::model($cliente, ['route' => ['clientes.update', $cliente->id], 'method' => 'PUT', 'files' => true]) !!}
-                    
-        @include('admin.clientes.partials.form')
+      {!! Form::model($cliente, ['route' => ['clientes.update', $cliente->id], 'method' => 'PUT', 'files' => true]) !!}
+  
+        <div class="col-md-12" >
+          <div class="row col-md-12">
+            <div class="form-group" style="text-align: center">
 
-      {!! Form::close() !!}
+                <button type="submit" class="btn btn btn-primary">
+                    <span class="glyphicon glyphicon-floppy-disk">
+                    </span>
+                      Guardar
+                </button>
 
-		</div>
-	</div>
+
+                <a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">
+                <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
+                    <span class="fa fa-list">
+                    </span>
+                      Listado
+                  </a>
+            </div>
+          </div>
+        </div>
+      
+    </div>
+  </div>
 </div>
+
+@include('admin.clientes.partials.form')
+
+{!! Form::close() !!}
 
 
 @endsection
+
+
+
+
+
+

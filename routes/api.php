@@ -29,3 +29,16 @@ Route::get('departamentos', function() {
 
     return App\Models\Departamento::where('provincia_id', '=', request('provincia_id'))->get();
 });
+
+
+/*se usa para validar si existe o no un cliente con este numerodocumento*/
+Route::get('validardocumento', function() {
+    $cliente = App\Models\Cliente::where('numerodocumento', '=', request('q'))->first();
+    if($cliente){
+    	$id = $cliente->id;
+    } else
+    {
+    	$id = 0;
+    }
+    return $id;
+});

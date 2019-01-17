@@ -9,13 +9,21 @@ class Empleado extends Model
     //protected $table = 'barrios';
 
 	protected $fillable = [
-    	'tipoempleado_id', 'empleado', 'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
+    	'tipoempleado_id', 'empleado',, 'movil_id', 'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
 	];
 
 
 	public function clientes(){//vendedor
     	return $this->HasMany(Cliente::class);
     }
+
+
+    public function movil(){
+        
+        return $this->belongsTo(Movil::class);
+    }
+
+
 
     /*
 	public function scopeType($query, $type, $valor) 
