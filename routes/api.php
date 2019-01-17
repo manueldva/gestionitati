@@ -42,3 +42,15 @@ Route::get('validardocumento', function() {
     }
     return $id;
 });
+
+
+Route::get('autocompleteempleado', function() {
+    
+     $data = App\Models\Empleado::select("empleado")
+            ->where("empleado","LIKE","%{$request->input('query')}%")
+            ->get();
+
+    return response()->json($data);
+});
+
+

@@ -2,6 +2,11 @@
 
 @section('title', 'Gestión - Clientes')
 
+@section('css')
+  <link rel="stylesheet" href="{{ asset('css/resources/bootstrap.min.css') }}">
+  
+@endsection
+
 @section('content_header')
     <h1>
       Gestionar Clientes

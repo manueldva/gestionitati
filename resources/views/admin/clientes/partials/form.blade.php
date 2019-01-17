@@ -390,7 +390,7 @@
 									</td>
 									<td> 
 										{{ form::label('empleado_id', 'Vendedor') }}
-										{{ form::select('empleado_id', [1 => 'Juan Perez'], null, ['class' => 'form-control','placeholder' => 'Seleccionar...'] ) }} 
+										{{ form::text('empleado', null, ['class' => 'typeahead form-control', 'id' => 'empleado']) }}
 									</td>
 								</tr>	
 								<tr>
@@ -427,6 +427,9 @@
 
 
 @push('js')
+	<script src="{{ asset('js/resources/bootstrap3-typeahead.min.js') }}"></script>
+
+
 	<script type="text/javascript">
 		/*swal({
 		  title: "An input!",
@@ -490,7 +493,20 @@
 		};
 
 
-		sweetDelete(1);*/		
+		sweetDelete(1);*/	
+		var APP_URL = "{{ url('/') }}";
+		var path = APP_URL + "{{ route('/api/autocompleteempleado') }}";
+		    $('input.typeahead').typeahead({
+		        source:  function (query, process) {
+		        return $.get(path, { query: query }, function (data) {
+		            return process(data);
+		        });
+		     }
+		 });
+
+	   
+		
+
 
 		$('#articulo_id').select2();
 		$('#provincia_id').select2();
@@ -529,7 +545,7 @@
 			/*recuper si existe cliente*/
 			
 			var nrodoc = $('#numerodocumento').val();
-			var APP_URL = "{{ url('/') }}";
+			
 			$.ajax({
 		    	dataType: 'json',
 		    	url: APP_URL + '/api/validardocumento',
