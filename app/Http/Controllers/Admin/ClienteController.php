@@ -77,12 +77,14 @@ class ClienteController extends Controller
      */
     public function create()
     {
-        /*$empresacelulares    = Empresacelular::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+        
+        $companiatelefonicas  = Companiatelefonica::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
-        $estadoclientes    = Estadocliente::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');*/
+        $provincias  = Provincia::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
-        //return view('admin.clientes.create', compact('empresacelulares', 'estadoclientes'));
-        return view('admin.clientes.create');
+        $estadoclientes    = [ 0 => 'Inactivo', 1 => 'Activo'];
+
+        return view('admin.clientes.create', compact('companiatelefonicas', 'estadoclientes', 'provincias'));
     }
 
     /**

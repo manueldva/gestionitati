@@ -216,23 +216,23 @@
 			    <div class="box-body">
 			      	<div class="form-group">
 						{{ form::label('provincia_id', 'Provincia') }}
-						{{ form::select('provincia_id', $provincias,  null, ['class' => 'form-control inline-search', 'id' => 'provincia_id','placeholder' => 'Seleccionar...'] ) }}
+						{{ form::select('provincia_id',  $provincias ,  null, ['class' => 'form-control inline-search', 'id' => 'provincia_id','placeholder' => 'Seleccionar...'] ) }}
 					</div>
 					<div class="form-group">
 						{{ form::label('departamento_id', 'Departamento') }}
-						{{ form::select('departamento_id', $departamentos,  null, ['class' => 'form-control inline-search', 'id' => 'departamento_id','placeholder' => 'Seleccionar...'] ) }}
+						{{ form::select('departamento_id', isset($cliente) ? $departamentos : [],  null, ['class' => 'form-control inline-search', 'id' => 'departamento_id','placeholder' => 'Seleccionar...'] ) }}
 					</div>
 					<div class="form-group">
 						{{ form::label('localidad_id', 'Localidad') }}
-						{{ form::select('localidad_id', $localidades,  null, ['class' => 'form-control inline-search', 'id' => 'localidad_id','placeholder' => 'Seleccionar...'] ) }}
+						{{ form::select('localidad_id', isset($cliente) ? $localidades : [],  null, ['class' => 'form-control inline-search', 'id' => 'localidad_id','placeholder' => 'Seleccionar...'] ) }}
 					</div>
 					<div class="form-group">
 						{{ form::label('barrio_id', 'Barrio') }}
-						{{ form::select('barrio_id', $barrios,  null, ['class' => 'form-control inline-search', 'id' => 'barrio_id','placeholder' => 'Seleccionar...'] ) }}
+						{{ form::select('barrio_id', isset($cliente) ? $barrios : [],  null, ['class' => 'form-control inline-search', 'id' => 'barrio_id','placeholder' => 'Seleccionar...'] ) }}
 					</div>
 					<div class="form-group">
 						{{ form::label('calle_id', 'Calle ') }}
-						{{ form::select('calle_id', $calles,  null, ['class' => 'form-control inline-search', 'id' => 'calle_id','placeholder' => 'Seleccionar...'] ) }}
+						{{ form::select('calle_id', isset($cliente) ? $calles : [],  null, ['class' => 'form-control inline-search', 'id' => 'calle_id','placeholder' => 'Seleccionar...'] ) }}
 					</div>
 			     
 			    </div>
