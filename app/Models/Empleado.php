@@ -9,7 +9,7 @@ class Empleado extends Model
     //protected $table = 'barrios';
 
 	protected $fillable = [
-    	'tipoempleado_id', 'empleado', 'movil_id', 'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
+    	'tipoempleado_id', 'empleado', 'movil', 'patente',  'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
 	];
 
 

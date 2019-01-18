@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -44,13 +45,7 @@ Route::get('validardocumento', function() {
 });
 
 
-Route::get('autocompleteempleado', function() {
-    
-     $data = App\Models\Empleado::select("empleado")
-            ->where("empleado","LIKE","%{$request->input('query')}%")
-            ->get();
+Route::get('autocompleteempleadodesc', function() {
 
-    return response()->json($data);
+    return App\Models\Empleado::where('empleado', 'LIKE', '%' . request('q') . '%')->paginate(10);
 });
-
-

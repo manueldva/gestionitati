@@ -24,6 +24,16 @@ Route::get('/detalleotrastareasabiertas', 'HomeController@detalleotrastareasabie
 
 //
 
+
+Route::get('autocompleteempleado', function() {
+     $data = App\Models\Empleado::select("empleado")
+            ->where('empleado', 'LIKE', '%' . request('q') . '%')
+            ->get();
+
+    return response()->json($data);
+});
+
+
 //menu principal
 route::resource('clientes', 		'Admin\ClienteController');
 /*route::resource('tareas', 		'Admin\TareaController');

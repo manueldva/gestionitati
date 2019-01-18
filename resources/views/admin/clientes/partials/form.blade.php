@@ -131,7 +131,7 @@
 									</td>
 									<td> 
 										<br>
-										<a href="" type="button" class="btn btn btn-success">
+										<a href="" type="button" id="agregarvinculo" name="agregarvinculo" class="btn btn btn-success">
 						                <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
 						                    <span class="fa fa-plus-circle">
 						                    </span>
@@ -144,7 +144,7 @@
 						</table>
 						<div class="form-group">
 							<div class="table-responsive">
-								<table   id="table_ventas" class="table table-striped table-hover" data-form="Form">
+								<table   id="table_articulos" class="table table-striped table-hover" data-form="Form">
 									<thead>
 										<tr>
 										<!--<th width="10px"> ID</th>-->
@@ -369,7 +369,7 @@
 			</div>
 			<!-- /.col -->
 
-			<div class="col-md-4">
+			<div class="col-md-5">
 			  <!--<div class="box box-default">-->
 			    
 			    <div class="box-header with-border">
@@ -389,25 +389,60 @@
 										{{ form::number('codigovendedor', null, ['class' => 'form-control', 'id' => 'codigovendedor']) }}
 									</td>
 									<td> 
-										{{ form::label('empleado_id', 'Vendedor') }}
-										{{ form::text('empleado', null, ['class' => 'typeahead form-control', 'id' => 'empleado']) }}
+										{{ form::label('empleado', 'Vendedor') }}
+										<br>
+										{{ form::select('empleado', [],  null, ['class' => 'form-control inline-search', 'id' => 'empleado','placeholder' => 'Seleccionar...'] ) }}
+										
 									</td>
 								</tr>	
-								<tr>
-									<td class="col-md-3"> 
-										{{ form::label('movil', 'Tipo Movil') }}
-										{{ form::text('movil', null, ['class' => 'form-control', 'id' => 'movil', 'readonly' => 'readonly']) }}
-									</td>
-									<td> 
-										{{ form::label('patente', 'Patente') }}
-										{{ form::text('patente', null, ['class' => 'form-control', 'id' => 'patente', 'readonly' => 'readonly']) }}
-									</td>
-								</tr>	
-								
 							</thead>
 						</table>
 					</div>
-				  </div>
+					<div class="form-group">
+						<div class="table-responsive">
+							<table class="table table-striped table-hover" data-form="Form">
+								<thead>
+									<tr>
+										<td>
+											{{ form::label('movil', 'Tipo Movil') }}
+											{{ form::text('movil', null, ['class' => 'form-control', 'id' => 'movil', 'readonly' => 'readonly']) }}
+										</td>
+										<td> 
+											{{ form::label('patente', 'Patente') }}
+											{{ form::text('patente', null, ['class' => 'form-control', 'id' => 'patente', 'readonly' => 'readonly']) }}
+										</td>
+									</tr>	
+									
+								</thead>
+							</table>
+						</div>
+				  	</div>
+
+				  	<div class="form-group">
+						<div class="table-responsive">
+							<table class="table table-striped table-hover" data-form="Form">
+								<thead>
+									<tr>
+										<td> 
+											{{ form::label('turno', 'visita') }}
+											{{ form::select('turno', ['1' => 'Mañana', '2' => 'Tarde', '3' => 'Noche' ],  null, ['class' => 'form-control', 'id' => 'turno','placeholder' => 'Seleccionar...'] ) }}
+										</td>
+										<td>
+											{{ form::label('horadesde', 'Desde') }}
+											{{ form::time('horadesde', null, ['class' => 'form-control', 'id' => 'horadesde']) }}
+											</div>
+										</td>
+										<td> 
+											{{ form::label('horahasta', 'Hasta') }}
+											{{ form::time('horahasta', null, ['class' => 'form-control', 'id' => 'horahasta']) }}
+											</div>
+										</td>
+									</tr>	
+									
+								</thead>
+							</table>
+						</div>
+				  	</div>
 				 
 			    </div>
 			    <!-- /.box-body -->
@@ -419,6 +454,87 @@
 	  <!-- /.box -->
 	</div>
 
+<!-- cuarta seccion-->
+
+
+	</div>
+	<div class="col-md-12">
+	  <div class="box box-default">
+	  	<div class="box-header with-border">
+	      <i class="fa fa-users"></i>
+
+	      <h3 class="box-title">Familiar Asociado</h3>
+	    </div>
+
+	    <!-- /.box-header -->
+	    <div class="box-body">
+
+			<div class="form-group">
+				<div class="table-responsive">
+					<table class="table table-striped table-hover" data-form="Form">
+						<thead>
+							<tr>
+								<td> 
+									{{ form::label('vinculo_id', 'Vinculo') }}
+									{{ form::select('vinculo_id', ['1' => 'Esposa', '2' => 'Esposo', '3' => 'Hijo/a' ],  null, ['class' => 'form-control', 'id' => 'vinculo_id','placeholder' => 'Seleccionar...'] ) }}
+								</td>
+								<td> 
+									{{ form::label('nombrevinculo', 'Apellido y Nombre') }}
+									{{ form::text('nombrevinculo', null, ['class' => 'form-control', 'id' => 'nombrevinculo']) }}
+								</td>
+								<td> 
+									{{ form::label('contactovinculo', 'Contacto') }}
+									{{ form::text('contactovinculo', null, ['class' => 'form-control', 'id' => 'contactovinculo']) }}
+								</td>
+								<td> 
+									<br>
+									<a href="" type="button" id="agregarvinculo" name="agregarvinculo" class="btn btn btn-success">
+					                <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
+					                    <span class="fa fa-plus-circle">
+					                    </span>
+					                      AGREGAR
+					                  </a>
+								</td>
+							</tr>		
+						</thead>
+					</table>
+				</div>
+				<div class="form-group">
+					<div class="table-responsive">
+						<table   id="table_familiares" class="table table-striped table-hover" data-form="Form">
+							<thead>
+								<tr>
+								<!--<th width="10px"> ID</th>-->
+									<th> Vinculo</th>
+									<th> Apellido y Nombre</th>
+									<th>Contacto </th>
+								</tr>
+							</thead>
+							<tbody>
+								<!--prueba-->
+								<tr>
+									<td>
+										Esposa
+									</td>
+									<td>
+										Elsa Gutierrez
+									</td>
+									<td>
+										3704003322
+									</td>
+									<td>
+										Editar
+									</td>
+								</tr>
+								<!--	-->
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+	    </div>
+	  </div>
+	</div>
 </div>
 	<!-- /.col -->
 
@@ -427,10 +543,9 @@
 
 
 @push('js')
-	<script src="{{ asset('js/resources/bootstrap3-typeahead.min.js') }}"></script>
-
 
 	<script type="text/javascript">
+		var APP_URL = "{{ url('/') }}";
 		/*swal({
 		  title: "An input!",
 		  text: "Write something interesting:",
@@ -494,19 +609,7 @@
 
 
 		sweetDelete(1);*/	
-		var APP_URL = "{{ url('/') }}";
-		var path = APP_URL + "{{ route('/api/autocompleteempleado') }}";
-		    $('input.typeahead').typeahead({
-		        source:  function (query, process) {
-		        return $.get(path, { query: query }, function (data) {
-		            return process(data);
-		        });
-		     }
-		 });
-
-	   
-		
-
+	  
 
 		$('#articulo_id').select2();
 		$('#provincia_id').select2();
@@ -571,6 +674,69 @@
 			});
 
 		});
+
+		/*buscador vendedor*/
+
+		$(document).ready(function(){
+            $('#empleado').select2({
+        	    /*allowClear: true,
+			    multiple: true,
+			    maximumSelectionSize: 1,*/
+				language: {
+
+					noResults: function() {
+
+					return "No hay resultado";        
+					},
+					searching: function() {
+
+					return "Buscando..";
+					},
+				},
+				
+                ajax : {
+                    url : APP_URL + '/api/autocompleteempleadodesc',
+                    dataType : 'json',
+                    delay : 20,
+                    data : function(params){
+                        return {
+                            q : params.term,
+                            page : params.page
+                        };
+                    },
+                    processResults : function(data, params){
+                        params.page = params.page || 1;
+                        return {
+                            results : data.data,
+                            pagination: {
+                                more : (params.page  * 10) < data.total
+                            }
+                        };
+                    }
+                },
+				minimumInputLength: 1,
+                templateResult : function (repo){
+                    if(repo.loading) return repo.empleado;
+                    var markup =  repo.empleado;
+                    return markup;
+                },
+                templateSelection : function(repo)
+                {
+					$("#codigovendedor").val(repo.id);
+					/*$("#stock").val(repo.stock);
+					$("#descripcion").val(repo.descripcion);
+					$("#precio").val(repo.preciounitario);
+					if($("#stock").val() !== '') $("#cantidad").val(1);*/
+					
+					return repo.empleado;
+					
+                },
+                escapeMarkup : function(markup){ 
+					
+					return markup; 
+				}
+            });
+        });
 
 	</script>
 @endpush

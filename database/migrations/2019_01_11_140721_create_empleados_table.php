@@ -18,8 +18,8 @@ class CreateEmpleadosTable extends Migration
             $table->string('empleado', 200);
             $table->integer('tipoempleado_id')->unsigned()->nullable();
             $table->foreign('tipoempleado_id')->references('id')->on('tipoempleados');
-            $table->integer('movil_id')->unsigned()->nullable();
-            $table->foreign('movil_id')->references('id')->on('moviles');
+            $table->integer('movil', 300)->nullable();
+            $table->integer('patente', 10)->nullable();
             $table->string('usuario_alta',50)->nullable();
             $table->timestamp('fecha_alta')->nullable();
             $table->string('usuario_modi',50)->nullable();
