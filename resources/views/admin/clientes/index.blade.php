@@ -67,30 +67,30 @@
 	                @foreach ($clientes as $cliente)
 	                  <tr>
 						<td>
-							<a href="{{ route('clientes.edit', $cliente->id) }}" style="color:#000000;">
+							<a href="{{ route('clientes.show', $cliente->id) }}" style="color:#000000;">
 								{{ $cliente->id }}
 							</a>
 						</td>
 						<td>
-							<a href="{{ route('clientes.edit', $cliente->id) }}" style="color:#000000;">
+							<a href="{{ route('clientes.show', $cliente->id) }}" style="color:#000000;">
 								{{ $cliente->cliente }}
 							</a>
 							
 						</td>
 	                    <td>@if($cliente->tipocliente_id !== null)
-	                    	<a href="{{ route('clientes.edit', $cliente->id) }}" style="color:#000000;">
+	                    	<a href="{{ route('clientes.show', $cliente->id) }}" style="color:#000000;">
 	                    	{{ $cliente->tipocliente->descripcion }}
 	                    	</a>
 	                    	@endif
 	                    </td>
 	                    <td>@if($cliente->barrio_id !== null)
-	                    	<a href="{{ route('clientes.edit', $cliente->id) }}" style="color:#000000;">
+	                    	<a href="{{ route('clientes.show', $cliente->id) }}" style="color:#000000;">
 	                    		{{ $cliente->barrio->descripcion }}
 	                    	</a>
 	                    	@endif
 	                    </td>
 						<td>
-							<a href="{{ route('clientes.edit', $cliente->id) }}" style="color:#000000;">
+							<a href="{{ route('clientes.show', $cliente->id) }}" style="color:#000000;">
 								{{ $cliente->celular }}
 							</a>
 						</td>		

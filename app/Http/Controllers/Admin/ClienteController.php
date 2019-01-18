@@ -139,13 +139,30 @@ class ClienteController extends Controller
 
         $cliente->fechaingreso = FechaHelper::getFechaInputDate( $cliente->fechaingreso); 
 
-        $companiatelefonicas    = Companiatelefonica::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+        $companiatelefonicas  = Companiatelefonica::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
-        $estadoclientes    = Estadocliente::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+        $provincias  = Provincia::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
-        $guardar = 0; 
+        $departamentos  = Departamento::orderBy('descripcion', 'ASC')->where('provincia_id', $cliente->provincia_id)->pluck('descripcion' , 'id');
 
-        return view('admin.clientes.show', compact('cliente','companiatelefonicas', 'estadoclientes', 'guardar'));
+        $localidades  = Localidad::orderBy('descripcion', 'ASC')->where('departamento_id', $cliente->departamento_id)->pluck('descripcion' , 'id');
+
+        $barrios  = Barrio::orderBy('descripcion', 'ASC')->where('localidad_id', $cliente->localidad_id)->pluck('descripcion' , 'id');
+
+        $calles  = Calle::orderBy('descripcion', 'ASC')->where('barrio_id', $cliente->barrio_id)->pluck('descripcion' , 'id');
+
+        $tipoivas  = Tipoiva::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+        $tipoclientes  = Tipocliente::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+       $estadoclientes    = [ 0 => 'Inactivo', 1 => 'Activo'];
+
+
+
+        return view('admin.clientes.show', compact('cliente','companiatelefonicas', 'estadoclientes', 'provincias', 'departamentos', 'localidades', 'barrios', 'calles', 'tipoivas', 'tipoclientes'));
+
+       
+
     }
 
     /**

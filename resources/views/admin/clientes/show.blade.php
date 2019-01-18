@@ -1,9 +1,12 @@
 @extends('adminlte::page')
 
-@section('title', 'Gym - Clientes')
+@section('title', 'Gestión - Clientes')
+
+@section('css')
+  <link rel="stylesheet" href="{{ asset('css/resources/bootstrap-clockpicker.min.css') }}">
+@endsection
 
 @section('content_header')
-
     <h1>
       Gestionar Clientes
       <!--<small>Listado</small>-->
@@ -11,30 +14,46 @@
     <ol class="breadcrumb">
       <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
       <li><a href="{{ route('clientes.index')}}">Clientes</a></li>
-      <li class="active">Ver</li>
+      <li class="active">Nuevo</li>
     </ol>
 
 @stop
+
 
 @section('content')
 
 <div class="box box-primary">
   <div class="box-header with-border box-default">
-    <strong>Ver Cliente</strong>
+    <strong>Nuevo Cliente</strong>
   </div>
     
   <div class="panel-body">
     <div class="row">
 
-			{!! Form::model($cliente, ['route' => ['clientes.show', $cliente->id], 'method' => 'PUT', 'files' => true]) !!}
-                    
-        @include('admin.clientes.partials.form')
+    {!! Form::model($cliente, ['route' => ['clientes.show', $cliente->id], 'method' => 'PUT']) !!}
+  
+        <div class="col-md-12" >
+          <div class="row col-md-12">
+            <div class="form-group" style="text-align: center">
 
-      {!! Form::close() !!}
-
-		</div>
-	</div>
+                <a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">
+                <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
+                    <span class="fa fa-list">
+                    </span>
+                      Listado
+                </a>
+            </div>
+          </div>
+        </div>
+      
+    </div>
+  </div>
 </div>
+
+@include('admin.clientes.partials.form')
+
+{!! Form::close() !!}
 
 
 @endsection
+
