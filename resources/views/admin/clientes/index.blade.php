@@ -94,11 +94,7 @@
 								{{ $cliente->celular }}
 							</a>
 						</td>		
-	                    <td width="10px">
-	                      <a href="{{ route('clientes.show', $cliente->id) }}" class="btn btn-sm btn-default">
-	                        Ver
-	                      </a>
-	                    </td>
+	                    
 	                    {{-- @if($permiso == 2) --}}
 	                    <td width="10px">
 	                      <a href="{{ route('clientes.edit', $cliente->id) }}" class="btn btn-sm btn-default">
