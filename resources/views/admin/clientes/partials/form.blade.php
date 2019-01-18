@@ -26,7 +26,7 @@
 								<tr>
 									<td> 
 										{{ form::label('tipodocumento_id', 'Tipo de Documento') }}
-										{{ form::select('tipodocumento_id', [1 => 'DNI'], null, ['class' => 'form-control','placeholder' => 'Seleccionar...'] ) }} 
+										{{ form::select('tipodocumento_id', isset($tipodocumentos) ? $tipodocumentos : [], null, ['class' => 'form-control','placeholder' => 'Seleccionar...'] ) }} 
 									</td>
 									<td> 
 										{{ form::label('numerodocumento', 'Nro Docuemento *') }}
@@ -39,7 +39,7 @@
 				  </div>
 			      <div class="form-group">
 					{{ form::label('tipocliente_id', 'Tipo de Cliente *') }}
-					{{ form::select('tipocliente_id', [1 => 'Persona Fisica'], null, ['class' => 'form-control'] ) }} 
+					{{ form::select('tipocliente_id', isset($tipoclientes) ? $tipoclientes : [], null, ['class' => 'form-control'] ) }} 
 				  </div>
 			      <div class="form-group">
 			      	{{ form::label('cliente', 'Cliente *') }}
@@ -66,7 +66,7 @@
 								<tr>
 									<td> 
 										{{ form::label('tipoiva_id', 'Concidicion IVA') }}
-										{{ form::select('tipoiva_id', [1 => 'MONOTRIBURO'], null, ['class' => 'form-control','placeholder' => 'Seleccionar...'] ) }}
+										{{ form::select('tipoiva_id', isset($tipoivas) ? $tipoivas : [], null, ['class' => 'form-control','placeholder' => 'Seleccionar...'] ) }}
 									</td>
 									<td> 
 										{{ form::label('cuit', 'Cuit *') }}
@@ -216,7 +216,7 @@
 			    <div class="box-body">
 			      	<div class="form-group">
 						{{ form::label('provincia_id', 'Provincia') }}
-						{{ form::select('provincia_id',  $provincias ,  null, ['class' => 'form-control inline-search', 'id' => 'provincia_id','placeholder' => 'Seleccionar...'] ) }}
+						{{ form::select('provincia_id',  isset($provincias) ? $provincias : [] ,  null, ['class' => 'form-control inline-search', 'id' => 'provincia_id','placeholder' => 'Seleccionar...'] ) }}
 					</div>
 					<div class="form-group">
 						{{ form::label('departamento_id', 'Departamento') }}

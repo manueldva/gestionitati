@@ -82,9 +82,17 @@ class ClienteController extends Controller
 
         $provincias  = Provincia::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
+        $tipodocumentos  = Tipodocumento::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+        $tipoivas  = Tipoiva::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+        $tipoclientes  = Tipocliente::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+
+
         $estadoclientes    = [ 0 => 'Inactivo', 1 => 'Activo'];
 
-        return view('admin.clientes.create', compact('companiatelefonicas', 'estadoclientes', 'provincias'));
+        return view('admin.clientes.create', compact('companiatelefonicas', 'estadoclientes', 'provincias', 'tipodocumentos', 'tipoclientes', 'tipoivas'));
     }
 
     /**
@@ -167,12 +175,14 @@ class ClienteController extends Controller
 
         $calles  = Calle::orderBy('descripcion', 'ASC')->where('barrio_id', $cliente->barrio_id)->pluck('descripcion' , 'id');
 
+        $tipoivas  = Tipoiva::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
+        $tipoclientes  = Tipocliente::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
        $estadoclientes    = [ 0 => 'Inactivo', 1 => 'Activo'];
 
 
-        return view('admin.clientes.edit', compact('cliente','companiatelefonicas', 'estadoclientes', 'provincias', 'departamentos', 'localidades', 'barrios', 'calles'));
+        return view('admin.clientes.edit', compact('cliente','companiatelefonicas', 'estadoclientes', 'provincias', 'departamentos', 'localidades', 'barrios', 'calles', 'tipoivas', 'tipoclientes'));
     }
 
     /**
