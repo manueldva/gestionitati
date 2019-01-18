@@ -54,6 +54,7 @@ class CreateClientesTable extends Migration
 
             $table->integer('empleado_id')->unsigned()->nullable();
             $table->foreign('empleado_id')->references('id')->on('empleados');
+            $table->integer('horariovisita')->nullable();
             $table->string('horadesde',5)->default('00:00');
             $table->string('horahasta',5)->default('00:00');
             $table->boolean('estado')->default(0);

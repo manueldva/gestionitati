@@ -155,10 +155,22 @@ class ClienteController extends Controller
 
         $companiatelefonicas  = Companiatelefonica::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
+        $provincias  = Provincia::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+        $departamentos  = Departamento::orderBy('descripcion', 'ASC')->where('provincia_id', $cliente->provincia_id)->pluck('descripcion' , 'id');
+
+        $localidades  = Localidad::orderBy('descripcion', 'ASC')->where('departamento_id', $cliente->departamento_id)->pluck('descripcion' , 'id');
+
+        $barrios  = Barrio::orderBy('descripcion', 'ASC')->where('localidad_id', $cliente->localidad_id)->pluck('descripcion' , 'id');
+
+        $calles  = Calle::orderBy('descripcion', 'ASC')->where('barrio_id', $cliente->barrio_id)->pluck('descripcion' , 'id');
+
+
+
        $estadoclientes    = [ 0 => 'Inactivo', 1 => 'Activo'];
 
 
-        return view('admin.clientes.edit', compact('cliente','companiatelefonicas', 'estadoclientes'));
+        return view('admin.clientes.edit', compact('cliente','companiatelefonicas', 'estadoclientes', 'provincias', 'departamentos', 'localidades', 'barrios', 'calles'));
     }
 
     /**

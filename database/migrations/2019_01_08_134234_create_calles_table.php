@@ -15,6 +15,14 @@ class CreateCallesTable extends Migration
     {
         Schema::create('calles', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('provincia_id')->unsigned()->nullable();
+            $table->foreign('provincia_id')->references('id')->on('provincias');
+            $table->integer('departamento_id')->unsigned()->nullable();
+            $table->foreign('departamento_id')->references('id')->on('departamentos');
+            $table->integer('localidad_id')->unsigned()->nullable();
+            $table->foreign('localidad_id')->references('id')->on('localidades');
+            $table->integer('barrio_id')->unsigned()->nullable();
+            $table->foreign('barrio_id')->references('id')->on('barrios');
             $table->string('descripcion', 350);
             $table->string('usuario_alta',50)->nullable();
             $table->timestamp('fecha_alta')->nullable();

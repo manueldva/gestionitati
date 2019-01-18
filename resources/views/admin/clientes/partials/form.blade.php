@@ -16,7 +16,7 @@
 			    <!-- /.box-header -->
 			    <div class="box-body">
 			      <div class="form-group">
-			      	{{ form::label('id', 'Codigo *') }}
+			      	{{ form::label('id', 'Codigo Cliente') }}
 					{{ form::text('id', null, ['class' => 'form-control', 'id' => 'id', 'readonly'=> 'readonly']) }}
 			      </div>
 			      <div class="form-group">
@@ -216,23 +216,23 @@
 			    <div class="box-body">
 			      	<div class="form-group">
 						{{ form::label('provincia_id', 'Provincia') }}
-						{{ form::select('provincia_id', [],  null, ['class' => 'form-control inline-search', 'id' => 'provincia_id','placeholder' => 'Seleccionar...'] ) }}
+						{{ form::select('provincia_id', $provincias,  null, ['class' => 'form-control inline-search', 'id' => 'provincia_id','placeholder' => 'Seleccionar...'] ) }}
 					</div>
 					<div class="form-group">
 						{{ form::label('departamento_id', 'Departamento') }}
-						{{ form::select('departamento_id', [],  null, ['class' => 'form-control inline-search', 'id' => 'departamento_id','placeholder' => 'Seleccionar...'] ) }}
+						{{ form::select('departamento_id', $departamentos,  null, ['class' => 'form-control inline-search', 'id' => 'departamento_id','placeholder' => 'Seleccionar...'] ) }}
 					</div>
 					<div class="form-group">
 						{{ form::label('localidad_id', 'Localidad') }}
-						{{ form::select('localidad_id', [],  null, ['class' => 'form-control inline-search', 'id' => 'localidad_id','placeholder' => 'Seleccionar...'] ) }}
+						{{ form::select('localidad_id', $localidades,  null, ['class' => 'form-control inline-search', 'id' => 'localidad_id','placeholder' => 'Seleccionar...'] ) }}
 					</div>
 					<div class="form-group">
 						{{ form::label('barrio_id', 'Barrio') }}
-						{{ form::select('barrio_id', [],  null, ['class' => 'form-control inline-search', 'id' => 'barrio_id','placeholder' => 'Seleccionar...'] ) }}
+						{{ form::select('barrio_id', $barrios,  null, ['class' => 'form-control inline-search', 'id' => 'barrio_id','placeholder' => 'Seleccionar...'] ) }}
 					</div>
 					<div class="form-group">
 						{{ form::label('calle_id', 'Calle ') }}
-						{{ form::select('calle_id', [],  null, ['class' => 'form-control inline-search', 'id' => 'calle_id','placeholder' => 'Seleccionar...'] ) }}
+						{{ form::select('calle_id', $calles,  null, ['class' => 'form-control inline-search', 'id' => 'calle_id','placeholder' => 'Seleccionar...'] ) }}
 					</div>
 			     
 			    </div>
@@ -350,7 +350,7 @@
 									</td>
 									<td> 
 										{{ form::label('companiatelefonica_id', 'Proveedor') }}
-										{{ form::select('companiatelefonica_id', [1 => 'Personal'], null, ['class' => 'form-control','placeholder' => 'Seleccionar...'] ) }} 
+										{{ form::select('companiatelefonica_id', $companiatelefonicas, null, ['class' => 'form-control','placeholder' => 'Seleccionar...'] ) }} 
 									</td>
 								</tr>		
 								
@@ -385,7 +385,7 @@
 							<thead>
 								<tr>
 									<td class="col-md-3"> 
-										{{ form::label('codigovendedor', 'Codigo') }}
+										{{ form::label('codigovendedor', 'Codigo V.') }}
 										{{ form::number('codigovendedor', null, ['class' => 'form-control', 'id' => 'codigovendedor']) }}
 									</td>
 									<td> 
@@ -424,8 +424,8 @@
 								<thead>
 									<tr>
 										<td> 
-											{{ form::label('turno', 'visita') }}
-											{{ form::select('turno', ['1' => 'Mañana', '2' => 'Tarde', '3' => 'Noche' ],  null, ['class' => 'form-control', 'id' => 'turno','placeholder' => 'Seleccionar...'] ) }}
+											{{ form::label('horariovisita', 'visita') }}
+											{{ form::select('horariovisita', ['1' => 'Mañana', '2' => 'Tarde', '3' => 'Noche' ],  null, ['class' => 'form-control', 'id' => 'horariovisita','placeholder' => 'Seleccionar...'] ) }}
 										</td>
 										<td>
 											{{ form::label('horadesde', 'Desde') }}
