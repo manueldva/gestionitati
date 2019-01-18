@@ -38,6 +38,20 @@
                       Guardar
                 </button>
 
+                <a href="{{ route('clientes.index') }}" type="button" id="contrato" class="btn btn btn-default">
+                <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
+                    <span class="fa fa-file-text">
+                    </span>
+                      Contrato
+                </a>  
+
+                <a href="{{ route('clientes.index') }}" type="button" id="movimiento" class="btn btn btn-default">
+                <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
+                    <span class="fa fa-list">
+                    </span>
+                      Movimientos del cliente
+                </a>
+
 
                 <a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">
                 <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
@@ -59,9 +73,4 @@
 
 
 @endsection
-
-
-
-
-
 
