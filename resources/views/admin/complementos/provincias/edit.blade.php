@@ -1,40 +1,26 @@
-@extends('adminlte::page')
-
-@section('title', 'Gestión - Provincias')
-
-@section('content_header')
-
-    <h1>
-      Gestionar Provincias
-      <!--<small>Listado</small>-->
-    </h1>
-    <ol class="breadcrumb">
-      <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="{{ route('provincias.index')}}">Provincias</a></li>
-      <li class="active">Editar</li>
-    </ol>
-
-@stop
-
-@section('content')
-
-<div class="box box-primary">
-  <div class="box-header with-border box-default">
-    <strong>Editar Provincia</strong>
-  </div>
-    
-  <div class="panel-body">
-    <div class="row">
-
-			{!! Form::model($provincia, ['route' => ['provincias.update', $provincia->id], 'method' => 'PUT']) !!}
-                    
-        @include('admin.complementos.provincias.partials.form')
-
-      {!! Form::close() !!}
-
-		</div>
-	</div>
+@if(isset($provincia))
+    {!! Form::model($provincia,['method'=>'put','id'=>'frm']) !!}
+@else
+    {!! Form::open(['id'=>'frm']) !!}
+@endif
+<div class="modal-header">
+    <h5 class="modal-title">{{isset($provincia)?'Edit':'New'}} Customer</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
 </div>
-
-
-@endsection
+<div class="modal-body">
+    <div class="form-group row required">
+        {!! Form::label("descripcion","Descripcion",["class"=>"col-form-label col-md-3"]) !!}
+        <div class="col-md-9">
+            {!! Form::text("descripcion",null,["class"=>"form-control".($errors->has('descripcion')?" is-invalid":""),'placeholder'=>'descripcion','id'=>'focus']) !!}
+            <span id="error-name" class="invalid-feedback"></span>
+        </div>
+    </div>
+    
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-danger" data-dismiss="modal"> Close</button>
+    {!! Form::submit("Save",["class"=>"btn btn-primary"])!!}
+</div>
+{!! Form::close() !!}

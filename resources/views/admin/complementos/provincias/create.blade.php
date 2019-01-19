@@ -1,39 +1,24 @@
-@extends('adminlte::page')
 
-@section('title', 'Gestión - Provincias')
-
-@section('content_header')
-    <h1>
-      Gestionar Provincias
-      <!--<small>Listado</small>-->
-    </h1>
-    <ol class="breadcrumb">
-      <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="{{ route('provincias.index')}}">Provincias</a></li>
-      <li class="active">Nuevo</li>
-    </ol>
-
-@stop
-
-
-@section('content')
-
-<div class="box box-primary">
-  <div class="box-header with-border box-default">
-    <strong>Nuevo Provincia</strong>
+<form action="{{ asset('provincias') }}" method="POST" role="form">
+  <input type="hidden" name="_token" value="{{ csrf_token() }}">
+  <div class="modal fade" id="create">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 class="modal-title">Nueva Provincia</h3>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="descripcion">Descripición</label>
+            <input type="text" name="descripcion" class="form-control">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-sm btn-primary" id="delete-btn">Guardar</button>
+           <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
   </div>
-    
-  <div class="panel-body">
-    <div class="row">
-
-			{!! Form::open(['route' => 'provincias.store']) !!}
-
-				@include('admin.complementos.provincias.partials.form')
-
-			{!! Form::close() !!}
-		</div>
-	</div>
-</div>
-
-
-@endsection
+</form>

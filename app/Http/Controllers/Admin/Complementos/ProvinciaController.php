@@ -68,7 +68,7 @@ class ProvinciaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ProvinciastoreRequest $request)
+    public function store(ProvinciaStoreRequest $request)
     {
         $provincia = Provincia::create($request->all());
 
@@ -76,7 +76,8 @@ class ProvinciaController extends Controller
         $provincia->fill(['usuario_alta' => Auth::user()->username , 'fecha_alta' => date('Y-m-d H:i:s')])->save();
         //
         Alert::success('Provincia creada con exito')->persistent("Cerrar");
-        return redirect()->route('provincias.index');
+        return back();
+        //return redirect()->route('provincias.index');
     }
 
     /**
