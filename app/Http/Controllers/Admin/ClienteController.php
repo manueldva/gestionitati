@@ -62,12 +62,16 @@ class ClienteController extends Controller
         $modulos = $perfil->modulos()->where('modulo_id', '=', $modulo_actual[0]->id)->get();
         $permiso = $modulos[0]->pivot->permiso;
 
-        $clientes = Cliente::type($request->get('type'), $request->get('val'))->paginate(10);
+        $clientes = Cliente::type($request->get('type'), $request->get('val'), $request->get('barrios'), $request->get('tipoclientes'))->paginate(10);
         $clientes->setPath('clientes');
+
+        $barrios  = Barrio::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+        $tipoclientes  = Tipocliente::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
         //dd($clientes);
         
-       return view('admin.clientes.index', compact('clientes', 'permiso'));
+       return view('admin.clientes.index', compact('clientes', 'barrios', 'tipoclientes' ,'permiso'));
     }
 
     /**

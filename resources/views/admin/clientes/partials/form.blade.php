@@ -116,9 +116,19 @@
 			    </div
 			    <!-- /.box-header -->
 			    <div class="box-body">
+
 			     	<div class="form-group">
-						{{ form::label('articulo_id', 'Buscar Articulo *') }}
-						{{ form::select('articulo_id', [],  null, ['class' => 'form-control inline-search', 'id' => 'articulo_id','placeholder' => 'Seleccionar...'] ) }}
+						{{ form::label('articulo', 'Buscar Articulo *') }}
+						{{ form::select('articulo', [],  null, ['class' => 'form-control inline-search', 'id' => 'articulo','placeholder' => 'Seleccionar...'] ) }}
+					</div>
+					<div class="form-group">
+						{{ form::text('descripcionarticulo', null	, ['class' => 'form-control', 'id' => 'descripcionarticulo',  'style'=> 'display: none']) }}	
+					</div>
+					<div class="form-group">
+						{{ form::text('stockarticulo', null	, ['class' => 'form-control', 'id' => 'stockarticulo',  'style'=> 'display: none']) }}	
+					</div>
+					<div class="form-group">
+						{{ form::text('articulo_id', null	, ['class' => 'form-control', 'id' => 'articulo_id',  'style'=> 'display: none']) }}	
 					</div>
 					<div class="form-group">
 					<div class="table-responsive">
@@ -126,12 +136,12 @@
 							<thead>
 								<tr>
 									<td> 
-										{{ form::label('cantidad', 'Cantidad') }}
-										{{ form::number('cantidad', null, ['class' => 'form-control', 'id' => 'cantidad']) }}
+										{{ form::label('cantidadarticulo', 'Cantidad') }}
+										{{ form::number('cantidadarticulo', null, ['class' => 'form-control', 'id' => 'cantidadarticulo']) }}
 									</td>
 									<td> 
 										<br>
-										<a href="" type="button" id="agregarvinculo" name="agregarvinculo" class="btn btn btn-success">
+										<a type="button" id="agregararticulo" name="agregararticulo" class="btn btn btn-success">
 						                <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
 						                    <span class="fa fa-plus-circle">
 						                    </span>
@@ -148,36 +158,13 @@
 									<thead>
 										<tr>
 										<!--<th width="10px"> ID</th>-->
+											<th style="display:none;"> Codigo</th>
 											<th> Articulo</th>
 											<th> Cantidad</th>
 											<th> </th>
 										</tr>
 									</thead>
 									<tbody>
-										<!--prueba-->
-										<tr>
-											<td>
-												Articulo 1
-											</td>
-											<td>
-												1
-											</td>
-											<td>
-												Editar
-											</td>
-										</tr>
-										<tr>
-											<td>
-												Articulo 2
-											</td>
-											<td>
-												2
-											</td>
-											<td>
-												Editar
-											</td>
-										</tr>
-										<!--	-->
 									</tbody>
 								</table>
 							</div>
@@ -546,79 +533,16 @@
 
 	<script type="text/javascript">
 		var APP_URL = "{{ url('/') }}";
-		/*swal({
-		  title: "An input!",
-		  text: "Write something interesting:",
-		  type: "input",
-		  showCancelButton: true,
-		  closeOnConfirm: false,
-		  //animation: "slide-from-top",
-		  inputPlaceholder: "Write something"
-		},
-		function(inputValue){
-		  if (inputValue === false) return false;
-
-		  if (inputValue === "") {
-		    swal.showInputError("You need to write something!");
-		    return false
-		  }
-
-		  swal("Nice!", "You wrote: " + inputValue, "success");
-		});*/
 		
-		/*function sweetDelete(id){
-			swal({
-			  title: 'Are you sure?',
-			  text: "You won't be able to revert this!",
-			  type: "input",
-			  //type: 'warning',
-			  showCancelButton: true,
-			  confirmButtonColor: '#3085d6',
-			  cancelButtonColor: '#d33',
-			  confirmButtonText: 'Guardar',
-			  cancelButtonText: 'Cancelar',
-			  confirmButtonClass: 'btn btn-success',
-			  cancelButtonClass: 'btn btn-danger',
-			  buttonsStyling: false
-			}).then(function () {
-			  // código que elimina
-			  $.ajax({
-			    url:'../Controllers/libros.php',
-			    type:'POST',
-			    data:'idusuario='+id+'&boton=eliminar'
-			   }).done(function(resp){
-			    lista_libros('');
-			   });
-			  swal(
-			    'Deleted!',
-			    'Your file has been deleted.',
-			    'success'
-			  )
-			}, function (dismiss) {
-			  // dismiss can be 'cancel', 'overlay',
-			  // 'close', and 'timer'
-			  if (dismiss === 'cancel') {
-			    swal(
-			      'Cancelled',
-			      'Your imaginary file is safe :)',
-			      'error'
-			    )
-			  }
-			})
-		};
-
-
-		sweetDelete(1);*/	
 	  
-
-		$('#articulo_id').select2();
+		//$('#articulo_id').select2();
 		$('#provincia_id').select2();
 		$('#departamento_id').select2();
 		$('#localidad_id').select2();
 		$('#barrio_id').select2();
  		$('#calle_id').select2();
 		/*para calcular edad a partir de una fecha de nacimientpo*/
-		function CalcularEdad() {
+		function calcularEdad() {
 			FechaNacimiento = $('#fechanacimiento').val();
 			var fechaNace = new Date(FechaNacimiento);
 			var fechaActual = new Date()
@@ -636,7 +560,7 @@
 			
 		}
 
-		CalcularEdad();
+		calcularEdad();
 
 		$('#fechanacimiento').focusout(function(e) {
 			CalcularEdad();
@@ -677,7 +601,7 @@
 
 		/*buscador vendedor*/
 
-		$(document).ready(function(){
+		//$(document).ready(function(){
             $('#empleado').select2({
         	    /*allowClear: true,
 			    multiple: true,
@@ -736,7 +660,171 @@
 					return markup; 
 				}
             });
-        });
+        //});
+
+        //buscador articulos
+        function buscarArticulos() {
+        	$('#articulo').select2({
+        	    /*allowClear: true,
+			    multiple: true,
+			    maximumSelectionSize: 1,*/
+				language: {
+
+					noResults: function() {
+
+					return "No hay resultado";        
+					},
+					searching: function() {
+
+					return "Buscando..";
+					},
+				},
+				
+                ajax : {
+                    url : APP_URL + '/api/articulos',
+                    dataType : 'json',
+                    delay : 20,
+                    data : function(params){
+                        return {
+                            q : params.term,
+                            page : params.page
+                        };
+                    },
+                    processResults : function(data, params){
+                        params.page = params.page || 1;
+                        return {
+                            results : data.data,
+                            pagination: {
+                                more : (params.page  * 10) < data.total
+                            }
+                        };
+                    }
+                },
+				minimumInputLength: 1,
+                templateResult : function (repo){
+                    if(repo.loading) return repo.descripcion;
+                    var markup =  repo.descripcion;
+                    return markup;
+                },
+                templateSelection : function(repo)
+                {
+					$("#articulo_id").val(repo.id);
+					$("#stockarticulo").val(repo.stock);
+					$("#descripcionarticulo").val(repo.descripcion);
+					if($("#stockarticulo").val() !== '') $("#cantidadarticulo").val(1);
+					
+					return repo.descripcion;
+					
+                },
+                escapeMarkup : function(markup){ 
+					
+					return markup; 
+				}
+            });
+        }
+
+        buscarArticulos();
+
+
+        $( "#agregararticulo" ).click(function() {
+
+			/*para validar que no supere el stock ya ingresado en la grilla*/
+			var stocktemp = 0;
+			$('#table_ventas tr').each(function(index, element) {
+			    codigotemp = $(element).find("td").eq(0).text();
+			    cantidadtemp = $(element).find("td").eq(2).text();
+
+			    if(codigotemp == $("#articulo_id").val())
+			    {
+			    	stocktemp = stocktemp + parseInt(cantidadtemp);
+			    }
+			   
+			    //alert(codigotemp);
+
+			});
+
+			stocktemp = parseInt($("#stockarticulo").val()) - stocktemp;
+			/**/
+			
+			/*validaciones*/ 
+			if($("#stockarticulo").val() == ''  || $("#cantidadarticulo").val() == '') {
+				swal({
+					title: 'No se puede agregar este articulo',
+					text: 'faltan algunos datos',
+					type: 'error',
+					//confirmButtonColor: '#DD6B55',
+					confirmButtonText: 'OK!',
+					closeOnConfirm: false
+				});
+				return false;
+			} else if(parseInt($("#cantidadarticulo").val()) < 1) {
+				swal({
+					title: 'No se puede agregar este articulo',
+					text: 'Debe ingresar una cantidad mayor o igual a 1',
+					type: 'error',
+					//confirmButtonColor: '#DD6B55',
+					confirmButtonText: 'OK!',
+					closeOnConfirm: false
+				});
+
+				return false;
+
+			} else if(stocktemp < parseInt($("#cantidadarticulo").val())) {
+				swal({
+					title: 'No se puede agregar este articulo',
+					text: 'El stock actual es menor a la cantidad ingresada',
+					type: 'error',
+					//confirmButtonColor: '#DD6B55',
+					confirmButtonText: 'OK!',
+					closeOnConfirm: false
+				});
+
+				return false;
+			}
+
+			/**/
+			
+			//variables para guardar en la grilla
+			var codigo = $("#articulo_id").val();
+			var descripcion = $("#descripcionarticulo").val();
+			var cantidad = parseInt($("#cantidadarticulo").val());
+			
+			//cargo la grilla
+			$('#table_articulos tbody').prepend(
+				'<tr>' + 
+				'<td style="display:none;">' + codigo + '</td>' +
+				'<td>' + descripcion + '</td>' +
+				'<td>' + cantidad + '</td>' +
+				"<td><a class='delete btn btn-sm btn-danger' onclick ='deletearticulo_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
+				'</td>' +
+				'</tr>');
+			
+			//$("#codigo").val('');
+			//$("#descripcion").val('');
+			//$("#precio").val('');
+			//prueba para descontar stock
+			//$("#stock").val(parseInt(parseInt($("#stock").val()) - $("#cantidad").val()));
+			$("#cantidadarticulo").val(1);
+
+			toastr.success('Articulo agregado a la lista');
+			
+
+		});
+
+
+		function deletearticulo_row(row) {
+			/*var subtotal = row.closest('tr').find("td").eq(6).html();
+			var cantidad = row.closest('tr').find("td").eq(2).html();
+			var cantidadActualArticulo = $("#txtCantidadArticulos").val();
+
+			cantidadActualArticulo = parseInt(cantidadActualArticulo) - parseInt(cantidad);
+			$("#txtCantidadArticulos").val(cantidadActualArticulo);
+
+			subtotal = parseFloat(-subtotal.slice(1));
+			actualizar_total_proforma(subtotal);*/
+		  	row.closest('tr').remove();
+		  	toastr.info('Articulo eliminado de la lista');
+		}
 
 	</script>
 @endpush

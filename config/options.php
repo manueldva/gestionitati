@@ -6,8 +6,9 @@ return array(
 	'clientetypes' => [
 		''    		=> 'Seleccionar',
 		'cliente'  => 'Cliente',
-		'nrodocumento'		=> 'Nro Documento'/*,
-		'status'	=> 'Estado'*/
+		'nrodocumento'		=> 'Nro Documento',
+		'barrio'	=> 'Barrio',
+		'tipocliente' => 'Tipo de Cliente'
 	] ,
 
 

@@ -66,10 +66,10 @@ class Cliente extends Model
     
     
 
-	public function scopeType($query, $type, $valor) 
+	public function scopeType($query, $type, $valor, $barrios, $tipoclientes) 
     {
 		
-		if ($type == 'numerodocumento')
+		if ($type == 'nrodocumento')
         {
             $query->where('numerodocumento', 'like', '%' . $valor . '%')->orderBy('cliente', 'DESC');
         } else if ($type == 'cliente') 
@@ -77,6 +77,19 @@ class Cliente extends Model
 			//$query->where('id', $valor)->orderBy('id', 'ASC');
     		$query->where('cliente', 'like', '%' . $valor . '%')->orderBy('cliente', 'DESC');
 			//$query->client()->where('name', 'like', '%' . $valor . '%')->orderBy('id', 'ASC');
+        }
+        else if ($type == 'barrio') 
+        {
+            //$query->where('id', $valor)->orderBy('id', 'ASC');
+            $query->where('barrio_id', '=', $barrios)->orderBy('cliente', 'DESC');
+            //$query->client()->where('name', 'like', '%' . $valor . '%')->orderBy('id', 'ASC');
+        }
+        else if ($type == 'tipocliente') 
+        {
+            //$query->where('id', $valor)->orderBy('id', 'ASC');
+            $query->where('tipocliente_id', '=', $tipoclientes)->orderBy('cliente', 'DESC');
+            //$query->client()->where('name', 'like', '%' . $valor . '%')->orderBy('id', 'ASC');
+
 
         } else
         {

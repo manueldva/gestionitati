@@ -26,12 +26,18 @@
 	<div class="box-header with-border box-default">
 	   <strong> Listado Clientes </strong>
 	   <form class="navbar-form navbar-right" role="search">
-	       {{ Form::model(Request::only('type', 'val'), array('route' => 'clientes.index', 'method' => 'GET'), array('role' => 'form', 'class' => 'navbar-form pull-right')) }}
+	       {{ Form::model(Request::only('type', 'val', 'barrios', 'tipoclientes'), array('route' => 'clientes.index', 'method' => 'GET'), array('role' => 'form', 'class' => 'navbar-form pull-right')) }}
 			    <div class="form-group">
 			      {{ form::label('buscar', 'Tipo Busqueda:') }}
 			      {{ form::select('type', config('options.clientetypes'), null, ['class' => 'form-control', 'id' => 'type'] ) }}
-						&nbsp;
+					&nbsp;
 			      {{ form::text('val', null, ['class' => 'form-control', 'id' => 'val']) }}
+			      <span id="barrio" class="form-group">
+						{{ Form::select('barrios', $barrios, null, ['class'=>'form-control', 'id' => 'barrios','placeholder' => 'Seleccionar...']) }}
+				  </span>
+				   <span id="tipocliente" class="form-group">
+						{{ Form::select('tipoclientes', $tipoclientes, null, ['class'=>'form-control', 'id' => 'tipoclientes','placeholder' => 'Seleccionar...']) }}
+				  </span>
 			      &nbsp;
 			      <button type="submit" class="form-control btn btn-sm btn-success"><span class="glyphicon glyphicon-search"></span> Buscar</button>
 						&nbsp;
@@ -115,7 +121,7 @@
 	            </table>
 	          </div>  
 						<div> <?php echo  'Mostrando ' . $clientes->firstItem() . ' a ' . $clientes->lastItem() . ' de ' . $clientes->total() . ' registros'; ?>	</div>
-	          {{ $clientes->appends(Request::only(['type', 'val']))->render() }}
+	          {{ $clientes->appends(Request::only(['type', 'val', 'barrios', 'tipoclientes']))->render() }}
 	        </div>
 	    </div>
     </div>
@@ -135,12 +141,59 @@
 	<script type="text/javascript">
 
 
-	$('#type').change(function(e) {
+		$('#barrios').select2();
+		$('#tipoclientes').select2();
+ 
+		function searchType(){ 
+		  var type = $('#type').val();
+			
+			if (type == 'nrodocumento'){
+				$('#val').show();
+				$('#barrio').hide();
+				$('#tipocliente').hide();
+				$('#val').attr('type','number');
+			} else if (type == 'cliente')
+			{
+				$('#val').show();
+				$('#barrio').hide();
+				$('#tipocliente').hide();
+				$('#val').attr('type','text');
+			}else if (type == 'barrio')
+			{
+				$('#val').hide();
+				$('#barrio').show();
+				$('#tipocliente').hide();
+				$('#val').attr('type','text');
+			}else if (type == 'tipocliente')
+			{
+				$('#val').hide();
+				$('#barrio').hide();
+				$('#tipocliente').show();
+				$('#val').attr('type','text');
+			} else
+			{
+				$('#val').show();
+				$('#barrio').hide();
+				$('#tipocliente').hide();
+				$('#val').attr('type','text');
+			}
+		}
 
-		$('#val').val('');
-		$('#val').focus();
 
-	});
+		searchType(); 
+		
+
+		$('#type').change(function(e) {
+			searchType(); 
+			$('#val').val('');
+			$('#val').focus();
+			$('#barrios').val('').select2();
+			$('#tipoclientes').val('').select2();
+			//$('#cajas').val($('#cajas option:first').val());
+			
+
+		});
+
 		
 	</script>
 @endpush
