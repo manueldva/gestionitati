@@ -37,29 +37,28 @@
                     </span>
                       Guardar
                 </button>
-
+               &nbsp;&nbsp;&nbsp;
                 <a href="{{ route('clientes.index') }}" type="button" id="contrato" class="btn btn btn-default">
                 <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
                     <span class="fa fa-file-text">
                     </span>
                       Contrato
                 </a>  
-
+                &nbsp;&nbsp;&nbsp;
                 <a href="{{ route('clientes.index') }}" type="button" id="movimiento" class="btn btn btn-default">
                 <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
                     <span class="fa fa-list">
                     </span>
                       Movimientos del cliente
                 </a>
-
-                 <a href="{{ route('clientes.index') }}" type="button" id="movimiento" class="btn btn btn-danger">
+                &nbsp;&nbsp;&nbsp;
+                <a href="{{ route('clientes.index') }}" type="button" id="movimiento" class="btn btn btn-danger">
                 <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
                     <span class="fa fa-trash-o">
                     </span>
                      Baja definitiva
                 </a>
-
-
+                &nbsp;&nbsp;&nbsp;
                 <a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">
                 <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
                     <span class="fa fa-list">

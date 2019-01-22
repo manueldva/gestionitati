@@ -30,13 +30,13 @@
   <div class="panel-body">
     <div class="row">
 
-  {!! Form::open(['route' => 'clientes.store', 'files' => true]) !!}
+  {!! Form::open(['route' => 'clientes.store', 'files' => true, 'id' => 'form']) !!}
   
         <div class="col-md-12" >
           <div class="row col-md-12">
             <div class="form-group" style="text-align: center">
 
-                <button type="submit" class="btn btn btn-primary">
+                <button id="guardar" type="button" class="btn btn btn-primary">
                     <span class="glyphicon glyphicon-floppy-disk">
                     </span>
                       Guardar

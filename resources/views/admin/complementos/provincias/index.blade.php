@@ -18,14 +18,12 @@
 
 @section('include_delete')
 	@include('include.modal-delete')
-	@include('admin.complementos.provincias.create')
 @stop
 
 @section('content')	
 
 <div class="box box-primary">
 	<div class="box-header with-border box-default">
-
 	   <strong> Listado Provincias </strong>
 	   <form class="navbar-form navbar-right" role="search">
 	       {{ Form::model(Request::only('type', 'val'), array('route' => 'provincias.index', 'method' => 'GET'), array('role' => 'form', 'class' => 'navbar-form pull-right')) }}
@@ -38,18 +36,17 @@
 			      <button type="submit" class="form-control btn btn-sm btn-success"><span class="glyphicon glyphicon-search"></span> Buscar</button>
 						&nbsp;
 			      {{-- @if($permiso == 2) --}}
-			      <a href="#" class="btn btn-primary pull-right" data-toggle="modal" data-target="#create">
-					Nueva Provincia
-					</a>  
+			      <a href="{{ route('provincias.create')}}" class="form-control btn btn-sm btn-primary">
+			        <span class="glyphicon glyphicon-plus"></span> Crear
+			      </a>  
 			      {{-- @endif --}}
 			    </div>
 		    {{ Form::close() }}
       </form>
 	</div>
-
+		
 	<div class="panel-body">
 	    <div class="panel-body">
-
 	        <div class="row">
 	          <div class="table-responsive">
 	            <table class="table table-striped table-hover" data-form="Form">
@@ -75,10 +72,9 @@
 	                    </td>
 	                    {{-- @if($permiso == 2) --}}
 	                    <td width="10px">
-							<a class="btn btn-primary btn-sm" title="Edit" href="#modalForm" data-toggle="modal" data-href="{{url('provincia/update/'.$provincia->id)}}">
-                        		Edit</a>
-                    			<input type="hidden" name="_method" value="delete"/>
-           				 </a>
+	                      <a href="{{ route('provincias.edit', $provincia->id) }}" class="btn btn-sm btn-default">
+	                        Editar
+	                      </a>
 	                    </td>
 	                    <td width="10px">
 							{!! Form::model($provincia, ['method' => 'delete', 'route' => ['provincias.destroy', $provincia->id], 'class' =>'form-inline form-delete']) !!}
@@ -96,9 +92,7 @@
 						<div> <?php echo  'Mostrando ' . $provincias->firstItem() . ' a ' . $provincias->lastItem() . ' de ' . $provincias->total() . ' registros'; ?>	</div>
 	          {{ $provincias->appends(Request::only(['type', 'val']))->render() }}
 	        </div>
-	       	
 	    </div>
-
     </div>
 </div>
 
@@ -122,7 +116,6 @@
 		$('#val').focus();
 
 	});
-
 		
 	</script>
 @endpush

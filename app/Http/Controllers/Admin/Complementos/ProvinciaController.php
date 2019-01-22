@@ -10,6 +10,7 @@ use App\Http\Requests\Complementos\ProvinciaUpdateRequest;
 use Alert;
 
 use App\Models\Provincia;
+use App\Models\Departamento;
 use App\Models\Cliente;
 use App\Models\Modulo;
 use App\Models\Perfil;
@@ -76,8 +77,7 @@ class ProvinciaController extends Controller
         $provincia->fill(['usuario_alta' => Auth::user()->username , 'fecha_alta' => date('Y-m-d H:i:s')])->save();
         //
         Alert::success('Provincia creada con exito')->persistent("Cerrar");
-        return back();
-        //return redirect()->route('provincias.index');
+        return redirect()->route('provincias.index');
     }
 
     /**
@@ -141,6 +141,15 @@ class ProvinciaController extends Controller
     {
 
         $existe = Cliente::where('provincia_id', $id)->count();
+
+        if($existe > 0) 
+        {
+            Alert::error('No se puede eliminar el registro')->persistent("Cerrar");
+            return back();
+        }
+
+
+        $existe = Departamento::where('provincia_id', $id)->count();
 
         if($existe > 0) 
         {
