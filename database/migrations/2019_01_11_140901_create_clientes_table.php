@@ -18,7 +18,9 @@ class CreateClientesTable extends Migration
             $table->integer('tipocliente_id')->unsigned()->nullable();
             $table->foreign('tipocliente_id')->references('id')->on('tipoclientes');
             $table->string('cliente', 200)->nullable();
-             $table->string('referente', 150)->nullable();
+            $table->string('apellido', 200)->nullable();
+            $table->string('nombre', 200)->nullable();
+            $table->string('referente', 150)->nullable();
             $table->integer('tipodocumento_id')->unsigned()->nullable();
             $table->foreign('tipodocumento_id')->references('id')->on('tipodocumentos');
             $table->string('numerodocumento', 20)->nullable();
@@ -29,8 +31,6 @@ class CreateClientesTable extends Migration
             $table->boolean('sincargo')->default(0);
             $table->integer('provincia_id')->unsigned()->nullable();
             $table->foreign('provincia_id')->references('id')->on('provincias');
-            $table->integer('departamento_id')->unsigned()->nullable();
-            $table->foreign('departamento_id')->references('id')->on('departamentos');
             $table->integer('localidad_id')->unsigned()->nullable();
             $table->foreign('localidad_id')->references('id')->on('localidades');
             $table->integer('barrio_id')->unsigned()->nullable();

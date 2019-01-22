@@ -9,7 +9,7 @@ class Localidad extends Model
     protected $table = 'localidades';
 
 	protected $fillable = [
-    	'provincia_id', 'departamento_id','descripcion', 'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
+    	'provincia_id','descripcion', 'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
 	];
 
 
@@ -17,9 +17,9 @@ class Localidad extends Model
     	return $this->HasMany(Cliente::class);
     }
 
-    public function departamento(){
+    public function provincia(){
         
-        return $this->belongsTo(Departamento::class);
+        return $this->belongsTo(Provincia::class);
     }
 
 

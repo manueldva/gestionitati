@@ -85,6 +85,30 @@ class DatabaseSeeder extends Seeder
             'perfil_id' => 1,
         ]);
 
+
+         DB::table('tipodocumentos')->insert([
+            'descripcion' => 'DNI',
+        ]);
+
+        DB::table('tipodocumentos')->insert([
+            'descripcion' => 'CUIT',
+        ]);
+
+        DB::table('tipodocumentos')->insert([
+            'descripcion' => 'Sin Especificar',
+        ]);
+
+
+
+        DB::table('tipoclientes')->insert([
+            'descripcion' => 'Persona Fisica',
+        ]);
+
+        DB::table('tipoclientes')->insert([
+            'descripcion' => 'Razon Social',
+        ]);
+
+
         // $this->call(UsersTableSeeder::class);
     }
 }

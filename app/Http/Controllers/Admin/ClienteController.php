@@ -19,7 +19,6 @@ use App\Models\Cliente;
 
 use App\Models\Barrio;
 use App\Models\Calle;
-use App\Models\Departamento;
 use App\Models\Empleado;
 use App\Models\Localidad;
 //use App\Models\Movil;
@@ -147,9 +146,7 @@ class ClienteController extends Controller
 
         $provincias  = Provincia::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
-        $departamentos  = Departamento::orderBy('descripcion', 'ASC')->where('provincia_id', $cliente->provincia_id)->pluck('descripcion' , 'id');
-
-        $localidades  = Localidad::orderBy('descripcion', 'ASC')->where('departamento_id', $cliente->departamento_id)->pluck('descripcion' , 'id');
+        $localidades  = Localidad::orderBy('descripcion', 'ASC')->where('provincia_id', $cliente->provincia_id)->pluck('descripcion' , 'id');
 
         $barrios  = Barrio::orderBy('descripcion', 'ASC')->where('localidad_id', $cliente->localidad_id)->pluck('descripcion' , 'id');
 
@@ -163,7 +160,7 @@ class ClienteController extends Controller
 
 
 
-        return view('admin.clientes.show', compact('cliente','companiatelefonicas', 'estadoclientes', 'provincias', 'departamentos', 'localidades', 'barrios', 'calles', 'tipoivas', 'tipoclientes'));
+        return view('admin.clientes.show', compact('cliente','companiatelefonicas', 'estadoclientes', 'provincias', 'localidades', 'barrios', 'calles', 'tipoivas', 'tipoclientes'));
 
        
 
@@ -188,9 +185,8 @@ class ClienteController extends Controller
 
         $provincias  = Provincia::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
-        $departamentos  = Departamento::orderBy('descripcion', 'ASC')->where('provincia_id', $cliente->provincia_id)->pluck('descripcion' , 'id');
 
-        $localidades  = Localidad::orderBy('descripcion', 'ASC')->where('departamento_id', $cliente->departamento_id)->pluck('descripcion' , 'id');
+        $localidades  = Localidad::orderBy('descripcion', 'ASC')->where('provincia_id', $cliente->provincia_id)->pluck('descripcion' , 'id');
 
         $barrios  = Barrio::orderBy('descripcion', 'ASC')->where('localidad_id', $cliente->localidad_id)->pluck('descripcion' , 'id');
 
@@ -203,7 +199,7 @@ class ClienteController extends Controller
        $estadoclientes    = [ 0 => 'Inactivo', 1 => 'Activo'];
 
 
-        return view('admin.clientes.edit', compact('cliente','companiatelefonicas', 'estadoclientes', 'provincias', 'departamentos', 'localidades', 'barrios', 'calles', 'tipoivas', 'tipoclientes'));
+        return view('admin.clientes.edit', compact('cliente','companiatelefonicas', 'estadoclientes', 'provincias', 'localidades', 'barrios', 'calles', 'tipoivas', 'tipoclientes'));
     }
 
     /**

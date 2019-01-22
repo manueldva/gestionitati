@@ -9,7 +9,6 @@ use App\Http\Requests\Complementos\LocalidadStoreRequest;
 use App\Http\Requests\Complementos\LocalidadUpdateRequest;
 use Alert;
 use App\Models\Provincia;
-use App\Models\Departamento;
 use App\Models\Localidad;
 use App\Models\Cliente;
 use App\Models\Modulo;

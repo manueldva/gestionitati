@@ -17,8 +17,6 @@ class CreateBarriosTable extends Migration
             $table->increments('id');
             $table->integer('provincia_id')->unsigned()->nullable();
             $table->foreign('provincia_id')->references('id')->on('provincias');
-            $table->integer('departamento_id')->unsigned()->nullable();
-            $table->foreign('departamento_id')->references('id')->on('departamentos');
             $table->integer('localidad_id')->unsigned()->nullable();
             $table->foreign('localidad_id')->references('id')->on('localidades');
             $table->string('descripcion', 350);

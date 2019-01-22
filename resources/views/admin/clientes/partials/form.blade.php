@@ -206,10 +206,6 @@
 						{{ form::select('provincia_id',  isset($provincias) ? $provincias : [] ,  null, ['class' => 'form-control inline-search', 'id' => 'provincia_id','placeholder' => 'Seleccionar...'] ) }}
 					</div>
 					<div class="form-group">
-						{{ form::label('departamento_id', 'Departamento') }}
-						{{ form::select('departamento_id', isset($cliente) ? $departamentos : [],  null, ['class' => 'form-control inline-search', 'id' => 'departamento_id','placeholder' => 'Seleccionar...'] ) }}
-					</div>
-					<div class="form-group">
 						{{ form::label('localidad_id', 'Localidad') }}
 						{{ form::select('localidad_id', isset($cliente) ? $localidades : [],  null, ['class' => 'form-control inline-search', 'id' => 'localidad_id','placeholder' => 'Seleccionar...'] ) }}
 					</div>
@@ -471,16 +467,15 @@
 								</td>
 								<td> 
 									{{ form::label('contactovinculo', 'Contacto') }}
-									{{ form::text('contactovinculo', null, ['class' => 'form-control', 'id' => 'contactovinculo']) }}
+									{{ form::number('contactovinculo', null, ['class' => 'form-control', 'id' => 'contactovinculo']) }}
 								</td>
 								<td> 
 									<br>
-									<a href="" type="button" id="agregarvinculo" name="agregarvinculo" class="btn btn btn-success">
-					                <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
+									<a type="button" id="agregarfamiliares" name="agregarfamiliares" class="btn btn btn-success">
 					                    <span class="fa fa-plus-circle">
 					                    </span>
-					                      AGREGAR
-					                  </a>
+					                    AGREGAR
+					                </a>
 								</td>
 							</tr>		
 						</thead>
@@ -492,28 +487,14 @@
 							<thead>
 								<tr>
 								<!--<th width="10px"> ID</th>-->
+									<th style="display:none;"> Codigo</th>
 									<th> Vinculo</th>
 									<th> Apellido y Nombre</th>
-									<th>Contacto </th>
+									<th>Contacto</th>
 								</tr>
 							</thead>
 							<tbody>
-								<!--prueba-->
-								<tr>
-									<td>
-										Esposa
-									</td>
-									<td>
-										Elsa Gutierrez
-									</td>
-									<td>
-										3704003322
-									</td>
-									<td>
-										Editar
-									</td>
-								</tr>
-								<!--	-->
+								
 							</tbody>
 						</table>
 					</div>

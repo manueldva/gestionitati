@@ -54,7 +54,7 @@
 	                <tr>
 	                  <!--<th width="10px"> ID</th>-->
 	                  <th> Codigo</th>
-	                  <th> Departamento</th>
+	                  <th> Provincia</th>
 	                  <th> descripción</th>
 					  <th> Fecha Alta</th>
 	                  <th colspan="3">&nbsp;</th>
@@ -64,7 +64,7 @@
 	                @foreach ($localidades as $localidad)
 	                  <tr>
 	                    <td>{{ $localidad->id }}</td>
-	                    <td>{{ $localidad->departamento->descripcion }}</td>
+	                    <td>{{ $localidad->provincia->descripcion }}</td>
 	                    <td>{{ $localidad->descripcion }}</td>
 						<td>{{ $localidad->fecha_alta }}</td>
 	                    <td width="10px">

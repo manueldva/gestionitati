@@ -79,7 +79,12 @@
 						</td>
 						<td>
 							<a href="{{ route('clientes.show', $cliente->id) }}" style="color:#000000;">
-								{{ $cliente->cliente }}
+								@if($cliente->tipocliente_id == 1)
+									{{ $cliente->apellido }} {{ $cliente->nombre }}
+								@else
+
+									{{ $cliente->cliente }}
+								@endif
 							</a>
 							
 						</td>
