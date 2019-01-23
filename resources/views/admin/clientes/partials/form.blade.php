@@ -26,11 +26,11 @@
 								<tr>
 									<td> 
 										{{ form::label('tipodocumento_id', 'Tipo de Documento') }}
-										{{ form::select('tipodocumento_id', isset($tipodocumentos) ? $tipodocumentos : [], null, ['class' => 'form-control','placeholder' => 'Seleccionar...'] ) }} 
+										{{ form::select('tipodocumento_id', isset($tipodocumentos) ? $tipodocumentos : [], null, ['class' => 'form-control'] ) }} 
 									</td>
 									<td> 
 										{{ form::label('numerodocumento', 'Nro Docuemento *') }}
-										{{ form::number('numerodocumento', null, ['class' => 'form-control', 'id' => 'numerodocumento']) }}
+										{{ form::text('numerodocumento', null, ['class' => 'form-control', 'id' => 'numerodocumento']) }}
 									</td>
 								</tr>
 							</thead>
@@ -41,13 +41,32 @@
 					{{ form::label('tipocliente_id', 'Tipo de Cliente *') }}
 					{{ form::select('tipocliente_id', isset($tipoclientes) ? $tipoclientes : [], null, ['class' => 'form-control'] ) }} 
 				  </div>
-			      <div class="form-group">
-			      	{{ form::label('cliente', 'Cliente *') }}
-					{{ form::text('cliente', null, ['class' => 'form-control', 'id' => 'cliente', 'placeholder'=> 'Apellido y Nombre / Razon Social']) }}
+			      <div class="form-group" id="razonsocial">
+			      	{{ form::label('cliente', 'Razon Social *') }}
+					{{ form::text('cliente', null, ['class' => 'form-control', 'id' => 'cliente', 'placeholder'=> 'Razon Social']) }}
 			      </div>
-			      <div class="form-group">
+			      <div class="form-group" id="apellidoynombre">
+					<div class="table-responsive">
+						<table class="table table-striped table-hover" data-form="Form">
+							<thead>
+								<tr>
+									<td> 
+										{{ form::label('apellido', 'Apellido *') }}
+										{{ form::text('apellido', null, ['class' => 'form-control', 'id' => 'apellido', 'placeholder'=> 'Apellido']) }}
+									</td>
+									<td> 
+										{{ form::label('nombre', 'Nombre *') }}
+										{{ form::text('nombre', null, ['class' => 'form-control', 'id' => 'nombre', 'placeholder'=> 'Nombre']) }}
+									</td>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				  </div>
+
+			      <div class="form-group" id="referentes">
 			      	{{ form::label('referente', 'Referente') }}
-					{{ form::text('referente', null, ['class' => 'form-control', 'id' => 'referente', 'placeholder'=> 'Representante de la entidad', 'readonly' => 'readonly']) }}
+					{{ form::text('referente', null, ['class' => 'form-control', 'id' => 'referente', 'placeholder'=> 'Representante de la entidad']) }}
 			      </div>
 			      <div class="form-group">
 					<div class="table-responsive">
@@ -65,12 +84,16 @@
 								</tr>	
 								<tr>
 									<td> 
+										<div id = "tipoivas">
 										{{ form::label('tipoiva_id', 'Concidicion IVA') }}
 										{{ form::select('tipoiva_id', isset($tipoivas) ? $tipoivas : [], null, ['class' => 'form-control','placeholder' => 'Seleccionar...'] ) }}
+										</div>
 									</td>
 									<td> 
+										<div id = "cuits">
 										{{ form::label('cuit', 'Cuit *') }}
 										{{ form::text('cuit', null, ['class' => 'form-control', 'id' => 'cuit']) }}
+										</div>
 									</td>
 								</tr>	
 								<tr>
@@ -512,6 +535,392 @@
 
 @push('js')
 
-	<script src="{{ asset('js/admin/clientes/form.js') }}"></script>
+	<!-- todo lo que tenga que realizar un ajax -->
+	<script type="text/javascript">
+		var APP_URL = "{{ url('/') }}";
+
+		//$('#articulo_id').select2();
+		$('#provincia_id').select2();
+		$('#localidad_id').select2();
+		$('#barrio_id').select2();
+			$('#calle_id').select2();
+		/*para calcular edad a partir de una fecha de nacimientpo*/
+		function calcularEdad() {
+			FechaNacimiento = $('#fechanacimiento').val();
+			var fechaNace = new Date(FechaNacimiento);
+			var fechaActual = new Date()
+			var mes = fechaActual.getMonth();
+			var dia = fechaActual.getDate();
+			var año = fechaActual.getFullYear();
+			fechaActual.setDate(dia);
+			fechaActual.setMonth(mes);
+			fechaActual.setFullYear(año);
+			edad = Math.floor(((fechaActual - fechaNace) / (1000 * 60 * 60 * 24) / 365));
+			//return edad;
+			if(!isNaN(edad)) {
+				$('#edad').val(edad);
+			}
+			
+		}
+
+		calcularEdad();
+
+		$('#fechanacimiento').focusout(function(e) {
+			CalcularEdad();
+		});
+
+
+		/*mostrar campos dependiendo del tipo del cliente*/
+		function habilitarCliente(){
+			if ($("#tipocliente_id").val() == '1'){
+				$("#razonsocial").hide();
+				$("#apellidoynombre").show();
+				$("#referentes").hide();
+				$("#tipoivas").hide();
+				$("#cuits").hide();
+			} else {
+				$("#razonsocial").show();
+				$("#apellidoynombre").hide();
+				$("#referentes").show();
+				$("#tipoivas").show();
+				$("#cuits").show();
+			}
+
+		}
+
+		habilitarCliente();
+
+		$('#tipocliente_id').change(function(e) {
+			habilitarCliente();
+		});
+
+		/*recuper si existe cliente*/
+
+		function verificarDocumento() {
+
+			var nrodoc = $('#numerodocumento').val();
+			var tipodoc = $('#tipodocumento_id').val();
+			
+			$.ajax({
+		    	dataType: 'json',
+		    	url: APP_URL + '/api/validardocumento',
+		    	//url: '../api/validardocumento',
+		    	data: {q: nrodoc, t:tipodoc}
+			}).done(function(data) {
+
+				if(data !== 0) {
+					if(parseInt($('#id').val()) !== parseInt(data)){
+						swal({
+						  title: "Ya existe un cliente con este numero de documento",
+						  text: "¿Desea recuperar sus datos?",
+						  type: "info",
+						  //showCancelButton: true,
+						  closeOnConfirm: true//,
+						  //showLoaderOnConfirm: true
+						}, function () {
+						  window.location.replace("../clientes/"+ data +"/edit");
+
+						});
+					}
+				} else{
+					toastr.success('Numero de documento no existente en la base de datos');
+				}
+				
+			});
+		}
+
+
+		$('#numerodocumento').focusout(function(e) {
+			 verificarDocumento();
+
+		});
+
+		$(document).ready(function(){
+		    $("#numerodocumento").keypress(function(e) {
+		        //no recuerdo la fuente pero lo recomiendan para
+		        //mayor compatibilidad entre navegadores.
+		        var code = (e.keyCode ? e.keyCode : e.which);
+		        if(code==13){
+		            verificarDocumento();
+		        }
+		    });
+		});
+
+		/*buscador vendedor*/
+
+		//$(document).ready(function(){
+		    $('#empleado').select2({
+			    /*allowClear: true,
+			    multiple: true,
+			    maximumSelectionSize: 1,*/
+				language: {
+
+					noResults: function() {
+
+					return "No hay resultado";        
+					},
+					searching: function() {
+
+					return "Buscando..";
+					},
+				},
+				
+		        ajax : {
+		            url : APP_URL + '/api/autocompleteempleadodesc',
+		            //url : '../api/autocompleteempleadodesc',
+		            dataType : 'json',
+		            delay : 20,
+		            data : function(params){
+		                return {
+		                    q : params.term,
+		                    page : params.page
+		                };
+		            },
+		            processResults : function(data, params){
+		                params.page = params.page || 1;
+		                return {
+		                    results : data.data,
+		                    pagination: {
+		                        more : (params.page  * 10) < data.total
+		                    }
+		                };
+		            }
+		        },
+				minimumInputLength: 1,
+		        templateResult : function (repo){
+		            if(repo.loading) return repo.empleado;
+		            var markup =  repo.empleado;
+		            return markup;
+		        },
+		        templateSelection : function(repo)
+		        {
+					$("#codigovendedor").val(repo.id);
+					
+					return repo.empleado;
+					
+		        },
+		        escapeMarkup : function(markup){ 
+					
+					return markup; 
+				}
+		    });
+		//});
+
+		//buscador articulos
+		function buscarArticulos() {
+			$('#articulo').select2({
+			    /*allowClear: true,
+			    multiple: true,
+			    maximumSelectionSize: 1,*/
+				language: {
+
+					noResults: function() {
+
+					return "No hay resultado";        
+					},
+					searching: function() {
+
+					return "Buscando..";
+					},
+				},
+				
+		        ajax : {
+		            url : APP_URL + '/api/articulos',
+		            //url : '../api/articulos',
+		            dataType : 'json',
+		            delay : 20,
+		            data : function(params){
+		                return {
+		                    q : params.term,
+		                    page : params.page
+		                };
+		            },
+		            processResults : function(data, params){
+		                params.page = params.page || 1;
+		                return {
+		                    results : data.data,
+		                    pagination: {
+		                        more : (params.page  * 10) < data.total
+		                    }
+		                };
+		            }
+		        },
+				minimumInputLength: 1,
+		        templateResult : function (repo){
+		            if(repo.loading) return repo.descripcion;
+		            var markup =  repo.descripcion;
+		            return markup;
+		        },
+		        templateSelection : function(repo)
+		        {
+					$("#articulo_id").val(repo.id);
+					$("#stockarticulo").val(repo.stock);
+					$("#descripcionarticulo").val(repo.descripcion);
+					if($("#stockarticulo").val() !== '') $("#cantidadarticulo").val(1);
+					
+					return repo.descripcion;
+					
+		        },
+		        escapeMarkup : function(markup){ 
+					
+					return markup; 
+				}
+		    });
+		}
+
+		buscarArticulos();
+
+
+		/*para agregar articulos al listado*/
+		$( "#agregararticulo" ).click(function() {
+
+			/*para validar que no supere el stock ya ingresado en la grilla*/
+			var stocktemp = 0;
+			$('#table_ventas tr').each(function(index, element) {
+			    codigotemp = $(element).find("td").eq(0).text();
+			    cantidadtemp = $(element).find("td").eq(2).text();
+
+			    if(codigotemp == $("#articulo_id").val())
+			    {
+			    	stocktemp = stocktemp + parseInt(cantidadtemp);
+			    }
+			   
+			    //alert(codigotemp);
+
+			});
+
+			stocktemp = parseInt($("#stockarticulo").val()) - stocktemp;
+			/**/
+			
+			/*validaciones*/ 
+			if($("#stockarticulo").val() == ''  || $("#cantidadarticulo").val() == '') {
+				swal({
+					title: 'No se puede agregar este articulo',
+					text: 'faltan algunos datos',
+					type: 'error',
+					//confirmButtonColor: '#DD6B55',
+					confirmButtonText: 'OK!',
+					closeOnConfirm: false
+				});
+				return false;
+			} else if(parseInt($("#cantidadarticulo").val()) < 1) {
+				swal({
+					title: 'No se puede agregar este articulo',
+					text: 'Debe ingresar una cantidad mayor o igual a 1',
+					type: 'error',
+					//confirmButtonColor: '#DD6B55',
+					confirmButtonText: 'OK!',
+					closeOnConfirm: false
+				});
+
+				return false;
+
+			} else if(stocktemp < parseInt($("#cantidadarticulo").val())) {
+				swal({
+					title: 'No se puede agregar este articulo',
+					text: 'El stock actual es menor a la cantidad ingresada',
+					type: 'error',
+					//confirmButtonColor: '#DD6B55',
+					confirmButtonText: 'OK!',
+					closeOnConfirm: false
+				});
+
+				return false;
+			}
+
+			/**/
+			
+			//variables para guardar en la grilla
+			var codigo = $("#articulo_id").val();
+			var descripcion = $("#descripcionarticulo").val();
+			var cantidad = parseInt($("#cantidadarticulo").val());
+			
+			//cargo la grilla
+			$('#table_articulos tbody').prepend(
+				'<tr>' + 
+				'<td style="display:none;">' + codigo + '</td>' +
+				'<td>' + descripcion + '</td>' +
+				'<td>' + cantidad + '</td>' +
+				"<td><a class='delete btn btn-sm btn-danger' onclick ='deletearticulo_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
+				'</td>' +
+				'</tr>');
+
+			$("#cantidadarticulo").val(1);
+
+			toastr.success('Articulo agregado a la lista');
+			
+
+		});
+
+
+		/*borrar filas del listado de articulos*/
+		function deletearticulo_row(row) {
+
+		  	row.closest('tr').remove();
+		  	toastr.info('Articulo eliminado de la lista');
+		}
+
+
+
+		/*para agregar familiares al listado*/
+		$( "#agregarfamiliares" ).click(function() {
+
+			/*validaciones*/ 
+			if($("#nombrevinculo").val() == ''  || $("#contactovinculo").val() == ''  || $("#vinculo_id").val() == '') {
+				swal({
+					title: 'No se puede agregar este articulo',
+					text: 'faltan algunos datos',
+					type: 'error',
+					//confirmButtonColor: '#DD6B55',
+					confirmButtonText: 'OK!',
+					closeOnConfirm: false
+				});
+				return false;
+			} 
+			/**/
+			
+			//variables para guardar en la grilla
+			var vinculo_id = $("#vinculo_id").val();
+			var vinculo = $('select[name="vinculo_id"] option:selected').text();
+			var nombrevinculo = $("#nombrevinculo").val();
+			var contactovinculo = $("#contactovinculo").val();
+			
+			//cargo la grilla
+			$('#table_familiares tbody').prepend(
+				'<tr>' + 
+				'<td style="display:none;">' + vinculo_id + '</td>' +
+				'<td>' + vinculo + '</td>' +
+				'<td>' + nombrevinculo + '</td>' +
+				'<td>' + contactovinculo + '</td>' +
+				"<td><a class='delete btn btn-sm btn-danger' onclick ='deletefamiliar_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
+				'</td>' +
+				'</tr>');
+
+			$("#vinculo_id").val('');
+			$("#nombrevinculo").val('');
+			$("#contactovinculo").val('');
+
+
+			toastr.success('Familiar agregado a la lista');
+			
+
+		});
+
+
+		/*borrar filas del listado de familiares*/
+		function deletefamiliar_row(row) {
+
+		  	row.closest('tr').remove();
+		  	toastr.info('Familiar eliminado de la lista');
+		}
+
+
+
+
+		$( "#guardar" ).click(function() {
+		   //$('#form').submit();
+		});
+
+	</script>
 
 @endpush

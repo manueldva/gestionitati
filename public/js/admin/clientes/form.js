@@ -1,11 +1,10 @@
-//var APP_URL = "{{ url('/') }}";
 
-
-//$('#articulo_id').select2();
 $('#provincia_id').select2();
 $('#localidad_id').select2();
 $('#barrio_id').select2();
-	$('#calle_id').select2();
+$('#calle_id').select2();
+
+
 /*para calcular edad a partir de una fecha de nacimientpo*/
 function calcularEdad() {
 	FechaNacimiento = $('#fechanacimiento').val();
@@ -32,166 +31,31 @@ $('#fechanacimiento').focusout(function(e) {
 });
 
 
-$('#numerodocumento').focusout(function(e) {
+/*mostrar campos dependiendo del tipo del cliente*/
+function habilitarCliente(){
+	if ($("#tipocliente_id").val() == '1'){
+		$("#razonsocial").hide();
+		$("#apellidoynombre").show();
+		$("#referentes").hide();
+		$("#tipoivas").hide();
+		$("#cuits").hide();
+	} else {
+		$("#razonsocial").show();
+		$("#apellidoynombre").hide();
+		$("#referentes").show();
+		$("#tipoivas").show();
+		$("#cuits").show();
+	}
 
-	/*recuper si existe cliente*/
-	
-	var nrodoc = $('#numerodocumento').val();
-	
-	$.ajax({
-    	dataType: 'json',
-    	//url: APP_URL + '/api/validardocumento',
-    	url: '../api/validardocumento',
-    	data: {q: nrodoc}
-	}).done(function(data) {
-
-		if(data !== 0) {
-			if(parseInt($('#id').val()) !== parseInt(data)){
-				swal({
-				  title: "Ya existe un cliente con este numero de documento",
-				  text: "¿Desea recuperar sus datos?",
-				  type: "info",
-				  showCancelButton: true,
-				  closeOnConfirm: false//,
-				  //showLoaderOnConfirm: true
-				}, function () {
-				  window.location.replace("../clientes/"+ data +"/edit");
-
-				});
-			}
-		}
-		
-	});
-
-});
-
-/*buscador vendedor*/
-
-//$(document).ready(function(){
-    $('#empleado').select2({
-	    /*allowClear: true,
-	    multiple: true,
-	    maximumSelectionSize: 1,*/
-		language: {
-
-			noResults: function() {
-
-			return "No hay resultado";        
-			},
-			searching: function() {
-
-			return "Buscando..";
-			},
-		},
-		
-        ajax : {
-            //url : APP_URL + '/api/autocompleteempleadodesc',
-            url : '../api/autocompleteempleadodesc',
-            dataType : 'json',
-            delay : 20,
-            data : function(params){
-                return {
-                    q : params.term,
-                    page : params.page
-                };
-            },
-            processResults : function(data, params){
-                params.page = params.page || 1;
-                return {
-                    results : data.data,
-                    pagination: {
-                        more : (params.page  * 10) < data.total
-                    }
-                };
-            }
-        },
-		minimumInputLength: 1,
-        templateResult : function (repo){
-            if(repo.loading) return repo.empleado;
-            var markup =  repo.empleado;
-            return markup;
-        },
-        templateSelection : function(repo)
-        {
-			$("#codigovendedor").val(repo.id);
-			/*$("#stock").val(repo.stock);
-			$("#descripcion").val(repo.descripcion);
-			$("#precio").val(repo.preciounitario);
-			if($("#stock").val() !== '') $("#cantidad").val(1);*/
-			
-			return repo.empleado;
-			
-        },
-        escapeMarkup : function(markup){ 
-			
-			return markup; 
-		}
-    });
-//});
-
-//buscador articulos
-function buscarArticulos() {
-	$('#articulo').select2({
-	    /*allowClear: true,
-	    multiple: true,
-	    maximumSelectionSize: 1,*/
-		language: {
-
-			noResults: function() {
-
-			return "No hay resultado";        
-			},
-			searching: function() {
-
-			return "Buscando..";
-			},
-		},
-		
-        ajax : {
-            //url : APP_URL + '/api/articulos',
-            url : '../api/articulos',
-            dataType : 'json',
-            delay : 20,
-            data : function(params){
-                return {
-                    q : params.term,
-                    page : params.page
-                };
-            },
-            processResults : function(data, params){
-                params.page = params.page || 1;
-                return {
-                    results : data.data,
-                    pagination: {
-                        more : (params.page  * 10) < data.total
-                    }
-                };
-            }
-        },
-		minimumInputLength: 1,
-        templateResult : function (repo){
-            if(repo.loading) return repo.descripcion;
-            var markup =  repo.descripcion;
-            return markup;
-        },
-        templateSelection : function(repo)
-        {
-			$("#articulo_id").val(repo.id);
-			$("#stockarticulo").val(repo.stock);
-			$("#descripcionarticulo").val(repo.descripcion);
-			if($("#stockarticulo").val() !== '') $("#cantidadarticulo").val(1);
-			
-			return repo.descripcion;
-			
-        },
-        escapeMarkup : function(markup){ 
-			
-			return markup; 
-		}
-    });
 }
 
-buscarArticulos();
+habilitarCliente();
+
+$('#tipocliente_id').change(function(e) {
+	habilitarCliente();
+});
+
+/**/
 
 
 /*para agregar articulos al listado*/
@@ -268,11 +132,6 @@ $( "#agregararticulo" ).click(function() {
 		'</td>' +
 		'</tr>');
 	
-	//$("#codigo").val('');
-	//$("#descripcion").val('');
-	//$("#precio").val('');
-	//prueba para descontar stock
-	//$("#stock").val(parseInt(parseInt($("#stock").val()) - $("#cantidad").val()));
 	$("#cantidadarticulo").val(1);
 
 	toastr.success('Articulo agregado a la lista');
@@ -283,15 +142,7 @@ $( "#agregararticulo" ).click(function() {
 
 /*borrar filas del listado de articulos*/
 function deletearticulo_row(row) {
-	/*var subtotal = row.closest('tr').find("td").eq(6).html();
-	var cantidad = row.closest('tr').find("td").eq(2).html();
-	var cantidadActualArticulo = $("#txtCantidadArticulos").val();
 
-	cantidadActualArticulo = parseInt(cantidadActualArticulo) - parseInt(cantidad);
-	$("#txtCantidadArticulos").val(cantidadActualArticulo);
-
-	subtotal = parseFloat(-subtotal.slice(1));
-	actualizar_total_proforma(subtotal);*/
   	row.closest('tr').remove();
   	toastr.info('Articulo eliminado de la lista');
 }
@@ -332,11 +183,6 @@ $( "#agregarfamiliares" ).click(function() {
 		'</td>' +
 		'</tr>');
 	
-	//$("#codigo").val('');
-	//$("#descripcion").val('');
-	//$("#precio").val('');
-	//prueba para descontar stock
-	//$("#stock").val(parseInt(parseInt($("#stock").val()) - $("#cantidad").val()));
 	$("#vinculo_id").val('');
 	$("#nombrevinculo").val('');
 	$("#contactovinculo").val('');
@@ -350,15 +196,7 @@ $( "#agregarfamiliares" ).click(function() {
 
 /*borrar filas del listado de familiares*/
 function deletefamiliar_row(row) {
-	/*var subtotal = row.closest('tr').find("td").eq(6).html();
-	var cantidad = row.closest('tr').find("td").eq(2).html();
-	var cantidadActualArticulo = $("#txtCantidadArticulos").val();
 
-	cantidadActualArticulo = parseInt(cantidadActualArticulo) - parseInt(cantidad);
-	$("#txtCantidadArticulos").val(cantidadActualArticulo);
-
-	subtotal = parseFloat(-subtotal.slice(1));
-	actualizar_total_proforma(subtotal);*/
   	row.closest('tr').remove();
   	toastr.info('Familiar eliminado de la lista');
 }
@@ -368,4 +206,6 @@ function deletefamiliar_row(row) {
 
 $( "#guardar" ).click(function() {
    //$('#form').submit();
+
+   alert('hello');
 });

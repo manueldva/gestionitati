@@ -33,7 +33,7 @@ Route::get('departamentos', function() {
 
 /*se usa para validar si existe o no un cliente con este numerodocumento*/
 Route::get('validardocumento', function() {
-    $cliente = App\Models\Cliente::where('numerodocumento', '=', request('q'))->first();
+    $cliente = App\Models\Cliente::where('numerodocumento', '=', request('q'))->where('tipodocumento_id', '=', request('t'))->first();
     if($cliente){
     	$id = $cliente->id;
     } else
