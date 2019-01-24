@@ -139,13 +139,14 @@ class ClienteController extends Controller
     {
         $cliente = Cliente::find($id);
 
-        if ($cliente->fechanacimiento)  $cliente->fechanacimiento = FechaHelper::getFechaInputDate( $cliente->fechanacimiento); 
+        if ($cliente->fechanacimiento) $cliente->fechanacimiento = FechaHelper::getFechaInputDate( $cliente->fechanacimiento); 
 
         if ($cliente->fechaingreso) $cliente->fechaingreso = FechaHelper::getFechaInputDate( $cliente->fechaingreso); 
 
         $companiatelefonicas  = Companiatelefonica::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
         $provincias  = Provincia::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
 
         $localidades  = Localidad::orderBy('descripcion', 'ASC')->where('provincia_id', $cliente->provincia_id)->pluck('descripcion' , 'id');
 
@@ -155,13 +156,14 @@ class ClienteController extends Controller
 
         $tipoivas  = Tipoiva::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
+        $tipodocumentos  = Tipodocumento::orderBy('id', 'ASC')->pluck('descripcion' , 'id');
+
         $tipoclientes  = Tipocliente::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
        $estadoclientes    = [ 0 => 'Inactivo', 1 => 'Activo'];
 
 
-
-        return view('admin.clientes.show', compact('cliente','companiatelefonicas', 'estadoclientes', 'provincias', 'localidades', 'barrios', 'calles', 'tipoivas', 'tipoclientes'));
+        return view('admin.clientes.show', compact('cliente','companiatelefonicas', 'estadoclientes', 'provincias', 'localidades', 'barrios', 'calles', 'tipoivas', 'tipoclientes', 'tipodocumentos'));
 
        
 
