@@ -632,10 +632,10 @@
 		}
 
 
-		$('#numerodocumento').focusout(function(e) {
+		/*$('#numerodocumento').focusout(function(e) {
 			 verificarDocumento();
 
-		});
+		});*/
 
 		$(document).ready(function(){
 		    $("#numerodocumento").keypress(function(e) {
@@ -991,22 +991,10 @@
 
 			var tipodocumento_id = $("#tipodocumento_id").val();
 
-			if(tipodocumento_id > 0 && $('#numerodocumento').val() == '') {
-				swal({
-					title: "El numero de documento es obligatorio",
-					text: "Verefique los datos",
-					type: "warning",
-					//showCancelButton: true,
-					closeOnConfirm: true//,
-					//showLoaderOnConfirm: true
-					}, function () {
-						return false;
-					});
-			}
-
+			var numerodocumento = $('#numerodocumento').val();
 
 			if(tipodocumento_id > 0  && tipodocumento_id < 6) {
-				if(parseInt($('#numerodocumento').val()) > 99999999) {
+				if(numerodocumento.length !== 8) {
 					swal({
 						title: "Solo se permiten 8 digitos para este tipo de documento",
 						text: "Verefique los datos",
