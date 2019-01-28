@@ -152,7 +152,7 @@ class ClienteController extends Controller
 
         $barrios  = Barrio::orderBy('descripcion', 'ASC')->where('localidad_id', $cliente->localidad_id)->pluck('descripcion' , 'id');
 
-        $calles  = Calle::orderBy('descripcion', 'ASC')->where('barrio_id', $cliente->barrio_id)->pluck('descripcion' , 'id');
+        $calles  = Calle::orderBy('descripcion', 'ASC')->where('localidad_id', $cliente->localidad_id)->pluck('descripcion' , 'id');
 
         $tipoivas  = Tipoiva::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
@@ -193,7 +193,7 @@ class ClienteController extends Controller
 
         $barrios  = Barrio::orderBy('descripcion', 'ASC')->where('localidad_id', $cliente->localidad_id)->pluck('descripcion' , 'id');
 
-        $calles  = Calle::orderBy('descripcion', 'ASC')->where('barrio_id', $cliente->barrio_id)->pluck('descripcion' , 'id');
+        $calles  = Calle::orderBy('descripcion', 'ASC')->where('localidad_id', $cliente->localidad_id)->pluck('descripcion' , 'id');
 
         $tipoivas  = Tipoiva::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 

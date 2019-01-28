@@ -9,7 +9,7 @@ class Barrio extends Model
     //protected $table = 'barrios';
 
 	protected $fillable = [
-    	'localidad_id','descripcion', 'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
+    	'provincia_id','localidad_id','descripcion', 'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
 	];
 
 

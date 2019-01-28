@@ -20,8 +20,8 @@ class Provincia extends Model
     }
 
 
-    public function departamentos(){
-      return $this->HasMany(Departamento::class);
+    public function localidades(){
+      return $this->HasMany(Localidad::class);
     }
 
     

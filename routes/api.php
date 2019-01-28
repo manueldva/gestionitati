@@ -25,10 +25,20 @@ Route::get('articulos', function() {
 });
 
 
-Route::get('departamentos', function() {
+Route::get('localidades', function() {
 
-    return App\Models\Departamento::where('provincia_id', '=', request('provincia_id'))->get();
+    return App\Models\Localidad::where('provincia_id', '=', request('provincia_id'))->get();
 });
+
+Route::get('barrios', function() {
+
+    return App\Models\Barrio::where('localidad_id', '=', request('localidad_id'))->get();
+});
+Route::get('calles', function() {
+
+    return App\Models\Calle::where('localidad_id', '=', request('localidad_id'))->get();
+});
+
 
 
 /*se usa para validar si existe o no un cliente con este numerodocumento*/

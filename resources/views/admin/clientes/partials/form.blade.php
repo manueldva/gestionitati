@@ -391,7 +391,7 @@
 							<thead>
 								<tr>
 									<td class="col-md-3"> 
-										{{ form::label('codigovendedor', 'Codigo V.') }}
+										{{ form::label('codigovendedor', 'Cod.') }}
 										{{ form::number('codigovendedor', null, ['class' => 'form-control', 'id' => 'codigovendedor']) }}
 									</td>
 									<td> 
@@ -537,13 +537,14 @@
 
 	<!-- todo lo que tenga que realizar un ajax -->
 	<script type="text/javascript">
+		
 		var APP_URL = "{{ url('/') }}";
-
 		//$('#articulo_id').select2();
 		$('#provincia_id').select2();
 		$('#localidad_id').select2();
 		$('#barrio_id').select2();
-			$('#calle_id').select2();
+		$('#calle_id').select2();
+
 		/*para calcular edad a partir de una fecha de nacimientpo*/
 		function calcularEdad() {
 			FechaNacimiento = $('#fechanacimiento').val();
@@ -600,33 +601,34 @@
 
 			var nrodoc = $('#numerodocumento').val();
 			var tipodoc = $('#tipodocumento_id').val();
-			
-			$.ajax({
-		    	dataType: 'json',
-		    	url: APP_URL + '/api/validardocumento',
-		    	//url: '../api/validardocumento',
-		    	data: {q: nrodoc, t:tipodoc}
-			}).done(function(data) {
+			if (nrodoc !== '') {
+				$.ajax({
+					dataType: 'json',
+					url: APP_URL + '/api/validardocumento',
+					//url: '../api/validardocumento',
+					data: {q: nrodoc, t:tipodoc}
+				}).done(function(data) {
 
-				if(data !== 0) {
-					if(parseInt($('#id').val()) !== parseInt(data)){
-						swal({
-						  title: "Ya existe un cliente con este numero de documento",
-						  text: "¿Desea recuperar sus datos?",
-						  type: "info",
-						  //showCancelButton: true,
-						  closeOnConfirm: true//,
-						  //showLoaderOnConfirm: true
-						}, function () {
-						  window.location.replace("../clientes/"+ data +"/edit");
+					if(data !== 0) {
+						if(parseInt($('#id').val()) !== parseInt(data)){
+							swal({
+							title: "El cliente ingresado ya existe",
+							text: "Verefique los datos",
+							type: "info",
+							//showCancelButton: true,
+							closeOnConfirm: true//,
+							//showLoaderOnConfirm: true
+							}, function () {
+							window.location.replace("../clientes/"+ data +"/edit");
 
-						});
+							});
+						}
+					} else{
+						toastr.success('Numero de documento no existente en la base de datos');
 					}
-				} else{
-					toastr.success('Numero de documento no existente en la base de datos');
-				}
-				
-			});
+					
+				});
+			}
 		}
 
 
@@ -645,6 +647,22 @@
 		        }
 		    });
 		});
+
+
+		/* validar tipo documento*/
+		$('#tipodocumento_id').on('change', function(e){
+		    
+			var tipodocumento_id = $("#tipodocumento_id").val();
+
+			if(tipodocumento_id > 0  && tipodocumento_id < 6) {
+				$('#numerodocumento').attr('type','number');
+			} else {
+				$('#numerodocumento').attr('type','text');
+			}
+			
+		});
+
+		/**/
 
 		/*buscador vendedor*/
 
@@ -862,6 +880,58 @@
 
 
 
+		/*para combos de domicilio*/
+		$('#provincia_id').on('change', function(e){
+		    console.log(e);
+		    var provincia_id = e.target.value;
+
+		    $.get('{{ url("/") }}/api/localidades?provincia_id=' + provincia_id,function(data) {
+
+		      $('#localidad_id').empty();
+		      $('#localidad_id').append('<option value="0" disable="true" selected="true">Seleccionar...</option>');
+			  $('#barrio_id').empty();
+		      $('#barrio_id').append('<option value="0" disable="true" selected="true">Seleccionar...</option>');
+
+		      $.each(data, function(fetch, localidad){
+		        console.log(data);
+		        $('#localidad_id').append('<option value="'+ localidad.id +'">'+ localidad.descripcion +'</option>');
+		      })
+		    });
+		    /*id2 = $("#provincia_id option:selected").val();
+		    cargar_departamentos(id2);*/
+		});
+
+		$('#localidad_id').on('change', function(e){
+		    console.log(e);
+		    var localidad_id = e.target.value;
+
+			$('#barrio_id').empty();
+			$('#barrio_id').append('<option value="0" disable="true" selected="true">Seleccionar...</option>');
+			$('#calle_id').empty();
+			$('#calle_id').append('<option value="0" disable="true" selected="true">Seleccionar...</option>');
+
+			//barrio
+		    $.get('{{ url("/") }}/api/barrios?localidad_id=' + localidad_id,function(data) {
+		      $.each(data, function(fetch, barrio){
+		        console.log(data);
+		        $('#barrio_id').append('<option value="'+ barrio.id +'">'+ barrio.descripcion +'</option>');
+		      })
+		    });
+
+			//calle
+			$.get('{{ url("/") }}/api/calles?localidad_id=' + localidad_id,function(data) {
+				$.each(data, function(fetch, calle){
+				console.log(data);
+				$('#calle_id').append('<option value="'+ calle.id +'">'+ calle.descripcion +'</option>');
+				})
+			});
+		    /*id2 = $("#provincia_id option:selected").val();
+		    cargar_departamentos(id2);*/
+		});
+
+		/**/ 
+
+
 		/*para agregar familiares al listado*/
 		$( "#agregarfamiliares" ).click(function() {
 
@@ -918,6 +988,37 @@
 
 
 		$( "#guardar" ).click(function() {
+
+			var tipodocumento_id = $("#tipodocumento_id").val();
+
+			if(tipodocumento_id > 0 && $('#numerodocumento').val() == '') {
+				swal({
+					title: "El numero de documento es obligatorio",
+					text: "Verefique los datos",
+					type: "warning",
+					//showCancelButton: true,
+					closeOnConfirm: true//,
+					//showLoaderOnConfirm: true
+					}, function () {
+						return false;
+					});
+			}
+
+
+			if(tipodocumento_id > 0  && tipodocumento_id < 6) {
+				if(parseInt($('#numerodocumento').val()) > 99999999) {
+					swal({
+						title: "Solo se permiten 8 digitos para este tipo de documento",
+						text: "Verefique los datos",
+						type: "warning",
+						//showCancelButton: true,
+						closeOnConfirm: true//,
+						//showLoaderOnConfirm: true
+						}, function () {
+							return false;
+						});
+				} 
+			}
 		   //$('#form').submit();
 		});
 
