@@ -68,44 +68,39 @@
 			      	{{ form::label('referente', 'Referente') }}
 					{{ form::text('referente', null, ['class' => 'form-control', 'id' => 'referente', 'placeholder'=> 'Representante de la entidad']) }}
 			      </div>
+				  <div class="form-group"  id = "tipoivas">
+			      		{{ form::label('tipoiva_id', 'Concidicion IVA') }}
+						{{ form::select('tipoiva_id', isset($tipoivas) ? $tipoivas : [], null, ['class' => 'form-control','placeholder' => 'Seleccionar...'] ) }}
+			      </div>
 			      <div class="form-group">
 					<div class="table-responsive">
 						<table class="table table-striped table-hover" data-form="Form">
 							<thead>
 								<tr>
 									<td> 
+										<div id="fechanacimientos">
 										{{ form::label('fechanacimiento', 'Fecha de Nacimiento') }}
 										{{ form::date('fechanacimiento', null, ['class' => 'form-control', 'id' => 'fechanacimiento']) }}
+										</div>
 									</td>
 									<td> 
+										<div id="edades">
 										{{ form::label('edad', 'Edad') }}
 										{{ form::text('edad', null, ['class' => 'form-control', 'id' => 'edad', 'readonly' => 'readonly']) }}
-									</td>
-								</tr>	
-								<tr>
-									<td> 
-										<div id = "tipoivas">
-										{{ form::label('tipoiva_id', 'Concidicion IVA') }}
-										{{ form::select('tipoiva_id', isset($tipoivas) ? $tipoivas : [], null, ['class' => 'form-control','placeholder' => 'Seleccionar...'] ) }}
 										</div>
 									</td>
-									<td> 
-										<div id = "cuits">
-										{{ form::label('cuit', 'Cuit *') }}
-										{{ form::text('cuit', null, ['class' => 'form-control', 'id' => 'cuit']) }}
-										</div>
-									</td>
-								</tr>	
+								</tr>		
 								<tr>
 									<td> 
 										{{ form::label('estado', 'Estado') }}
 										{{ form::select('estado', [1 => 'Activo', 0 => 'Inactivo'], null, ['class' => 'form-control'] ) }}
 									</td>
 									<td> 
-										{{ form::label('motivo', 'Motivo') }}
-										{{ form::text('motivo', null, ['class' => 'form-control', 'id' => 'motivo', 'readonly' => 'readonly']) }}
+										{{ form::label('motivoestado', 'Motivo') }}
+										{{ form::text('motivoestado', null, ['class' => 'form-control', 'id' => 'motivoestado']) }}
 									</td>
 								</tr>	
+								<!--
 								<tr>
 									<td> 
 										
@@ -117,6 +112,7 @@
 										</label>
 									</td>
 								</tr>	
+								-->
 							</thead>
 						</table>
 					</div>
@@ -579,12 +575,16 @@
 				$("#referentes").hide();
 				$("#tipoivas").hide();
 				$("#cuits").hide();
+				$("#fechanacimientos").show();
+				$("#edades").show();
 			} else {
 				$("#razonsocial").show();
 				$("#apellidoynombre").hide();
 				$("#referentes").show();
 				$("#tipoivas").show();
 				$("#cuits").show();
+				$("#fechanacimientos").hide();
+				$("#edades").hide();
 			}
 
 		}
@@ -654,12 +654,33 @@
 		    
 			var tipodocumento_id = $("#tipodocumento_id").val();
 
-			if(tipodocumento_id > 0  && tipodocumento_id < 6) {
+			if((tipodocumento_id > 0  && tipodocumento_id < 5) || tipodocumento_id == 10 ) {
+				$('#numerodocumento').val('');
 				$('#numerodocumento').attr('type','number');
+				$('#numerodocumento').focus();
 			} else {
 				$('#numerodocumento').attr('type','text');
+				$('#numerodocumento').val('');
+				$('#numerodocumento').focus();
 			}
 			
+		});
+
+		// estado
+		function habilitarMotivoEstado(){
+			var estado = $("#estado").val();
+			if(estado == 1 ) {
+				$("#motivoestado").prop( "disabled", true );
+			} else {
+				$("#motivoestado").prop( "disabled", false );
+				$("#motivoestado").focus();
+			}
+		}
+
+		habilitarMotivoEstado();
+		
+		$('#estado').on('change', function(e){
+			habilitarMotivoEstado();
 		});
 
 		/**/
@@ -993,8 +1014,23 @@
 
 			var numerodocumento = $('#numerodocumento').val();
 
-			if(tipodocumento_id > 0  && tipodocumento_id < 6) {
-				if(numerodocumento.length !== 8) {
+			numerodocumento = $.trim(numerodocumento);
+
+			if(tipodocumento_id > 0  && numerodocumento.length < 1) {
+				swal({
+						title: "El campo numero de documento no puede estar vacio",
+						text: "Verefique los datos",
+						type: "warning",
+						//showCancelButton: true,
+						closeOnConfirm: true//,
+						//showLoaderOnConfirm: true
+						}, function () {
+							return false;
+						});
+			}
+
+			if(tipodocumento_id > 0  && tipodocumento_id < 5) {
+				if( numerodocumento.length > 8) {
 					swal({
 						title: "Solo se permiten 8 digitos para este tipo de documento",
 						text: "Verefique los datos",
@@ -1006,7 +1042,46 @@
 							return false;
 						});
 				} 
-			}
+			} 	else if(tipodocumento_id == 5) {
+				if(numerodocumento.length > 12) {
+					swal({
+						title: "Solo se permiten 12 digitos para este tipo de documento",
+						text: "Verefique los datos",
+						type: "warning",
+						//showCancelButton: true,
+						closeOnConfirm: true//,
+						//showLoaderOnConfirm: true
+						}, function () {
+							return false;
+						});
+				} 
+			}	else if(tipodocumento_id == 8) {
+				if(numerodocumento.length > 15) {
+					swal({
+						title: "Solo se permiten 15 digitos para este tipo de documento",
+						text: "Verefique los datos",
+						type: "warning",
+						//showCancelButton: true,
+						closeOnConfirm: true//,
+						//showLoaderOnConfirm: true
+						}, function () {
+							return false;
+						});
+				} 
+			}	else if(tipodocumento_id == 10) {
+				if(numerodocumento.length > 11) {
+					swal({
+						title: "Solo se permiten 11 digitos para este tipo de documento",
+						text: "Verefique los datos",
+						type: "warning",
+						//showCancelButton: true,
+						closeOnConfirm: true//,
+						//showLoaderOnConfirm: true
+						}, function () {
+							return false;
+						});
+				} 
+			}					
 		   //$('#form').submit();
 		});
 

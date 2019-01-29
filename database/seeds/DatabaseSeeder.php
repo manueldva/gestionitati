@@ -86,16 +86,49 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
-         DB::table('tipodocumentos')->insert([
+        DB::table('tipodocumentos')->insert([
             'descripcion' => 'DNI',
         ]);
+        
+        DB::table('tipodocumentos')->insert([
+            'descripcion' => 'CI',
+        ]);
+
+        DB::table('tipodocumentos')->insert([
+            'descripcion' => 'LE',
+        ]);
+
+        DB::table('tipodocumentos')->insert([
+            'descripcion' => 'LC',
+        ]);
+
+        DB::table('tipodocumentos')->insert([
+            'descripcion' => 'PASAPORTE',
+        ]);
+
+        DB::table('tipodocumentos')->insert([
+            'descripcion' => 'CF',
+        ]);
+
+        DB::table('tipodocumentos')->insert([
+            'descripcion' => 'Documento Extranjero',
+        ]);
+
+        DB::table('tipodocumentos')->insert([
+            'descripcion' => 'En trámite con constancia',
+        ]);
+
+        DB::table('tipodocumentos')->insert([
+            'descripcion' => 'NN',
+        ]);
+
 
         DB::table('tipodocumentos')->insert([
             'descripcion' => 'CUIT',
         ]);
 
         DB::table('tipodocumentos')->insert([
-            'descripcion' => 'Sin Especificar',
+            'descripcion' => 'Sin Documento',
         ]);
 
 
@@ -106,6 +139,65 @@ class DatabaseSeeder extends Seeder
 
         DB::table('tipoclientes')->insert([
             'descripcion' => 'Razon Social',
+        ]);
+
+        
+        DB::table('tipoivas')->insert([
+            'descripcion' => 'IVA Responsable Inscripto',
+        ]);
+
+        DB::table('tipoivas')->insert([
+            'descripcion' => 'IVA Responsable no Inscripto',
+        ]);
+
+        DB::table('tipoivas')->insert([
+            'descripcion' => 'IVA no Responsable',
+        ]);
+
+        DB::table('tipoivas')->insert([
+            'descripcion' => 'IVA Sujeto Exento',
+        ]);
+
+        DB::table('tipoivas')->insert([
+            'descripcion' => 'Consumidor Final',
+        ]);
+
+        DB::table('tipoivas')->insert([
+            'descripcion' => 'Responsable Monotributo',
+        ]);
+
+        DB::table('tipoivas')->insert([
+            'descripcion' => 'Sujeto no Categorizado',
+        ]);
+
+        DB::table('tipoivas')->insert([
+            'descripcion' => 'Proveedor del Exterior',
+        ]);
+
+        DB::table('tipoivas')->insert([
+            'descripcion' => 'Cliente del Exterior',
+        ]);
+
+        DB::table('tipoivas')->insert([
+            'descripcion' => 'IVA Liberado – Ley Nº 19.640',
+        ]);
+
+        DB::table('tipoivas')->insert([
+            'descripcion' => 'IVA Responsable Inscripto – Agente de Percepción',
+        ]);
+
+        DB::table('tipoivas')->insert([
+            'descripcion' => 'Pequeño Contribuyente Eventual',
+        ]);
+
+        
+        DB::table('tipoivas')->insert([
+            'descripcion' => 'Monotributista Social',
+        ]);
+
+        
+        DB::table('tipoivas')->insert([
+            'descripcion' => 'Pequeño Contribuyente Eventual Social',
         ]);
 
 

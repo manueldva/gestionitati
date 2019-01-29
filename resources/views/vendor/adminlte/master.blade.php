@@ -7,7 +7,7 @@
 @yield('title', config('adminlte.title', 'AdminLTE 2'))
 @yield('title_postfix', config('adminlte.title_postfix', ''))</title>
     <!-- Tell the browser to be responsive to screen width -->
-    <link  rel="icon" href="{!! asset('imagedefeult/navegador.ico') !!}"/>
+    <link  rel="icon" href="{!! asset('imagedefeult/navegador.jpeg') !!}"/>
 
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
