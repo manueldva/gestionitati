@@ -533,8 +533,14 @@
 
 	<!-- todo lo que tenga que realizar un ajax -->
 	<script type="text/javascript">
+
+		/*de movida todo tiente que estar bloqueado*/
 		
-		var APP_URL = "{{ url('/') }}";
+		$(":input").prop("disabled", true);
+		$("#tipodocumento_id").prop("disabled", false);
+		$("#numerodocumento").prop("disabled", false);
+
+		var APP_RL = "{{ url('/') }}";
 		//$('#articulo_id').select2();
 		$('#provincia_id').select2();
 		$('#localidad_id').select2();
@@ -625,6 +631,7 @@
 						}
 					} else{
 						toastr.success('Numero de documento no existente en la base de datos');
+						$(":input").prop("disabled", false);
 					}
 					
 				});
@@ -644,6 +651,7 @@
 		        var code = (e.keyCode ? e.keyCode : e.which);
 		        if(code==13){
 		            verificarDocumento();
+
 		        }
 		    });
 		});

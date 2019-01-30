@@ -53,7 +53,7 @@
     <!-- Google Font -->
     <link rel="stylesheet" href="{{ asset('css/resources/googleapis.css') }}">
 </head>
-<body class="hold-transition @yield('body_class')">
+<body  class="hold-transition @yield('body_class')">
 
 @yield('body')
 
