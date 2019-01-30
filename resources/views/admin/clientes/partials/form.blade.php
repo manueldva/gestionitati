@@ -575,6 +575,18 @@
 
 		/*mostrar campos dependiendo del tipo del cliente*/
 		function habilitarCliente(){
+			var tipodoc = $('#tipodocumento_id').val();
+			var tipocli = $('#tipocliente_id').val();
+			if(tipodoc == 10){
+				if(tipocli == 1){
+					$('#tipocliente_id').val(2);
+				}
+			} else {
+				if(tipocli == 2){
+					$('#tipocliente_id').val(1);
+				}
+			}
+
 			if ($("#tipocliente_id").val() == '1'){
 				$("#razonsocial").hide();
 				$("#apellidoynombre").show();
@@ -598,6 +610,7 @@
 		habilitarCliente();
 
 		$('#tipocliente_id').change(function(e) {
+			
 			habilitarCliente();
 		});
 
@@ -632,6 +645,7 @@
 					} else{
 						toastr.success('Numero de documento no existente en la base de datos');
 						$(":input").prop("disabled", false);
+						habilitarCliente();
 					}
 					
 				});
@@ -659,7 +673,11 @@
 
 		/* validar tipo documento*/
 		$('#tipodocumento_id').on('change', function(e){
-		    
+			habilitarCliente();
+		   	$(":input").prop("disabled", true);
+			$("#tipodocumento_id").prop("disabled", false);
+			$("#numerodocumento").prop("disabled", false);
+
 			var tipodocumento_id = $("#tipodocumento_id").val();
 
 			if((tipodocumento_id > 0  && tipodocumento_id < 5) || tipodocumento_id == 10 ) {
@@ -671,6 +689,7 @@
 				$('#numerodocumento').val('');
 				$('#numerodocumento').focus();
 			}
+
 			
 		});
 
