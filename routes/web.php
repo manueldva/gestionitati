@@ -65,3 +65,4 @@ route::resource('calles', 		'Admin\Complementos\CalleController');
 // servicios
 Route::get('/habilitarmodulos/{user}', 'Service\ServiceController@habilitarmodulos')->name('habilitarmodulos');
 //
+

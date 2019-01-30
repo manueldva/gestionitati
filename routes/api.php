@@ -54,7 +54,14 @@ Route::get('validardocumento', function() {
 });
 
 
+/*para buscar empleado*/
+
 Route::get('autocompleteempleadodesc', function() {
 
-    return App\Models\Empleado::where('empleado', 'LIKE', '%' . request('q') . '%')->paginate(10);
+    $tipoempleado = App\Models\Tipoempleado::where('descripcion', '=', 'Vendedor')->first();
+    $empleados = App\Models\Empleado::where('empleado', 'LIKE', '%' . request('q') . '%')->where('tipoempleado_id', '=', $tipoempleado->id)->paginate(10);
+
+    return $empleados;
 });
+
+

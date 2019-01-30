@@ -3,7 +3,7 @@
 @section('title', 'Gestión - Clientes')
 
 @section('css')
-  <link rel="stylesheet" href="{{ asset('css/resources/bootstrap-clockpicker.min.css') }}">
+ 
 @endsection
 
 @section('content_header')

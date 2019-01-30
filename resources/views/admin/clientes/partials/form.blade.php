@@ -30,7 +30,8 @@
 									</td>
 									<td> 
 										{{ form::label('numerodocumento', 'Nro Docuemento *') }}
-										{{ form::text('numerodocumento', null, ['class' => 'form-control', 'id' => 'numerodocumento']) }}
+										{{ form::number('numerodocumento', null, ['class' => 'form-control', 'id' => 'numerodocumento']) }}
+										
 									</td>
 								</tr>
 							</thead>
@@ -132,7 +133,7 @@
 			      <i class="fa fa-shopping-cart"></i>
 
 			      <h3 class="box-title">Articulos en posesión del cliente</h3>
-			    </div
+			    </div>
 			    <!-- /.box-header -->
 			    <div class="box-body">
 
@@ -393,8 +394,8 @@
 									<td> 
 										{{ form::label('empleado', 'Vendedor') }}
 										<br>
-										{{ form::select('empleado', [],  null, ['class' => 'form-control inline-search', 'id' => 'empleado','placeholder' => 'Seleccionar...'] ) }}
-										
+										{{-- {{ form::select('empleado', [],  null, ['class' => 'form-control inline-search', 'id' => 'empleado','placeholder' => 'Seleccionar...'] ) }} --}}
+										{{ form::text('empleado', null, ['class' => 'form-control', 'id' => 'empleado']) }}
 									</td>
 								</tr>	
 							</thead>
@@ -680,7 +681,7 @@
 
 			var tipodocumento_id = $("#tipodocumento_id").val();
 
-			if((tipodocumento_id > 0  && tipodocumento_id < 5) || tipodocumento_id == 10 ) {
+			if(tipodocumento_id < 5 || tipodocumento_id == 10 ) {
 				$('#numerodocumento').val('');
 				$('#numerodocumento').attr('type','number');
 				$('#numerodocumento').focus();
@@ -716,9 +717,6 @@
 
 		//$(document).ready(function(){
 		    $('#empleado').select2({
-			    /*allowClear: true,
-			    multiple: true,
-			    maximumSelectionSize: 1,*/
 				language: {
 
 					noResults: function() {
@@ -761,6 +759,8 @@
 		        templateSelection : function(repo)
 		        {
 					$("#codigovendedor").val(repo.id);
+					$("#patente").val(repo.patente);
+					$("#movil").val(repo.movil);
 					
 					return repo.empleado;
 					
@@ -771,6 +771,61 @@
 				}
 		    });
 		//});
+				
+
+		/*buscar empleado desde codigo*/
+		function buscarEmpleado() {
+
+			var codigovendedor = $('#codigovendedor').val();
+			if (codigovendedor !== '') {
+				$.ajax({
+					dataType: 'json',
+					url: APP_URL + '/api/buscarempleado',
+					//url: '../api/validardocumento',
+					data: {q: codigovendedor}
+				}).done(function(data) {
+
+					if(data !== 0) {
+						$("#codigovendedor").val(data.id);
+						$("#patente").val(data.patente);
+						$("#movil").val(data.movil);
+						$("#empleado").empty();
+						$("#empleado").append('<option selected value="'+ data.id +'">'+ data.descripcion +'</option>');
+						//toastr.info('Codigo de vendedor correcto');
+					} else{
+						$("#codigovendedor").val('');
+						$("#patente").val('');
+						$("#movil").val('');
+						$("#empleado").empty();
+						
+					}
+					
+				});
+			} else {
+				$("#codigovendedor").val('');
+				$("#patente").val('');
+				$("#movil").val('');
+			}
+		}
+		
+
+		$('#codigovendedor').focusout(function(e) {
+			buscarEmpleado();
+
+		});
+
+		$(document).ready(function(){
+		$("#codigovendedor").keypress(function(e) {
+				//no recuerdo la fuente pero lo recomiendan para
+				//mayor compatibilidad entre navegadores.
+				var code = (e.keyCode ? e.keyCode : e.which);
+				if(code==13){
+					buscarEmpleado();
+
+				}
+			});
+		});
+		/*buscar empleado*/
 
 		//buscador articulos
 		function buscarArticulos() {
@@ -865,7 +920,7 @@
 					text: 'faltan algunos datos',
 					type: 'error',
 					//confirmButtonColor: '#DD6B55',
-					confirmButtonText: 'OK!',
+					confirmButtonText: 'OK',
 					closeOnConfirm: false
 				});
 				return false;
@@ -875,7 +930,7 @@
 					text: 'Debe ingresar una cantidad mayor o igual a 1',
 					type: 'error',
 					//confirmButtonColor: '#DD6B55',
-					confirmButtonText: 'OK!',
+					confirmButtonText: 'OK',
 					closeOnConfirm: false
 				});
 
@@ -887,7 +942,7 @@
 					text: 'El stock actual es menor a la cantidad ingresada',
 					type: 'error',
 					//confirmButtonColor: '#DD6B55',
-					confirmButtonText: 'OK!',
+					confirmButtonText: 'OK',
 					closeOnConfirm: false
 				});
 
@@ -990,7 +1045,7 @@
 					text: 'faltan algunos datos',
 					type: 'error',
 					//confirmButtonColor: '#DD6B55',
-					confirmButtonText: 'OK!',
+					confirmButtonText: 'OK',
 					closeOnConfirm: false
 				});
 				return false;
