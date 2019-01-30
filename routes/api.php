@@ -65,3 +65,12 @@ Route::get('autocompleteempleadodesc', function() {
 });
 
 
+
+Route::get('buscarempleado', function() {
+    $tipoempleado = App\Models\Tipoempleado::where('descripcion', '=', 'Vendedor')->first();
+    $empleado = App\Models\Empleado::where('id', '=', request('q'))->where('tipoempleado_id', '=', $tipoempleado->id)->first();
+    if(!$empleado){
+    	$empleado = 0;
+    }
+    return $empleado;
+});

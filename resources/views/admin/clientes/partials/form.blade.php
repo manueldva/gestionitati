@@ -31,7 +31,6 @@
 									<td> 
 										{{ form::label('numerodocumento', 'Nro Docuemento *') }}
 										{{ form::number('numerodocumento', null, ['class' => 'form-control', 'id' => 'numerodocumento']) }}
-										
 									</td>
 								</tr>
 							</thead>
@@ -133,7 +132,7 @@
 			      <i class="fa fa-shopping-cart"></i>
 
 			      <h3 class="box-title">Articulos en posesión del cliente</h3>
-			    </div>
+			    </div
 			    <!-- /.box-header -->
 			    <div class="box-body">
 
@@ -394,8 +393,8 @@
 									<td> 
 										{{ form::label('empleado', 'Vendedor') }}
 										<br>
-										{{-- {{ form::select('empleado', [],  null, ['class' => 'form-control inline-search', 'id' => 'empleado','placeholder' => 'Seleccionar...'] ) }} --}}
-										{{ form::text('empleado', null, ['class' => 'form-control', 'id' => 'empleado']) }}
+										{{ form::select('empleado', [],  null, ['class' => 'form-control inline-search', 'id' => 'empleado','placeholder' => 'Seleccionar...'] ) }}
+										
 									</td>
 								</tr>	
 							</thead>
@@ -717,6 +716,9 @@
 
 		//$(document).ready(function(){
 		    $('#empleado').select2({
+			    /*allowClear: true,
+			    multiple: true,
+			    maximumSelectionSize: 1,*/
 				language: {
 
 					noResults: function() {
@@ -771,7 +773,7 @@
 				}
 		    });
 		//});
-				
+
 
 		/*buscar empleado desde codigo*/
 		function buscarEmpleado() {
@@ -784,19 +786,19 @@
 					//url: '../api/validardocumento',
 					data: {q: codigovendedor}
 				}).done(function(data) {
-
+					//var $empleado = $('#empleado'); 
 					if(data !== 0) {
 						$("#codigovendedor").val(data.id);
 						$("#patente").val(data.patente);
 						$("#movil").val(data.movil);
-						$("#empleado").empty();
-						$("#empleado").append('<option selected value="'+ data.id +'">'+ data.descripcion +'</option>');
+
+						//$("#empleado").html('').select2({data: [ {id: data.id, text: data.empleado}]}); 
 						//toastr.info('Codigo de vendedor correcto');
 					} else{
 						$("#codigovendedor").val('');
 						$("#patente").val('');
 						$("#movil").val('');
-						$("#empleado").empty();
+						$empleado.select2('data', {id: null, text: null}) 
 						
 					}
 					
