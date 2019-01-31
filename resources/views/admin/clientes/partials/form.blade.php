@@ -132,27 +132,26 @@
 			      <i class="fa fa-shopping-cart"></i>
 
 			      <h3 class="box-title">Articulos en posesión del cliente</h3>
-			    </div
+			    </div>
 			    <!-- /.box-header -->
 			    <div class="box-body">
-
-			     	<div class="form-group">
-						{{ form::label('articulo', 'Buscar Articulo *') }}
-						{{ form::select('articulo', [],  null, ['class' => 'form-control inline-search', 'id' => 'articulo','placeholder' => 'Seleccionar...'] ) }}
-					</div>
-					<div class="form-group">
-						{{ form::text('descripcionarticulo', null	, ['class' => 'form-control', 'id' => 'descripcionarticulo',  'style'=> 'display: none']) }}	
-					</div>
-					<div class="form-group">
-						{{ form::text('stockarticulo', null	, ['class' => 'form-control', 'id' => 'stockarticulo',  'style'=> 'display: none']) }}	
-					</div>
-					<div class="form-group">
-						{{ form::text('articulo_id', null	, ['class' => 'form-control', 'id' => 'articulo_id',  'style'=> 'display: none']) }}	
-					</div>
+					
 					<div class="form-group">
 					<div class="table-responsive">
 						<table class="table table-striped table-hover" data-form="Form">
 							<thead>
+								<tr>	
+									<td class="col-md-3"> 
+										{{ form::label('articulo_id', 'Cod.') }}
+										{{ form::number('articulo_id', null, ['class' => 'form-control', 'id' => 'articulo_id']) }}
+									</td>
+									<td>
+										{{ form::label('articulo', 'Articulo') }}
+										<br>
+										{{ form::select('articulo', $articulos,  null, ['class' => 'form-control inline-search', 'id' => 'articulo','placeholder' => 'Seleccionar...'] ) }}
+									</td>
+								</tr>
+
 								<tr>
 									<td> 
 										{{ form::label('cantidadarticulo', 'Cantidad') }}
@@ -387,13 +386,13 @@
 							<thead>
 								<tr>
 									<td class="col-md-3"> 
-										{{ form::label('codigovendedor', 'Cod.') }}
-										{{ form::number('codigovendedor', null, ['class' => 'form-control', 'id' => 'codigovendedor']) }}
+										{{ form::label('empleado_id', 'Cod.') }}
+										{{ form::number('empleado_id', null, ['class' => 'form-control', 'id' => 'empleado_id']) }}
 									</td>
 									<td> 
 										{{ form::label('empleado', 'Vendedor') }}
 										<br>
-										{{ form::select('empleado', [],  null, ['class' => 'form-control inline-search', 'id' => 'empleado','placeholder' => 'Seleccionar...'] ) }}
+										{{ form::select('empleado',$empleados,  null, ['class' => 'form-control inline-search', 'id' => 'empleado','placeholder' => 'Seleccionar...'] ) }}
 										
 									</td>
 								</tr>	
@@ -517,7 +516,9 @@
 							</tbody>
 						</table>
 					</div>
+					<input class="typeahead form-control" type="text">
 				</div>
+				
 			</div>
 	    </div>
 	  </div>
@@ -530,9 +531,10 @@
 
 
 @push('js')
-
 	<!-- todo lo que tenga que realizar un ajax -->
 	<script type="text/javascript">
+		
+		var APP_RL = "{{ url('/') }}";
 
 		/*de movida todo tiente que estar bloqueado*/
 		
@@ -540,7 +542,7 @@
 		$("#tipodocumento_id").prop("disabled", false);
 		$("#numerodocumento").prop("disabled", false);
 
-		var APP_RL = "{{ url('/') }}";
+		
 		//$('#articulo_id').select2();
 		$('#provincia_id').select2();
 		$('#localidad_id').select2();
@@ -713,12 +715,8 @@
 		/**/
 
 		/*buscador vendedor*/
-
-		//$(document).ready(function(){
+			/*
 		    $('#empleado').select2({
-			    /*allowClear: true,
-			    multiple: true,
-			    maximumSelectionSize: 1,*/
 				language: {
 
 					noResults: function() {
@@ -760,7 +758,7 @@
 		        },
 		        templateSelection : function(repo)
 		        {
-					$("#codigovendedor").val(repo.id);
+					$("#empleado_id").val(repo.id);
 					$("#patente").val(repo.patente);
 					$("#movil").val(repo.movil);
 					
@@ -772,52 +770,56 @@
 					return markup; 
 				}
 		    });
-		//});
-
+			*/
 
 		/*buscar empleado desde codigo*/
 		function buscarEmpleado() {
 
-			var codigovendedor = $('#codigovendedor').val();
-			if (codigovendedor !== '') {
+			var empleado_id = $('#empleado_id').val();
+
+			if (empleado_id == '') empleado_id = $('#empleado').val();
+
+			if (empleado_id !== '') {
 				$.ajax({
 					dataType: 'json',
 					url: APP_URL + '/api/buscarempleado',
 					//url: '../api/validardocumento',
-					data: {q: codigovendedor}
+					data: {q: empleado_id}
 				}).done(function(data) {
 					//var $empleado = $('#empleado'); 
 					if(data !== 0) {
-						$("#codigovendedor").val(data.id);
+						$("#empleado_id").val(data.id);
 						$("#patente").val(data.patente);
 						$("#movil").val(data.movil);
+						$("#empleado").val(data.id);
 
 						//$("#empleado").html('').select2({data: [ {id: data.id, text: data.empleado}]}); 
 						//toastr.info('Codigo de vendedor correcto');
 					} else{
-						$("#codigovendedor").val('');
+						$("#empleado_id").val('');
 						$("#patente").val('');
 						$("#movil").val('');
-						$empleado.select2('data', {id: null, text: null}) 
+						$("#empleado").val('');
 						
 					}
 					
 				});
 			} else {
-				$("#codigovendedor").val('');
+				$("#empleado_id").val('');
 				$("#patente").val('');
 				$("#movil").val('');
+				$("#empleado").val('');
 			}
 		}
 		
 
-		$('#codigovendedor').focusout(function(e) {
+		$('#empleado_id').focusout(function(e) {
 			buscarEmpleado();
 
 		});
 
 		$(document).ready(function(){
-		$("#codigovendedor").keypress(function(e) {
+		$("#empleado_id").keypress(function(e) {
 				//no recuerdo la fuente pero lo recomiendan para
 				//mayor compatibilidad entre navegadores.
 				var code = (e.keyCode ? e.keyCode : e.which);
@@ -827,78 +829,79 @@
 				}
 			});
 		});
+
+		$('#empleado').on('change', function(e){
+			buscarEmpleado();
+		});
+
 		/*buscar empleado*/
 
+		
+
 		//buscador articulos
-		function buscarArticulos() {
-			$('#articulo').select2({
-			    /*allowClear: true,
-			    multiple: true,
-			    maximumSelectionSize: 1,*/
-				language: {
+		function buscarArticulos(articulo_id) {
 
-					noResults: function() {
+			//alert(articulo_id);
 
-					return "No hay resultado";        
-					},
-					searching: function() {
+			if (articulo_id !== '') {
+			$.ajax({
+				dataType: 'json',
+				url: APP_URL + '/api/articulos',
+				//url: '../api/validardocumento',
+				data: {q: articulo_id}
+			}).done(function(data) {
+				//var $empleado = $('#empleado'); 
+				if(data !== 0) {
+					$("#articulo_id").val(data.id);
+					$("#articulo").val(data.id);
+					$("#cantidadarticulo").val(1);
 
-					return "Buscando..";
-					},
-				},
-				
-		        ajax : {
-		            url : APP_URL + '/api/articulos',
-		            //url : '../api/articulos',
-		            dataType : 'json',
-		            delay : 20,
-		            data : function(params){
-		                return {
-		                    q : params.term,
-		                    page : params.page
-		                };
-		            },
-		            processResults : function(data, params){
-		                params.page = params.page || 1;
-		                return {
-		                    results : data.data,
-		                    pagination: {
-		                        more : (params.page  * 10) < data.total
-		                    }
-		                };
-		            }
-		        },
-				minimumInputLength: 1,
-		        templateResult : function (repo){
-		            if(repo.loading) return repo.descripcion;
-		            var markup =  repo.descripcion;
-		            return markup;
-		        },
-		        templateSelection : function(repo)
-		        {
-					$("#articulo_id").val(repo.id);
-					$("#stockarticulo").val(repo.stock);
-					$("#descripcionarticulo").val(repo.descripcion);
-					if($("#stockarticulo").val() !== '') $("#cantidadarticulo").val(1);
+					//$("#empleado").html('').select2({data: [ {id: data.id, text: data.empleado}]}); 
+					//toastr.info('Codigo de vendedor correcto');
+				} else{
+					$("#articulo_id").val('');
+					$("#articulo").val('');
+					$("#cantidadarticulo").val('');
 					
-					return repo.descripcion;
-					
-		        },
-		        escapeMarkup : function(markup){ 
-					
-					return markup; 
 				}
-		    });
+				
+			});
+			} else {
+				$("#articulo_id").val('');
+				$("#articulo").val('');
+				$("#cantidadarticulo").val('');
+			}
 		}
 
-		buscarArticulos();
+
+		$('#articulo_id').focusout(function(e) {
+
+			buscarArticulos($('#articulo_id').val());
+
+		});
+
+		$(document).ready(function(){
+			$("#articulo_id").keypress(function(e) {
+			//no recuerdo la fuente pero lo recomiendan para
+			//mayor compatibilidad entre navegadores.
+			var code = (e.keyCode ? e.keyCode : e.which);
+				if(code==13){
+					buscarArticulos($('#articulo_id').val());
+
+				}
+			});
+		});
+
+		$('#articulo').on('change', function(e){
+			buscarArticulos($('#articulo').val());
+		});
 
 
 		/*para agregar articulos al listado*/
 		$( "#agregararticulo" ).click(function() {
 
-			/*para validar que no supere el stock ya ingresado en la grilla*/
-			var stocktemp = 0;
+			//para validar que no supere el stock ya ingresado en la grilla*/
+			/*var stocktemp = 0;
 			$('#table_ventas tr').each(function(index, element) {
 			    codigotemp = $(element).find("td").eq(0).text();
 			    cantidadtemp = $(element).find("td").eq(2).text();
@@ -907,15 +910,14 @@
 			    {
 			    	stocktemp = stocktemp + parseInt(cantidadtemp);
 			    }
-			   
-			    //alert(codigotemp);
+			
 
 			});
 
 			stocktemp = parseInt($("#stockarticulo").val()) - stocktemp;
-			/**/
+			//
 			
-			/*validaciones*/ 
+			//validaciones 
 			if($("#stockarticulo").val() == ''  || $("#cantidadarticulo").val() == '') {
 				swal({
 					title: 'No se puede agregar este articulo',
@@ -951,13 +953,25 @@
 				return false;
 			}
 
-			/**/
-			
+			*/
+			if($('#articulo_id').val() == ''  || $("#cantidadarticulo").val() == '') {
+				swal({
+					title: 'No se puede agregar este articulo',
+					text: 'faltan algunos datos',
+					type: 'error',
+					//confirmButtonColor: '#DD6B55',
+					confirmButtonText: 'OK',
+					closeOnConfirm: false
+				});
+				return false;
+			}
+
 			//variables para guardar en la grilla
-			var codigo = $("#articulo_id").val();
-			var descripcion = $("#descripcionarticulo").val();
-			var cantidad = parseInt($("#cantidadarticulo").val());
-			
+			var codigo = $('#articulo_id').val();
+			//var descripcion = $("#descripcionarticulo").val();
+			var descripcion =$('select[name="articulo"] option:selected').text();
+			var cantidad = parseInt($('#cantidadarticulo').val());
+
 			//cargo la grilla
 			$('#table_articulos tbody').prepend(
 				'<tr>' + 
@@ -968,7 +982,9 @@
 				'</td>' +
 				'</tr>');
 
-			$("#cantidadarticulo").val(1);
+				$("#articulo_id").val('');
+				$("#articulo").val('');
+				$("#cantidadarticulo").val('');
 
 			toastr.success('Articulo agregado a la lista');
 			

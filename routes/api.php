@@ -21,7 +21,11 @@ use Illuminate\Http\Request;
 
 Route::get('articulos', function() {
 
-    return App\Models\Articulo::where('descripcion', 'LIKE', '%' . request('q') . '%')->paginate(10);
+    $articulo = App\Models\Articulo::where('id', '=', request('q'))->first();
+    if(!$articulo){
+    	$articulo = 0;
+    }
+    return $articulo;
 });
 
 
@@ -54,18 +58,7 @@ Route::get('validardocumento', function() {
 });
 
 
-/*para buscar empleado*/
-
-Route::get('autocompleteempleadodesc', function() {
-
-    $tipoempleado = App\Models\Tipoempleado::where('descripcion', '=', 'Vendedor')->first();
-    $empleados = App\Models\Empleado::where('empleado', 'LIKE', '%' . request('q') . '%')->where('tipoempleado_id', '=', $tipoempleado->id)->paginate(10);
-
-    return $empleados;
-});
-
-
-
+//buscar empleado vendedor por codigo
 Route::get('buscarempleado', function() {
     $tipoempleado = App\Models\Tipoempleado::where('descripcion', '=', 'Vendedor')->first();
     $empleado = App\Models\Empleado::where('id', '=', request('q'))->where('tipoempleado_id', '=', $tipoempleado->id)->first();
@@ -74,3 +67,17 @@ Route::get('buscarempleado', function() {
     }
     return $empleado;
 });
+
+
+
+/*para buscar empleado*/
+/*
+Route::get('autocompleteempleadodesc', function() {
+
+    $tipoempleado = App\Models\Tipoempleado::where('descripcion', '=', 'Vendedor')->first();
+    $empleados = App\Models\Empleado::where('empleado', 'LIKE', '%' . request('q') . '%')->where('tipoempleado_id', '=', $tipoempleado->id)->paginate(10);
+
+    return $empleados;
+});
+
+*/

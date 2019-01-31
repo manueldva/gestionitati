@@ -24,11 +24,11 @@ use App\Models\Localidad;
 //use App\Models\Movil;
 use App\Models\Provincia;
 use App\Models\Tipocliente;
+use App\Models\Tipoempleado;
 use App\Models\Tipodocumento;
 use App\Models\Companiatelefonica;
 use App\Models\Tipoiva;
-
-
+use App\Models\Articulo;
 
 use App\Models\Modulo;
 use App\Models\Perfil;
@@ -92,11 +92,16 @@ class ClienteController extends Controller
 
         $tipoclientes  = Tipocliente::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
+        $articulos  = Articulo::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+        $tipoempleado = Tipoempleado::where('descripcion', '=', 'Vendedor')->first();
+        $empleados  = Empleado::orderBy('empleado', 'ASC')->where('tipoempleado_id', '=', $tipoempleado->id)->pluck('empleado' , 'id');
+
 
 
         $estadoclientes    = [ 0 => 'Inactivo', 1 => 'Activo'];
 
-        return view('admin.clientes.create', compact('companiatelefonicas', 'estadoclientes', 'provincias', 'tipodocumentos', 'tipoclientes', 'tipoivas'));
+        return view('admin.clientes.create', compact('companiatelefonicas', 'estadoclientes', 'provincias', 'tipodocumentos', 'tipoclientes', 'tipoivas', 'articulos', 'empleados'));
     }
 
     /**

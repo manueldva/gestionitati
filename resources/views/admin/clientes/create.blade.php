@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 
 @section('title', 'Gestión - Clientes')
-
+  
 @section('css')
  
 @endsection

@@ -36,14 +36,14 @@
           <div class="row col-md-12">
             <div class="form-group" style="text-align: center">
 
-                <a href="{{ route('clientes.index') }}" type="button" id="contrato" class="btn btn btn-default">
+                <a href="#" type="button" id="contrato" class="btn btn btn-default">
                 <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
                     <span class="fa fa-file-text">
                     </span>
                       Contrato
                 </a>  
 
-                <a href="{{ route('clientes.index') }}" type="button" id="movimiento" class="btn btn btn-default">
+                <a href="#" type="button" id="movimiento" class="btn btn btn-default">
                 <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
                     <span class="fa fa-list">
                     </span>
