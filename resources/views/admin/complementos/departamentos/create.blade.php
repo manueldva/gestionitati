@@ -121,8 +121,8 @@
 		        //mayor compatibilidad entre navegadores.
 		        var code = (e.keyCode ? e.keyCode : e.which);
 		        if(code==13){
-		            return  false;
-
+              $('#agregardepartamento').click();  
+              return  false;
 		        }
 		    });
     });
@@ -184,7 +184,7 @@
       //modificar por esto
 
       // https://stackoverflow.com/questions/1457690/jquery-ajax-success-anonymous-function-scope
-      
+
       if(existe == 0) {
         //cargo la grilla
         $('#table_departamentos tbody').prepend(
