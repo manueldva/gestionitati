@@ -54,9 +54,10 @@
 	                <tr>
 	                  <!--<th width="10px"> ID</th>-->
 	                  <th> Codigo</th>
-	                  <th> Provincia</th>
-	                  <th> descripción</th>
-					  <th> Fecha Alta</th>
+	                  <th> Localidad</th>
+										<th> Departamento</th>
+										<th> Provincia</th>
+					  				<th> Fecha Alta</th>
 	                  <th colspan="3">&nbsp;</th>
 	                </tr>
 	              </thead>
@@ -64,9 +65,10 @@
 	                @foreach ($localidades as $localidad)
 	                  <tr>
 	                    <td>{{ $localidad->id }}</td>
-	                    <td>{{ $localidad->provincia->descripcion }}</td>
 	                    <td>{{ $localidad->descripcion }}</td>
-						<td>{{ $localidad->fecha_alta }}</td>
+											<td>{{ $localidad->departamento->descripcion }}</td>
+											<td>{{ $localidad->departamento->provincia->descripcion }}</td>
+											<td>{{ $localidad->fecha_alta }}</td>
 	                    <td width="10px">
 	                      <a href="{{ route('localidades.show', $localidad->id) }}" class="btn btn-sm btn-default">
 	                        Ver

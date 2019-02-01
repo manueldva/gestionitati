@@ -9,6 +9,7 @@ use App\Http\Requests\Complementos\LocalidadStoreRequest;
 use App\Http\Requests\Complementos\LocalidadUpdateRequest;
 use Alert;
 use App\Models\Provincia;
+use App\Models\Departamento;
 use App\Models\Localidad;
 use App\Models\Cliente;
 use App\Models\Modulo;
@@ -71,22 +72,29 @@ class LocalidadController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(LocalidadStoreRequest $request)
+    public function store(Request $request)
     {
 
-        /*validacion en el controlador por que el request personalizado no lo permite*/
-        $existe = Localidad::where('departamento_id', $request->get('departamento_id'))->where('descripcion', '=',$request->get('descripcion'))->count();
-
-        if($existe > 0) 
-        {
-            Alert::error('Esta localidad ya fue creada y asociada a este departamento')->persistent("Cerrar");
-            return back()->withinput();
-        }
+        $listado_localidades_text = $request->input("listado_localidades");
         
-        $localidad = Localidad::create($request->all());
+        $listado_localidades_array = explode('&&&', $listado_localidades_text);
+        array_pop($listado_localidades_array);
 
-        //auditoria
-        $localidad->fill(['usuario_alta' => Auth::user()->username , 'fecha_alta' => date('Y-m-d H:i:s')])->save();
+		foreach ($listado_localidades_array as $localidad_text)
+		{
+			list($departamento_id,
+            $descripcion) = explode('|', $localidad_text);
+
+			$localidad = new Localidad();
+
+                $localidad->departamento_id = $departamento_id;
+                $localidad->descripcion = $descripcion;
+                $localidad->usuario_alta = Auth::user()->username;
+                $localidad->fecha_alta = date('Y-m-d H:i:s');
+
+			$localidad->save();
+		}
+
         //
         Alert::success('Localidad creada con exito')->persistent("Cerrar");
         return redirect()->route('localidades.index');

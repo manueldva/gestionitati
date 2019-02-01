@@ -29,6 +29,11 @@ Route::get('articulos', function() {
 });
 
 
+Route::get('departamentos', function() {
+
+    return App\Models\Departamento::where('provincia_id', '=', request('provincia_id'))->get();
+});
+
 Route::get('localidades', function() {
 
     return App\Models\Localidad::where('provincia_id', '=', request('provincia_id'))->get();
@@ -82,6 +87,18 @@ Route::get('verificardepartamento', function() {
     }
     return $id;
 });
+
+Route::get('verificarlocalidad', function() {
+    $localidad = App\Models\Localidad::where('descripcion', '=', request('d'))->where('departamento_id', '=', request('di'))->first();
+    if($localidad){
+    	$id = $localidad->id;
+    } else
+    {
+    	$id = 0;
+    }
+    return $id;
+});
+
 
 
 /*para buscar empleado*/

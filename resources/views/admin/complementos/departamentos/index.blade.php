@@ -54,7 +54,8 @@
 	                <tr>
 	                  <!--<th width="10px"> ID</th>-->
 	                  <th> Codigo</th>
-	                  <th> descripción</th>
+	                  <th> Departamento</th>
+										<th>Provincia</th>
 					  				<th> Fecha Alta</th>
 	                  <th colspan="3">&nbsp;</th>
 	                </tr>
@@ -64,6 +65,7 @@
 	                  <tr>
 	                    <td>{{ $departamento->id }}</td>
 	                    <td>{{ $departamento->descripcion }}</td>
+											<td>{{ $departamento->provincia->descripcion }}</td>
 											<td>{{ $departamento->fecha_alta }}</td>
 	                    <td width="10px">
 	                      <a href="{{ route('departamentos.show', $departamento->id) }}" class="btn btn-sm btn-default">
