@@ -17,6 +17,8 @@ class CreateLocalidadesTable extends Migration
             $table->increments('id');
             $table->integer('provincia_id')->unsigned()->nullable();
             $table->foreign('provincia_id')->references('id')->on('provincias');
+            $table->integer('departamento_id')->unsigned()->nullable();
+            $table->foreign('departamento_id')->references('id')->on('departamentos');
             $table->string('descripcion', 350);
             $table->string('usuario_alta',50)->nullable();
             $table->timestamp('fecha_alta')->nullable();

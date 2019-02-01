@@ -18,7 +18,7 @@
 
 @section('content')
 
-<div class="box box-primary">
+<div id="create" class="box box-primary">
   <div class="box-header with-border box-default">
     <strong>Nuevo Provincia</strong>
   </div>

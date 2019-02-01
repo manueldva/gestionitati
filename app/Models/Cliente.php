@@ -43,6 +43,12 @@ class Cliente extends Model
     return $this->belongsTo(Provincia::class);
     }
 
+    public function departamento(){
+        
+        return $this->belongsTo(Departamento::class);
+        }
+    
+
     public function tipocliente(){
         
         return $this->belongsTo(Tipocliente::class);

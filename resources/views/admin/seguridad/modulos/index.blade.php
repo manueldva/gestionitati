@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'MC_V2 - Modulos')
+@section('title', 'Gestion - Modulos')
 
 @section('content_header')
   <h1>
@@ -36,9 +36,11 @@
 			      <button type="submit" class="form-control btn btn-sm btn-success"><span class="glyphicon glyphicon-search"></span> Buscar</button>
 						&nbsp;
 			      @if($permiso == 2)
-			      <a href="{{ route('modulos.create')}}" class="form-control btn btn-sm btn-primary">
-			        <span class="glyphicon glyphicon-plus"></span> Crear
-			      </a>  
+							@if(Auth::user()->username == 'mavila')
+								<a href="{{ route('modulos.create')}}" class="form-control btn btn-sm btn-primary">
+									<span class="glyphicon glyphicon-plus"></span> Crear
+								</a> 
+							@endif
 			      @endif
 			    </div>
 		    {{ Form::close() }}
@@ -69,18 +71,20 @@
 	                      </a>
 	                    </td>
 	                    @if($permiso == 2)
-	                    <td width="10px">
-	                      <a href="{{ route('modulos.edit', $modulo->id) }}" class="btn btn-sm btn-default">
-	                        Editar
-	                      </a>
-	                    </td>
-	                    <td width="10px">
-												{!! Form::model($modulo, ['method' => 'delete', 'route' => ['modulos.destroy', $modulo->id], 'class' =>'form-inline form-delete']) !!}
-												{!! Form::hidden('id', $modulo->id) !!}
-												{!! Form::submit('Eliminar', ['class' => 'btn btn-sm btn-danger delete', 'name' => 'delete_modal']) !!}
-												{!! Form::close() !!}
-
-	                    </td>
+												@if(Auth::user()->username == 'mavila')
+													<td width="10px">
+														<a href="{{ route('modulos.edit', $modulo->id) }}" class="btn btn-sm btn-default">
+															Editar
+														</a>
+													</td>
+													<td width="10px">
+														{!! Form::model($modulo, ['method' => 'delete', 'route' => ['modulos.destroy', $modulo->id], 'class' =>'form-inline form-delete']) !!}
+														{!! Form::hidden('id', $modulo->id) !!}
+														{!! Form::submit('Eliminar', ['class' => 'btn btn-sm btn-danger delete', 'name' => 'delete_modal']) !!}
+														{!! Form::close() !!}
+												
+													</td>
+												@endif
 	                    @endif
 	                  </tr>
 	                @endforeach

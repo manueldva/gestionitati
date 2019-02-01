@@ -24,7 +24,19 @@ class Provincia extends Model
       return $this->HasMany(Localidad::class);
     }
 
-    
+    public function departamentos(){
+      return $this->HasMany(Departamento::class);
+    }
+
+    public function barrios(){
+      return $this->HasMany(Barrio::class);
+    }
+
+    public function calles(){
+      return $this->HasMany(Calle::class);
+    }
+
+  
 
     public function scopeType($query, $type, $valor) 
     {

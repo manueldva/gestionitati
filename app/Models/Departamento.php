@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Localidad extends Model
+class Departamento extends Model
 {
-    protected $table = 'localidades';
+    //protected $table = 'localidades';
 
 	protected $fillable = [
-    	'provincia_id', 'departamento_id', 'descripcion', 'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
+    	'provincia_id','descripcion', 'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
 	];
 
 
@@ -17,14 +17,21 @@ class Localidad extends Model
     	return $this->HasMany(Cliente::class);
     }
 
+    public function localidades(){
+    	return $this->HasMany(Localidad::class);
+    }
+
+    public function barrios(){
+    	return $this->HasMany(Localidad::class);
+    }
+
+    public function calles(){
+    	return $this->HasMany(Localidad::class);
+    }
+
     public function provincia(){
         
         return $this->belongsTo(Provincia::class);
-    }
-
-    public function departamento(){
-        
-        return $this->belongsTo(Departamento::class);
     }
 
 

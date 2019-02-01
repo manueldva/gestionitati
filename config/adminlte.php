@@ -133,7 +133,7 @@ return [
                 [
                     'text' => 'Usuarios',
                     'url'  => 'manageusers',
-                ]/*,
+                ],
                  [
                     'text' => 'Modulos',
                     'url'  => 'modulos',
@@ -141,7 +141,7 @@ return [
                 [
                     'text' => 'Perfiles',
                     'url'  => 'perfiles',
-                ]*/
+                ]
             ]
         ],       
         [

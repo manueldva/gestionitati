@@ -5,11 +5,12 @@ namespace App\Http\Controllers\Admin\Complementos;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\Http\Requests\Complementos\DepartamentoStoreRequest;
+//use App\Http\Requests\Complementos\LocalidadStoreRequest;
 use App\Http\Requests\Complementos\DepartamentoUpdateRequest;
 use Alert;
 use App\Models\Provincia;
 use App\Models\Departamento;
+use App\Models\Localidad;
 use App\Models\Cliente;
 use App\Models\Modulo;
 use App\Models\Perfil;
@@ -69,24 +70,33 @@ class DepartamentoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(DepartamentoStoreRequest $request)
+    public function store(Request $request)
     {
-
-        /*validacion en el controlador por que el request personalizado no lo permite*/
-        $existe = Departamento::where('provincia_id', $request->get('provincia_id'))->where('descripcion', '=',$request->get('descripcion'))->count();
-
-        if($existe > 0) 
-        {
-            Alert::error('Este departamento ya fue creado y asociado a esta provincia')->persistent("Cerrar");
-            return back()->withinput();
-        }
         
-        $departamento = Departamento::create($request->all());
+        $listado_departamentos_text = $request->input("listado_departamentos");
+        
+        $listado_departamentos_array = explode('&&&', $listado_departamentos_text);
+        array_pop($listado_departamentos_array);
+
+		foreach ($listado_departamentos_array as $departamento_text)
+		{
+			list($provincia_id,
+            $descripcion) = explode('|', $departamento_text);
+
+			$departamento = new Departamento();
+
+                $departamento->provincia_id = $provincia_id;
+                $departamento->descripcion = $descripcion;
+                $departamento->usuario_alta = Auth::user()->username;
+                $departamento->fecha_alta = date('Y-m-d H:i:s');
+
+			$departamento->save();
+		}
 
         //auditoria
-        $departamento->fill(['usuario_alta' => Auth::user()->username , 'fecha_alta' => date('Y-m-d H:i:s')])->save();
+        //$provincia->fill(['usuario_alta' => Auth::user()->username , 'fecha_alta' => date('Y-m-d H:i:s')])->save();
         //
-        Alert::success('Departamento creado con exito')->persistent("Cerrar");
+        Alert::success('Departamentos creados con exito')->persistent("Cerrar");
         return redirect()->route('departamentos.index');
     }
 
@@ -129,16 +139,15 @@ class DepartamentoController extends Controller
      */
     public function update(DepartamentoUpdateRequest $request, $id)
     {
-        
         /*validacion en el controlador por que el request personalizado no lo permite*/
-        $existe = Departamento::where('provincia_id', $request->get('provincia_id'))->where('descripcion', '=', $request->get('descripcion'))->where('id', '<>', $id)->count();
+        $existe = Departamento::where('id', '<>', $id)->where('provincia_id', $request->get('provincia_id'))->where('descripcion', '=',$request->get('descripcion'))->count();
 
         if($existe > 0) 
         {
             Alert::error('Este departamento ya fue creado y asociado a esta provincia')->persistent("Cerrar");
             return back()->withinput();
         }
-        
+
 
         $departamento = Departamento::find($id);
 
@@ -169,6 +178,31 @@ class DepartamentoController extends Controller
             Alert::error('No se puede eliminar el registro')->persistent("Cerrar");
             return back();
         }
+
+        $existe = Localidad::where('departamento_id', $id)->count();
+
+        if($existe > 0) 
+        {
+            Alert::error('No se puede eliminar el registro')->persistent("Cerrar");
+            return back();
+        }
+
+        $existe = Barrio::where('departamento_id', $id)->count();
+
+        if($existe > 0) 
+        {
+            Alert::error('No se puede eliminar el registro')->persistent("Cerrar");
+            return back();
+        }
+
+        $existe = calle::where('departamento_id', $id)->count();
+
+        if($existe > 0) 
+        {
+            Alert::error('No se puede eliminar el registro')->persistent("Cerrar");
+            return back();
+        }
+
         
         Departamento::find($id)->delete();
 

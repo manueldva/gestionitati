@@ -69,6 +69,20 @@ Route::get('buscarempleado', function() {
 });
 
 
+// verificar departamentos
+
+/*se usa para validar si existe o no un cliente con este numerodocumento*/
+Route::get('verificardepartamento', function() {
+    $departamento = App\Models\Departamento::where('descripcion', '=', request('d'))->where('provincia_id', '=', request('p'))->first();
+    if($departamento){
+    	$id = $departamento->id;
+    } else
+    {
+    	$id = 0;
+    }
+    return $id;
+});
+
 
 /*para buscar empleado*/
 /*

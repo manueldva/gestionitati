@@ -516,7 +516,6 @@
 							</tbody>
 						</table>
 					</div>
-					<input class="typeahead form-control" type="text">
 				</div>
 				
 			</div>

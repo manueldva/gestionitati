@@ -61,7 +61,6 @@ route::resource('departamentos', 		'Admin\Complementos\DepartamentoController');
 route::resource('localidades', 		'Admin\Complementos\LocalidadController');
 route::resource('calles', 		'Admin\Complementos\CalleController');
 
-
 // servicios
 Route::get('/habilitarmodulos/{user}', 'Service\ServiceController@habilitarmodulos')->name('habilitarmodulos');
 //
