@@ -19,13 +19,13 @@
 
 <div class="col-md-6">
 	<div class="form-group">
-		{{ form::label('provincia_id', 'Provincia *') }}
-		{{ form::select('provincia_id',$provincias, null, ['class' => 'form-control'] ) }} 
+		{{ form::label('provincia', 'Departamento') }}
+		{{ form::text('provincia', $localidad->provincia->descripcion, ['class' => 'form-control', 'id' => 'provincia', 'disabled']) }}
 	</div>
 
 	<div class="form-group">
-		{{ form::label('departamento_id', 'Departamento *') }}
-		{{ form::select('departamento_id',$departamentos, null, ['class' => 'form-control','placeholder'=> 'Seleccionar...'] ) }} 
+		{{ form::label('departamento', 'Departamento') }}
+		{{ form::text('departamento', $localidad->departamento->descripcion, ['class' => 'form-control', 'id' => 'departamento', 'disabled']) }}
 	</div>
 
 	<div class="form-group">
@@ -42,7 +42,7 @@
 @push('js')
 	<script type="text/javascript">
 
-
+		/*
 		id = $("#provincia_id option:selected").val();
 
 		function cargar_departamentos(id) {
@@ -78,10 +78,10 @@
 		        console.log(data);
 		        $('#departamento_id').append('<option value="'+ departamento.id +'">'+ departamento.descripcion +'</option>');
 		      })
-		    });*/
+		    });
 		    id2 = $("#provincia_id option:selected").val();
 		    cargar_departamentos(id2);
-		});
+		});*/
 
 	</script>
 @endpush

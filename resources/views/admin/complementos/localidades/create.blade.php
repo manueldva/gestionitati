@@ -87,6 +87,7 @@
                   <tr>
                   <!--<th width="10px"> ID</th>-->
                     <th style="display:none;"> Codigo</th>
+                    <th style="display:none;"> Codigo</th>
                     <th> Descripción Localidad</th>
                   </tr>
                 </thead>
@@ -213,6 +214,7 @@
         //cargo la grilla
         $('#table_localidades tbody').prepend(
           '<tr>' + 
+          '<td style="display:none;">' + provincia_id + '</td>' +
           '<td style="display:none;">' + departamento_id + '</td>' +
           '<td>' + descripcion + '</td>' +
           "<td><a class='delete btn btn-sm btn-danger' onclick ='deletefamiliar_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
@@ -268,15 +270,16 @@
     
     function crear_listado_localidades() {
       var listado = '';
-      var departamento_id, descripcion;
+      var provincia_id, departamento_id, descripcion;
 
       $("#id_lista_localidades").val('');
 
       $('#table_localidades tbody tr').each(function () {	 
-        departamento_id = $(this).find("td").eq(0).html();
-        descripcion = $(this).find("td").eq(1).html();
+        provincia_id = $(this).find("td").eq(0).html();
+        departamento_id = $(this).find("td").eq(1).html();
+        descripcion = $(this).find("td").eq(2).html();
 
-        listado += departamento_id + "|" + descripcion + "&&&";
+        listado += provincia_id + "|" + departamento_id + "|" + descripcion + "&&&";
       });
 
       return listado;

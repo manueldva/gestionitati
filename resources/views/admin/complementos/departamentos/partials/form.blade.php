@@ -20,9 +20,9 @@
 <div class="col-md-6">
 
 	<div class="form-group">
-          {{ form::label('provincia_id', 'Provincia *') }}
-          {{ form::select('provincia_id', $provincias,  null, ['class' => 'form-control', 'id' => 'provincia_id','placeholder' => 'Seleccionar...'] ) }}
-        </div>
+		{{ form::label('provincia', 'Provincia') }}
+		{{ form::text('provincia', $departamento->provincia->descripcion, ['class' => 'form-control', 'id' => 'provincia', 'disabled']) }}
+	</div>
 
 	<div class="form-group">
 		{{ form::label('descripcion', 'Descripción *') }}

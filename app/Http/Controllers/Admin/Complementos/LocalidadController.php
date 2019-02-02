@@ -12,6 +12,8 @@ use App\Models\Provincia;
 use App\Models\Departamento;
 use App\Models\Localidad;
 use App\Models\Cliente;
+use App\Models\Calle;
+use App\Models\Barrio;
 use App\Models\Modulo;
 use App\Models\Perfil;
 use Auth;
@@ -82,11 +84,11 @@ class LocalidadController extends Controller
 
 		foreach ($listado_localidades_array as $localidad_text)
 		{
-			list($departamento_id,
+			list($provincia_id, $departamento_id,
             $descripcion) = explode('|', $localidad_text);
 
 			$localidad = new Localidad();
-
+                $localidad->provincia_id = $provincia_id;
                 $localidad->departamento_id = $departamento_id;
                 $localidad->descripcion = $descripcion;
                 $localidad->usuario_alta = Auth::user()->username;
@@ -108,11 +110,11 @@ class LocalidadController extends Controller
      */
     public function show($id)
     {
-        $departamento = Departamento::find($id);
+        $localidad = Localidad::find($id);
 
-        $departamento->fecha_alta = FechaHelper::getFechaImpresion($departamento->fecha_alta); 
+        $localidad->fecha_alta = FechaHelper::getFechaImpresion($localidad->fecha_alta); 
 
-        return view('admin.complementos.departamentos.show', compact('departamento'));
+        return view('admin.complementos.localidades.show', compact('localidad'));
     }
 
     /**
@@ -125,7 +127,7 @@ class LocalidadController extends Controller
     {
         $localidad = Localidad::find($id);
 
-        $departamentos  = Departamento::orderBy('descripcion', 'ASC')->where('id', $localidad->departamento_id)->pluck('descripcion' , 'id');
+        $departamentos  = Departamento::orderBy('descripcion', 'ASC')->where('provincia_id', $localidad->provincia_id)->pluck('descripcion' , 'id');
 
         //dd($departamentos);
 
@@ -176,15 +178,32 @@ class LocalidadController extends Controller
     public function destroy($id)
     {
 
-        $existe = Cliente::where('departamento_id', $id)->count();
+        $existe = Cliente::where('localidad_id', $id)->count();
 
         if($existe > 0) 
         {
             Alert::error('No se puede eliminar el registro')->persistent("Cerrar");
             return back();
         }
+
+        $existe = Barrio::where('localidad_id', $id)->count();
+
+        if($existe > 0) 
+        {
+            Alert::error('No se puede eliminar el registro')->persistent("Cerrar");
+            return back();
+        }
+
+        $existe = Calle::where('localidad_id', $id)->count();
+
+        if($existe > 0) 
+        {
+            Alert::error('No se puede eliminar el registro')->persistent("Cerrar");
+            return back();
+        }
+
         
-        Departamento::find($id)->delete();
+        Localidad::find($id)->delete();
 
         Alert::success('Eliminado correctamente')->persistent("Cerrar");
         return back();

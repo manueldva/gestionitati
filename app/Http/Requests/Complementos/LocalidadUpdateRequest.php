@@ -25,8 +25,8 @@ class LocalidadUpdateRequest extends FormRequest
     {
 
         return [
-            'provincia_id' => 'required',
-            'departamento_id' => 'required',
+            /*'provincia_id' => 'required',
+            'departamento_id' => 'required',*/
             'descripcion' => 'required|max:350'
         ];
     }

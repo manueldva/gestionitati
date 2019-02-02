@@ -1,15 +1,15 @@
 @extends('adminlte::page')
 
-@section('title', 'Gestión - Rubros')
+@section('title', 'Gestión - Localidades')
 
 @section('content_header')
   <h1>
-    Gestionar Rubros
+    Gestionar Localidades
     <!--<small>Listado</small>-->
   </h1>
   <ol class="breadcrumb">
     <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li><a href="{{ route('rubros.index')}}">Rubros</a></li>
+    <li><a href="{{ route('localidades.index')}}">Localidades</a></li>
     <li class="active">Ver</li>
   </ol>
 
@@ -19,7 +19,7 @@
 
 <div class="box box-primary">
 	<div class="box-header with-border box-default">
-	   <strong> Ver Rubro </strong>
+	   <strong> Ver Localidad </strong>
 	</div>
 		
 	<div class="panel-body">
@@ -27,7 +27,7 @@
 			<div class="col-md-12">
 				<div class="row col-md-12">
 					<div class="form-group pull-right">
-								<a href="{{ route('rubros.index') }}" type="button" class="btn btn btn-default">
+								<a href="{{ route('localidades.index') }}" type="button" class="btn btn btn-default">
 									<span class="fa fa-list">
 									</span>
 										Listado
@@ -37,11 +37,15 @@
 			</div>
 			<div class="col-md-6">
 
-				<p> <strong>Codigo:</strong> {{ $rubro->id }}</p>
+				<p> <strong>Codigo:</strong> {{ $localidad->id }}</p>
 
-				<p> <strong>descripción:</strong> {{ $rubro->descripcion }}</p>
+				<p> <strong>Provincia:</strong> {{ $localidad->provincia->descripcion }}</p>
 
-				<p> <strong>Fecha Alta:</strong> {{ $rubro->fecha_alta }}</p>
+				<p> <strong>departamento:</strong> {{ $localidad->departamento->descripcion }}</p>
+
+				<p> <strong>descripción:</strong> {{ $localidad->descripcion }}</p>
+
+				<p> <strong>Fecha Alta:</strong> {{ $localidad->fecha_alta }}</p>
 			</div>
 		</div>
 	</div>

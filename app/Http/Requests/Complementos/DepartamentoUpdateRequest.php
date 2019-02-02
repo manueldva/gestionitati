@@ -25,7 +25,7 @@ class DepartamentoUpdateRequest extends FormRequest
     {
 
         return [
-            'provincia_id' => 'required',
+            //'provincia_id' => 'required',
             'descripcion' => 'required|max:350'
         ];
     }
