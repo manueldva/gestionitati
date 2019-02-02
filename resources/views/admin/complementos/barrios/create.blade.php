@@ -133,11 +133,33 @@
 
 		      $('#departamento_id').empty();
 		      $('#departamento_id').append('<option value="0" disable="true" selected="true">Seleccionar...</option>');
+          $('#localidad_id').empty();
+		      $('#localidad_id').append('<option value="0" disable="true" selected="true">Seleccionar...</option>');
 
 
 		      $.each(data, function(fetch, departamento){
 		        console.log(data);
 		        $('#departamento_id').append('<option value="'+ departamento.id +'">'+ departamento.descripcion +'</option>');
+		      })
+		    });
+		    /*id2 = $("#provincia_id option:selected").val();
+		    cargar_departamentos(id2);*/
+		});
+
+
+    $('#departamento_id').on('change', function(e){
+		    console.log(e);
+		    var localidad_id = e.target.value;
+
+		    $.get('{{ url("/") }}/api/localidades?departamento_id=' + localidad_id,function(data) {
+
+		      $('#localidad_id').empty();
+		      $('#localidad_id').append('<option value="0" disable="true" selected="true">Seleccionar...</option>');
+
+
+		      $.each(data, function(fetch, localidad){
+		        console.log(data);
+		        $('#localidad_id').append('<option value="'+ localidad.id +'">'+ localidad.descripcion +'</option>');
 		      })
 		    });
 		    /*id2 = $("#provincia_id option:selected").val();
@@ -187,7 +209,7 @@
           localidadidtemp = $(element).find("td").eq(2).text();
 			    descripciontemp = $(element).find("td").eq(3).text();
 
-			    if(departamentoidtemp == localidad_id && descripcion == descripciontemp)
+			    if(localidadidtemp == localidad_id && descripcion == descripciontemp)
 			    {
             existe = 1;
             toastr.error('Barrio ya existente dentro de la lista');

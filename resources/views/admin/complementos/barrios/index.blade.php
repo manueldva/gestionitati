@@ -70,7 +70,7 @@
 											<td>{{ $barrio->localidad->descripcion }}</td>
 											<td>{{ $barrio->departamento->descripcion }}</td>
 											<td>{{ $barrio->provincia->descripcion }}</td>
-											<td>{{ $rubro->fecha_alta }}</td>
+											<td>{{ $barrio->fecha_alta }}</td>
 	                    <td width="10px">
 	                      <a href="{{ route('barrios.show', $barrio->id) }}" class="btn btn-sm btn-default">
 	                        Ver

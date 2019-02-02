@@ -126,12 +126,6 @@ class LocalidadController extends Controller
     {
         $localidad = Localidad::find($id);
 
-        $departamentos  = Departamento::orderBy('descripcion', 'ASC')->where('provincia_id', $localidad->provincia_id)->pluck('descripcion' , 'id');
-
-        //dd($departamentos);
-
-        $provincias  = Provincia::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
-
         return view('admin.complementos.localidades.edit', compact('localidad', 'provincias', 'departamentos'));
     }
 
@@ -144,9 +138,11 @@ class LocalidadController extends Controller
      */
     public function update(LocalidadUpdateRequest $request, $id)
     {
-        
+        $localidad = Localidad::find($id); 
+        $departamento = Departamento::where('id', $localidad->departamento_id)->first();
+
         /*validacion en el controlador por que el request personalizado no lo permite*/
-        $existe = Localidad::where('departamento_id', $request->get('departamento_id'))->where('descripcion', '=', $request->get('descripcion'))->where('id', '<>', $id)->count();
+        $existe = Localidad::where('departamento_id', $departamento->id)->where('descripcion', '=', $request->get('descripcion'))->where('id', '<>', $id)->count();
 
         if($existe > 0) 
         {
@@ -155,7 +151,7 @@ class LocalidadController extends Controller
         }
         
 
-        $localidad = Localidad::find($id);
+
 
         $localidad->fill($request->all())->save();
 

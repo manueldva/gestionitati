@@ -36,7 +36,7 @@ Route::get('departamentos', function() {
 
 Route::get('localidades', function() {
 
-    return App\Models\Localidad::where('provincia_id', '=', request('provincia_id'))->get();
+    return App\Models\Localidad::where('departamento_id', '=', request('departamento_id'))->get();
 });
 
 Route::get('barrios', function() {
@@ -99,6 +99,16 @@ Route::get('verificarlocalidad', function() {
     return $id;
 });
 
+Route::get('verificarbarrio', function() {
+    $barrio = App\Models\Barrio::where('descripcion', '=', request('d'))->where('localidad_id', '=', request('l'))->first();
+    if($barrio){
+    	$id = $barrio->id;
+    } else
+    {
+    	$id = 0;
+    }
+    return $id;
+});
 
 
 /*para buscar empleado*/

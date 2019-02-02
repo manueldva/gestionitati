@@ -39,7 +39,7 @@
 
 				<p> <strong>Codigo:</strong> {{ $provincia->id }}</p>
 
-				<p> <strong>descripción:</strong> {{ $provincia->descripcion }}</p>
+				<p> <strong>Provincia:</strong> {{ $provincia->descripcion }}</p>
 
 				<p> <strong>Fecha Alta:</strong> {{ $provincia->fecha_alta }}</p>
 			</div>

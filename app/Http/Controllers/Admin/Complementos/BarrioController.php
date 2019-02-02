@@ -63,7 +63,6 @@ class BarrioController extends Controller
     {
         $provincias  = Provincia::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
-        $departamentos = [];
 
         return view('admin.complementos.barrios.create', compact('provincias'));
     }
@@ -77,29 +76,30 @@ class BarrioController extends Controller
     public function store(Request $request)
     {
 
-        $listado_localidades_text = $request->input("listado_localidades");
+        $listado_barrio_text = $request->input("listado_barrios");
         
-        $listado_localidades_array = explode('&&&', $listado_localidades_text);
-        array_pop($listado_localidades_array);
+        $listado_barrios_array = explode('&&&', $listado_barrio_text);
+        array_pop($listado_barrios_array);
 
-		foreach ($listado_localidades_array as $localidad_text)
+		foreach ($listado_barrios_array as $barrio_text)
 		{
-			list($provincia_id, $departamento_id,
-            $descripcion) = explode('|', $localidad_text);
+			list($provincia_id, $departamento_id,$localidad_id,
+            $descripcion) = explode('|', $barrio_text);
 
-			$localidad = new Localidad();
-                $localidad->provincia_id = $provincia_id;
-                $localidad->departamento_id = $departamento_id;
-                $localidad->descripcion = $descripcion;
-                $localidad->usuario_alta = Auth::user()->username;
-                $localidad->fecha_alta = date('Y-m-d H:i:s');
+			$barrio = new Barrio();
+                $barrio->provincia_id = $provincia_id;
+                $barrio->departamento_id = $departamento_id;
+                $barrio->localidad_id = $localidad_id;
+                $barrio->descripcion = $descripcion;
+                $barrio->usuario_alta = Auth::user()->username;
+                $barrio->fecha_alta = date('Y-m-d H:i:s');
 
-			$localidad->save();
+			$barrio->save();
 		}
 
         //
-        Alert::success('Localidad creada con exito')->persistent("Cerrar");
-        return redirect()->route('localidades.index');
+        Alert::success('Barrio creado con exito')->persistent("Cerrar");
+        return redirect()->route('barrios.index');
     }
 
     /**
@@ -110,11 +110,11 @@ class BarrioController extends Controller
      */
     public function show($id)
     {
-        $localidad = Localidad::find($id);
+        $barrio = Barrio::find($id);
 
-        $localidad->fecha_alta = FechaHelper::getFechaImpresion($localidad->fecha_alta); 
+        $barrio->fecha_alta = FechaHelper::getFechaImpresion($barrio->fecha_alta); 
 
-        return view('admin.complementos.localidades.show', compact('localidad'));
+        return view('admin.complementos.barrios.show', compact('barrio'));
     }
 
     /**
@@ -125,15 +125,9 @@ class BarrioController extends Controller
      */
     public function edit($id)
     {
-        $localidad = Localidad::find($id);
+        $barrio = Barrio::find($id);
 
-        $departamentos  = Departamento::orderBy('descripcion', 'ASC')->where('provincia_id', $localidad->provincia_id)->pluck('descripcion' , 'id');
-
-        //dd($departamentos);
-
-        $provincias  = Provincia::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
-
-        return view('admin.complementos.localidades.edit', compact('localidad', 'provincias', 'departamentos'));
+        return view('admin.complementos.barrios.edit', compact('barrio'));
     }
 
     /**
@@ -143,30 +137,30 @@ class BarrioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(LocalidadUpdateRequest $request, $id)
+    public function update(BarrioUpdateRequest $request, $id)
     {
-        
+        $barrio = Barrio::find($id);
+
+        $localidad = Localidad::where('id', $barrio->localidad_id)->first();
         /*validacion en el controlador por que el request personalizado no lo permite*/
-        $existe = Localidad::where('departamento_id', $request->get('departamento_id'))->where('descripcion', '=', $request->get('descripcion'))->where('id', '<>', $id)->count();
+        $existe = Barrio::where('localidad_id', $localidad->id)->where('descripcion', '=', $request->get('descripcion'))->where('id', '<>', $id)->count();
 
         if($existe > 0) 
         {
-            Alert::error('Esta localdidad ya fue creada y asociada a este departamento')->persistent("Cerrar");
+            Alert::error('Este barrio ya fue creado y asociado a esta localidad')->persistent("Cerrar");
             return back()->withinput();
         }
         
 
-        $localidad = Localidad::find($id);
-
-        $localidad->fill($request->all())->save();
+        $barrio->fill($request->all())->save();
 
 
         //auditoria
-        $localidad->fill(['usuario_modi' => Auth::user()->username , 'fecha_modi' => date('Y-m-d H:i:s')])->save();
+        $barrio->fill(['usuario_modi' => Auth::user()->username , 'fecha_modi' => date('Y-m-d H:i:s')])->save();
         //
 
-        Alert::success('Localidad actualizada con exito')->persistent("Cerrar");
-        return redirect()->route('localidades.index');
+        Alert::success('Barrio actualizado con exito')->persistent("Cerrar");
+        return redirect()->route('barrios.index');
     }
 
     /**
@@ -178,32 +172,15 @@ class BarrioController extends Controller
     public function destroy($id)
     {
 
-        $existe = Cliente::where('localidad_id', $id)->count();
+        $existe = Cliente::where('barrio_id', $id)->count();
 
         if($existe > 0) 
         {
             Alert::error('No se puede eliminar el registro')->persistent("Cerrar");
             return back();
         }
-
-        $existe = Barrio::where('localidad_id', $id)->count();
-
-        if($existe > 0) 
-        {
-            Alert::error('No se puede eliminar el registro')->persistent("Cerrar");
-            return back();
-        }
-
-        $existe = Calle::where('localidad_id', $id)->count();
-
-        if($existe > 0) 
-        {
-            Alert::error('No se puede eliminar el registro')->persistent("Cerrar");
-            return back();
-        }
-
         
-        Localidad::find($id)->delete();
+        Barrio::find($id)->delete();
 
         Alert::success('Eliminado correctamente')->persistent("Cerrar");
         return back();

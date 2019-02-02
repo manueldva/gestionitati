@@ -43,7 +43,7 @@
 
 				<p> <strong>departamento:</strong> {{ $localidad->departamento->descripcion }}</p>
 
-				<p> <strong>descripción:</strong> {{ $localidad->descripcion }}</p>
+				<p> <strong>Localidad:</strong> {{ $localidad->descripcion }}</p>
 
 				<p> <strong>Fecha Alta:</strong> {{ $localidad->fecha_alta }}</p>
 			</div>

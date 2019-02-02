@@ -141,8 +141,10 @@ class DepartamentoController extends Controller
      */
     public function update(DepartamentoUpdateRequest $request, $id)
     {
+        $departamento = Departamento::find($id);
+        $provincia = Provincia::where('id', $departamento->provincia_id)->first();
         /*validacion en el controlador por que el request personalizado no lo permite*/
-        $existe = Departamento::where('id', '<>', $id)->where('provincia_id', $request->get('provincia_id'))->where('descripcion', '=',$request->get('descripcion'))->count();
+        $existe = Departamento::where('id', '<>', $id)->where('provincia_id', $provincia->id)->where('descripcion', '=',$request->get('descripcion'))->count();
 
         if($existe > 0) 
         {
@@ -151,7 +153,7 @@ class DepartamentoController extends Controller
         }
 
 
-        $departamento = Departamento::find($id);
+        
 
         $departamento->fill($request->all())->save();
 
