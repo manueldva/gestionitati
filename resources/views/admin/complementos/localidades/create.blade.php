@@ -56,7 +56,7 @@
 
         <div class="form-group">
           {{ form::label('departamento_id', 'Provincia *') }}
-          {{ form::select('departamento_id', $departamentos,  null, ['class' => 'form-control', 'id' => 'departamento_id','placeholder' => 'Seleccionar...'] ) }}
+          {{ form::select('departamento_id', [],  null, ['class' => 'form-control', 'id' => 'departamento_id','placeholder' => 'Seleccionar...'] ) }}
         </div>
 
         <div class="form-group">
@@ -177,8 +177,8 @@
       var existe = 0;
       
       $('#table_localidades tr').each(function(index, element) {
-          departamentoidtemp = $(element).find("td").eq(0).text();
-			    descripciontemp = $(element).find("td").eq(1).text();
+          departamentoidtemp = $(element).find("td").eq(1).text();
+			    descripciontemp = $(element).find("td").eq(2).text();
 
 			    if(departamentoidtemp == departamento_id && descripcion == descripciontemp)
 			    {

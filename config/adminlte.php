@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'title' => 'Gestion Itatí',
+    'title' => 'Virgen de Itatí',
 
     'title_prefix' => '',
 
@@ -30,9 +30,9 @@ return [
     |
     */
 
-    'logo' => '<b>Gestion</b>Itatí',
+    'logo' => '<b>Virgen</b>Itatí',
 
-    'logo_mini' => '<b>G</b>I',
+    'logo_mini' => '<b>V</b>I',
 
     /*
     |--------------------------------------------------------------------------
@@ -159,6 +159,10 @@ return [
                 [
                     'text' => 'Localidades',
                     'url'  => 'localidades',
+                ],
+                [
+                    'text' => 'Barrios',
+                    'url'  => 'barrios',
                 ],
                 [
                     'text' => 'Calles',

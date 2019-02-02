@@ -37,20 +37,20 @@ class Barrio extends Model
 
 
 
-    /*
+    
 	public function scopeType($query, $type, $valor) 
     {
 		
-		if($type == 'perfil')
+		if($type == 'codigo')
 		{
-			$query->where('perfil', 'like', '%' . $valor . '%')->orderBy('perfil', 'ASC');
+			$query->where('id', '=', $valor)->orderBy('descripcion', 'ASC');
 
 		} elseif ($type == 'descripcion')
         {
-            $query->where('descripcion', 'like', '%' . $valor . '%')->orderBy('perfil', 'ASC');
+            $query->where('descripcion', 'like', '%' . $valor . '%')->orderBy('descripcion', 'ASC');
         } else
         {
-            $query->orderBy('perfil', 'ASC');
+            $query->orderBy('descripcion', 'ASC');
         }
-    }*/
+    }
 }

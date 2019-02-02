@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin\Complementos;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\Http\Requests\Complementos\LocalidadStoreRequest;
+//use App\Http\Requests\Complementos\LocalidadStoreRequest;
 use App\Http\Requests\Complementos\LocalidadUpdateRequest;
 use Alert;
 use App\Models\Provincia;
@@ -41,7 +41,7 @@ class LocalidadController extends Controller
         $permiso = $modulos[0]->pivot->permiso;
  
 
-        $localidades = Localidad::type($request->get('type'), $request->get('val'))->paginate(10);
+        $localidades = Localidad::type($request->get('type'), $request->get('val'))->paginate(15);
 
         foreach($localidades as $localidad){
             $localidad->fecha_alta = FechaHelper::getFechaImpresion($localidad->fecha_alta); 
@@ -63,9 +63,8 @@ class LocalidadController extends Controller
     {
         $provincias  = Provincia::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
-        $departamentos = [];
 
-        return view('admin.complementos.localidades.create', compact('provincias', 'departamentos'));
+        return view('admin.complementos.localidades.create', compact('provincias'));
     }
 
     /**
