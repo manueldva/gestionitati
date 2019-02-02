@@ -19,7 +19,7 @@
 
 <div class="col-md-6">
 	<div class="form-group">
-		{{ form::label('provincia', 'Departamento') }}
+		{{ form::label('provincia', 'Provincia') }}
 		{{ form::text('provincia', $localidad->provincia->descripcion, ['class' => 'form-control', 'id' => 'provincia', 'disabled']) }}
 	</div>
 

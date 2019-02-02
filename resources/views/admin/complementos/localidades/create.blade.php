@@ -55,7 +55,7 @@
         </div>
 
         <div class="form-group">
-          {{ form::label('departamento_id', 'Provincia *') }}
+          {{ form::label('departamento_id', 'Departamento *') }}
           {{ form::select('departamento_id', [],  null, ['class' => 'form-control', 'id' => 'departamento_id','placeholder' => 'Seleccionar...'] ) }}
         </div>
 
