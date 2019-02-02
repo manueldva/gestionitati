@@ -95,8 +95,13 @@ class ClienteController extends Controller
         $articulos  = Articulo::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
         $tipoempleado = Tipoempleado::where('descripcion', '=', 'Vendedor')->first();
-        $empleados  = Empleado::orderBy('empleado', 'ASC')->where('tipoempleado_id', '=', $tipoempleado->id)->pluck('empleado' , 'id');
-
+        if($tipoempleado) {
+            $empleados  = Empleado::orderBy('empleado', 'ASC')->where('tipoempleado_id', $tipoempleado->id)->pluck('empleado' , 'id');
+                
+            if(!$empleados) $empleados = [];
+        } else {
+            $empleados = [];
+        }
 
 
         $estadoclientes    = [ 0 => 'Inactivo', 1 => 'Activo'];

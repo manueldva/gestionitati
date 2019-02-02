@@ -116,7 +116,7 @@ return [
             'url'  => 'ventas',
             'icon' => 'money',
         ],*/
-        [
+        /*[
             'text' => 'Clientes',
             'url'  => 'clientes',
             'icon' => 'users',
@@ -163,11 +163,11 @@ return [
                 [
                     'text' => 'Barrios',
                     'url'  => 'barrios',
-                ],
+                ]/*,
                 [
                     'text' => 'Calles',
                     'url'  => 'calles',
-                ]
+                ]*/
             ]
         ],
         /*[

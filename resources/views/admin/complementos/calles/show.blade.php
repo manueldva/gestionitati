@@ -1,15 +1,15 @@
 @extends('adminlte::page')
 
-@section('title', 'Gestión - Calles')
+@section('title', 'Gestión - Barrios')
 
 @section('content_header')
   <h1>
-    Gestionar Calles
+    Gestionar Barrios
     <!--<small>Listado</small>-->
   </h1>
   <ol class="breadcrumb">
     <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li><a href="{{ route('calles.index')}}">Calles</a></li>
+    <li><a href="{{ route('barrios.index')}}">Barrios</a></li>
     <li class="active">Ver</li>
   </ol>
 
@@ -19,7 +19,7 @@
 
 <div class="box box-primary">
 	<div class="box-header with-border box-default">
-	   <strong> Ver Calle </strong>
+	   <strong> Ver Barrio </strong>
 	</div>
 		
 	<div class="panel-body">
@@ -27,21 +27,27 @@
 			<div class="col-md-12">
 				<div class="row col-md-12">
 					<div class="form-group pull-right">
-						<a href="{{ route('calles.index') }}" type="button" class="btn btn btn-default">
-							<span class="fa fa-list">
-							</span>
-								Listado
-						</a>
+								<a href="{{ route('barrios.index') }}" type="button" class="btn btn btn-default">
+									<span class="fa fa-list">
+									</span>
+										Listado
+								</a>
 					</div>
 				</div>
 			</div>
 			<div class="col-md-6">
 
-				<p> <strong>Codigo:</strong> {{ $calle->id }}</p>
+				<p> <strong>Codigo:</strong> {{ $barrio->id }}</p>
 
-				<p> <strong>descripción:</strong> {{ $calle->descripcion }}</p>
+				<p> <strong>Provincia:</strong> {{ $barrio->provincia->descripcion }}</p>
 
-				<p> <strong>Fecha Alta:</strong> {{ $calle->fecha_alta }}</p>
+				<p> <strong>departamento:</strong> {{ $barrio->departamento->descripcion }}</p>
+
+				<p> <strong>Localidad:</strong> {{ $barrio->localidad->descripcion }}</p>
+
+				<p> <strong>Barrio:</strong> {{ $barrio->descripcion }}</p>
+
+				<p> <strong>Fecha Alta:</strong> {{ $barrio->fecha_alta }}</p>
 			</div>
 		</div>
 	</div>
