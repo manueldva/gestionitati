@@ -163,11 +163,15 @@ return [
                 [
                     'text' => 'Barrios',
                     'url'  => 'barrios',
-                ]/*,
+                ],
                 [
                     'text' => 'Calles',
                     'url'  => 'calles',
-                ]*/
+                ],
+                [
+                    'text' => 'Tipo Iva',
+                    'url'  => 'tipoivas',
+                ]
             ]
         ],
         /*[

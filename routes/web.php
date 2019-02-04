@@ -24,7 +24,7 @@ Route::get('/detalleotrastareasabiertas', 'HomeController@detalleotrastareasabie
 
 //
 
-
+/*
 Route::get('autocompleteempleado', function() {
      $data = App\Models\Empleado::select("empleado")
             ->where('empleado', 'LIKE', '%' . request('q') . '%')
@@ -32,7 +32,7 @@ Route::get('autocompleteempleado', function() {
 
     return response()->json($data);
 });
-
+*/
 
 //menu principal
 route::resource('clientes', 		'Admin\ClienteController');
@@ -61,6 +61,7 @@ route::resource('departamentos', 		'Admin\Complementos\DepartamentoController');
 route::resource('localidades', 		'Admin\Complementos\LocalidadController');
 route::resource('barrios', 		'Admin\Complementos\BarrioController');
 route::resource('calles', 		'Admin\Complementos\CalleController');
+route::resource('tipoivas', 		'Admin\Complementos\TipoivaController');
 
 // servicios
 Route::get('/habilitarmodulos/{user}', 'Service\ServiceController@habilitarmodulos')->name('habilitarmodulos');

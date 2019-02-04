@@ -41,7 +41,7 @@ class DepartamentoController extends Controller
         $permiso = $modulos[0]->pivot->permiso;
  
 
-        $departamentos = Departamento::type($request->get('type'), $request->get('val'))->paginate(10);
+        $departamentos = Departamento::type($request->get('type'), $request->get('val'))->paginate(15);
 
         foreach($departamentos as $departamento){
             $departamento->fecha_alta = FechaHelper::getFechaImpresion($departamento->fecha_alta); 

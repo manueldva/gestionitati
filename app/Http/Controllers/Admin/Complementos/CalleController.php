@@ -5,12 +5,15 @@ namespace App\Http\Controllers\Admin\Complementos;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\Http\Requests\Complementos\CalleStoreRequest;
+//use App\Http\Requests\Complementos\LocalidadStoreRequest;
 use App\Http\Requests\Complementos\CalleUpdateRequest;
 use Alert;
-
-use App\Models\Calle;
+use App\Models\Provincia;
+use App\Models\Departamento;
+use App\Models\Localidad;
 use App\Models\Cliente;
+use App\Models\Calle;
+use App\Models\Barrio;
 use App\Models\Modulo;
 use App\Models\Perfil;
 use Auth;
@@ -38,7 +41,7 @@ class CalleController extends Controller
         $permiso = $modulos[0]->pivot->permiso;
  
 
-        $calles = Calle::type($request->get('type'), $request->get('val'))->paginate(10);
+        $calles =  Calle::type($request->get('type'), $request->get('val'))->paginate(15);
 
         foreach($calles as $calle){
             $calle->fecha_alta = FechaHelper::getFechaImpresion($calle->fecha_alta); 
@@ -58,8 +61,10 @@ class CalleController extends Controller
      */
     public function create()
     {
+        $provincias  = Provincia::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
-        return view('admin.complementos.calles.create');
+
+        return view('admin.complementos.calles.create', compact('provincias'));
     }
 
     /**
@@ -68,12 +73,30 @@ class CalleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CallestoreRequest $request)
+    public function store(Request $request)
     {
-        $calle = Calle::create($request->all());
 
-        //auditoria
-        $calle->fill(['usuario_alta' => Auth::user()->username , 'fecha_alta' => date('Y-m-d H:i:s')])->save();
+        $listado_calle_text = $request->input("listado_calles");
+        
+        $listado_calles_array = explode('&&&', $listado_calle_text);
+        array_pop($listado_calles_array);
+
+		foreach ($listado_calles_array as $calle_text)
+		{
+			list($provincia_id, $departamento_id,$localidad_id,
+            $descripcion) = explode('|', $calle_text);
+
+			$calle = new Calle();
+                $calle->provincia_id = $provincia_id;
+                $calle->departamento_id = $departamento_id;
+                $calle->localidad_id = $localidad_id;
+                $calle->descripcion = $descripcion;
+                $calle->usuario_alta = Auth::user()->username;
+                $calle->fecha_alta = date('Y-m-d H:i:s');
+
+			$calle->save();
+		}
+
         //
         Alert::success('Calle creada con exito')->persistent("Cerrar");
         return redirect()->route('calles.index');
@@ -116,14 +139,24 @@ class CalleController extends Controller
      */
     public function update(CalleUpdateRequest $request, $id)
     {
-        
-        $calle = Calle::find($id);
+        $Calle = Calle::find($id);
 
-        $calle->fill($request->all())->save();
+        $localidad = Localidad::where('id', $Calle->localidad_id)->first();
+        /*validacion en el controlador por que el request personalizado no lo permite*/
+        $existe = Calle::where('localidad_id', $localidad->id)->where('descripcion', '=', $request->get('descripcion'))->where('id', '<>', $id)->count();
+
+        if($existe > 0) 
+        {
+            Alert::error('Esta calle ya fue creado y asociado a esta localidad')->persistent("Cerrar");
+            return back()->withinput();
+        }
+        
+
+        $Calle->fill($request->all())->save();
 
 
         //auditoria
-        $calle->fill(['usuario_modi' => Auth::user()->username , 'fecha_modi' => date('Y-m-d H:i:s')])->save();
+        $Calle->fill(['usuario_modi' => Auth::user()->username , 'fecha_modi' => date('Y-m-d H:i:s')])->save();
         //
 
         Alert::success('Calle actualizada con exito')->persistent("Cerrar");
@@ -139,7 +172,7 @@ class CalleController extends Controller
     public function destroy($id)
     {
 
-        $existe = Cliente::where('provincia_id', $id)->count();
+        $existe = Cliente::where('calle_id', $id)->count();
 
         if($existe > 0) 
         {

@@ -1,15 +1,15 @@
 @extends('adminlte::page')
 
-@section('title', 'Gestión - Barrios')
+@section('title', 'Gestión - Calles')
 
 @section('content_header')
     <h1>
-      Gestionar Barrios
+      Gestionar Calles
       <!--<small>Listado</small>-->
     </h1>
     <ol class="breadcrumb">
       <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="{{ route('barrios.index')}}">Barrios</a></li>
+      <li><a href="{{ route('calles.index')}}">Calles</a></li>
       <li class="active">Nuevo</li>
     </ol>
 
@@ -20,14 +20,14 @@
 
 <div id="create" class="box box-primary">
   <div class="box-header with-border box-default">
-    <strong>Nuevo Barrio</strong>
+    <strong>Nueva Calle</strong>
   </div>
     
   <div class="panel-body">
     <div class="row">
 
-			{!! Form::open(['route' => 'barrios.store', 'id' => 'form']) !!}
-      <input type="hidden" name="listado_barrios" id="id_lista_barrios">
+			{!! Form::open(['route' => 'calles.store', 'id' => 'form']) !!}
+      <input type="hidden" name="listado_calles" id="id_lista_calles">
 
       <div class="col-md-12">
         <div class="row col-md-12">
@@ -38,7 +38,7 @@
                     Guardar
                 </button>
 
-                <a href="{{ route('barrios.index') }}" type="button" class="btn btn btn-default">
+                <a href="{{ route('calles.index') }}" type="button" class="btn btn btn-default">
                   <span class="fa fa-list">
                   </span>
                     Listado
@@ -75,7 +75,7 @@
                   </td>
                   <td> 
                     <br>
-                    <a type="button" id="agregarbarrio" name="agregarbarrio" class="btn btn btn-success">
+                    <a type="button" id="agregarcalle" name="agregarcalle" class="btn btn btn-success">
                                 <span class="fa fa-plus-circle">
                                 </span>
                                 AGREGAR
@@ -87,14 +87,14 @@
           </div>
           <div class="form-group">
             <div class="table-responsive">
-              <table   id="table_barrios" class="table table-striped table-hover" data-form="Form">
+              <table   id="table_calles" class="table table-striped table-hover" data-form="Form">
                 <thead>
                   <tr>
                   <!--<th width="10px"> ID</th>-->
                     <th style="display:none;"> Codigo</th>
                     <th style="display:none;"> Codigo</th>
                     <th style="display:none;"> Codigo</th>
-                    <th> Descripción Barrio</th>
+                    <th> Descripción Calle</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -173,7 +173,7 @@
 		        //mayor compatibilidad entre navegadores.
 		        var code = (e.keyCode ? e.keyCode : e.which);
 		        if(code==13){
-              $('#agregarbarrio').click();  
+              $('#agregarcalle').click();  
               return  false;
 		        }
 		    });
@@ -182,12 +182,12 @@
 
 
 		/*para agregar departamento al listado*/
-		$( "#agregarbarrio" ).click(function(e) {
+		$( "#agregarcalle" ).click(function(e) {
 
 			/*validaciones*/ 
 			if($("#descripcion").val() == '' || $("#provincia_id").val() == '' || $("#departamento_id").val() == '' || $("#localidad_id").val() == '') {
 				swal({
-					title: 'No se puede agregar este barrio',
+					title: 'No se puede agregar este calle',
 					text: 'faltan algunos datos',
 					type: 'error',
 					//confirmButtonColor: '#DD6B55',
@@ -205,14 +205,14 @@
       var localidad_id = $("#localidad_id").val();
       var existe = 0;
       
-      $('#table_barrios tr').each(function(index, element) {
+      $('#table_calles tr').each(function(index, element) {
           localidadidtemp = $(element).find("td").eq(2).text();
 			    descripciontemp = $(element).find("td").eq(3).text();
 
 			    if(localidadidtemp == localidad_id && descripcion == descripciontemp)
 			    {
             existe = 1;
-            toastr.error('Barrio ya existente dentro de la lista');
+            toastr.error('Calle ya existente dentro de la lista');
            
 			    }
 			
@@ -222,7 +222,7 @@
       //verificar si ya existe el registro en la base de datos
       $.ajax({
         dataType: 'json',
-        url: APP_URL + '/api/verificarbarrio',
+        url: APP_URL + '/api/verificarcalle',
         async: false,
         //url: '../api/validardocumento',
         data: {d: descripcion, l:localidad_id},
@@ -231,7 +231,7 @@
 
         if(data !== 0) {
           existe = 1;
-          toastr.error('Barrio ya existente en la base de datos');
+          toastr.error('Calle ya existente en la base de datos');
         } 
       });
 
@@ -241,7 +241,7 @@
 
       if(existe == 0) {
         //cargo la grilla
-        $('#table_barrios tbody').prepend(
+        $('#table_calles tbody').prepend(
           '<tr>' + 
           '<td style="display:none;">' + provincia_id + '</td>' +
           '<td style="display:none;">' + departamento_id + '</td>' +
@@ -255,7 +255,7 @@
         //var provincia_id = $("#provincia_id").val('');
 
 
-        toastr.success('Barrio agregado a la lista');
+        toastr.success('Calle agregada a la lista');
         
       }
 			
@@ -267,7 +267,7 @@
 		function deletefamiliar_row(row) {
 
 		  	row.closest('tr').remove();
-		  	toastr.info('Barrio eliminado de la lista');
+		  	toastr.info('Calle eliminada de la lista');
 		}
 
 
@@ -276,13 +276,13 @@
 		$("#guardar").click(function() {
       //$('#form').submit();
 
-      var listado = crear_listado_barrios();
-      $('#id_lista_barrios').val(listado);
+      var listado = crear_listado_calles();
+      $('#id_lista_calles').val(listado);
 
-      if ($('#id_lista_barrios').val() == '')
+      if ($('#id_lista_calles').val() == '')
       {
         swal({
-					title: 'Debe ingresar por lo menos 1 barrio',
+					title: 'Debe ingresar por lo menos 1 calle',
 					text: 'faltan datos',
 					type: 'error',
 					//confirmButtonColor: '#DD6B55',
@@ -298,13 +298,13 @@
        
     });
     
-    function crear_listado_barrios() {
+    function crear_listado_calles() {
       var listado = '';
       var provincia_id, departamento_id, descripcion;
 
-      $("#id_lista_barrios").val('');
+      $("#id_lista_calles").val('');
 
-      $('#table_barrios tbody tr').each(function () {	 
+      $('#table_calles tbody tr').each(function () {	 
         provincia_id = $(this).find("td").eq(0).html();
         departamento_id = $(this).find("td").eq(1).html();
         localidad_id = $(this).find("td").eq(2).html();

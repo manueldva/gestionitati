@@ -76,7 +76,6 @@ Route::get('buscarempleado', function() {
 
 // verificar departamentos
 
-/*se usa para validar si existe o no un cliente con este numerodocumento*/
 Route::get('verificardepartamento', function() {
     $departamento = App\Models\Departamento::where('descripcion', '=', request('d'))->where('provincia_id', '=', request('p'))->first();
     if($departamento){
@@ -103,6 +102,17 @@ Route::get('verificarbarrio', function() {
     $barrio = App\Models\Barrio::where('descripcion', '=', request('d'))->where('localidad_id', '=', request('l'))->first();
     if($barrio){
     	$id = $barrio->id;
+    } else
+    {
+    	$id = 0;
+    }
+    return $id;
+});
+
+Route::get('verificarcalle', function() {
+    $calle = App\Models\Calle::where('descripcion', '=', request('d'))->where('localidad_id', '=', request('l'))->first();
+    if($calle){
+    	$id = $calle->id;
     } else
     {
     	$id = 0;

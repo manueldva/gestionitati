@@ -35,7 +35,7 @@ class PerfilController extends Controller
         $permiso = $modulos[0]->pivot->permiso;
  
 
-        $perfiles = Perfil::type($request->get('type'), $request->get('val'))->paginate(10);
+        $perfiles = Perfil::type($request->get('type'), $request->get('val'))->paginate(15);
 
         $perfiles->setPath('perfiles');
 

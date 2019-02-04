@@ -1,19 +1,23 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Complementos;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\Http\Requests\ModuloStoreRequest;
-use App\Http\Requests\ModuloUpdateRequest;
+use App\Http\Requests\Complementos\TipoivaStoreRequest;
+use App\Http\Requests\Complementos\TipoivaUpdateRequest;
 use Alert;
 
+use App\Models\Tipoiva;
+use App\Models\Cliente;
 use App\Models\Modulo;
 use App\Models\Perfil;
 use Auth;
 
-class ModuloController extends Controller
+use App\Helpers\FechaHelper;
+
+class TipoivaController extends Controller
 {
     public function __construct()
     {
@@ -29,18 +33,22 @@ class ModuloController extends Controller
     {
        
         $perfil = Perfil::find(Auth::user()->perfil_id);
-        $modulo_actual = Modulo::where('valor', '=', 'SEGURIDAD')->get();
+        $modulo_actual = Modulo::where('valor', '=', 'COMPLEMENTO')->get();
         $modulos = $perfil->modulos()->where('modulo_id', '=', $modulo_actual[0]->id)->get();
         $permiso = $modulos[0]->pivot->permiso;
  
 
-        $modulos = Modulo::type($request->get('type'), $request->get('val'))->paginate(15);
+        $tipoivas = Tipoiva::type($request->get('type'), $request->get('val'))->paginate(15);
 
-        $modulos->setPath('modulos');
+        foreach($tipoivas as $tipoiva){
+            $tipoiva->fecha_alta = FechaHelper::getFechaImpresion($tipoiva->fecha_alta); 
+        }
 
-        if ($permiso == 0 ) return back();
+        $tipoivas->setPath('tipoivas');
 
-       return view('admin..seguridad.modulos.index', compact('modulos', 'permiso'));
+         //dd($motivos);
+
+       return view('admin.complementos.tipoivas.index', compact('tipoivas', 'permiso'));
     }
 
     /**
@@ -51,7 +59,7 @@ class ModuloController extends Controller
     public function create()
     {
 
-        return view('admin.seguridad.modulos.create');
+        return view('admin.complementos.tipoivas.create');
     }
 
     /**
@@ -60,30 +68,15 @@ class ModuloController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ModuloStoreRequest $request)
+    public function store(tipoivastoreRequest $request)
     {
-        $modulo = Modulo::create($request->all());
-
-        $perfiles = Perfil::get();
-
-        foreach ($perfiles as $perfil) {
-
-            $perfil->modulos()->attach($modulo->id);
-
-            $permiso = 0;
-
-            $perfil->modulos()->attach(
-                $modulo->id,
-                array('permiso' => $permiso)
-                );
-        }
-
+        $tipoiva = Tipoiva::create($request->all());
 
         //auditoria
-        $modulo->fill(['usuario_alta' => Auth::user()->username , 'fecha_alta' => date('Y-m-d H:i:s')])->save();
+        $tipoiva->fill(['usuario_alta' => Auth::user()->username , 'fecha_alta' => date('Y-m-d H:i:s')])->save();
         //
-        Alert::success('Modulo creado con exito')->persistent("Cerrar");
-        return redirect()->route('modulos.edit', $modulo->id);
+        Alert::success('Tipo Iva creado con exito')->persistent("Cerrar");
+        return redirect()->route('tipoivas.index');
     }
 
     /**
@@ -94,10 +87,11 @@ class ModuloController extends Controller
      */
     public function show($id)
     {
-        $modulo = Modulo::find($id);
+        $tipoiva = Tipoiva::find($id);
 
+        $tipoiva->fecha_alta = FechaHelper::getFechaImpresion($tipoiva->fecha_alta); 
 
-        return view('admin.seguridad.modulos.show', compact('modulo'));
+        return view('admin.complementos.tipoivas.show', compact('tipoiva'));
     }
 
     /**
@@ -108,9 +102,9 @@ class ModuloController extends Controller
      */
     public function edit($id)
     {
-        $modulo = Modulo::find($id);
+        $tipoiva = Tipoiva::find($id);
 
-        return view('admin.seguridad.modulos.edit', compact('modulo'));
+        return view('admin.complementos.tipoivas.edit', compact('tipoiva'));
     }
 
     /**
@@ -120,20 +114,20 @@ class ModuloController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ModuloUpdateRequest $request, $id)
+    public function update(TipoivaUpdateRequest $request, $id)
     {
         
-        $modulo = Modulo::find($id);
+        $tipoiva = Tipoiva::find($id);
 
-        $modulo->fill($request->all())->save();
+        $tipoiva->fill($request->all())->save();
 
 
         //auditoria
-        $modulo->fill(['usuario_modi' => Auth::user()->username , 'fecha_modi' => date('Y-m-d H:i:s')])->save();
+        $tipoiva->fill(['usuario_modi' => Auth::user()->username , 'fecha_modi' => date('Y-m-d H:i:s')])->save();
         //
 
-        Alert::success('Modulo actualizado con exito')->persistent("Cerrar");
-        return redirect()->route('modulos.edit', $modulo->id);
+        Alert::success('Tipo Iva actualizado con exito')->persistent("Cerrar");
+        return redirect()->route('tipoivas.index');
     }
 
     /**
@@ -145,9 +139,7 @@ class ModuloController extends Controller
     public function destroy($id)
     {
 
-        $existe = Modulo::find($id)->perfiles()->count();
-
-        //dd($existe);
+        $existe = Cliente::where('tipoiva_id', $id)->count();
 
         if($existe > 0) 
         {
@@ -155,7 +147,8 @@ class ModuloController extends Controller
             return back();
         }
 
-        Modulo::find($id)->delete();
+        
+        Tipoiva::find($id)->delete();
 
         Alert::success('Eliminado correctamente')->persistent("Cerrar");
         return back();

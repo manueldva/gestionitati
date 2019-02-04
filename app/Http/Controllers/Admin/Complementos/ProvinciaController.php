@@ -38,7 +38,7 @@ class ProvinciaController extends Controller
         $permiso = $modulos[0]->pivot->permiso;
  
 
-        $provincias = Provincia::type($request->get('type'), $request->get('val'))->paginate(10);
+        $provincias = Provincia::type($request->get('type'), $request->get('val'))->paginate(15);
 
         foreach($provincias as $provincia){
             $provincia->fecha_alta = FechaHelper::getFechaImpresion($provincia->fecha_alta); 

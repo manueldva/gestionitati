@@ -46,7 +46,7 @@ class Calle extends Model
 
 		} elseif ($type == 'codigo')
         {
-            $query->where('codigo', '=',  $valor)->orderBy('descripcion', 'ASC');
+            $query->where('id', '=',  $valor)->orderBy('descripcion', 'ASC');
         } else
         {
             $query->orderBy('descripcion', 'ASC');
