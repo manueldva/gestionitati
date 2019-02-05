@@ -171,6 +171,14 @@ return [
                 [
                     'text' => 'Tipo Iva',
                     'url'  => 'tipoivas',
+                ],
+                [
+                    'text' => 'Tipo Empleado',
+                    'url'  => 'tipoempleados',
+                ],
+                [
+                    'text' => 'Tipo Familiar',
+                    'url'  => 'tipofamiliares',
                 ]
             ]
         ],

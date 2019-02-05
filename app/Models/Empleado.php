@@ -18,9 +18,9 @@ class Empleado extends Model
     }
 
 
-    public function movil(){
+    public function tipoempleado(){
         
-        return $this->belongsTo(Movil::class);
+        return $this->belongsTo(Tipoempleado::class);
     }
 
 

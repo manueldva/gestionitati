@@ -62,6 +62,8 @@ route::resource('localidades', 		'Admin\Complementos\LocalidadController');
 route::resource('barrios', 		'Admin\Complementos\BarrioController');
 route::resource('calles', 		'Admin\Complementos\CalleController');
 route::resource('tipoivas', 		'Admin\Complementos\TipoivaController');
+route::resource('tipoempleados', 		'Admin\Complementos\TipoempleadoController');
+route::resource('tipofamiliares', 		'Admin\Complementos\TipofamiliarController');
 
 // servicios
 Route::get('/habilitarmodulos/{user}', 'Service\ServiceController@habilitarmodulos')->name('habilitarmodulos');

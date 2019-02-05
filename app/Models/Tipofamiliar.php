@@ -4,18 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Tipoempleado extends Model
+class Tipofamiliar extends Model
 {
-    //protected $table = 'barrios';
+    protected $table = 'tipofamiliares';
 
 	protected $fillable = [
     	'descripcion', 'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
 	];
 
 
-	public function empleados(){
-    	return $this->HasMany(Empleado::class);
-    }
+	/*public function clientes(){
+    	return $this->HasMany(Cliente::class);
+    }*/
 
     
 	public function scopeType($query, $type, $valor) 

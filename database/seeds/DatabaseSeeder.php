@@ -127,11 +127,6 @@ class DatabaseSeeder extends Seeder
             'descripcion' => 'CUIT',
         ]);
 
-        DB::table('tipodocumentos')->insert([
-            'descripcion' => 'Sin Documento',
-        ]);
-
-
 
         DB::table('tipoclientes')->insert([
             'descripcion' => 'Persona Fisica',
@@ -199,6 +194,12 @@ class DatabaseSeeder extends Seeder
         DB::table('tipoivas')->insert([
             'descripcion' => 'Pequeño Contribuyente Eventual Social',
         ]);
+
+
+        DB::table('tipoempleados')->insert([
+            'descripcion' => 'Vendedor',
+        ]);
+
 
 
         // $this->call(UsersTableSeeder::class);
