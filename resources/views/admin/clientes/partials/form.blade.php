@@ -813,6 +813,7 @@
 		
 
 		$('#empleado_id').focusout(function(e) {
+			if ($('#empleado_id').val() == '') $('#empleado').val(''); 
 			buscarEmpleado();
 
 		});
@@ -823,6 +824,7 @@
 				//mayor compatibilidad entre navegadores.
 				var code = (e.keyCode ? e.keyCode : e.which);
 				if(code==13){
+					if ($('#empleado_id').val() == '') $('#empleado').val(''); 
 					buscarEmpleado();
 
 				}
@@ -830,6 +832,7 @@
 		});
 
 		$('#empleado').on('change', function(e){
+			if ($('#empleado').val() == '') $('#empleado_id').val(''); 
 			buscarEmpleado();
 		});
 

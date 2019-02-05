@@ -116,7 +116,7 @@ return [
             'url'  => 'ventas',
             'icon' => 'money',
         ],*/
-        /*[
+        [
             'text' => 'Clientes',
             'url'  => 'clientes',
             'icon' => 'users',
