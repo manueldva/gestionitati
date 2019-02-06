@@ -23,11 +23,25 @@ class UserUpdateRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             'name'      => 'required',
             'username'  => 'required|unique:users,username,' . $this->user,
-            'email'     => 'required|unique:users,email,'. $this->user,
+            //'email'     => 'required|unique:users,email,'. $this->user,
             'perfil_id'     => 'required'
+
         ];
+
+        if($this->get('email'))
+            $rules = array_merge($rules, ['email'     => 'required|unique:users,email,'. $this->user]);
+
+
+        return $rules;
+
+        /*return [
+            'name'      => 'required',
+            'username'  => 'required|unique:users,username,' . $this->user,
+            //'email'     => 'required|unique:users,email,'. $this->user,
+            'perfil_id'     => 'required'
+        ];*/
     }
 }

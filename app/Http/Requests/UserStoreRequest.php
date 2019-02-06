@@ -23,11 +23,25 @@ class UserStoreRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
+            'name'      => 'required',
+            'username'  => 'required|unique:users,username',
+            //'email'     => 'required|unique:users,email,'. $this->user,
+            'perfil_id'     => 'required'
+
+        ];
+
+        if($this->get('email'))
+            $rules = array_merge($rules, ['email'     => 'required|unique:users,email']);
+
+
+        return $rules;
+
+        /*return [
             'name'      => 'required',
             'username'     => 'required|unique:users,username',
             //'email'     => 'required|unique:users,email',
             'perfil_id'     => 'required'
-        ];
+        ];*/
     }
 }
