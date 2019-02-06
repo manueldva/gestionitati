@@ -67,6 +67,13 @@
                   <td> 
                     {{ form::label('nombredescripcion', 'descripcion') }}
                     {{ form::text('descripcion', null, ['class' => 'form-control', 'id' => 'descripcion']) }}
+                    <br>
+                    <div id="poseebarrio" class="form-group pull-right">
+                      {{ form::label('sinbarrio1', 'No posee barrios:') }}
+                      <label>
+                        {{ Form::checkbox('sinbarrio','1'), ['id'=>'sinbarrio', 'name'=>'sinbarrio']}} 
+                      </label>  
+                    </div>
                   </td>
                   <td> 
                     <br>
@@ -89,6 +96,7 @@
                     <th style="display:none;"> Codigo</th>
                     <th style="display:none;"> Codigo</th>
                     <th> Descripción Localidad</th>
+                    <th> Posee Barrio</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -156,6 +164,7 @@
 		/*para agregar departamento al listado*/
 		$( "#agregarlocalidad" ).click(function(e) {
 
+        
 			/*validaciones*/ 
 			if($("#descripcion").val() == '' || $("#provincia_id").val() == '' || $("#departamento_id").val() == '') {
 				swal({
@@ -174,6 +183,11 @@
 			var descripcion = $("#descripcion").val();
       var provincia_id = $("#provincia_id").val();
       var departamento_id = $("#departamento_id").val();
+      var sinbarrio = 'SI';
+      if($('input[name=sinbarrio]:checkbox:checked').val() == '1') {
+          sinbarrio =  'NO';
+      }
+
       var existe = 0;
       
       $('#table_localidades tr').each(function(index, element) {
@@ -206,6 +220,7 @@
         } 
       });
 
+
       //modificar por esto
 
       // https://stackoverflow.com/questions/1457690/jquery-ajax-success-anonymous-function-scope
@@ -217,14 +232,14 @@
           '<td style="display:none;">' + provincia_id + '</td>' +
           '<td style="display:none;">' + departamento_id + '</td>' +
           '<td>' + descripcion + '</td>' +
+          '<td>' + sinbarrio + '</td>' +
           "<td><a class='delete btn btn-sm btn-danger' onclick ='deletefamiliar_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
           '</td>' +
           '</tr>');
 
         $("#descripcion").val('');
         //var provincia_id = $("#provincia_id").val('');
-
-
+        $('input[name=sinbarrio]').iCheck('uncheck');
         toastr.success('Localidad agregada a la lista');
         
       }
@@ -278,8 +293,15 @@
         provincia_id = $(this).find("td").eq(0).html();
         departamento_id = $(this).find("td").eq(1).html();
         descripcion = $(this).find("td").eq(2).html();
+        poseebarriotemp = $(this).find("td").eq(3).html();
 
-        listado += provincia_id + "|" + departamento_id + "|" + descripcion + "&&&";
+        if(poseebarriotemp == 'NO'){
+          sinbarrio = 1;
+        } else{
+          sinbarrio = 0;
+        }
+
+        listado += provincia_id + "|" + departamento_id + "|" + descripcion + "|" + sinbarrio + "&&&";
       });
 
       return listado;

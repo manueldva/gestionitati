@@ -45,6 +45,14 @@
 
 				<p> <strong>Localidad:</strong> {{ $localidad->descripcion }}</p>
 
+				<p> <strong>Posee Barrio:</strong> 
+					@if($localidad->sinbarrio == 0)
+						SI
+					@else
+						NO
+					@endif
+				</p>
+
 				<p> <strong>Fecha Alta:</strong> {{ $localidad->fecha_alta }}</p>
 			</div>
 		</div>

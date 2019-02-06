@@ -21,7 +21,10 @@ class CreateBarriosTable extends Migration
             $table->foreign('departamento_id')->references('id')->on('departamentos');
             $table->integer('localidad_id')->unsigned()->nullable();
             $table->foreign('localidad_id')->references('id')->on('localidades');
+            $table->integer('distrito_id')->unsigned()->nullable();
+            $table->foreign('distrito_id')->references('id')->on('distritos');
             $table->string('descripcion', 350);
+            $table->boolean('sincalle')->default(0);
             $table->string('usuario_alta',50)->nullable();
             $table->timestamp('fecha_alta')->nullable();
             $table->string('usuario_modi',50)->nullable();

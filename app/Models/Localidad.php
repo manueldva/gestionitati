@@ -9,7 +9,7 @@ class Localidad extends Model
     protected $table = 'localidades';
 
 	protected $fillable = [
-    	'provincia_id', 'departamento_id', 'descripcion', 'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
+    	'provincia_id', 'departamento_id', 'descripcion', 'sinbarrio', 'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
 	];
 
 

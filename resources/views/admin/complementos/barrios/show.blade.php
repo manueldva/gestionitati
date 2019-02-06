@@ -44,8 +44,21 @@
 				<p> <strong>departamento:</strong> {{ $barrio->departamento->descripcion }}</p>
 
 				<p> <strong>Localidad:</strong> {{ $barrio->localidad->descripcion }}</p>
+				@if($barrio->distrito_id)
+					<p> <strong>Distrito:</strong> {{ $barrio->distrito->descripcion }}</p>
+				@endif
 
 				<p> <strong>Barrio:</strong> {{ $barrio->descripcion }}</p>
+
+
+				<p> <strong>Posee Calle:</strong> 
+					@if($barrio->sincalle == 0)
+						SI
+					@else
+						NO
+					@endif
+				</p>
+
 
 				<p> <strong>Fecha Alta:</strong> {{ $barrio->fecha_alta }}</p>
 			</div>

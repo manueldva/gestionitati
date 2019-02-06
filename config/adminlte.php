@@ -161,6 +161,10 @@ return [
                     'url'  => 'localidades',
                 ],
                 [
+                    'text' => 'Distritos',
+                    'url'  => 'distritos',
+                ],
+                [
                     'text' => 'Barrios',
                     'url'  => 'barrios',
                 ],

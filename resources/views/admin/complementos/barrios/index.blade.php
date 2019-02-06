@@ -55,10 +55,11 @@
 	                  <!--<th width="10px"> ID</th>-->
 	                  <th> Codigo</th>
 	                  <th> Barrio</th>
-										<th> Localidad</th>
-										<th> Departamento</th>
-										<th> Provincia</th>
-					  				<th> Fecha Alta</th>
+					  <th> Localidad</th>
+					  <th> Departamento</th>
+					  <th> Provincia</th>
+					  <th> Posee Calle</th>
+	  				  <th> Fecha Alta</th>
 	                  <th colspan="3">&nbsp;</th>
 	                </tr>
 	              </thead>
@@ -67,10 +68,17 @@
 	                  <tr>
 	                    <td>{{ $barrio->id }}</td>
 	                    <td>{{ $barrio->descripcion }}</td>
-											<td>{{ $barrio->localidad->descripcion }}</td>
-											<td>{{ $barrio->departamento->descripcion }}</td>
-											<td>{{ $barrio->provincia->descripcion }}</td>
-											<td>{{ $barrio->fecha_alta }}</td>
+						<td>{{ $barrio->localidad->descripcion }}</td>
+						<td>{{ $barrio->departamento->descripcion }}</td>
+						<td>{{ $barrio->provincia->descripcion }}</td>
+						<td>
+							@if($barrio->sincalle == 0)
+								SI
+							@else
+								NO
+							@endif
+						</td>
+						<td>{{ $barrio->fecha_alta }}</td>
 	                    <td width="10px">
 	                      <a href="{{ route('barrios.show', $barrio->id) }}" class="btn btn-sm btn-default">
 	                        Ver

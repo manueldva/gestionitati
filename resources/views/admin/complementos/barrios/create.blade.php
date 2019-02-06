@@ -63,6 +63,10 @@
           {{ form::label('localidad_id', 'Localidad *') }}
           {{ form::select('localidad_id', [],  null, ['class' => 'form-control', 'id' => 'localidad_id','placeholder' => 'Seleccionar...'] ) }}
         </div>
+        <div class="form-group">
+          {{ form::label('distrito_id', 'Distrito') }}
+          {{ form::select('ditrito_id', $distritos,  null, ['class' => 'form-control', 'id' => 'distrito_id','placeholder' => 'Seleccionar...'] ) }}
+        </div>
 
         <div class="form-group">
           <div class="table-responsive">
@@ -72,6 +76,13 @@
                   <td> 
                     {{ form::label('nombredescripcion', 'descripcion') }}
                     {{ form::text('descripcion', null, ['class' => 'form-control', 'id' => 'descripcion']) }}
+                    <br>
+                    <div id="poseebarrio" class="form-group pull-right">
+                      {{ form::label('sincalle1', 'No posee calles:') }}
+                      <label>
+                        {{ Form::checkbox('sincalle','1'), ['id'=>'sincalle', 'name'=>'sincalle']}} 
+                      </label>  
+                    </div>
                   </td>
                   <td> 
                     <br>
@@ -94,7 +105,9 @@
                     <th style="display:none;"> Codigo</th>
                     <th style="display:none;"> Codigo</th>
                     <th style="display:none;"> Codigo</th>
+                    <th style="display:none;"> Codigo</th>
                     <th> Descripción Barrio</th>
+                    <th> Posee Calles</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -203,6 +216,11 @@
       var provincia_id = $("#provincia_id").val();
       var departamento_id = $("#departamento_id").val();
       var localidad_id = $("#localidad_id").val();
+      var distrito_id = $("#distrito_id").val();
+      var sincalle = 'SI';
+      if($('input[name=sincalle]:checkbox:checked').val() == '1') {
+          sincalle =  'NO';
+      }
       var existe = 0;
       
       $('#table_barrios tr').each(function(index, element) {
@@ -246,7 +264,9 @@
           '<td style="display:none;">' + provincia_id + '</td>' +
           '<td style="display:none;">' + departamento_id + '</td>' +
           '<td style="display:none;">' + localidad_id + '</td>' +
+          '<td style="display:none;">' + distrito_id + '</td>' +
           '<td>' + descripcion + '</td>' +
+          '<td>' + sincalle + '</td>' +
           "<td><a class='delete btn btn-sm btn-danger' onclick ='deletefamiliar_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
           '</td>' +
           '</tr>');
@@ -308,9 +328,18 @@
         provincia_id = $(this).find("td").eq(0).html();
         departamento_id = $(this).find("td").eq(1).html();
         localidad_id = $(this).find("td").eq(2).html();
-        descripcion = $(this).find("td").eq(3).html();
+        distrito_id = $(this).find("td").eq(3).html();
+        descripcion = $(this).find("td").eq(4).html();
+        sincalletemp = $(this).find("td").eq(5).html();
 
-        listado += provincia_id + "|" + departamento_id + "|" + localidad_id + "|" + descripcion + "&&&";
+        if(sincalletemp == 'NO'){
+          sincalle = 1;
+        } else{
+          sincalle = 0;
+        }
+
+
+        listado += provincia_id + "|" + departamento_id + "|" + localidad_id + "|" + distrito_id + "|" + descripcion + "|" + sincalle + "&&&";
       });
 
       return listado;

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLocalidadesTable extends Migration
+class CreateDistritosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,9 @@ class CreateLocalidadesTable extends Migration
      */
     public function up()
     {
-        Schema::create('localidades', function (Blueprint $table) {
+        Schema::create('distritos', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('provincia_id')->unsigned()->nullable();
-            $table->foreign('provincia_id')->references('id')->on('provincias');
-            $table->integer('departamento_id')->unsigned()->nullable();
-            $table->foreign('departamento_id')->references('id')->on('departamentos');
-            $table->string('descripcion', 350);
-            $table->boolean('sinbarrio')->default(0);
+            $table->string('descripcion', 128);
             $table->string('usuario_alta',50)->nullable();
             $table->timestamp('fecha_alta')->nullable();
             $table->string('usuario_modi',50)->nullable();
@@ -36,6 +31,6 @@ class CreateLocalidadesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('localidades');
+        Schema::dropIfExists('distritos');
     }
 }

@@ -81,15 +81,18 @@ class LocalidadController extends Controller
         $listado_localidades_array = explode('&&&', $listado_localidades_text);
         array_pop($listado_localidades_array);
 
+        //dd($listado_localidades_array);
+
 		foreach ($listado_localidades_array as $localidad_text)
 		{
 			list($provincia_id, $departamento_id,
-            $descripcion) = explode('|', $localidad_text);
+            $descripcion, $sinbarrio) = explode('|', $localidad_text);
 
 			$localidad = new Localidad();
                 $localidad->provincia_id = $provincia_id;
                 $localidad->departamento_id = $departamento_id;
                 $localidad->descripcion = $descripcion;
+                $localidad->sinbarrio = $sinbarrio;
                 $localidad->usuario_alta = Auth::user()->username;
                 $localidad->fecha_alta = date('Y-m-d H:i:s');
 
@@ -126,6 +129,8 @@ class LocalidadController extends Controller
     {
         $localidad = Localidad::find($id);
 
+        //dd($localidad->sinbarrio);
+
         return view('admin.complementos.localidades.edit', compact('localidad', 'provincias', 'departamentos'));
     }
 
@@ -155,9 +160,16 @@ class LocalidadController extends Controller
 
         $localidad->fill($request->all())->save();
 
+        if($request->input('sinbarrio') == '1'){
+            $sinbarrio = 1;
+        }  else {
+            $sinbarrio = 0;
+        }
+        
+
 
         //auditoria
-        $localidad->fill(['usuario_modi' => Auth::user()->username , 'fecha_modi' => date('Y-m-d H:i:s')])->save();
+        $localidad->fill(['sinbarrio' => $sinbarrio, 'usuario_modi' => Auth::user()->username , 'fecha_modi' => date('Y-m-d H:i:s')])->save();
         //
 
         Alert::success('Localidad actualizada con exito')->persistent("Cerrar");

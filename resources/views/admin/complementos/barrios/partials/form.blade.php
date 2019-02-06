@@ -38,6 +38,14 @@
 		{{ form::text('descripcion', null, ['class' => 'form-control', 'id' => 'descripcion']) }}
 	</div>
 
+	<div id="poseecalle" class="form-group ">
+
+		{{ form::label('poseecalle', 'No posee calles:') }}
+		<label>
+			{{ Form::checkbox('poseecalle','1')}} 
+		</label>	
+	</div>
+
 </div>
 
 

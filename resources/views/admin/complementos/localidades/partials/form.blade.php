@@ -33,6 +33,14 @@
 		{{ form::text('descripcion', null, ['class' => 'form-control', 'id' => 'descripcion']) }}
 	</div>
 
+	<div id="poseebarrio" class="form-group ">
+
+		{{ form::label('sinbarrio', 'No posee barrios:') }}
+		<label>
+			{{ Form::checkbox('sinbarrio','1')}} 
+		</label>	
+	</div>
+
 </div>
 
 

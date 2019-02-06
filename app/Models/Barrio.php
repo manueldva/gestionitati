@@ -9,7 +9,7 @@ class Barrio extends Model
     //protected $table = 'barrios';
 
 	protected $fillable = [
-    	'provincia_id','localidad_id', 'departamento_id', 'descripcion', 'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
+    	'provincia_id','localidad_id', 'departamento_id', 'distrito_id', 'descripcion', 'sincalle', 'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
 	];
 
 
@@ -22,6 +22,12 @@ class Barrio extends Model
         
         return $this->belongsTo(Provincia::class);
     }
+
+    public function distrito(){
+        
+        return $this->belongsTo(Distrito::class);
+    }
+
 
     public function departamento(){
         

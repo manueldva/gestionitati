@@ -14,6 +14,7 @@ use App\Models\Localidad;
 use App\Models\Cliente;
 use App\Models\Calle;
 use App\Models\Barrio;
+use App\Models\Distrito;
 use App\Models\Modulo;
 use App\Models\Perfil;
 use Auth;
@@ -62,9 +63,10 @@ class BarrioController extends Controller
     public function create()
     {
         $provincias  = Provincia::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+        $distritos  = Distrito::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
 
-        return view('admin.complementos.barrios.create', compact('provincias'));
+        return view('admin.complementos.barrios.create', compact('provincias', 'distritos'));
     }
 
     /**
@@ -81,16 +83,20 @@ class BarrioController extends Controller
         $listado_barrios_array = explode('&&&', $listado_barrio_text);
         array_pop($listado_barrios_array);
 
+        //dd($listado_barrios_array);
+
 		foreach ($listado_barrios_array as $barrio_text)
 		{
-			list($provincia_id, $departamento_id,$localidad_id,
-            $descripcion) = explode('|', $barrio_text);
+			list($provincia_id, $departamento_id, $localidad_id, $distrito_id,
+            $descripcion, $sincalle) = explode('|', $barrio_text);
 
 			$barrio = new Barrio();
                 $barrio->provincia_id = $provincia_id;
                 $barrio->departamento_id = $departamento_id;
                 $barrio->localidad_id = $localidad_id;
+                if($distrito_id !== '') $barrio->distrito_id = $distrito_id;
                 $barrio->descripcion = $descripcion;
+                $barrio->sincalle = $sincalle;
                 $barrio->usuario_alta = Auth::user()->username;
                 $barrio->fecha_alta = date('Y-m-d H:i:s');
 
@@ -137,7 +143,7 @@ class BarrioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(BarrioUpdateRequest $request, $id)
+    public function update(request $request, $id)
     {
         $barrio = Barrio::find($id);
 
@@ -154,9 +160,15 @@ class BarrioController extends Controller
 
         $barrio->fill($request->all())->save();
 
+        if($request->input('sincalle') == '1'){
+            $sincalle = 1;
+        }  else {
+            $sincalle = 0;
+        }
+
 
         //auditoria
-        $barrio->fill(['usuario_modi' => Auth::user()->username , 'fecha_modi' => date('Y-m-d H:i:s')])->save();
+        $barrio->fill(['sincalle' => $sincalle, 'usuario_modi' => Auth::user()->username , 'fecha_modi' => date('Y-m-d H:i:s')])->save();
         //
 
         Alert::success('Barrio actualizado con exito')->persistent("Cerrar");
