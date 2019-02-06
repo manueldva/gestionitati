@@ -149,29 +149,36 @@ return [
             'icon'    => 'cog',
             'submenu' => [
                 [
-                    'text' => 'Provincias',
-                    'url'  => 'provincias',
-                ],
-                 [
-                    'text' => 'Departamentos',
-                    'url'  => 'departamentos',
-                ],
-                [
-                    'text' => 'Localidades',
-                    'url'  => 'localidades',
-                ],
-                [
-                    'text' => 'Distritos',
-                    'url'  => 'distritos',
-                ],
-                [
-                    'text' => 'Barrios',
-                    'url'  => 'barrios',
-                ],
-                [
-                    'text' => 'Calles',
-                    'url'  => 'calles',
-                ],
+                    'text'    => 'Dirección',
+                    'url'     => '#',
+                       'submenu' => [
+                            [
+                                'text' => 'Provincias',
+                                'url'  => 'provincias',
+                            ],
+                             [
+                                'text' => 'Departamentos',
+                                'url'  => 'departamentos',
+                            ],
+                            [
+                                'text' => 'Localidades',
+                                'url'  => 'localidades',
+                            ],
+                            [
+                                'text' => 'Distritos',
+                                'url'  => 'distritos',
+                            ],
+                            [
+                                'text' => 'Barrios',
+                                'url'  => 'barrios',
+                            ],
+                            [
+                                'text' => 'Calles',
+                                'url'  => 'calles',
+                            ],
+                        ],
+                    ],
+                
                 [
                     'text' => 'Tipo Iva',
                     'url'  => 'tipoivas',
