@@ -36,7 +36,7 @@ Route::get('departamentos', function() {
 
 Route::get('localidades', function() {
 
-    return App\Models\Localidad::where('departamento_id', '=', request('departamento_id'))->get();
+    return App\Models\Localidad::where('departamento_id', '=', request('departamento_id'))->where('sinbarrio', 0)->get();
 });
 
 Route::get('barrios', function() {
