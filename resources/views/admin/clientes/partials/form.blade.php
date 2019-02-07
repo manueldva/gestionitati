@@ -224,6 +224,10 @@
 						{{ form::select('provincia_id',  isset($provincias) ? $provincias : [] ,  null, ['class' => 'form-control inline-search', 'id' => 'provincia_id','placeholder' => 'Seleccionar...'] ) }}
 					</div>
 					<div class="form-group">
+						{{ form::label('departamento_id', 'Departamento') }}
+						{{ form::select('departamento_id', isset($cliente) ? $departamentos : [],  null, ['class' => 'form-control inline-search', 'id' => 'departamento_id','placeholder' => 'Seleccionar...'] ) }}
+					</div>
+					<div class="form-group">
 						{{ form::label('localidad_id', 'Localidad') }}
 						{{ form::select('localidad_id', isset($cliente) ? $localidades : [],  null, ['class' => 'form-control inline-search', 'id' => 'localidad_id','placeholder' => 'Seleccionar...'] ) }}
 					</div>
@@ -544,6 +548,7 @@
 		
 		//$('#articulo_id').select2();
 		$('#provincia_id').select2();
+		$('#departamento_id').select2();
 		$('#localidad_id').select2();
 		$('#barrio_id').select2();
 		$('#calle_id').select2();
@@ -1008,21 +1013,46 @@
 		    console.log(e);
 		    var provincia_id = e.target.value;
 
-		    $.get('{{ url("/") }}/api/localidades?provincia_id=' + provincia_id,function(data) {
+		    $.get('{{ url("/") }}/api/departamentos?provincia_id=' + provincia_id,function(data) {
 
-		      $('#localidad_id').empty();
+		      $('#departamento_id').empty();
+		      $('#departamento_id').append('<option value="0" disable="true" selected="true">Seleccionar...</option>');
+			  $('#localidad_id').empty();
 		      $('#localidad_id').append('<option value="0" disable="true" selected="true">Seleccionar...</option>');
 			  $('#barrio_id').empty();
 		      $('#barrio_id').append('<option value="0" disable="true" selected="true">Seleccionar...</option>');
+			  $('#calle_id').empty();
+			  $('#calle_id').append('<option value="0" disable="true" selected="true">Seleccionar...</option>');
 
-		      $.each(data, function(fetch, localidad){
+		      $.each(data, function(fetch, departamento){
 		        console.log(data);
-		        $('#localidad_id').append('<option value="'+ localidad.id +'">'+ localidad.descripcion +'</option>');
+		        $('#departamento_id').append('<option value="'+ departamento.id +'">'+ departamento.descripcion +'</option>');
 		      })
 		    });
 		    /*id2 = $("#provincia_id option:selected").val();
 		    cargar_departamentos(id2);*/
 		});
+
+		$('#departamento_id').on('change', function(e){
+		    console.log(e);
+		    var departamento_id = e.target.value;
+
+		    $('#localidad_id').empty();
+		    $('#localidad_id').append('<option value="0" disable="true" selected="true">Seleccionar...</option>');
+			$('#barrio_id').empty();
+			$('#barrio_id').append('<option value="0" disable="true" selected="true">Seleccionar...</option>');
+			$('#calle_id').empty();
+			$('#calle_id').append('<option value="0" disable="true" selected="true">Seleccionar...</option>');
+
+			//barrio
+		    $.get('{{ url("/") }}/api/localidades?departamento_id=' + departamento_id,function(data) {
+		      $.each(data, function(fetch, departamento){
+		        console.log(data);
+		        $('#localidad_id').append('<option value="'+ departamento.id +'">'+ departamento.descripcion +'</option>');
+		      })
+		    });
+		});
+		
 
 		$('#localidad_id').on('change', function(e){
 		    console.log(e);
@@ -1051,6 +1081,7 @@
 		    /*id2 = $("#provincia_id option:selected").val();
 		    cargar_departamentos(id2);*/
 		});
+
 
 		/**/ 
 
