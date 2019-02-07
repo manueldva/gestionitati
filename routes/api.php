@@ -34,15 +34,49 @@ Route::get('departamentos', function() {
     return App\Models\Departamento::where('provincia_id', '=', request('provincia_id'))->get();
 });
 
+//para complementos sin las localidades con campo sinbarrio marcado en 1
 Route::get('localidades', function() {
 
     return App\Models\Localidad::where('departamento_id', '=', request('departamento_id'))->where('sinbarrio', 0)->get();
 });
 
+//para clientes con todas las localidades
+Route::get('localidadescli', function() {
+
+    return App\Models\Localidad::where('departamento_id', '=', request('departamento_id'))->get();
+});
+
+/*para validar si la localidad esta marcado como sin barrio */
+Route::get('validarsinbarrio', function() {
+    $localidad =  App\Models\Localidad::where('id', '=', request('q'))->first();
+    if($localidad->sinbarrio == 1){
+        $id = 1;
+    } else
+    {
+        $id = 0;
+    }
+    return $id;
+});
+
+
 Route::get('barrios', function() {
 
     return App\Models\Barrio::where('localidad_id', '=', request('localidad_id'))->get();
 });
+
+/*para validar si la localidad esta marcado como sin barrio */
+Route::get('validarsincalle', function() {
+    $barrio =  App\Models\Barrio::where('id', '=', request('q'))->first();
+    if($barrio->sincalle == 1){
+        $id = 1;
+    } else
+    {
+        $id = 0;
+    }
+    return $id;
+});
+
+
 Route::get('calles', function() {
 
     return App\Models\Calle::where('localidad_id', '=', request('localidad_id'))->get();

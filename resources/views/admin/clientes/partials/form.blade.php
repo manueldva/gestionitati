@@ -31,6 +31,10 @@
 									<td> 
 										{{ form::label('numerodocumento', 'Nro Docuemento *') }}
 										{{ form::number('numerodocumento', null, ['class' => 'form-control', 'id' => 'numerodocumento']) }}
+										<div class="form-group has-error">
+											<span class="help-block">Help block with error</span>
+										</div>
+										
 									</td>
 								</tr>
 							</thead>
@@ -230,10 +234,13 @@
 					<div class="form-group">
 						{{ form::label('localidad_id', 'Localidad') }}
 						{{ form::select('localidad_id', isset($cliente) ? $localidades : [],  null, ['class' => 'form-control inline-search', 'id' => 'localidad_id','placeholder' => 'Seleccionar...'] ) }}
+
+						{{ form::text('sinbarrio', 0, ['class' => 'form-control', 'id' => 'sinbarrio']) }}
 					</div>
 					<div class="form-group">
 						{{ form::label('barrio_id', 'Barrio') }}
 						{{ form::select('barrio_id', isset($cliente) ? $barrios : [],  null, ['class' => 'form-control inline-search', 'id' => 'barrio_id','placeholder' => 'Seleccionar...'] ) }}
+						{{ form::text('sincalle', 0, ['class' => 'form-control', 'id' => 'sincalle']) }}
 					</div>
 					<div class="form-group">
 						{{ form::label('calle_id', 'Calle ') }}
@@ -481,7 +488,7 @@
 							<tr>
 								<td> 
 									{{ form::label('vinculo_id', 'Vinculo') }}
-									{{ form::select('vinculo_id', ['1' => 'Esposa', '2' => 'Esposo', '3' => 'Hijo/a' ],  null, ['class' => 'form-control', 'id' => 'vinculo_id','placeholder' => 'Seleccionar...'] ) }}
+									{{ form::select('vinculo_id', $tipofamiliar,  null, ['class' => 'form-control', 'id' => 'vinculo_id','placeholder' => 'Seleccionar...'] ) }}
 								</td>
 								<td> 
 									{{ form::label('nombrevinculo', 'Apellido y Nombre') }}
@@ -536,8 +543,13 @@
 @push('js')
 	<!-- todo lo que tenga que realizar un ajax -->
 	<script type="text/javascript">
+
+		//$('#numerodocumento').addClass('has-error');
 		
 		var APP_RL = "{{ url('/') }}";
+
+		$("#sincalle").hide();		
+		$("#sinbarrio").hide();
 
 		/*de movida todo tiente que estar bloqueado*/
 		
@@ -557,7 +569,7 @@
 		function calcularEdad() {
 			FechaNacimiento = $('#fechanacimiento').val();
 			var fechaNace = new Date(FechaNacimiento);
-			var fechaActual = new Date()
+			var fechaActual = new Date();
 			var mes = fechaActual.getMonth();
 			var dia = fechaActual.getDate();
 			var año = fechaActual.getFullYear();
@@ -1045,19 +1057,38 @@
 			$('#calle_id').append('<option value="0" disable="true" selected="true">Seleccionar...</option>');
 
 			//barrio
-		    $.get('{{ url("/") }}/api/localidades?departamento_id=' + departamento_id,function(data) {
+		    $.get('{{ url("/") }}/api/localidadescli?departamento_id=' + departamento_id,function(data) {
 		      $.each(data, function(fetch, departamento){
 		        console.log(data);
 		        $('#localidad_id').append('<option value="'+ departamento.id +'">'+ departamento.descripcion +'</option>');
 		      })
 		    });
 		});
-		
+
 
 		$('#localidad_id').on('change', function(e){
 		    console.log(e);
 		    var localidad_id = e.target.value;
 
+		    if (localidad_id !== '') {
+				$.ajax({
+					dataType: 'json',
+					url: APP_URL + '/api/validarsinbarrio',
+					//url: '../api/validardocumento',
+					data: {q: localidad_id}
+				}).done(function(data) {
+					//var $empleado = $('#empleado'); 
+					if(data == 0) {
+						$('#sinbarrio').val(0);
+					} else{
+						$('#sinbarrio').val(1);				
+					}
+					
+				});
+			} else {
+				$('#sinbarrio').val(0);
+			}
+			//alert($('#sinbarrio').val());		
 			$('#barrio_id').empty();
 			$('#barrio_id').append('<option value="0" disable="true" selected="true">Seleccionar...</option>');
 			$('#calle_id').empty();
@@ -1080,6 +1111,33 @@
 			});
 		    /*id2 = $("#provincia_id option:selected").val();
 		    cargar_departamentos(id2);*/
+		});
+
+
+		$('#barrio_id').on('change', function(e){
+		    console.log(e);
+		    var barrio_id = e.target.value;
+
+		    if (barrio_id !== '') {
+				$.ajax({
+					dataType: 'json',
+					url: APP_URL + '/api/validarsincalle',
+					//url: '../api/validardocumento',
+					data: {q: barrio_id}
+				}).done(function(data) {
+					//var $empleado = $('#empleado'); 
+					if(data == 0) {
+						$('#sincalle').val(0);
+					} else{
+						$('#sincalle').val(1);				
+					}
+					
+				});
+			} else {
+				$('#sincalle').val(0);
+			}
+			//alert($('#sincalle').val());		
+			
 		});
 
 
@@ -1128,6 +1186,17 @@
 			toastr.success('Familiar agregado a la lista');
 			
 
+		});
+
+		$(document).ready(function(){
+		    $("#contactovinculo").keypress(function(e) {
+		        //no recuerdo la fuente pero lo recomiendan para
+		        //mayor compatibilidad entre navegadores.
+		        var code = (e.keyCode ? e.keyCode : e.which);
+		        if(code==13){
+		            $('#agregarfamiliares').click();  
+		        }
+		    });
 		});
 
 

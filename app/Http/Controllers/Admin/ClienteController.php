@@ -26,6 +26,7 @@ use App\Models\Provincia;
 use App\Models\Tipocliente;
 use App\Models\Tipoempleado;
 use App\Models\Tipodocumento;
+use App\Models\Tipofamiliar;
 use App\Models\Companiatelefonica;
 use App\Models\Tipoiva;
 use App\Models\Articulo;
@@ -87,7 +88,6 @@ class ClienteController extends Controller
 
         $tipodocumentos  = Tipodocumento::orderBy('id', 'ASC')->pluck('descripcion' , 'id');
 
-
         $tipoivas  = Tipoiva::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
         $tipoclientes  = Tipocliente::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
@@ -103,10 +103,11 @@ class ClienteController extends Controller
             $empleados = [];
         }
 
+        $tipofamiliar  = Tipofamiliar::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
         $estadoclientes    = [ 0 => 'Inactivo', 1 => 'Activo'];
 
-        return view('admin.clientes.create', compact('companiatelefonicas', 'estadoclientes', 'provincias', 'tipodocumentos', 'tipoclientes', 'tipoivas', 'articulos', 'empleados'));
+        return view('admin.clientes.create', compact('companiatelefonicas', 'estadoclientes', 'provincias', 'tipodocumentos', 'tipoclientes', 'tipoivas', 'articulos', 'empleados', 'tipofamiliar'));
     }
 
     /**
