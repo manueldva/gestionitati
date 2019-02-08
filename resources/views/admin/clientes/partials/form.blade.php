@@ -31,10 +31,6 @@
 									<td> 
 										{{ form::label('numerodocumento', 'Nro Docuemento *') }}
 										{{ form::number('numerodocumento', null, ['class' => 'form-control', 'id' => 'numerodocumento']) }}
-										<div class="form-group has-error">
-											<span class="help-block">Help block with error</span>
-										</div>
-										
 									</td>
 								</tr>
 							</thead>
@@ -48,6 +44,9 @@
 			      <div class="form-group" id="razonsocial">
 			      	{{ form::label('cliente', 'Razon Social *') }}
 					{{ form::text('cliente', null, ['class' => 'form-control', 'id' => 'cliente', 'placeholder'=> 'Razon Social']) }}
+					<div id="razonsocialspan" class="form-group has-error"style="display: none">
+						<span class="help-block">Campo Obligatorio</span>
+					</div>
 			      </div>
 			      <div class="form-group" id="apellidoynombre">
 					<div class="table-responsive">
@@ -57,10 +56,17 @@
 									<td> 
 										{{ form::label('apellido', 'Apellido *') }}
 										{{ form::text('apellido', null, ['class' => 'form-control', 'id' => 'apellido', 'placeholder'=> 'Apellido']) }}
+										<div id="apellidospan" class="form-group has-error" style="display: none">
+											<span class="help-block">Campo Obligatorio</span>
+										</div>
+										
 									</td>
 									<td> 
 										{{ form::label('nombre', 'Nombre *') }}
 										{{ form::text('nombre', null, ['class' => 'form-control', 'id' => 'nombre', 'placeholder'=> 'Nombre']) }}
+										<div id="nombrespan" class="form-group has-error"  style="display: none">
+											<span class="help-block">Campo Obligatorio</span>
+										</div>
 									</td>
 								</tr>
 							</thead>
@@ -71,6 +77,9 @@
 			      <div class="form-group" id="referentes">
 			      	{{ form::label('referente', 'Referente') }}
 					{{ form::text('referente', null, ['class' => 'form-control', 'id' => 'referente', 'placeholder'=> 'Representante de la entidad']) }}
+					<div id="referentespan" class="form-group has-error"  style="display: none">
+						<span class="help-block">Campo Obligatorio</span>
+					</div>
 			      </div>
 				  <div class="form-group"  id = "tipoivas">
 			      		{{ form::label('tipoiva_id', 'Concidicion IVA') }}
@@ -545,6 +554,7 @@
 	<script type="text/javascript">
 
 		//$('#numerodocumento').addClass('has-error');
+
 		
 		var APP_RL = "{{ url('/') }}";
 
@@ -609,7 +619,7 @@
 				$("#razonsocial").hide();
 				$("#apellidoynombre").show();
 				$("#referentes").hide();
-				$("#tipoivas").hide();
+				//$("#tipoivas").hide();
 				$("#cuits").hide();
 				$("#fechanacimientos").show();
 				$("#edades").show();
@@ -617,7 +627,7 @@
 				$("#razonsocial").show();
 				$("#apellidoynombre").hide();
 				$("#referentes").show();
-				$("#tipoivas").show();
+				//$("#tipoivas").show();
 				$("#cuits").show();
 				$("#fechanacimientos").hide();
 				$("#edades").hide();
@@ -634,7 +644,12 @@
 
 		/*recuper si existe cliente*/
 
+
 		function verificarDocumento() {
+			
+			var estado = verificarlongitudnrocodumento();
+
+			if(estado == false) return false;
 
 			var nrodoc = $('#numerodocumento').val();
 			var tipodoc = $('#tipodocumento_id').val();
@@ -663,6 +678,7 @@
 					} else{
 						toastr.success('Numero de documento no existente en la base de datos');
 						$(":input").prop("disabled", false);
+						habilitarMotivoEstado();
 						habilitarCliente();
 					}
 					
@@ -974,14 +990,16 @@
 
 			*/
 			if($('#articulo_id').val() == ''  || $("#cantidadarticulo").val() == '') {
-				swal({
+				/*swal({
 					title: 'No se puede agregar este articulo',
 					text: 'faltan algunos datos',
 					type: 'error',
 					//confirmButtonColor: '#DD6B55',
 					confirmButtonText: 'OK',
 					closeOnConfirm: false
-				});
+				});*/
+
+				toastr.error('No se puede agregar este articulo. Faltan datos');
 				return false;
 			}
 
@@ -1208,10 +1226,7 @@
 		}
 
 
-
-
-		$( "#guardar" ).click(function() {
-
+		function verificarlongitudnrocodumento() {
 			var tipodocumento_id = $("#tipodocumento_id").val();
 
 			var numerodocumento = $('#numerodocumento').val();
@@ -1219,7 +1234,7 @@
 			numerodocumento = $.trim(numerodocumento);
 
 			if(tipodocumento_id > 0  && numerodocumento.length < 1) {
-				swal({
+				/*swal({
 						title: "El campo numero de documento no puede estar vacio",
 						text: "Verefique los datos",
 						type: "warning",
@@ -1228,62 +1243,40 @@
 						//showLoaderOnConfirm: true
 						}, function () {
 							return false;
-						});
+						});*/
+				toastr.error('El campo numero de documento no puede estar vacio');
+				return false;
 			}
 
 			if(tipodocumento_id > 0  && tipodocumento_id < 5) {
 				if( numerodocumento.length > 8) {
-					swal({
-						title: "Solo se permiten 8 digitos para este tipo de documento",
-						text: "Verefique los datos",
-						type: "warning",
-						//showCancelButton: true,
-						closeOnConfirm: true//,
-						//showLoaderOnConfirm: true
-						}, function () {
-							return false;
-						});
+					toastr.error('Solo se permiten 8 digitos para este tipo de documento');
+					return false;
 				} 
 			} 	else if(tipodocumento_id == 5) {
 				if(numerodocumento.length > 12) {
-					swal({
-						title: "Solo se permiten 12 digitos para este tipo de documento",
-						text: "Verefique los datos",
-						type: "warning",
-						//showCancelButton: true,
-						closeOnConfirm: true//,
-						//showLoaderOnConfirm: true
-						}, function () {
-							return false;
-						});
+					toastr.error('Solo se permiten 12 digitos para este tipo de documento');
+					return false;
 				} 
 			}	else if(tipodocumento_id == 8) {
 				if(numerodocumento.length > 15) {
-					swal({
-						title: "Solo se permiten 15 digitos para este tipo de documento",
-						text: "Verefique los datos",
-						type: "warning",
-						//showCancelButton: true,
-						closeOnConfirm: true//,
-						//showLoaderOnConfirm: true
-						}, function () {
-							return false;
-						});
+					toastr.error('Solo se permiten 15 digitos para este tipo de documento');
+					return false;
 				} 
 			}	else if(tipodocumento_id == 10) {
 				if(numerodocumento.length > 11) {
-					swal({
-						title: "Solo se permiten 11 digitos para este tipo de documento",
-						text: "Verefique los datos",
-						type: "warning",
-						//showCancelButton: true,
-						closeOnConfirm: true//,
-						//showLoaderOnConfirm: true
-						}, function () {
-							return false;
-						});
+					toastr.error('Solo se permiten 11 digitos para este tipo de documento');
+					return false;
 				} 
-			}					
+			}	
+		}
+
+
+
+		$( "#guardar" ).click(function() {
+			var estado = verificarlongitudnrocodumento();
+			
+			if(estado == false) return false;					
 		   //$('#form').submit();
 		});
 
