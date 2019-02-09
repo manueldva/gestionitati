@@ -1249,7 +1249,7 @@
 			}
 
 			if(tipodocumento_id > 0  && tipodocumento_id < 5) {
-				if( numerodocumento.length > 8) {
+				if( numerodocumento.length !== 8) {
 					toastr.error('Solo se permiten 8 digitos para este tipo de documento');
 					return false;
 				} 
@@ -1264,7 +1264,7 @@
 					return false;
 				} 
 			}	else if(tipodocumento_id == 10) {
-				if(numerodocumento.length > 11) {
+				if(numerodocumento.length !== 11) {
 					toastr.error('Solo se permiten 11 digitos para este tipo de documento');
 					return false;
 				} 
@@ -1274,10 +1274,52 @@
 
 
 		$( "#guardar" ).click(function() {
-			var estado = verificarlongitudnrocodumento();
-			
+			var estado = verificarlongitudnrocodumento();		
+
 			if(estado == false) return false;					
-		   //$('#form').submit();
+
+		   //validaciones particulares
+		   var estadocampos = 0;
+
+		   if($('#apellido').val() == ''){
+		   		estadocampos = 1;
+		   		$('#apellidospan').show();
+		   } else{
+		   		estadocampos = 0;
+		   		$('#apellidospan').hide();
+		   }
+
+		   if($('#nombre').val() == ''){
+		   		estadocampos = 1;
+		   		$('#nombrespan').show();
+		   } else{
+		   		estadocampos = 0;
+		   		$('#nombrespan').hide();
+		   }
+
+		   if(estadocampos == 1) 
+		   {
+		   	swal({
+					title: 'No se pueden guardar los datos',
+					text: 'Existen campos vacios o mal cargados',
+					type: 'error',
+					confirmButtonColor: '#DD6B55',
+					//confirmButtonText: 'OK',
+					//timer: 3500,
+					closeOnConfirm: false
+				}),function () {
+			        //location.reload(true);
+			        tr.hide();
+			    };
+		   }
+		   	return false;
+
+		   
+
+
+
+		   	//$('#form').submit();
+
 		});
 
 	</script>
