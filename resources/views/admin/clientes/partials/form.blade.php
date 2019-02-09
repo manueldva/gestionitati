@@ -81,10 +81,6 @@
 						<span class="help-block">Campo Obligatorio</span>
 					</div>
 			      </div>
-				  <div class="form-group"  id = "tipoivas">
-			      		{{ form::label('tipoiva_id', 'Concidicion IVA') }}
-						{{ form::select('tipoiva_id', isset($tipoivas) ? $tipoivas : [], null, ['class' => 'form-control','placeholder' => 'Seleccionar...'] ) }}
-			      </div>
 			      <div class="form-group">
 					<div class="table-responsive">
 						<table class="table table-striped table-hover" data-form="Form">
@@ -103,6 +99,17 @@
 										</div>
 									</td>
 								</tr>		
+								</tr>	
+									<td>
+										 <div  id = "tipoivas">
+								      		{{ form::label('tipoiva_id', 'Concidicion IVA') }}
+											{{ form::select('tipoiva_id', isset($tipoivas) ? $tipoivas : [], null, ['class' => 'form-control','placeholder' => 'Seleccionar...'] ) }}
+								      	</div>
+							  		</td>
+							  		<td>
+							  			
+							  		</td>
+							     </tr>
 								<tr>
 									<td> 
 										{{ form::label('estado', 'Estado') }}
@@ -112,7 +119,7 @@
 										{{ form::label('motivoestado', 'Motivo') }}
 										{{ form::text('motivoestado', null, ['class' => 'form-control', 'id' => 'motivoestado']) }}
 									</td>
-								</tr>	
+								
 								<!--
 								<tr>
 									<td> 
@@ -597,7 +604,7 @@
 		calcularEdad();
 
 		$('#fechanacimiento').focusout(function(e) {
-			CalcularEdad();
+			calcularEdad();
 		});
 
 
