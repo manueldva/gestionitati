@@ -1281,7 +1281,7 @@
 		   //validaciones particulares
 		   var estadocampos = 0;
 
-		   if($('#apellido').val() == ''){
+		   if($.trim($('#apellido').val()) == ''){
 		   		estadocampos = 1;
 		   		$('#apellidospan').show();
 		   } else{
@@ -1289,7 +1289,7 @@
 		   		$('#apellidospan').hide();
 		   }
 
-		   if($('#nombre').val() == ''){
+		   if($.trim($('#nombre').val()) == ''){
 		   		estadocampos = 1;
 		   		$('#nombrespan').show();
 		   } else{
@@ -1303,16 +1303,16 @@
 					title: 'No se pueden guardar los datos',
 					text: 'Existen campos vacios o mal cargados',
 					type: 'error',
-					confirmButtonColor: '#DD6B55',
+					//confirmButtonColor: '#DD6B55',
 					//confirmButtonText: 'OK',
 					//timer: 3500,
 					closeOnConfirm: false
-				}),function () {
-			        //location.reload(true);
-			        tr.hide();
-			    };
-		   }
+				});
+
 		   	return false;
+		   }
+		   	
+
 
 		   
 
