@@ -1278,7 +1278,7 @@
 
 			if(estado == false) return false;					
 
-		   //validaciones particulares
+		   // validaciones particulares
 		   var estadocampos = 0;
 
 		   if($.trim($('#apellido').val()) == ''){
