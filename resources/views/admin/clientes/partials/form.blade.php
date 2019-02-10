@@ -1,7 +1,8 @@
 
-
+ <input type="hidden" name="listado_articulos" id="id_lista_articulos">
+ <input type="hidden" name="listado_familiares" id="id_lista_familiares">
 <div class="row">
-	<div class="col-md-12">
+	<div class="col-md-12">	
 	  <div class="box box-default">
 	    <!-- /.box-header -->
 	    <div class="box-body">
@@ -44,7 +45,7 @@
 			      <div class="form-group" id="razonsocial">
 			      	{{ form::label('cliente', 'Razon Social *') }}
 					{{ form::text('cliente', null, ['class' => 'form-control', 'id' => 'cliente', 'placeholder'=> 'Razon Social']) }}
-					<div id="razonsocialspan" class="form-group has-error"style="display: none">
+					<div id="clientespan" class="form-group has-error"style="display: none">
 						<span class="help-block">Campo Obligatorio</span>
 					</div>
 			      </div>
@@ -75,7 +76,7 @@
 				  </div>
 
 			      <div class="form-group" id="referentes">
-			      	{{ form::label('referente', 'Referente') }}
+			      	{{ form::label('referente', 'Referente *') }}
 					{{ form::text('referente', null, ['class' => 'form-control', 'id' => 'referente', 'placeholder'=> 'Representante de la entidad']) }}
 					<div id="referentespan" class="form-group has-error"  style="display: none">
 						<span class="help-block">Campo Obligatorio</span>
@@ -205,6 +206,9 @@
 									<tbody>
 									</tbody>
 								</table>
+								<div id="table_articulosspan" class="form-group has-error" style="display: none">
+									<span class="help-block">Debe haber al menos un registro en la lista</span>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -240,27 +244,41 @@
 			    <!-- /.box-header -->
 			    <div class="box-body">
 			      	<div class="form-group">
-						{{ form::label('provincia_id', 'Provincia') }}
+						{{ form::label('provincia_id', 'Provincia *') }}
 						{{ form::select('provincia_id',  isset($provincias) ? $provincias : [] ,  null, ['class' => 'form-control inline-search', 'id' => 'provincia_id','placeholder' => 'Seleccionar...'] ) }}
+						<div id="provincia_idspan" class="form-group has-error" style="display: none">
+							<span class="help-block">Campo Obligatorio</span>
+						</div>
 					</div>
 					<div class="form-group">
-						{{ form::label('departamento_id', 'Departamento') }}
+						{{ form::label('departamento_id', 'Departamento *') }}
 						{{ form::select('departamento_id', isset($cliente) ? $departamentos : [],  null, ['class' => 'form-control inline-search', 'id' => 'departamento_id','placeholder' => 'Seleccionar...'] ) }}
+						<div id="departamento_idspan" class="form-group has-error" style="display: none">
+							<span class="help-block">Campo Obligatorio</span>
+						</div>
 					</div>
 					<div class="form-group">
-						{{ form::label('localidad_id', 'Localidad') }}
+						{{ form::label('localidad_id', 'Localidad *') }}
 						{{ form::select('localidad_id', isset($cliente) ? $localidades : [],  null, ['class' => 'form-control inline-search', 'id' => 'localidad_id','placeholder' => 'Seleccionar...'] ) }}
-
 						{{ form::text('sinbarrio', 0, ['class' => 'form-control', 'id' => 'sinbarrio']) }}
+						<div id="localidad_idspan" class="form-group has-error" style="display: none">
+							<span class="help-block">Campo Obligatorio</span>
+						</div>
 					</div>
 					<div class="form-group">
-						{{ form::label('barrio_id', 'Barrio') }}
+						{{ form::label('barrio_id', 'Barrio *') }}
 						{{ form::select('barrio_id', isset($cliente) ? $barrios : [],  null, ['class' => 'form-control inline-search', 'id' => 'barrio_id','placeholder' => 'Seleccionar...'] ) }}
 						{{ form::text('sincalle', 0, ['class' => 'form-control', 'id' => 'sincalle']) }}
+						<div id="barrio_idspan" class="form-group has-error" style="display: none">
+							<span class="help-block">Campo Obligatorio</span>
+						</div>
 					</div>
 					<div class="form-group">
-						{{ form::label('calle_id', 'Calle ') }}
+						{{ form::label('calle_id', 'Calle *') }}
 						{{ form::select('calle_id', isset($cliente) ? $calles : [],  null, ['class' => 'form-control inline-search', 'id' => 'calle_id','placeholder' => 'Seleccionar...'] ) }}
+						<div id="calle_idspan" class="form-group has-error" style="display: none">
+							<span class="help-block">Campo Obligatorio</span>
+						</div>
 					</div>
 			     
 			    </div>
@@ -413,11 +431,14 @@
 							<thead>
 								<tr>
 									<td class="col-md-3"> 
-										{{ form::label('empleado_id', 'Cod.') }}
+										{{ form::label('empleado_id', 'Cod. *') }}
 										{{ form::number('empleado_id', null, ['class' => 'form-control', 'id' => 'empleado_id']) }}
+										<div id="empleado_idspan" class="form-group has-error" style="display: none">
+											<span class="help-block">Campo Obligatorio</span>
+										</div>
 									</td>
 									<td> 
-										{{ form::label('empleado', 'Vendedor') }}
+										{{ form::label('empleado', 'vendedor') }}
 										<br>
 										{{ form::select('empleado',$empleados,  null, ['class' => 'form-control inline-search', 'id' => 'empleado','placeholder' => 'Seleccionar...'] ) }}
 										
@@ -678,7 +699,7 @@
 							closeOnConfirm: true//,
 							//showLoaderOnConfirm: true
 							}, function () {
-							window.location.replace("../clientes/"+ data +"/edit");
+								window.location.replace("../clientes/"+ data +"/edit");
 
 							});
 						}
@@ -718,6 +739,8 @@
 		   	$(":input").prop("disabled", true);
 			$("#tipodocumento_id").prop("disabled", false);
 			$("#numerodocumento").prop("disabled", false);
+			/*$('#apellidospan').hide();
+			$('#nombrespan').hide();*/
 
 			var tipodocumento_id = $("#tipodocumento_id").val();
 
@@ -1174,14 +1197,15 @@
 
 			/*validaciones*/ 
 			if($("#nombrevinculo").val() == ''  || $("#contactovinculo").val() == ''  || $("#vinculo_id").val() == '') {
-				swal({
+				/*swal({
 					title: 'No se puede agregar este articulo',
 					text: 'faltan algunos datos',
 					type: 'error',
 					//confirmButtonColor: '#DD6B55',
 					confirmButtonText: 'OK',
 					closeOnConfirm: false
-				});
+				});*/
+				toastr.error('No se puede agregar este familiar. Faltan datos');
 				return false;
 			} 
 			/**/
@@ -1283,27 +1307,106 @@
 		$( "#guardar" ).click(function() {
 			var estado = verificarlongitudnrocodumento();		
 
-			if(estado == false) return false;					
+			if(estado == false) {
+				$(":input").prop("disabled", true);
+				$("#tipodocumento_id").prop("disabled", false);
+				$("#numerodocumento").prop("disabled", false);
+				return false;
+			}					
 
 		   // validaciones particulares
 		   var estadocampos = 0;
 
-		   if($.trim($('#apellido').val()) == ''){
-		   		estadocampos = 1;
-		   		$('#apellidospan').show();
-		   } else{
-		   		estadocampos = 0;
-		   		$('#apellidospan').hide();
+		   // si es persona fisica
+		   if($('#tipocliente_id').val() == 1){
+		   		if($.trim($('#apellido').val()) == ''){
+			   		estadocampos = 1;
+			   		$('#apellidospan').show();
+			   	} else{
+			   		//estadocampos = 0;
+			   		$('#apellidospan').hide();
+			   	}
+
+			   	if($.trim($('#nombre').val()) == ''){
+			   		estadocampos = 1;
+			   		$('#nombrespan').show();
+			   	} else{
+			   		//estadocampos = 0;
+			   		$('#nombrespan').hide();
+			   	}
+		   } else {
+		   		if($.trim($('#cliente').val()) == ''){
+			   		estadocampos = 1;
+			   		$('#clientespan').show();
+			   	} else{
+			   		//estadocampos = 0;
+			   		$('#clientespan').hide();
+			   	}
+
+			   	if($.trim($('#referente').val()) == ''){
+			   		estadocampos = 1;
+			   		$('#referentespan').show();
+			   	} else{
+			   		//estadocampos = 0;
+			   		$('#referentespan').hide();
+			   	}
 		   }
 
-		   if($.trim($('#nombre').val()) == ''){
-		   		estadocampos = 1;
-		   		$('#nombrespan').show();
-		   } else{
-		   		estadocampos = 0;
-		   		$('#nombrespan').hide();
-		   }
+		   // listado de articulos
+		    var listado = crear_listado_articulos();
+      		$('#id_lista_articulos').val(listado);
 
+      		if ($('#id_lista_articulos').val() == ''){
+      			estadocampos = 1;
+			   	$('#table_articulosspan').show();
+      		} else {
+      			$('#table_articulosspan').hide();
+      		}
+
+      		//vendedor
+      		if($.trim($('#empleado_id').val()) == ''){
+		   		estadocampos = 1;
+		   		$('#empleado_idspan').show();
+		   	} else{
+		   		//estadocampos = 0;
+		   		$('#empleado_idspan').hide();
+		   	}
+
+		   	//direccion
+		   	if($.trim($('#provincia_id').val()) == ''){
+		   		estadocampos = 1;
+		   		$('#provincia_idspan').show();
+		   	} else{
+		   		//estadocampos = 0;
+		   		$('#provincia_idspan').hide();
+		   	}
+		   	if($.trim($('#departamento_id').val()) == ''){
+		   		estadocampos = 1;
+		   		$('#departamento_idspan').show();
+		   	} else{
+		   		//estadocampos = 0;
+		   		$('#departamento_idspan').hide();
+		   	}
+		   	if($.trim($('#localidad_id').val()) == ''){
+		   		estadocampos = 1;
+		   		$('#localidad_idspan').show();
+		   	} else{
+		   		//estadocampos = 0;
+		   		$('#localidad_idspan').hide();
+		   	}
+		   	if($.trim($('#barrio_id').val()) == ''){
+		   		if($.trim($('#sinbarrio').val()) == '0'){
+			   		estadocampos = 1;
+			   		$('#barrio_idspan').show();
+			   	}
+		   	} else{
+		   		//estadocampos = 0;
+		   		$('#localidad_idspan').hide();
+		   	}
+
+
+		   
+		   // si estadocampos == 1 faltaron algunos datos
 		   if(estadocampos == 1) 
 		   {
 		   	swal({
@@ -1315,8 +1418,8 @@
 					//timer: 3500,
 					closeOnConfirm: false
 				});
-
-		   	return false;
+				//toastr.error('No se pueden guardar los datos. Existen campos vacios o mal cargados');
+		   		return false;
 		   }
 		   	
 
@@ -1328,6 +1431,22 @@
 		   	//$('#form').submit();
 
 		});
+
+		function crear_listado_articulos() {
+	      var listado = '';
+	      var provincia_id, departamento_id, descripcion;
+
+	      $("#id_lista_articulos").val('');
+
+	      $('#table_articulos tbody tr').each(function () {	 
+	        articulo_id = $(this).find("td").eq(0).html();
+	        cantidad = $(this).find("td").eq(2).html();
+
+	        listado += articulo_id + "|" + cantidad + "&&&";
+	      });
+
+	      return listado;
+	    }
 
 	</script>
 
