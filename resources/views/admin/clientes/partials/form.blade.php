@@ -118,7 +118,7 @@
 									</td>
 									<td> 
 										{{ form::label('motivoestado', 'Motivo') }}
-										{{ form::text('motivoestado', null, ['class' => 'form-control', 'id' => 'motivoestado']) }}
+										{{ form::text('motivoestado', null, ['class' => 'form-control', 'id' => 'motivoestado', 'readonly' => 'readonly']) }}
 									</td>
 								
 								<!--
@@ -331,11 +331,11 @@
 									<tr>
 										<td> 
 											{{ form::label('seccion', 'Seccion') }}
-											{{ form::number('seccion', null, ['class' => 'form-control', 'id' => 'seccion']) }}
+											{{ form::text('seccion', null, ['class' => 'form-control', 'id' => 'seccion']) }}
 										</td>
 										<td> 
 											{{ form::label('lote', 'Lote') }}
-											{{ form::number('lote', null, ['class' => 'form-control', 'id' => 'lote']) }}
+											{{ form::text('lote', null, ['class' => 'form-control', 'id' => 'lote']) }}
 										</td>
 									</tr>	
 								</thead>
@@ -348,10 +348,14 @@
 			    <!-- /.box-body -->
 			<div class="col-md-10">
 			    <div class="box-body">
+			    	<div class="form-group">
+						{{ form::label('referenciadomicilio', 'Referencia') }}
+						{{ form::text('referenciadomicilio', null, ['class' => 'form-control', 'id' => 'referenciadomicilio']) }}
+					</div>
 			    	<hr>
 			      	<div class="form-group">
 						{{ form::label('observaciondomicilio', 'Observacion') }}
-						{{ form::text('observaciondomicilio', null, ['class' => 'form-control', 'id' => 'observaciondomicilio']) }}
+						{{ form::text('observaciondomicilio', null, ['class' => 'form-control', 'id' => 'observaciondomicilio','readonly' => 'readonly']) }}
 					</div>
 			    </div>
 			</div>
@@ -1076,13 +1080,13 @@
 		    $.get('{{ url("/") }}/api/departamentos?provincia_id=' + provincia_id,function(data) {
 
 		      $('#departamento_id').empty();
-		      $('#departamento_id').append('<option value="0" disable="true" selected="true">Seleccionar...</option>');
+		      $('#departamento_id').append('<option value="" disable="true" selected="true">Seleccionar...</option>');
 			  $('#localidad_id').empty();
-		      $('#localidad_id').append('<option value="0" disable="true" selected="true">Seleccionar...</option>');
+		      $('#localidad_id').append('<option value="" disable="true" selected="true">Seleccionar...</option>');
 			  $('#barrio_id').empty();
-		      $('#barrio_id').append('<option value="0" disable="true" selected="true">Seleccionar...</option>');
+		      $('#barrio_id').append('<option value="" disable="true" selected="true">Seleccionar...</option>');
 			  $('#calle_id').empty();
-			  $('#calle_id').append('<option value="0" disable="true" selected="true">Seleccionar...</option>');
+			  $('#calle_id').append('<option value="" disable="true" selected="true">Seleccionar...</option>');
 
 		      $.each(data, function(fetch, departamento){
 		        console.log(data);
@@ -1098,11 +1102,11 @@
 		    var departamento_id = e.target.value;
 
 		    $('#localidad_id').empty();
-		    $('#localidad_id').append('<option value="0" disable="true" selected="true">Seleccionar...</option>');
+		    $('#localidad_id').append('<option value="" disable="true" selected="true">Seleccionar...</option>');
 			$('#barrio_id').empty();
-			$('#barrio_id').append('<option value="0" disable="true" selected="true">Seleccionar...</option>');
+			$('#barrio_id').append('<option value="" disable="true" selected="true">Seleccionar...</option>');
 			$('#calle_id').empty();
-			$('#calle_id').append('<option value="0" disable="true" selected="true">Seleccionar...</option>');
+			$('#calle_id').append('<option value="" disable="true" selected="true">Seleccionar...</option>');
 
 			//barrio
 		    $.get('{{ url("/") }}/api/localidadescli?departamento_id=' + departamento_id,function(data) {
@@ -1138,9 +1142,9 @@
 			}
 			//alert($('#sinbarrio').val());		
 			$('#barrio_id').empty();
-			$('#barrio_id').append('<option value="0" disable="true" selected="true">Seleccionar...</option>');
+			$('#barrio_id').append('<option value="" disable="true" selected="true">Seleccionar...</option>');
 			$('#calle_id').empty();
-			$('#calle_id').append('<option value="0" disable="true" selected="true">Seleccionar...</option>');
+			$('#calle_id').append('<option value="" disable="true" selected="true">Seleccionar...</option>');
 
 			//barrio
 		    $.get('{{ url("/") }}/api/barrios?localidad_id=' + localidad_id,function(data) {
@@ -1373,37 +1377,49 @@
 		   	}
 
 		   	//direccion
-		   	if($.trim($('#provincia_id').val()) == ''){
+		   	if($('#provincia_id').val() == ''){
 		   		estadocampos = 1;
 		   		$('#provincia_idspan').show();
 		   	} else{
 		   		//estadocampos = 0;
 		   		$('#provincia_idspan').hide();
 		   	}
-		   	if($.trim($('#departamento_id').val()) == ''){
+		   	if($('#departamento_id').val() == ''){
 		   		estadocampos = 1;
 		   		$('#departamento_idspan').show();
 		   	} else{
 		   		//estadocampos = 0;
 		   		$('#departamento_idspan').hide();
 		   	}
-		   	if($.trim($('#localidad_id').val()) == ''){
+		   	if($('#localidad_id').val() == ''){
 		   		estadocampos = 1;
 		   		$('#localidad_idspan').show();
 		   	} else{
 		   		//estadocampos = 0;
 		   		$('#localidad_idspan').hide();
 		   	}
-		   	if($.trim($('#barrio_id').val()) == ''){
-		   		if($.trim($('#sinbarrio').val()) == '0'){
-			   		estadocampos = 1;
-			   		$('#barrio_idspan').show();
-			   	}
-		   	} else{
-		   		//estadocampos = 0;
-		   		$('#localidad_idspan').hide();
+		   	
+
+		   	sinbarrio = $('#sinbarrio').val();
+		   	barrio_id = $('#barrio_id').val();
+
+		   	if(sinbarrio == 0 && barrio_id == ''){
+		   		estadocampos = 1;
+			   	$('#barrio_idspan').show();
+		   	}else{
+		   		$('#barrio_idspan').hide();
 		   	}
 
+
+		   	sincalle = $('#sincalle').val();
+		   	calle_id = $('#calle_id').val();
+
+		   	if(sincalle == 0 && calle_id == ''){
+		   		estadocampos = 1;
+			   	$('#calle_idspan').show();
+		   	}else{
+		   		$('#calle_idspan').hide();
+		   	}
 
 		   
 		   // si estadocampos == 1 faltaron algunos datos
@@ -1421,6 +1437,23 @@
 				//toastr.error('No se pueden guardar los datos. Existen campos vacios o mal cargados');
 		   		return false;
 		   }
+
+		   		   	//validar que este cargado al menos un campo de texto de domicilio
+		   	if($.trim($('#numero').val()) == '' && $.trim($('#manzana').val()) == '' && $.trim($('#casa').val()) == '' && $.trim($('#edificiotorre').val()) == '' && $.trim($('#piso').val()) == '' && $.trim($('#seccion').val()) == '' && $.trim($('#lote').val()) == '' && $.trim($('#referenciadomicilio').val()) == ''){
+
+		   		swal({
+					title: 'No se pueden guardar los datos',
+					text: 'Faltan datos en la direccion',
+					type: 'error',
+					//confirmButtonColor: '#DD6B55',
+					//confirmButtonText: 'OK',
+					//timer: 3500,
+					closeOnConfirm: false
+				});
+				//toastr.error('No se pueden guardar los datos. Existen campos vacios o mal cargados');
+		   		return false;
+		   	}
+
 		   	
 
 

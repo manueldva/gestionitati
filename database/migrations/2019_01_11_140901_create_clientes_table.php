@@ -47,6 +47,7 @@ class CreateClientesTable extends Migration
             $table->string('seccion', 10)->nullable();
             $table->string('lote', 10)->nullable();
             $table->string('codigopostal', 10)->nullable();
+            $table->string('referenciadomicilio',500)->nullable();
             $table->string('observaciondomicilio',500)->nullable();
             $table->string('telefonoparticular', 20)->nullable();
             $table->string('celular', 20)->nullable();
