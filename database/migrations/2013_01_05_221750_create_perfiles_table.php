@@ -18,9 +18,9 @@ class CreatePerfilesTable extends Migration
             $table->string('perfil', 200)->nullable();
             $table->string('descripcion', 200)->nullable();
             $table->string('usuario_alta',50)->nullable();
-            $table->timestamp('fecha_alta')->nullable();
+            $table->dateTime('fecha_alta')->nullable();
             $table->string('usuario_modi',50)->nullable();
-            $table->timestamp('fecha_modi')->nullable();
+            $table->dateTime('fecha_modi')->nullable();
             $table->timestamps();
         });
     }

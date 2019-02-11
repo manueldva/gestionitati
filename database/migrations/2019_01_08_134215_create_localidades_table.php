@@ -22,9 +22,9 @@ class CreateLocalidadesTable extends Migration
             $table->string('descripcion', 350);
             $table->boolean('sinbarrio')->default(0);
             $table->string('usuario_alta',50)->nullable();
-            $table->timestamp('fecha_alta')->nullable();
+            $table->dateTime('fecha_alta')->nullable();
             $table->string('usuario_modi',50)->nullable();
-            $table->timestamp('fecha_modi')->nullable();
+            $table->dateTime('fecha_modi')->nullable();
             $table->timestamps();
         });
     }

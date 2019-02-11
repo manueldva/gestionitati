@@ -413,6 +413,9 @@ class ClienteController extends Controller
             Alert::error('No se puede eliminar el registro');
             return back();
         }*/
+       Clientearticulo::where('cliente_id', $id)->delete();
+
+       Clientefamiliar::where('cliente_id', $id)->delete();
 
         Cliente::find($id)->delete();
 

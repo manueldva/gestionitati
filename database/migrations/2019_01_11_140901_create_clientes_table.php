@@ -24,7 +24,7 @@ class CreateClientesTable extends Migration
             $table->integer('tipodocumento_id')->unsigned()->nullable();
             $table->foreign('tipodocumento_id')->references('id')->on('tipodocumentos');
             $table->string('numerodocumento', 20)->nullable();
-            $table->timestamp('fechanacimiento')->nullable();
+            $table->dateTime('fechanacimiento')->nullable();
             $table->integer('tipoiva_id')->unsigned()->nullable();
             $table->foreign('tipoiva_id')->references('id')->on('tipoivas');
             $table->string('cuit', 20)->nullable();
@@ -63,9 +63,9 @@ class CreateClientesTable extends Migration
             $table->boolean('estado')->default(0);
             $table->string('motivoestado', 100)->nullable();
             $table->string('usuario_alta',50)->nullable();
-            $table->timestamp('fecha_alta')->nullable();
+            $table->dateTime('fecha_alta')->nullable();
             $table->string('usuario_modi',50)->nullable();
-            $table->timestamp('fecha_modi')->nullable();
+            $table->dateTime('fecha_modi')->nullable();
             $table->timestamps();
         });
     }

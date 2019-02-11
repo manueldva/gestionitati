@@ -90,7 +90,7 @@
 									<td> 
 										<div id="fechanacimientos">
 										{{ form::label('fechanacimiento', 'Fecha de Nacimiento') }}
-										{{ form::date('fechanacimiento', null, ['class' => 'form-control', 'id' => 'fechanacimiento']) }}
+										{{ form::date('fechanacimiento', null, ['class' => 'form-control', 'id' => 'fechanacimiento','min'=> '1900-01-01']) }}
 										</div>
 									</td>
 									<td> 
@@ -746,7 +746,7 @@
 				}).done(function(data) {
 
 					if(data !== 0) {
-						if(parseInt($('#id').val()) !== parseInt(data)){
+						/*if(parseInt($('#id').val()) !== parseInt(data)){
 							swal({
 							title: "El cliente ingresado ya existe",
 							text: "Verefique los datos",
@@ -758,7 +758,27 @@
 								window.location.replace(APP_URL + "/clientes/"+ data +"/edit");
 
 							});
-						}
+						}*/
+						swal({ 
+							title: "El cliente ingresado ya existe",
+							text: "¿Desea recuperar los datos?",
+							type: "info",
+							showCancelButton: true,
+							//confirmButtonColor: "#DD6B55",
+							confirmButtonText: "OK",
+							cancelButtonText: "Cancelar", 
+							closeOnConfirm: false,
+							closeOnCancel: false },
+
+							function(isConfirm){ 
+							if (isConfirm) {
+								window.location.replace(APP_URL + "/clientes/"+ data +"/edit");
+							} else { 
+								$('#numerodocumento').focus();
+								swal.close()
+							} 
+						});
+
 					} else{
 						toastr.success('Numero de documento no existente en la base de datos');
 						$(":input").prop("disabled", false);

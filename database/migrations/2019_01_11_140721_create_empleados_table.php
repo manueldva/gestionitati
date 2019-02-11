@@ -21,9 +21,9 @@ class CreateEmpleadosTable extends Migration
             $table->string('movil', 300)->nullable();
             $table->string('patente', 10)->nullable();
             $table->string('usuario_alta',50)->nullable();
-            $table->timestamp('fecha_alta')->nullable();
+            $table->dateTime('fecha_alta')->nullable();
             $table->string('usuario_modi',50)->nullable();
-            $table->timestamp('fecha_modi')->nullable();
+            $table->dateTime('fecha_modi')->nullable();
             $table->timestamps();
         });
     }
