@@ -116,7 +116,7 @@ class ClienteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(clienteStoreRequest $request)
+    public function store(Request $request)
     {
         //dd($request->file('image'));
 

@@ -12,6 +12,9 @@ class Tipofamiliar extends Model
     	'descripcion', 'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
 	];
 
+    public function clientefamiliares(){
+        return $this->HasMany(Clientefamiliar::class);
+    }
 
 	/*public function clientes(){
     	return $this->HasMany(Cliente::class);

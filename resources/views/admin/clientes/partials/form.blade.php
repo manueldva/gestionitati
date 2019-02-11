@@ -528,16 +528,16 @@
 						<thead>
 							<tr>
 								<td> 
-									{{ form::label('vinculo_id', 'Vinculo') }}
-									{{ form::select('vinculo_id', $tipofamiliar,  null, ['class' => 'form-control', 'id' => 'vinculo_id','placeholder' => 'Seleccionar...'] ) }}
+									{{ form::label('tipofamiliar_id', 'Vinculo') }}
+									{{ form::select('tipofamiliar_id', $tipofamiliar,  null, ['class' => 'form-control', 'id' => 'tipofamiliar_id','placeholder' => 'Seleccionar...'] ) }}
 								</td>
 								<td> 
-									{{ form::label('nombrevinculo', 'Apellido y Nombre') }}
-									{{ form::text('nombrevinculo', null, ['class' => 'form-control', 'id' => 'nombrevinculo']) }}
+									{{ form::label('nombrefamiliar', 'Apellido y Nombre') }}
+									{{ form::text('nombrefamiliar', null, ['class' => 'form-control', 'id' => 'nombrefamiliar']) }}
 								</td>
 								<td> 
-									{{ form::label('contactovinculo', 'Contacto') }}
-									{{ form::number('contactovinculo', null, ['class' => 'form-control', 'id' => 'contactovinculo']) }}
+									{{ form::label('contactofamiliar', 'Contacto') }}
+									{{ form::number('contactofamiliar', null, ['class' => 'form-control', 'id' => 'contactofamiliar']) }}
 								</td>
 								<td> 
 									<br>
@@ -1215,18 +1215,18 @@
 			/**/
 			
 			//variables para guardar en la grilla
-			var vinculo_id = $("#vinculo_id").val();
-			var vinculo = $('select[name="vinculo_id"] option:selected').text();
-			var nombrevinculo = $("#nombrevinculo").val();
-			var contactovinculo = $("#contactovinculo").val();
+			var tipofamiliar_id = $("#tipofamiliar_id").val();
+			var tipofamiliar = $('select[name="tipofamiliar_id"] option:selected').text();
+			var nombrefamiliar = $("#nombrefamiliar").val();
+			var contactofamiliar = $("#contactofamiliar").val();
 			
 			//cargo la grilla
 			$('#table_familiares tbody').prepend(
 				'<tr>' + 
-				'<td style="display:none;">' + vinculo_id + '</td>' +
-				'<td>' + vinculo + '</td>' +
-				'<td>' + nombrevinculo + '</td>' +
-				'<td>' + contactovinculo + '</td>' +
+				'<td style="display:none;">' + tipofamiliar_id + '</td>' +
+				'<td>' + tipofamiliar + '</td>' +
+				'<td>' + nombrefamiliar + '</td>' +
+				'<td>' + contactofamiliar + '</td>' +
 				"<td><a class='delete btn btn-sm btn-danger' onclick ='deletefamiliar_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
 				'</td>' +
 				'</tr>');
@@ -1456,7 +1456,9 @@
 
 		   	
 
-
+		   	// listado de familiares
+		    var listado = crear_listado_familiares();
+      		$('#id_lista_familiares').val(listado);
 		   
 
 
@@ -1466,19 +1468,36 @@
 		});
 
 		function crear_listado_articulos() {
-	      var listado = '';
-	      var provincia_id, departamento_id, descripcion;
+		    var listado = '';
+		    var provincia_id, departamento_id, descripcion;
 
-	      $("#id_lista_articulos").val('');
+		    $("#id_lista_articulos").val('');
 
-	      $('#table_articulos tbody tr').each(function () {	 
-	        articulo_id = $(this).find("td").eq(0).html();
-	        cantidad = $(this).find("td").eq(2).html();
+		    $('#table_articulos tbody tr').each(function () {	 
+		    articulo_id = $(this).find("td").eq(0).html();
+		    cantidad = $(this).find("td").eq(2).html();
 
-	        listado += articulo_id + "|" + cantidad + "&&&";
-	      });
+		    listado += articulo_id + "|" + cantidad + "&&&";
+		    });
 
-	      return listado;
+		      return listado;
+	    }
+
+	    function crear_listado_familiares() {
+		    var listado = '';
+		    var tipofamiliar_id, nombrefamiliar, contactofamiliar;
+
+		    $("#id_lista_familiares").val('');
+
+		    $('#table_familiares tbody tr').each(function () {	 
+		    tipofamiliar_id = $(this).find("td").eq(0).html();
+		    nombrefamiliar = $(this).find("td").eq(2).html();
+		    contactofamiliar = $(this).find("td").eq(3).html();
+
+		    listado += tipofamiliar_id + "|" + nombrefamiliar + "|" + contactofamiliar + "&&&";
+		    });
+
+		    return listado;
 	    }
 
 	</script>

@@ -64,6 +64,14 @@ class Cliente extends Model
         return $this->belongsTo(Tipoiva::class);
     }
 
+    public function clientearticulos(){
+        return $this->HasMany(Clientearticulo::class);
+    }
+
+    public function clientefamiliar(){
+        return $this->HasMany(Clientefamiliar::class);
+    }
+
 
     
     

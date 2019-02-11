@@ -12,9 +12,9 @@ class Articulo extends Model
     	'descripcion', 'stock' ,'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
 	];
 
-
-	/*public function clientes(){
-    	return $this->HasMany(Cliente::class);
-    }*/
+    public function clientearticulo(){
+        
+        return $this->belongsTo(Clientearticulo::class);
+    }
 
 }
