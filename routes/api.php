@@ -31,19 +31,19 @@ Route::get('articulos', function() {
 
 Route::get('departamentos', function() {
 
-    return App\Models\Departamento::where('provincia_id', '=', request('provincia_id'))->get();
+    return App\Models\Departamento::where('provincia_id', '=', request('provincia_id'))->orderBy('descripcion')->get();
 });
 
 //para complementos sin las localidades con campo sinbarrio marcado en 1
 Route::get('localidades', function() {
 
-    return App\Models\Localidad::where('departamento_id', '=', request('departamento_id'))->where('sinbarrio', 0)->get();
+    return App\Models\Localidad::where('departamento_id', '=', request('departamento_id'))->where('sinbarrio', 0)->orderBy('descripcion')->get();
 });
 
 //para clientes con todas las localidades
 Route::get('localidadescli', function() {
 
-    return App\Models\Localidad::where('departamento_id', '=', request('departamento_id'))->get();
+    return App\Models\Localidad::where('departamento_id', '=', request('departamento_id'))->orderBy('descripcion')->get();
 });
 
 /*para validar si la localidad esta marcado como sin barrio */
@@ -61,7 +61,7 @@ Route::get('validarsinbarrio', function() {
 
 Route::get('barrios', function() {
 
-    return App\Models\Barrio::where('localidad_id', '=', request('localidad_id'))->get();
+    return App\Models\Barrio::where('localidad_id', '=', request('localidad_id'))->orderBy('descripcion')->get();
 });
 
 /*para validar si la localidad esta marcado como sin barrio */
@@ -79,7 +79,7 @@ Route::get('validarsincalle', function() {
 
 Route::get('calles', function() {
 
-    return App\Models\Calle::where('localidad_id', '=', request('localidad_id'))->get();
+    return App\Models\Calle::where('localidad_id', '=', request('localidad_id'))->orderBy('descripcion')->get();
 });
 
 
@@ -153,6 +153,25 @@ Route::get('verificarcalle', function() {
     }
     return $id;
 });
+
+
+
+//validar direccion
+Route::get('validardomicilioidentico', function() {
+
+    $cliente = App\Models\Cliente::where('provincia_id', '=', request('provincia'))->where('departamento_id', '=', request('departamento'))->where('localidad_id', '=', request('localidad'))->where('barrio_id', '=', request('barrio'))->where('calle_id', '=', request('calle'))->where('manzana', '=', request('manzana'))->where('casa', '=', request('casa'))->where('numero', '=', request('numero'))->where('edificiotorre', '=', request('edificiotorre'))->where('piso', '=', request('piso'))->where('seccion', '=', request('seccion'))->where('lote', '=', request('lote'))->where('codigopostal', '=', request('codigopostal'))->where('numerodocumento', '<>', request('nrodocumento'))->first();
+
+    if($cliente){
+        $id = $cliente->id;
+    } else
+    {
+        $id = 0;
+    }
+    return $id;
+});
+
+/*    $cliente = App\Models\Cliente::where('provincia_id', '=', request('provincia'))->where('departamento_id', '=', request('departamento')->where('localidad_id', '=', request('localidad'))->where('barrio_id', '=', request('barrio'))->where('calle_id', '=', request('calle'))->where('manzana', '=', request('manzana'))->where('casa', '=', request('casa'))->where('numero', '=', request('numero'))->where('edificiotorre', '=', request('edificiotorre'))->where('piso', '=', request('piso'))->where('seccion', '=', request('seccion'))->where('lote', '=', request('lote'))->where('codigopostal', '=', request('codigopostal'))->first();*/
+
 
 
 /*para buscar empleado*/

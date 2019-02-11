@@ -371,7 +371,11 @@
 			    	<hr>
 			      	<div class="form-group">
 						{{ form::label('observaciondomicilio', 'Observacion') }}
-						{{ form::text('observaciondomicilio', null, ['class' => 'form-control', 'id' => 'observaciondomicilio','readonly' => 'readonly']) }}
+						{{ form::text('observaciondomicilio', null, ['class' => 'form-control', 'id' => 'observaciondomicilio','disabled' => 'disabled']) }}
+						{{ form::text('cargarobservacion', 0, ['class' => 'form-control', 'id' => 'cargarobservacion']) }}
+						<div id="cargarobservacionspan" class="form-group has-error" style="display: none">
+							<span class="help-block">Campo Obligatorio</span>
+						</div>
 					</div>
 			    </div>
 			</div>
@@ -617,16 +621,12 @@
 	<!-- todo lo que tenga que realizar un ajax -->
 	<script type="text/javascript">
 
-		 /*$(document).keydown(function (event) {
-            var code = (event.keyCode ? event.keyCode : event.which);
-	        if(code==13){
-	           event.preventDefault();
-	        }
-        });*/
-
-
-		//$('#numerodocumento').addClass('has-error');
-
+		/*
+		editshow
+		0= create
+		1= edit
+		2= show
+		*/
 		// para cargar datos si es editar o mostrar 
 		var editshow = {!! json_encode($editshow) !!};
 		if(editshow !== 0){
@@ -637,6 +637,7 @@
 
 		$("#sincalle").hide();		
 		$("#sinbarrio").hide();
+		$("#cargarobservacion").hide();
 
 		/*de movida todo tiente que estar bloqueado*/
 		if(editshow == 0){
@@ -645,6 +646,10 @@
 			$("#numerodocumento").prop("disabled", false);
 		} else if(editshow == 2){
 			$(":input").prop("disabled", true);
+		} else if(editshow == 1){
+			if($("#observaciondomicilio").val() !== '') {
+				$("#observaciondomicilio").prop("disabled", false);
+			}
 		}
 	
 		//$('#articulo_id').select2();
@@ -757,6 +762,7 @@
 					} else{
 						toastr.success('Numero de documento no existente en la base de datos');
 						$(":input").prop("disabled", false);
+						$("#observaciondomicilio").prop("disabled", true);
 						habilitarMotivoEstado();
 						habilitarCliente();
 					}
@@ -1356,6 +1362,8 @@
 
 
 		$( "#guardar" ).click(function() {
+
+
 			var estado = verificarlongitudnrocodumento();		
 
 			if(estado == false) {
@@ -1468,6 +1476,16 @@
 		   		$('#calle_idspan').hide();
 		   	}
 
+		   	obs = $('#cargarobservacion').val();
+
+		   	if(obs == 1 && $.trim($('#observaciondomicilio').val()) == ''){
+		   		estadocampos = 1;
+			   	$('#cargarobservacionpan').show();
+		   	}else{
+		   		$('#cargarobservacionpan').hide();
+		   	}
+
+
 		   
 		   // si estadocampos == 1 faltaron algunos datos
 		   if(estadocampos == 1) 
@@ -1508,9 +1526,74 @@
       		$('#id_lista_familiares').val(listado);
 		   
 
+      		/*swal({ 
+				title: "El domicilio registrado ya existe",
+				text: "¿Desea Guardarlo?",
+				type: "info",
+				showCancelButton: true,
+				//confirmButtonColor: "#DD6B55",
+				confirmButtonText: "Guardar",
+				cancelButtonText: "Ver registro identico", 
+				closeOnConfirm: false,
+				closeOnCancel: false },
+
+				function(isConfirm){ 
+				if (isConfirm) {
+				swal("¡Hecho!",
+				"Ahora eres uno de los nuestros",
+				"success"); 
+				} else { 
+				swal("¡Gallina!", 
+				"Tu te lo pierdes...", 
+				"error"); 
+				} 
+			});*/
+
+			$.ajax({
+				dataType: 'json',
+				url: APP_URL + '/api/validardomicilioidentico',
+				//url: '../api/validardocumento',
+				data: {provincia: $('#provincia_id').val(), departamento: $('#departamento_id').val(), localidad: $('#localidad_id').val(), barrio: $('#barrio_id').val(), calle: $('#calle_id').val(), manzana: $('#manzana').val(), casa: $('#casa').val(), numero: $('#numero').val(), edificiotorre: $('#edificiotorre').val(), piso: $('#piso').val(), seccion: $('#seccion').val(), lote: $('#lote').val(), codigopostal: $('#codigopostal').val(), nrodocumento: $('#numerodocumento').val()}
+			}).done(function(data) {
+
+				if(data !== 0) {
+					swal({ 
+						title: "El domicilio registrado ya existe",
+						text: "¿Desea Guardarlo?",
+						type: "info",
+						showCancelButton: true,
+						//confirmButtonColor: "#DD6B55",
+						confirmButtonText: "Guardar",
+						cancelButtonText: "Ver registro identico", 
+						closeOnConfirm: false,
+						closeOnCancel: false },
+
+						function(isConfirm){ 
+						if (isConfirm) {
+							$('#form').submit();
+							//toastr.error('guardar');
+						} else { 
+							$('#cargarobservacion').val(1);
+							$('#cargarobservacionspan').show();
+							$("#observaciondomicilio").prop("disabled", false);
+							url = APP_URL + "/clientes/"+ data;
+							window.open(url, "_blank");
+							swal.close()
+						} 
+					});
+				} else{
+					$('#form').submit();
+					//toastr.error('no existe');
+				}
+				
+			});
+
+			//return false;
 
 
-		   	$('#form').submit();
+
+
+		   	//$('#form').submit();
 
 		});
 
