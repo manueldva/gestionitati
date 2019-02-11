@@ -117,6 +117,11 @@ return [
             'icon' => 'money',
         ],*/
         [
+            'text' => 'Articulos',
+            'url'  => 'articulos',
+            'icon' => 'archive',
+        ],
+        [
             'text' => 'Clientes',
             'url'  => 'clientes',
             'icon' => 'users',
@@ -148,7 +153,7 @@ return [
             'text'    => 'Complementos',
             'icon'    => 'cog',
             'submenu' => [
-                [
+                    [
                     'text'    => 'Dirección',
                     'url'     => '#',
                        'submenu' => [
@@ -165,7 +170,7 @@ return [
                                 'url'  => 'localidades',
                             ],
                             [
-                                'text' => 'Distritos',
+                                'text' => 'Zonas',
                                 'url'  => 'distritos',
                             ],
                             [
@@ -178,18 +183,30 @@ return [
                             ],
                         ],
                     ],
-                
-                [
-                    'text' => 'Tipo Iva',
-                    'url'  => 'tipoivas',
-                ],
+                    [
+                    'text'    => 'Datos Personales',
+                    'url'     => '#',
+                       'submenu' => [
+                             
+                            [
+                                'text' => 'Tipo Iva',
+                                'url'  => 'tipoivas',
+                            ],
+                             
+                            [
+                                'text' => 'Vinculos',
+                                'url'  => 'tipofamiliares',
+                            ],
+                            [
+                                'text' => 'Proveedor Telefonico',
+                                'url'  => 'companiatelefonicas',
+                            ],
+                        ],
+                    ],
+               
                 [
                     'text' => 'Tipo Empleado',
                     'url'  => 'tipoempleados',
-                ],
-                [
-                    'text' => 'Tipo Familiar',
-                    'url'  => 'tipofamiliares',
                 ]
             ]
         ],

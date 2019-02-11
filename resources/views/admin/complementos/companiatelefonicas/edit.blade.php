@@ -1,16 +1,16 @@
 @extends('adminlte::page')
 
-@section('title', 'Gestión - Zonas')
+@section('title', 'Gestión - Proveedor Telefonico')
 
 @section('content_header')
 
     <h1>
-      Gestionar Zonas
+      Gestionar Proveedor Telefonico
       <!--<small>Listado</small>-->
     </h1>
     <ol class="breadcrumb">
       <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="{{ route('distritos.index')}}">Zonas</a></li>
+      <li><a href="{{ route('companiatelefonicas.index')}}">Proveedor Telefonico</a></li>
       <li class="active">Editar</li>
     </ol>
 
@@ -20,15 +20,15 @@
 
 <div class="box box-primary">
   <div class="box-header with-border box-default">
-    <strong>Editar Zona</strong>
+    <strong>Editar Proveedor Telefonico</strong>
   </div>
     
   <div class="panel-body">
     <div class="row">
 
-			{!! Form::model($distrito, ['route' => ['distritos.update', $distrito->id], 'method' => 'PUT']) !!}
+			{!! Form::model($companiatelefonica, ['route' => ['companiatelefonicas.update', $companiatelefonica->id], 'method' => 'PUT']) !!}
                     
-        @include('admin.complementos.distritos.partials.form')
+        @include('admin.complementos.companiatelefonicas.partials.form')
 
       {!! Form::close() !!}
 

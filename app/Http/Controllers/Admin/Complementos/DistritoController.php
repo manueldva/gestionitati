@@ -75,7 +75,7 @@ class DistritoController extends Controller
         //auditoria
         $distrito->fill(['usuario_alta' => Auth::user()->username , 'fecha_alta' => date('Y-m-d H:i:s')])->save();
         //
-        Alert::success('Distrito creado con exito')->persistent("Cerrar");
+        Alert::success('Zona creada con exito')->persistent("Cerrar");
         return redirect()->route('distritos.index');
     }
 
@@ -126,7 +126,7 @@ class DistritoController extends Controller
         $distrito->fill(['usuario_modi' => Auth::user()->username , 'fecha_modi' => date('Y-m-d H:i:s')])->save();
         //
 
-        Alert::success('Distrito actualizado con exito')->persistent("Cerrar");
+        Alert::success('Zona actualizada con exito')->persistent("Cerrar");
         return redirect()->route('distritos.index');
     }
 

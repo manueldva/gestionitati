@@ -25,12 +25,12 @@ class ArticuloUpdateRequest extends FormRequest
     {
 
         return [
-            'codigo' => 'required|max:50|unique:articulos,codigo, ' . $this->articulo,
+            //'codigo' => 'required|max:50|unique:articulos,codigo, ' . $this->articulo,
             'descripcion' => 'required|max:250|unique:articulos,descripcion, '  . $this->articulo,
-            'stock' => 'required',
+            /*'stock' => 'required',
             'stockminimo' => 'required',
             'preciounitario' => 'required',
-            'estado'    => 'required|in:Activo,Inactivo'
+            'estado'    => 'required|in:Activo,Inactivo'*/
         ];
     }
 }

@@ -1,15 +1,15 @@
 @extends('adminlte::page')
 
-@section('title', 'Gestión - Distritos')
+@section('title', 'Gestión - Zonas')
 
 @section('content_header')
   <h1>
-    Gestionar Distritos
+    Gestionar Zonas
     <!--<small>Listado</small>-->
   </h1>
   <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li><a href="{{ route('distritos.index')}}">Distritos</a></li>
+    <li><a href="{{ route('distritos.index')}}">Zonas</a></li>
     <li class="active">Listado</li>
   </ol>
 
@@ -24,7 +24,7 @@
 
 <div class="box box-primary">
 	<div class="box-header with-border box-default">
-	   <strong> Listado Distritos </strong>
+	   <strong> Listado Zonas </strong>
 	   <form class="navbar-form navbar-right" role="search">
 	       {{ Form::model(Request::only('type', 'val'), array('route' => 'distritos.index', 'method' => 'GET'), array('role' => 'form', 'class' => 'navbar-form pull-right')) }}
 			    <div class="form-group">

@@ -1,16 +1,16 @@
 @extends('adminlte::page')
 
-@section('title', 'Gestión - Tipo Familiar')
+@section('title', 'Gestión - Vinculos')
 
 @section('content_header')
 
     <h1>
-      Gestionar Tipo Familiar
+      Gestionar Vinculos
       <!--<small>Listado</small>-->
     </h1>
     <ol class="breadcrumb">
       <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="{{ route('tipofamiliares.index')}}">Tipo Familiar</a></li>
+      <li><a href="{{ route('tipofamiliares.index')}}">Vinculos</a></li>
       <li class="active">Editar</li>
     </ol>
 
@@ -20,7 +20,7 @@
 
 <div class="box box-primary">
   <div class="box-header with-border box-default">
-    <strong>Editar Tipo Familiar</strong>
+    <strong>Editar Vinculo</strong>
   </div>
     
   <div class="panel-body">

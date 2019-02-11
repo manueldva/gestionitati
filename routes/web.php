@@ -36,6 +36,7 @@ Route::get('autocompleteempleado', function() {
 
 //menu principal
 route::resource('clientes', 		'Admin\ClienteController');
+route::resource('articulos', 		'Admin\ArticuloController');
 /*route::resource('tareas', 		'Admin\TareaController');
 route::get('/TA_obtenerbases/{id}',		'Admin\TareaController@TA_obtenerbases')->name('TA_obtenerbases');
 route::resource('informes', 		'Admin\InformeController');
@@ -65,6 +66,7 @@ route::resource('calles', 		'Admin\Complementos\CalleController');
 route::resource('tipoivas', 		'Admin\Complementos\TipoivaController');
 route::resource('tipoempleados', 		'Admin\Complementos\TipoempleadoController');
 route::resource('tipofamiliares', 		'Admin\Complementos\TipofamiliarController');
+route::resource('companiatelefonicas', 		'Admin\Complementos\CompaniatelefonicaController');
 
 // servicios
 Route::get('/habilitarmodulos/{user}', 'Service\ServiceController@habilitarmodulos')->name('habilitarmodulos');

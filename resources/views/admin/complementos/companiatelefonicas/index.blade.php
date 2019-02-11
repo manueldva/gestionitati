@@ -1,15 +1,15 @@
 @extends('adminlte::page')
 
-@section('title', 'Gestión - Vinculos')
+@section('title', 'Gestión - Proveedores Telefonicos')
 
 @section('content_header')
   <h1>
-    Gestionar Vinculos
+    Gestionar Proveedores Telefonicos
     <!--<small>Listado</small>-->
   </h1>
   <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li><a href="{{ route('tipofamiliares.index')}}">Vinculos</a></li>
+    <li><a href="{{ route('companiatelefonicas.index')}}">Proveedores Telefonicos</a></li>
     <li class="active">Listado</li>
   </ol>
 
@@ -24,9 +24,9 @@
 
 <div class="box box-primary">
 	<div class="box-header with-border box-default">
-	   <strong> Listado Vinculos </strong>
+	   <strong> Listado Proveedores Telefonicos </strong>
 	   <form class="navbar-form navbar-right" role="search">
-	       {{ Form::model(Request::only('type', 'val'), array('route' => 'tipofamiliares.index', 'method' => 'GET'), array('role' => 'form', 'class' => 'navbar-form pull-right')) }}
+	       {{ Form::model(Request::only('type', 'val'), array('route' => 'companiatelefonicas.index', 'method' => 'GET'), array('role' => 'form', 'class' => 'navbar-form pull-right')) }}
 			    <div class="form-group">
 			      {{ form::label('buscar', 'Tipo Busqueda:') }}
 			      {{ form::select('type', config('options.complementotypes'), null, ['class' => 'form-control', 'id' => 'type'] ) }}
@@ -36,7 +36,7 @@
 			      <button type="submit" class="form-control btn btn-sm btn-success"><span class="glyphicon glyphicon-search"></span> Buscar</button>
 						&nbsp;
 			      @if($permiso == 2)
-			      <a href="{{ route('tipofamiliares.create')}}" class="form-control btn btn-sm btn-primary">
+			      <a href="{{ route('companiatelefonicas.create')}}" class="form-control btn btn-sm btn-primary">
 			        <span class="glyphicon glyphicon-plus"></span> Crear
 			      </a>  
 			      @endif
@@ -55,30 +55,30 @@
 	                  <!--<th width="10px"> ID</th>-->
 	                  <th> Codigo</th>
 	                  <th> descripción</th>
-					  				<th> Fecha Alta</th>
+					  <th> Fecha Alta</th>
 	                  <th colspan="3">&nbsp;</th>
 	                </tr>
 	              </thead>
 	              <tbody>
-	                @foreach ($tipofamiliares as $tipofamiliar)
+	                @foreach ($companiatelefonicas as $companiatelefonica)
 	                  <tr>
-	                    <td>{{ $tipofamiliar->id }}</td>
-	                    <td>{{ $tipofamiliar->descripcion }}</td>
-											<td>{{ $tipofamiliar->fecha_alta }}</td>
+	                    <td>{{ $companiatelefonica->id }}</td>
+	                    <td>{{ $companiatelefonica->descripcion }}</td>
+						<td>{{ $companiatelefonica->fecha_alta }}</td>
 	                    <td width="10px">
-	                      <a href="{{ route('tipofamiliares.show', $tipofamiliar->id) }}" class="btn btn-sm btn-default">
+	                      <a href="{{ route('companiatelefonicas.show', $companiatelefonica->id) }}" class="btn btn-sm btn-default">
 	                        Ver
 	                      </a>
 	                    </td>
 	                    @if($permiso == 2) 
 	                    <td width="10px">
-	                      <a href="{{ route('tipofamiliares.edit', $tipofamiliar->id) }}" class="btn btn-sm btn-default">
+	                      <a href="{{ route('companiatelefonicas.edit', $companiatelefonica->id) }}" class="btn btn-sm btn-default">
 	                        Editar
 	                      </a>
 	                    </td>
 	                    <td width="10px">
-							{!! Form::model($tipofamiliar, ['method' => 'delete', 'route' => ['tipofamiliares.destroy', $tipofamiliar->id], 'class' =>'form-inline form-delete']) !!}
-							{!! Form::hidden('id', $tipofamiliar->id) !!}
+							{!! Form::model($companiatelefonica, ['method' => 'delete', 'route' => ['companiatelefonicas.destroy', $companiatelefonica->id], 'class' =>'form-inline form-delete']) !!}
+							{!! Form::hidden('id', $companiatelefonica->id) !!}
 							{!! Form::submit('Eliminar', ['class' => 'btn btn-sm btn-danger delete', 'name' => 'delete_modal']) !!}
 							{!! Form::close() !!}
 
@@ -89,8 +89,8 @@
 	              </tbody>
 	            </table>
 	          </div>  
-						<div> <?php echo  'Mostrando ' . $tipofamiliares->firstItem() . ' a ' . $tipofamiliares->lastItem() . ' de ' . $tipofamiliares->total() . ' registros'; ?>	</div>
-	          {{ $tipofamiliares->appends(Request::only(['type', 'val']))->render() }}
+						<div> <?php echo  'Mostrando ' . $companiatelefonicas->firstItem() . ' a ' . $companiatelefonicas->lastItem() . ' de ' . $companiatelefonicas->total() . ' registros'; ?>	</div>
+	          {{ $companiatelefonicas->appends(Request::only(['type', 'val']))->render() }}
 	        </div>
 	    </div>
     </div>

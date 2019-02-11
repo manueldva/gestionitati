@@ -25,11 +25,11 @@ class ArticuloStoreRequest extends FormRequest
     {
 
         return [
-            'codigo' => 'required|max:50|unique:articulos,codigo',
+            //'codigo' => 'required|max:50|unique:articulos,codigo',
             'descripcion' => 'required|max:250|unique:articulos,descripcion',
-            'stock' => 'required',
+            /*'stock' => 'required',
             'stockminimo' => 'required',
-            'preciounitario' => 'required'//,
+            'preciounitario' => 'required'//,*/
             //'estado'    => 'required|in:Activo,Inactivo'
         ];
     }

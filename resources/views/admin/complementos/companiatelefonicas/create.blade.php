@@ -1,15 +1,15 @@
 @extends('adminlte::page')
 
-@section('title', 'Gestión - Vinculos')
+@section('title', 'Gestión - Proveedor Telefonico')
 
 @section('content_header')
     <h1>
-      Gestionar Vinculos
+      Gestionar Proveedor Telefonico
       <!--<small>Listado</small>-->
     </h1>
     <ol class="breadcrumb">
       <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="{{ route('tipofamiliares.index')}}">Vinculos</a></li>
+      <li><a href="{{ route('companiatelefonicas.index')}}">Proveedor Telefonico</a></li>
       <li class="active">Nuevo</li>
     </ol>
 
@@ -20,15 +20,15 @@
 
 <div id="create" class="box box-primary">
   <div class="box-header with-border box-default">
-    <strong>Nuevo Vinculo</strong>
+    <strong>Nuevo Proveedor Telefonico</strong>
   </div>
     
   <div class="panel-body">
     <div class="row">
 
-			{!! Form::open(['route' => 'tipofamiliares.store']) !!}
+			{!! Form::open(['route' => 'companiatelefonicas.store']) !!}
 
-				@include('admin.complementos.tipofamiliares.partials.form')
+				@include('admin.complementos.companiatelefonicas.partials.form')
 
 			{!! Form::close() !!}
 		</div>
