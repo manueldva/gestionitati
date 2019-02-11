@@ -273,7 +273,7 @@
 
         $("#descripcion").val('');
         //var provincia_id = $("#provincia_id").val('');
-
+         $('input[name=sincalle]').iCheck('uncheck');
 
         toastr.success('Barrio agregado a la lista');
         

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Cliente extends Model
 {
     protected $fillable = [
-        'tipocliente_id', 'cliente', 'apellido', 'nombre', 'referente', 'tipodocumento_id', 'numerodocumento', 'fechanacimiento', 'tipoiva_id', 'cuit', 'sincargo', 'provincia_id', 'localidad_id','barrio_id', 'calle_id', 'manzana', 'casa', 'numero','edificiotorre','piso','seccion','lote','codigopostal','referenciadomicilio','observaciondomicilio','telefonoparticular','celular','companiatelefonica_id','email','empleado_id', 'horadesde','horahasta','estado','motivoestado','usuario_alta','fecha_alta','usuario_modi','fecha_modi',
+        'tipocliente_id', 'cliente', 'apellido', 'nombre', 'referente', 'tipodocumento_id', 'numerodocumento', 'fechanacimiento', 'tipoiva_id', 'cuit', 'sincargo', 'provincia_id','departamento_id', 'localidad_id','barrio_id', 'calle_id', 'manzana', 'casa', 'numero','edificiotorre','piso','seccion','lote','codigopostal','referenciadomicilio','observaciondomicilio','telefonoparticular','celular','companiatelefonica_id','email','empleado_id', 'horadesde','horahasta','estado','motivoestado','usuario_alta','fecha_alta','usuario_modi','fecha_modi',
 	];
 
 

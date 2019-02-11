@@ -9,7 +9,7 @@ class Clientefamiliar extends Model
    	protected $table = 'clientefamiliares';
 
    	protected $fillable = [
-    	'cliente_id', 'tipofamiliar_id', 'contacto' ,'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
+    	'cliente_id', 'tipofamiliar_id', 'nombre', 'contacto' ,'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
 	]; 
 
 

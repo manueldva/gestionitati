@@ -65,7 +65,7 @@
 	                  <th>Domicilio</th>
 	                  <th>Celular</th>
 	                  <th>Estado</th>
-	                  <th colspan="3">&nbsp;</th>
+	                  <th colspan="2">&nbsp;</th>
 	                </tr>
 	              </thead>
 	              <tbody>
@@ -104,7 +104,17 @@
 							<a href="{{ route('clientes.show', $cliente->id) }}" style="color:#000000;">
 								{{ $cliente->celular }}
 							</a>
-						</td>		
+						</td>	
+						<td>
+							<a href="{{ route('clientes.show', $cliente->id) }}" style="color:#000000;">
+								@if($cliente->estado == 0)
+									Inactivo
+								@else
+									Activo
+								@endif
+							</a>
+						</td>	
+
 	                    
 	                    @if($permiso == 2) 
 	                    <td width="10px">

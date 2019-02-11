@@ -26,38 +26,36 @@
   <div class="panel-body">
     <div class="row">
 
-      {!! Form::model($cliente, ['route' => ['clientes.update', $cliente->id], 'method' => 'PUT', 'files' => true]) !!}
+      {!! Form::model($cliente, ['route' => ['clientes.update', $cliente->id], 'method' => 'PUT', 'files' => true, 'id' => 'form']) !!}
   
         <div class="col-md-12" >
           <div class="row col-md-12">
             <div class="form-group" style="text-align: center">
 
-                <button type="submit" class="btn btn btn-primary">
+                <button id="guardar" type="button"  class="btn btn btn-primary">
                     <span class="glyphicon glyphicon-floppy-disk">
                     </span>
                       Guardar
                 </button>
+                <!--
                &nbsp;&nbsp;&nbsp;
                 <a href="#" type="button" id="contrato" class="btn btn btn-default">
-                <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
                     <span class="fa fa-file-text">
                     </span>
                       Contrato
                 </a>  
                 &nbsp;&nbsp;&nbsp;
                 <a href="#" type="button" id="movimiento" class="btn btn btn-default">
-                <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
                     <span class="fa fa-list">
                     </span>
                       Movimientos del cliente
                 </a>
                 &nbsp;&nbsp;&nbsp;
                 <a href="#" type="button" id="movimiento" class="btn btn btn-danger">
-                <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
                     <span class="fa fa-trash-o">
                     </span>
                      Baja definitiva
-                </a>
+                </a>-->
                 &nbsp;&nbsp;&nbsp;
                 <a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">
                 <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->

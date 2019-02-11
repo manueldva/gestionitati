@@ -118,7 +118,7 @@
 									</td>
 									<td> 
 										{{ form::label('motivoestado', 'Motivo') }}
-										{{ form::text('motivoestado', null, ['class' => 'form-control', 'id' => 'motivoestado', 'readonly' => 'readonly']) }}
+										{{ form::text('motivoestado', null, ['class' => 'form-control', 'id' => 'motivoestado']) }}
 									</td>
 								
 								<!--
@@ -204,6 +204,22 @@
 										</tr>
 									</thead>
 									<tbody>
+										@if($editshow !== 0)
+											@foreach ($clientearticulos as $clientearticulo)
+							                  <tr>
+							                    <td style="display:none;">{{ $clientearticulo->articulo_id }}</td>
+							                    <td>{{ $clientearticulo->articulo->descripcion }}</td>
+												<td>{{ $clientearticulo->cantidad }}</td>
+							                    @if($editshow == 1) 
+								                    <td>
+									                   <a class='delete btn btn-sm btn-danger' onclick ='deletearticulo_row($(this))'>
+									                   	<span class='glyphicon glyphicon-trash'></span>
+									                   </a>
+								               	    </td>
+							                    @endif
+							                  </tr>
+							                @endforeach
+										@endif
 									</tbody>
 								</table>
 								<div id="table_articulosspan" class="form-group has-error" style="display: none">
@@ -260,7 +276,7 @@
 					<div class="form-group">
 						{{ form::label('localidad_id', 'Localidad *') }}
 						{{ form::select('localidad_id', isset($cliente) ? $localidades : [],  null, ['class' => 'form-control inline-search', 'id' => 'localidad_id','placeholder' => 'Seleccionar...'] ) }}
-						{{ form::text('sinbarrio', 0, ['class' => 'form-control', 'id' => 'sinbarrio']) }}
+						{{ form::text('sinbarrio',  isset($sinbarrio) ? $sinbarrio : 0, ['class' => 'form-control', 'id' => 'sinbarrio']) }}
 						<div id="localidad_idspan" class="form-group has-error" style="display: none">
 							<span class="help-block">Campo Obligatorio</span>
 						</div>
@@ -268,7 +284,7 @@
 					<div class="form-group">
 						{{ form::label('barrio_id', 'Barrio *') }}
 						{{ form::select('barrio_id', isset($cliente) ? $barrios : [],  null, ['class' => 'form-control inline-search', 'id' => 'barrio_id','placeholder' => 'Seleccionar...'] ) }}
-						{{ form::text('sincalle', 0, ['class' => 'form-control', 'id' => 'sincalle']) }}
+						{{ form::text('sincalle', isset($sincalle) ? $sincalle : 0, ['class' => 'form-control', 'id' => 'sincalle']) }}
 						<div id="barrio_idspan" class="form-group has-error" style="display: none">
 							<span class="help-block">Campo Obligatorio</span>
 						</div>
@@ -564,7 +580,23 @@
 								</tr>
 							</thead>
 							<tbody>
-								
+								@if($editshow !== 0)
+									@foreach ($clientefamiliares as $clientefamiliar)
+					                  <tr>
+					                    <td style="display:none;">{{ $clientefamiliar->tipofamiliar_id }}</td>
+					                    <td>{{ $clientefamiliar->tipofamiliar->descripcion }}</td>
+										<td>{{ $clientefamiliar->nombre }}</td>
+										<td>{{ $clientefamiliar->contacto }}</td>
+					                    @if($editshow == 1) 
+						                    <td>
+							                   <a class='delete btn btn-sm btn-danger' onclick ='deletefamiliar_row($(this))'>
+							                   	<span class='glyphicon glyphicon-trash'></span>
+							                   </a>
+						               	    </td>
+					                    @endif
+					                  </tr>
+					                @endforeach
+								@endif
 							</tbody>
 						</table>
 					</div>
@@ -585,21 +617,36 @@
 	<!-- todo lo que tenga que realizar un ajax -->
 	<script type="text/javascript">
 
+		 /*$(document).keydown(function (event) {
+            var code = (event.keyCode ? event.keyCode : event.which);
+	        if(code==13){
+	           event.preventDefault();
+	        }
+        });*/
+
+
 		//$('#numerodocumento').addClass('has-error');
 
-		
+		// para cargar datos si es editar o mostrar 
+		var editshow = {!! json_encode($editshow) !!};
+		if(editshow !== 0){
+			buscarEmpleado();
+		}
+
 		var APP_RL = "{{ url('/') }}";
 
 		$("#sincalle").hide();		
 		$("#sinbarrio").hide();
 
 		/*de movida todo tiente que estar bloqueado*/
-		
-		$(":input").prop("disabled", true);
-		$("#tipodocumento_id").prop("disabled", false);
-		$("#numerodocumento").prop("disabled", false);
-
-		
+		if(editshow == 0){
+			$(":input").prop("disabled", true);
+			$("#tipodocumento_id").prop("disabled", false);
+			$("#numerodocumento").prop("disabled", false);
+		} else if(editshow == 2){
+			$(":input").prop("disabled", true);
+		}
+	
 		//$('#articulo_id').select2();
 		$('#provincia_id').select2();
 		$('#departamento_id').select2();
@@ -703,7 +750,7 @@
 							closeOnConfirm: true//,
 							//showLoaderOnConfirm: true
 							}, function () {
-								window.location.replace("../clientes/"+ data +"/edit");
+								window.location.replace(APP_URL + "/clientes/"+ data +"/edit");
 
 							});
 						}
@@ -1200,7 +1247,7 @@
 		$( "#agregarfamiliares" ).click(function() {
 
 			/*validaciones*/ 
-			if($("#nombrevinculo").val() == ''  || $("#contactovinculo").val() == ''  || $("#vinculo_id").val() == '') {
+			if($("#nombrefamiliar").val() == ''  || $("#contactofamiliar").val() == ''  || $("#tipofamiliar_id").val() == '') {
 				/*swal({
 					title: 'No se puede agregar este articulo',
 					text: 'faltan algunos datos',
@@ -1463,7 +1510,7 @@
 
 
 
-		   	//$('#form').submit();
+		   	$('#form').submit();
 
 		});
 

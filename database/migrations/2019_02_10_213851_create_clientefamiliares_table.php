@@ -19,6 +19,7 @@ class CreateClientefamiliaresTable extends Migration
             $table->foreign('cliente_id')->references('id')->on('clientes');
             $table->integer('tipofamiliar_id')->unsigned()->nullable();
             $table->foreign('tipofamiliar_id')->references('id')->on('tipofamiliares');
+            $table->string('nombre', 200)->nullable();
             $table->string('contacto', 100)->nullable();
             $table->string('usuario_alta',50)->nullable();
             $table->timestamp('fecha_alta')->nullable();
