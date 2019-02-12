@@ -38,7 +38,10 @@ class TipoempleadoController extends Controller
         $permiso = $modulos[0]->pivot->permiso;
  
 
-        $tipoempleados = Tipoempleado::type($request->get('type'), $request->get('val'))->where('id','!=',1)->paginate(15);
+        //$tipoempleados = Tipoempleado::type($request->get('type'), $request->get('val'))->where('id','!=',1)->paginate(15);
+
+         $tipoempleados = Tipoempleado::type($request->get('type'), $request->get('val'))->paginate(15);
+
 
         foreach($tipoempleados as $tipoempleado){
             $tipoempleado->fecha_alta = FechaHelper::getFechaImpresion($tipoempleado->fecha_alta); 

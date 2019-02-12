@@ -179,6 +179,10 @@ return [
                                 'text' => 'Proveedor Telefonico',
                                 'url'  => 'companiatelefonicas',
                             ],
+                            [
+                                'text' => 'Tipo Empleado',
+                                'url'  => 'tipoempleados',
+                            ]
                         ],
                     ],
                

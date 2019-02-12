@@ -66,7 +66,7 @@
 	                  <th>Domicilio</th>
 	                  <th>Celular</th>
 	                  <th>Estado</th>
-	                  <th colspan="2">&nbsp;</th>
+	                  <th colspan="1">&nbsp;</th>
 	                </tr>
 	              </thead>
 	              <tbody>
@@ -123,13 +123,7 @@
 	                        Editar
 	                      </a>
 	                    </td>
-	                    <td width="10px">
-							{!! Form::model($cliente, ['method' => 'delete', 'route' => ['clientes.destroy', $cliente->id], 'class' =>'form-inline form-delete']) !!}
-							{!! Form::hidden('id', $cliente->id) !!}
-							{!! Form::submit('Eliminar', ['class' => 'btn btn-sm btn-danger delete', 'name' => 'delete_modal']) !!}
-							{!! Form::close() !!}
-
-	                    </td>
+	                   
 	                    @endif
 	                  </tr>
 	                @endforeach

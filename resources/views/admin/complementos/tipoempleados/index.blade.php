@@ -71,18 +71,20 @@
 	                      </a>
 	                    </td>
 	                    @if($permiso == 2) 
-	                    <td width="10px">
-	                      <a href="{{ route('tipoempleados.edit', $tipoempleado->id) }}" class="btn btn-sm btn-default">
-	                        Editar
-	                      </a>
-	                    </td>
-	                    <td width="10px">
-							{!! Form::model($tipoempleado, ['method' => 'delete', 'route' => ['tipoempleados.destroy', $tipoempleado->id], 'class' =>'form-inline form-delete']) !!}
-							{!! Form::hidden('id', $tipoempleado->id) !!}
-							{!! Form::submit('Eliminar', ['class' => 'btn btn-sm btn-danger delete', 'name' => 'delete_modal']) !!}
-							{!! Form::close() !!}
+		                    @if($tipoempleado->id !== 1)
+			                    <td width="10px">
+			                      <a href="{{ route('tipoempleados.edit', $tipoempleado->id) }}" class="btn btn-sm btn-default">
+			                        Editar
+			                      </a>
+			                    </td>
+			                    <td width="10px">
+									{!! Form::model($tipoempleado, ['method' => 'delete', 'route' => ['tipoempleados.destroy', $tipoempleado->id], 'class' =>'form-inline form-delete']) !!}
+									{!! Form::hidden('id', $tipoempleado->id) !!}
+									{!! Form::submit('Eliminar', ['class' => 'btn btn-sm btn-danger delete', 'name' => 'delete_modal']) !!}
+									{!! Form::close() !!}
 
-	                    </td>
+			                    </td>
+			                @endif
 	                    @endif
 	                  </tr>
 	                @endforeach
