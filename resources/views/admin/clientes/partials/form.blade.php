@@ -86,17 +86,17 @@
 					<div class="table-responsive">
 						<table class="table table-striped table-hover" data-form="Form">
 							<thead>
-								<tr>
-									<td> 
+								<tr style="display:none">
+									<td > 
 										<div id="fechanacimientos">
-										{{ form::label('fechanacimiento', 'Fecha de Nacimiento') }}
-										{{ form::date('fechanacimiento', null, ['class' => 'form-control', 'id' => 'fechanacimiento','min'=> '1900-01-01']) }}
+										{{ form::label('fechanacimiento1', 'Fecha de Nacimiento') }}
+										{{ form::date('fechanacimiento', null, ['class' => 'form-control', 'id' => 'fechanacimiento1','min'=> '1900-01-01']) }}
 										</div>
 									</td>
 									<td> 
 										<div id="edades">
 										{{ form::label('edad', 'Edad') }}
-										{{ form::text('edad', null, ['class' => 'form-control', 'id' => 'edad', 'readonly' => 'readonly']) }}
+										{{ form::text('edad1', null, ['class' => 'form-control', 'id' => 'edad1', 'readonly' => 'readonly']) }}
 										</div>
 									</td>
 								</tr>		
@@ -138,7 +138,10 @@
 						</table>
 					</div>
 				  </div>	
-			     
+			      <div class="form-group">
+					{{ form::label('fechanacimiento', 'Fecha de Contrato') }}
+					{{ form::date('fechanacimiento', null, ['class' => 'form-control', 'id' => 'fechanacimiento','min'=> '1900-01-01']) }}
+				  </div>
 			    </div>
 			    <!-- /.box-body -->
 			  <!--</div>-->
