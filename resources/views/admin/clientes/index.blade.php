@@ -26,12 +26,13 @@
 	<div class="box-header with-border box-default">
 	   <strong> Listado Clientes </strong>
 	   <form class="navbar-form navbar-right" role="search">
-	       {{ Form::model(Request::only('type', 'val', 'barrios', 'tipoclientes'), array('route' => 'clientes.index', 'method' => 'GET'), array('role' => 'form', 'class' => 'navbar-form pull-right')) }}
+	       {{ Form::model(Request::only('type', 'val', 'val2', 'barrios', 'tipoclientes'), array('route' => 'clientes.index', 'method' => 'GET'), array('role' => 'form', 'class' => 'navbar-form pull-right')) }}
 			    <div class="form-group">
 			      {{ form::label('buscar', 'Tipo Busqueda:') }}
 			      {{ form::select('type', config('options.clientetypes'), null, ['class' => 'form-control', 'id' => 'type'] ) }}
 					&nbsp;
 			      {{ form::text('val', null, ['class' => 'form-control', 'id' => 'val']) }}
+			      {{ form::text('val2', null, ['class' => 'form-control', 'id' => 'val2']) }}
 			      <span id="barrio" class="form-group">
 						{{ Form::select('barrios', $barrios, null, ['class'=>'form-control', 'id' => 'barrios','placeholder' => 'Seleccionar...']) }}
 				  </span>
@@ -136,7 +137,7 @@
 	            </table>
 	          </div>  
 						<div> <?php echo  'Mostrando ' . $clientes->firstItem() . ' a ' . $clientes->lastItem() . ' de ' . $clientes->total() . ' registros'; ?>	</div>
-	          {{ $clientes->appends(Request::only(['type', 'val', 'barrios', 'tipoclientes']))->render() }}
+	          {{ $clientes->appends(Request::only(['type', 'val', 'val2' ,'barrios', 'tipoclientes']))->render() }}
 	        </div>
 	    </div>
     </div>
@@ -164,30 +165,49 @@
 			
 			if (type == 'nrodocumento'){
 				$('#val').show();
+				$('#val2').hide();
 				$('#barrio').hide();
 				$('#tipocliente').hide();
 				$('#val').attr('type','number');
-			} else if (type == 'cliente')
+			} else if (type == 'apellido')
 			{
 				$('#val').show();
+				$('#val2').hide();
+				$('#barrio').hide();
+				$('#tipocliente').hide();
+				$('#val').attr('type','text');
+			} else if (type == 'nombre')
+			{
+				$('#val').show();
+				$('#val2').hide();
+				$('#barrio').hide();
+				$('#tipocliente').hide();
+				$('#val').attr('type','text');	
+			} else if (type == 'apellidonombre')
+			{
+				$('#val').show();
+				$('#val2').show();
 				$('#barrio').hide();
 				$('#tipocliente').hide();
 				$('#val').attr('type','text');
 			}else if (type == 'barrio')
 			{
 				$('#val').hide();
+				$('#val2').hide();
 				$('#barrio').show();
 				$('#tipocliente').hide();
 				$('#val').attr('type','text');
 			}else if (type == 'tipocliente')
 			{
 				$('#val').hide();
+				$('#val2').hide();
 				$('#barrio').hide();
 				$('#tipocliente').show();
 				$('#val').attr('type','text');
 			} else
 			{
 				$('#val').show();
+				$('#val2').hide();
 				$('#barrio').hide();
 				$('#tipocliente').hide();
 				$('#val').attr('type','text');
@@ -202,6 +222,7 @@
 			searchType(); 
 			$('#val').val('');
 			$('#val').focus();
+			$('#val2').val('');
 			$('#barrios').val('').select2();
 			$('#tipoclientes').val('').select2();
 			//$('#cajas').val($('#cajas option:first').val());

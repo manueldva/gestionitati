@@ -9,7 +9,7 @@ class Empleado extends Model
     //protected $table = 'barrios';
 
 	protected $fillable = [
-    	'tipoempleado_id', 'empleado', 'movil', 'patente',  'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
+    	'tipoempleado_id', 'empleado', 'apellido', 'nombre' , 'movil', 'patente',  'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
 	];
 
 
@@ -25,20 +25,30 @@ class Empleado extends Model
 
 
 
-    /*
-	public function scopeType($query, $type, $valor) 
+    
+	 public function scopeType($query, $type, $valor, $valor2) 
     {
-		
-		if($type == 'perfil')
-		{
-			$query->where('perfil', 'like', '%' . $valor . '%')->orderBy('perfil', 'ASC');
-
-		} elseif ($type == 'descripcion')
+        
+        if ($type == 'codigo') 
         {
-            $query->where('descripcion', 'like', '%' . $valor . '%')->orderBy('perfil', 'ASC');
+            $query->where('id', '=',  $valor)->orderBy('empleado');
+          
+        }else if ($type == 'apellido') 
+        {
+            $query->where('apellido', 'like', '%' . $valor . '%')->orderBy('empleado');
+
+        }else if ($type == 'nombre') 
+        {
+            $query->where('nombre', 'like', '%' . $valor . '%')->orderBy('empleado');
+
+        }else if ($type == 'apellidonombre') 
+        {
+            $query->where('apellido', 'like', '%' . $valor . '%')->where('nombre', 'like', '%' . $valor2 . '%')->orderBy('empleado');
+
         } else
         {
-            $query->orderBy('perfil', 'ASC');
+              $query->orderBy('empleado');
+          
         }
-    }*/
+    }
 }

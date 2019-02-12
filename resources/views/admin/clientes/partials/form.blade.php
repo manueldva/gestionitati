@@ -44,7 +44,7 @@
 				  </div>
 			      <div class="form-group" id="razonsocial">
 			      	{{ form::label('cliente', 'Razon Social *') }}
-					{{ form::text('cliente', null, ['class' => 'form-control', 'id' => 'cliente', 'placeholder'=> 'Razon Social']) }}
+					{{ form::text('cliente', null, ['class' => 'form-control', 'id' => 'cliente', 'placeholder'=> 'Razon Social', 'maxlength' =>'200']) }}
 					<div id="clientespan" class="form-group has-error"style="display: none">
 						<span class="help-block">Campo Obligatorio</span>
 					</div>
@@ -56,7 +56,7 @@
 								<tr>
 									<td> 
 										{{ form::label('apellido', 'Apellido *') }}
-										{{ form::text('apellido', null, ['class' => 'form-control', 'id' => 'apellido', 'placeholder'=> 'Apellido']) }}
+										{{ form::text('apellido', null, ['class' => 'form-control', 'id' => 'apellido', 'placeholder'=> 'Apellido', 'maxlength' =>'200']) }}
 										<div id="apellidospan" class="form-group has-error" style="display: none">
 											<span class="help-block">Campo Obligatorio</span>
 										</div>
@@ -64,7 +64,7 @@
 									</td>
 									<td> 
 										{{ form::label('nombre', 'Nombre *') }}
-										{{ form::text('nombre', null, ['class' => 'form-control', 'id' => 'nombre', 'placeholder'=> 'Nombre']) }}
+										{{ form::text('nombre', null, ['class' => 'form-control', 'id' => 'nombre', 'placeholder'=> 'Nombre', 'maxlength' =>'200']) }}
 										<div id="nombrespan" class="form-group has-error"  style="display: none">
 											<span class="help-block">Campo Obligatorio</span>
 										</div>
@@ -77,7 +77,7 @@
 
 			      <div class="form-group" id="referentes">
 			      	{{ form::label('referente', 'Referente *') }}
-					{{ form::text('referente', null, ['class' => 'form-control', 'id' => 'referente', 'placeholder'=> 'Representante de la entidad']) }}
+					{{ form::text('referente', null, ['class' => 'form-control', 'id' => 'referente', 'placeholder'=> 'Representante de la entidad', 'maxlength' =>'150']) }}
 					<div id="referentespan" class="form-group has-error"  style="display: none">
 						<span class="help-block">Campo Obligatorio</span>
 					</div>
@@ -316,42 +316,42 @@
 									<tr>
 										<td> 
 											{{ form::label('numero', 'Numero') }}
-											{{ form::number('numero', null, ['class' => 'form-control', 'id' => 'numero']) }}
+											{{ form::number('numero', null, ['class' => 'form-control', 'id' => 'numero', 'max'=>'999999999']) }}
 										</td>
 										<td> 
 											{{ form::label('codigopostal', 'Codigo Postal') }}
-											{{ form::number('codigopostal', null, ['class' => 'form-control', 'id' => 'codigopostal']) }}
+											{{ form::number('codigopostal', null, ['class' => 'form-control', 'id' => 'codigopostal', 'max' =>'999999999']) }}
 										</td>
 									</tr>	
 
 									<tr>
 										<td> 
 											{{ form::label('manzana', 'Manzana') }}
-											{{ form::text('manzana', null, ['class' => 'form-control', 'id' => 'manzana']) }}
+											{{ form::text('manzana', null, ['class' => 'form-control', 'id' => 'manzana', 'maxlength' =>'10']) }}
 										</td>
 										<td> 
 											{{ form::label('casa', 'Casa') }}
-											{{ form::text('casa', null, ['class' => 'form-control', 'id' => 'casa']) }}
+											{{ form::text('casa', null, ['class' => 'form-control', 'id' => 'casa', 'maxlength' =>'10']) }}
 										</td>
 									</tr>	
 									<tr>
 										<td> 
 											{{ form::label('edificiotorre', 'Edificio/Torre') }}
-											{{ form::text('edificiotorre', null, ['class' => 'form-control', 'id' => 'edificiotorre']) }}
+											{{ form::text('edificiotorre', null, ['class' => 'form-control', 'id' => 'edificiotorre', 'maxlength' =>'10']) }}
 										</td>
 										<td> 
 											{{ form::label('piso', 'Piso') }}
-											{{ form::text('piso', null, ['class' => 'form-control', 'id' => 'piso']) }}
+											{{ form::text('piso', null, ['class' => 'form-control', 'id' => 'piso', 'maxlength' =>'10']) }}
 										</td>
 									</tr>	
 									<tr>
 										<td> 
 											{{ form::label('seccion', 'Seccion') }}
-											{{ form::text('seccion', null, ['class' => 'form-control', 'id' => 'seccion']) }}
+											{{ form::text('seccion', null, ['class' => 'form-control', 'id' => 'seccion', 'maxlength' =>'10']) }}
 										</td>
 										<td> 
 											{{ form::label('lote', 'Lote') }}
-											{{ form::text('lote', null, ['class' => 'form-control', 'id' => 'lote']) }}
+											{{ form::text('lote', null, ['class' => 'form-control', 'id' => 'lote', 'maxlength' =>'10']) }}
 										</td>
 									</tr>	
 								</thead>
@@ -361,18 +361,20 @@
 				</div>
 
 			</div>
+
 			    <!-- /.box-body -->
 			<div class="col-md-10">
 			    <div class="box-body">
+			    	<hr style="border-color:#C6BFBF;">
 			    	<div class="form-group">
 						{{ form::label('referenciadomicilio', 'Referencia') }}
-						{{ form::text('referenciadomicilio', null, ['class' => 'form-control', 'id' => 'referenciadomicilio']) }}
+						{{ form::text('referenciadomicilio', null, ['class' => 'form-control', 'id' => 'referenciadomicilio', 'maxlength' =>'500']) }}
 					</div>
-			    	<hr>
+			    	
 			      	<div class="form-group">
 						{{ form::label('observaciondomicilio', 'Observacion') }}
 						{{ form::text('observaciondomicilio', null, ['class' => 'form-control', 'id' => 'observaciondomicilio','disabled' => 'disabled']) }}
-						{{ form::text('cargarobservacion', 0, ['class' => 'form-control', 'id' => 'cargarobservacion']) }}
+						{{ form::text('cargarobservacion', 0, ['class' => 'form-control', 'id' => 'cargarobservacion', 'maxlength' =>'500']) }}
 						<div id="cargarobservacionspan" class="form-group has-error" style="display: none">
 							<span class="help-block">Campo Obligatorio</span>
 						</div>
@@ -553,7 +555,7 @@
 								</td>
 								<td> 
 									{{ form::label('nombrefamiliar', 'Apellido y Nombre') }}
-									{{ form::text('nombrefamiliar', null, ['class' => 'form-control', 'id' => 'nombrefamiliar']) }}
+									{{ form::text('nombrefamiliar', null, ['class' => 'form-control', 'id' => 'nombrefamiliar', 'maxlength' =>'200']) }}
 								</td>
 								<td> 
 									{{ form::label('contactofamiliar', 'Contacto') }}

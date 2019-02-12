@@ -5,7 +5,9 @@ return array(
 
 	'clientetypes' => [
 		''    		=> 'Seleccionar',
-		'cliente'  => 'Cliente',
+		'apellido'  => 'Apellido',
+		'nombre'  => 'Nombre',
+		'apellidonombre'  => 'Apellido y Nombre',
 		'nrodocumento'		=> 'Nro Documento',
 		'barrio'	=> 'Barrio',
 		'tipocliente' => 'Tipo de Cliente'
@@ -40,6 +42,16 @@ return array(
 		'codigo'  => 'Codigo',
 		'descripcion'	=> 'Descripción'
 	], 
+
+
+ 	'empleadotypes' => [
+		''    		=> 'Seleccionar',
+		'codigo'  => 'Codigo',
+		'apellido'	=> 'Apellido',
+		'nombre' => 'Nombre',
+		'apellidonombre' => 'Apellido y Nombre'
+	], 
+
  	
 	'ventatypes' => [
 	   ''    		=> 'Seleccionar',

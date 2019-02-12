@@ -111,44 +111,22 @@ return [
     'menu' => [
 
         'MENU PRINCIPAL',
-        /*[
-            'text' => 'Ventas',
-            'url'  => 'ventas',
-            'icon' => 'money',
-        ],*/
         [
             'text' => 'Articulos',
             'url'  => 'articulos',
             'icon' => 'archive',
         ],
+
         [
             'text' => 'Clientes',
             'url'  => 'clientes',
             'icon' => 'users',
-        ],/*
+        ],
         [
-            'text' => 'Proveedores',
-            'url'  => 'proveedores',
-            'icon' => 'truck',
-        ],*/
-        [
-            'text'    => 'Seguridad',
-            'icon'    => 'key',
-            'submenu' => [
-                [
-                    'text' => 'Usuarios',
-                    'url'  => 'manageusers',
-                ],
-                 [
-                    'text' => 'Modulos',
-                    'url'  => 'modulos',
-                ],
-                [
-                    'text' => 'Perfiles',
-                    'url'  => 'perfiles',
-                ]
-            ]
-        ],       
+            'text' => 'Empleados',
+            'url'  => 'empleados',
+            'icon' => 'user',
+        ],     
         [
             'text'    => 'Complementos',
             'icon'    => 'cog',
@@ -204,12 +182,30 @@ return [
                         ],
                     ],
                
-                [
+                /*[
                     'text' => 'Tipo Empleado',
                     'url'  => 'tipoempleados',
-                ]
+                ]*/
             ]
         ],
+        [
+            'text'    => 'Seguridad',
+            'icon'    => 'key',
+            'submenu' => [
+                [
+                    'text' => 'Usuarios',
+                    'url'  => 'manageusers',
+                ],
+                 [
+                    'text' => 'Modulos',
+                    'url'  => 'modulos',
+                ],
+                [
+                    'text' => 'Perfiles',
+                    'url'  => 'perfiles',
+                ]
+            ]
+        ],  
         /*[
             'text' => 'Informes',
             'url'  => 'informes',

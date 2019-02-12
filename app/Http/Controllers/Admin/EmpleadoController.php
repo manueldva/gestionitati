@@ -4,18 +4,53 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+
+use App\Http\Requests\EmpleadoStoreRequest;
+use App\Http\Requests\EmpleadoUpdateRequest;
+use Alert;
+
 use App\Models\Empleado;
+use App\Models\Cliente;
+use App\Models\Tipoempleado;
+use App\Models\Modulo;
+use App\Models\Perfil;
+use Auth;
+
+
+use App\Helpers\FechaHelper;
 
 class EmpleadoController extends Controller
 {
+     public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+       
+        $perfil = Perfil::find(Auth::user()->perfil_id);
+        $modulo_actual = Modulo::where('valor', '=', 'EMPLEADO')->get();
+        $modulos = $perfil->modulos()->where('modulo_id', '=', $modulo_actual[0]->id)->get();
+        $permiso = $modulos[0]->pivot->permiso;
+ 
+
+        $empleados = Empleado::type($request->get('type'), $request->get('val'), $request->get('val2'))->paginate(15);
+
+        /*foreach($articulos as $articulo){
+            $articulo->fecha_alta = FechaHelper::getFechaImpresion($articulo->fecha_alta); 
+        }*/
+
+        $empleados->setPath('empleados');
+
+         //dd($motivos);
+
+       return view('admin.empleados.index', compact('empleados', 'permiso'));
     }
 
     /**
@@ -25,7 +60,9 @@ class EmpleadoController extends Controller
      */
     public function create()
     {
-        //
+
+        $tipoempleados  = Tipoempleado::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+        return view('admin.empleados.create', compact('tipoempleados'));
     }
 
     /**
@@ -34,9 +71,15 @@ class EmpleadoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EmpleadoStoreRequest $request)
     {
+        $empleado = Empleado::create($request->all());
+
+        //auditoria
+        $empleado->fill(['empleado'=> $empleado->apellido . ' ' . $empleado->nombre,  'usuario_alta' => Auth::user()->username , 'fecha_alta' => date('Y-m-d H:i:s')])->save();
         //
+        Alert::success('Empleado creado con exito')->persistent("Cerrar");
+        return redirect()->route('empleados.index');
     }
 
     /**
@@ -47,7 +90,11 @@ class EmpleadoController extends Controller
      */
     public function show($id)
     {
-        //
+        $empleado = Empleado::find($id);
+
+        //$articulo->fecha_alta = FechaHelper::getFechaImpresion($articulo->fecha_alta); 
+
+        return view('admin.empleados.show', compact('empleado'));
     }
 
     /**
@@ -58,7 +105,10 @@ class EmpleadoController extends Controller
      */
     public function edit($id)
     {
-        //
+        $empleado = Empleado::find($id);
+        $tipoempleados  = Tipoempleado::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+        return view('admin.empleados.edit', compact('empleado', 'tipoempleados'));
     }
 
     /**
@@ -68,9 +118,20 @@ class EmpleadoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(EmpleadoUpdateRequest $request, $id)
     {
+        
+        $empleado = Empleado::find($id);
+
+        $empleado->fill($request->all())->save();
+
+
+        //auditoria
+        $empleado->fill(['empleado'=> $empleado->apellido . ' ' . $empleado->nombre, 'usuario_modi' => Auth::user()->username , 'fecha_modi' => date('Y-m-d H:i:s')])->save();
         //
+
+        Alert::success('Empleado actualizado con exito')->persistent("Cerrar");
+        return redirect()->route('empleados.index');
     }
 
     /**
@@ -81,8 +142,20 @@ class EmpleadoController extends Controller
      */
     public function destroy($id)
     {
-        //
-    }
 
+        $existe = Cliente::where('empleado_id', $id)->count();
+
+        if($existe > 0) 
+        {
+            Alert::error('No se puede eliminar el registro')->persistent("Cerrar");
+            return back();
+        }
+
+        
+        Empleado::find($id)->delete();
+
+        Alert::success('Eliminado correctamente')->persistent("Cerrar");
+        return back();
+    }
 
 }

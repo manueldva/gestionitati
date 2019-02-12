@@ -76,28 +76,35 @@ class Cliente extends Model
     
     
 
-	public function scopeType($query, $type, $valor, $barrios, $tipoclientes) 
+	public function scopeType($query, $type, $valor, $valor2, $barrios, $tipoclientes) 
     {
 		
 		if ($type == 'nrodocumento')
         {
-            $query->where('numerodocumento', 'like', '%' . $valor . '%')->orderBy('cliente', 'DESC');
-        } else if ($type == 'cliente') 
+            $query->where('numerodocumento', 'like', '%' . $valor . '%')->orderBy('apellido', 'DESC');
+        }else if ($type == 'apellido') 
         {
-			//$query->where('id', $valor)->orderBy('id', 'ASC');
-    		$query->where('cliente', 'like', '%' . $valor . '%')->orderBy('cliente', 'DESC');
-			//$query->client()->where('name', 'like', '%' . $valor . '%')->orderBy('id', 'ASC');
+            $query->where('apellido', 'like', '%' . $valor . '%')->orderBy('apellido');
+
+        }else if ($type == 'nombre') 
+        {
+            $query->where('nombre', 'like', '%' . $valor . '%')->orderBy('apellido');
+
+        }else if ($type == 'apellidonombre') 
+        {
+            $query->where('apellido', 'like', '%' . $valor . '%')->where('nombre', 'like', '%' . $valor2 . '%')->orderBy('apellido');
+
         }
         else if ($type == 'barrio') 
         {
             //$query->where('id', $valor)->orderBy('id', 'ASC');
-            $query->where('barrio_id', '=', $barrios)->orderBy('cliente', 'DESC');
+            $query->where('barrio_id', '=', $barrios)->orderBy('apellido', 'DESC');
             //$query->client()->where('name', 'like', '%' . $valor . '%')->orderBy('id', 'ASC');
         }
         else if ($type == 'tipocliente') 
         {
             //$query->where('id', $valor)->orderBy('id', 'ASC');
-            $query->where('tipocliente_id', '=', $tipoclientes)->orderBy('cliente', 'DESC');
+            $query->where('tipocliente_id', '=', $tipoclientes)->orderBy('apellido', 'DESC');
             //$query->client()->where('name', 'like', '%' . $valor . '%')->orderBy('id', 'ASC');
 
 
