@@ -578,7 +578,7 @@
 		$('#calle_id').select2();
 
 		/*para calcular edad a partir de una fecha de nacimientpo*/
-		function calcularEdad() {
+		/*function calcularEdad() {
 			FechaNacimiento = $('#fechanacimiento').val();
 			var fechaNace = new Date(FechaNacimiento);
 			var fechaActual = new Date();
@@ -600,7 +600,7 @@
 
 		$('#fechanacimiento').focusout(function(e) {
 			calcularEdad();
-		});
+		});*/
 
 
 		/*mostrar campos dependiendo del tipo del cliente*/
@@ -623,16 +623,16 @@
 				$("#referentes").hide();
 				//$("#tipoivas").hide();
 				$("#cuits").hide();
-				$("#fechanacimientos").show();
-				$("#edades").show();
+				//$("#fechanacimientos").show();
+				//$("#edades").show();
 			} else {
 				$("#razonsocial").show();
 				$("#apellidoynombre").hide();
 				$("#referentes").show();
 				//$("#tipoivas").show();
 				$("#cuits").show();
-				$("#fechanacimientos").hide();
-				$("#edades").hide();
+				//$("#fechanacimientos").hide();
+				//$("#edades").hide();
 			}
 
 		}
@@ -846,11 +846,16 @@
 		$( "#agregardireccion" ).click(function() {
 
 			//toastr.error('funciona');
-			if($('#articulo_id').val() == ''  || $("#cantidadarticulo").val() == '') {
-
-				toastr.error('No se puede agregar este articulo. Faltan datos');
+			$('#table_direccionesspan').hide();
+	      		var valdirecc = validardireccion();
+			   	if(valdirecc == 1){
+					toastr.error('No se puede agregar este domicilio. Faltan datos');
+				//toastr.error('No se pueden guardar los datos. Existen campos vacios o mal cargados');
+		   		return false;
+			} else if(valdirecc == 2){
 				return false;
 			}
+
 
 			//variables para guardar en la grilla
 			var provincia_id = $('#provincia_id').val();
@@ -910,7 +915,7 @@
 
 			$('#provincia_id').change();
 
-			toastr.success('Articulo agregado a la lista');
+			toastr.success('Direccion agregada a la lista');
 			
 
 		});
@@ -1217,16 +1222,6 @@
       			$('#table_articulosspan').hide();
       		}*/
 
-      		//vendedor
-      		if($.trim($('#empleado_id').val()) == ''){
-		   		estadocampos = 1;
-		   		$('#empleado_idspan').show();
-		   		$('#empleadospan').show();
-		   	} else{
-		   		//estadocampos = 0;
-		   		$('#empleado_idspan').hide();
-		   		$('#empleadospan').hide();
-		   	}
 
 		   	//direcciones aca
 		   	//var checkdirecciones = $("#direcciones").parent('[class*="icheckbox"]').hasClass("checked");
@@ -1240,6 +1235,8 @@
 				$('#barrio_idspan').hide();
 				$('#calle_idspan').hide();
 			   	$('#cargarobservacionpan').hide();
+			   	$('#empleado_idspan').hide();
+			   	$('#empleadospan').hide();
 
 			   	var listado = crear_listado_direcciones();
 	      		$('#id_lista_direcciones').val(listado);
@@ -1391,6 +1388,18 @@
 		   	}else{
 		   		$('#cargarobservacionpan').hide();
 		   	}
+
+		   	//vendedor
+      		if($.trim($('#empleado_id').val()) == ''){
+		   		$('#empleado_idspan').show();
+		   		$('#empleadospan').show();
+		   		 estadovalidacion = 1;
+		   	} else{
+		   		//estadocampos = 0;
+		   		$('#empleado_idspan').hide();
+		   		$('#empleadospan').hide();
+		   	}
+
 		   	
 		   	//validar que este cargado al menos un campo de texto de domicilio
 		   	if($.trim($('#numero').val()) == '' && $.trim($('#manzana').val()) == '' && $.trim($('#casa').val()) == '' && $.trim($('#edificiotorre').val()) == '' && $.trim($('#piso').val()) == '' && $.trim($('#seccion').val()) == '' && $.trim($('#lote').val()) == '' && $.trim($('#referenciadomicilio').val()) == ''){
