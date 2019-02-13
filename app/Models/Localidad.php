@@ -12,10 +12,10 @@ class Localidad extends Model
     	'provincia_id', 'departamento_id', 'descripcion', 'sinbarrio', 'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
 	];
 
-
-	public function clientes(){
-    	return $this->HasMany(Cliente::class);
+    public function clientedirecciones(){
+        return $this->HasMany(Clientedireccion::class);
     }
+
 
     public function provincia(){
         

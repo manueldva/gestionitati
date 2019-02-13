@@ -4,48 +4,61 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Cliente extends Model
+class Clientedireccion extends Model
 {
+    
+    protected $table = 'clientedirecciones';
+
     protected $fillable = [
-        'tipocliente_id', 'cliente', 'apellido', 'nombre', 'referente', 'tipodocumento_id', 'numerodocumento', 'tipoiva_id','telefonoparticular','celular','companiatelefonica_id','email', 'estado','motivoestado','usuario_alta','fecha_alta','usuario_modi','fecha_modi',
+        'cliente_id', 'provincia_id','departamento_id', 'localidad_id','barrio_id', 'calle_id', 'manzana', 'casa', 'numero','edificiotorre','piso','seccion','lote','codigopostal','referenciadomicilio','observaciondomicilio','empleado_id', 'horadesde','horahasta','usuario_alta','fecha_alta','usuario_modi','fecha_modi',
 	];
 
 
 
-    public function companiatelefonica(){
+    public function cliente(){
         
-        return $this->belongsTo(Companiatelefonica::class);
+        return $this->belongsTo(Cliente::class);
     }
 
-
-    public function tipocliente(){
+    public function empleado(){
         
-        return $this->belongsTo(Tipocliente::class);
+        return $this->belongsTo(Empleado::class);
     }
 
-    public function tipodocumento(){
+
+    public function calle(){
         
-        return $this->belongsTo(Tipodocumento::class);
+        return $this->belongsTo(Calle::class);
     }
 
-    public function tipoiva(){
+    public function barrio(){
         
-        return $this->belongsTo(Tipoiva::class);
+        return $this->belongsTo(Barrio::class);
     }
 
 
-    public function clientefamiliar(){
-        return $this->HasMany(Clientefamiliar::class);
+
+    public function localidad(){
+        
+        return $this->belongsTo(Localidad::class);
     }
 
-    public function clientedireccion(){
-        return $this->HasMany(Clientedireccion::class);
+    public function provincia(){
+        
+    return $this->belongsTo(Provincia::class);
     }
+
+    public function departamento(){
+        
+        return $this->belongsTo(Departamento::class);
+    }
+    
+
 
 
     
     
-
+/*
 	public function scopeType($query, $type, $valor, $valor2, $barrios, $tipoclientes) 
     {
 		
@@ -67,7 +80,9 @@ class Cliente extends Model
         }
         else if ($type == 'barrio') 
         {
-            $query->orderBy('apellido', 'DESC'); //cambiar mas adelante
+            //$query->where('id', $valor)->orderBy('id', 'ASC');
+            $query->where('barrio_id', '=', $barrios)->orderBy('apellido', 'DESC');
+            //$query->client()->where('name', 'like', '%' . $valor . '%')->orderBy('id', 'ASC');
         }
         else if ($type == 'tipocliente') 
         {
@@ -78,7 +93,7 @@ class Cliente extends Model
 
         } else
         {
-            $query->orderBy('apellido', 'DESC');
+            $query;
         }
-    }
+    }*/
 }

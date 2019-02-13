@@ -1,5 +1,5 @@
 
- <input type="hidden" name="listado_articulos" id="id_lista_articulos">
+ <input type="hidden" name="listado_direcciones" id="id_lista_direcciones">
  <input type="hidden" name="listado_familiares" id="id_lista_familiares">
 <div class="row">
 	<div class="col-md-12">	
@@ -86,20 +86,6 @@
 					<div class="table-responsive">
 						<table class="table table-striped table-hover" data-form="Form">
 							<thead>
-								<tr style="display:none">
-									<td > 
-										<div id="fechanacimientos">
-										{{ form::label('fechanacimiento1', 'Fecha de Nacimiento') }}
-										{{ form::date('fechanacimiento', null, ['class' => 'form-control', 'id' => 'fechanacimiento1','min'=> '1900-01-01']) }}
-										</div>
-									</td>
-									<td> 
-										<div id="edades">
-										{{ form::label('edad', 'Edad') }}
-										{{ form::text('edad1', null, ['class' => 'form-control', 'id' => 'edad1', 'readonly' => 'readonly']) }}
-										</div>
-									</td>
-								</tr>		
 								</tr>	
 									<td>
 										 <div  id = "tipoivas">
@@ -120,28 +106,10 @@
 										{{ form::label('motivoestado', 'Motivo') }}
 										{{ form::text('motivoestado', null, ['class' => 'form-control', 'id' => 'motivoestado']) }}
 									</td>
-								
-								<!--
-								<tr>
-									<td> 
-										
-									</td>
-									<td style="text-align:right;"> 
-										{{ form::label('sincargo', 'Cliente Sin Cargo') }}
-										<label>
-											{{ Form::checkbox('sincargo','1')}} 
-										</label>
-									</td>
-								</tr>	
-								-->
 							</thead>
 						</table>
 					</div>
 				  </div>	
-			      <div class="form-group">
-					{{ form::label('fechanacimiento', 'Fecha de Contrato') }}
-					{{ form::date('fechanacimiento', null, ['class' => 'form-control', 'id' => 'fechanacimiento','min'=> '1900-01-01']) }}
-				  </div>
 			    </div>
 			    <!-- /.box-body -->
 			  <!--</div>-->
@@ -150,257 +118,6 @@
 			<!-- /.col -->
 
 			<div class="col-md-4">
-			  <!--<div class="box box-default">-->
-			    
-			    <div class="box-header with-border">
-			      <i class="fa fa-shopping-cart"></i>
-
-			      <h3 class="box-title">Articulos en posesión del cliente</h3>
-			    </div>
-			    <!-- /.box-header -->
-			    <div class="box-body">
-					
-					<div class="form-group">
-					<div class="table-responsive">
-						<table class="table table-striped table-hover" data-form="Form">
-							<thead>
-								<tr>	
-									<td class="col-md-3"> 
-										{{ form::label('articulo_id', 'Cod.') }}
-										{{ form::number('articulo_id', null, ['class' => 'form-control', 'id' => 'articulo_id']) }}
-									</td>
-									<td>
-										{{ form::label('articulo', 'Articulo') }}
-										<br>
-										{{ form::select('articulo', $articulos,  null, ['class' => 'form-control inline-search', 'id' => 'articulo','placeholder' => 'Seleccionar...'] ) }}
-									</td>
-								</tr>
-
-								<tr>
-									<td> 
-										{{ form::label('cantidadarticulo', 'Cantidad') }}
-										{{ form::number('cantidadarticulo', null, ['class' => 'form-control', 'id' => 'cantidadarticulo']) }}
-									</td>
-									<td> 
-										<br>
-										<a type="button" id="agregararticulo" name="agregararticulo" class="btn btn btn-success">
-						                <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
-						                    <span class="fa fa-plus-circle">
-						                    </span>
-						                      AGREGAR
-						                  </a>
-									</td>
-								</tr>	
-								
-							</thead>
-						</table>
-						<div class="form-group">
-							<div class="table-responsive">
-								<table   id="table_articulos" class="table table-striped table-hover" data-form="Form">
-									<thead>
-										<tr>
-										<!--<th width="10px"> ID</th>-->
-											<th style="display:none;"> Codigo</th>
-											<th> Articulo</th>
-											<th> Cantidad</th>
-											<th> </th>
-										</tr>
-									</thead>
-									<tbody>
-										@if($editshow !== 0)
-											@foreach ($clientearticulos as $clientearticulo)
-							                  <tr>
-							                    <td style="display:none;">{{ $clientearticulo->articulo_id }}</td>
-							                    <td>{{ $clientearticulo->articulo->descripcion }}</td>
-												<td>{{ $clientearticulo->cantidad }}</td>
-							                    @if($editshow == 1) 
-								                    <td>
-									                   <a class='delete btn btn-sm btn-danger' onclick ='deletearticulo_row($(this))'>
-									                   	<span class='glyphicon glyphicon-trash'></span>
-									                   </a>
-								               	    </td>
-							                    @endif
-							                  </tr>
-							                @endforeach
-										@endif
-									</tbody>
-								</table>
-								<div id="table_articulosspan" class="form-group has-error" style="display: none">
-									<span class="help-block">Debe haber al menos un registro en la lista</span>
-								</div>
-							</div>
-						</div>
-					</div>
-				  </div>
-
-			    </div>
-			    <!-- /.box-body -->
-			</div>
-
-	 	</div>
-	    <!-- /.box-body -->
-	  </div>
-	  <!-- /.box -->
-	</div>
-	<!-- /.col -->
-
-<!--      segundo div general                              -->
-
-
-	<div class="col-md-12">
-	  <div class="box box-default">
-	  	<div class="box-header with-border">
-	      <i class="fa fa-home"></i>
-
-	      <h3 class="box-title">Dirección Particular</h3>
-	    </div>
-
-	    <!-- /.box-header -->
-	    <div class="box-body">
-
-			<div class="col-md-6">
-			  <!--<div class="box box-default">-->
-			    <!-- /.box-header -->
-			    <div class="box-body">
-			      	<div class="form-group">
-						{{ form::label('provincia_id', 'Provincia *') }}
-						{{ form::select('provincia_id',  isset($provincias) ? $provincias : [] ,  null, ['class' => 'form-control inline-search', 'id' => 'provincia_id','placeholder' => 'Seleccionar...'] ) }}
-						<div id="provincia_idspan" class="form-group has-error" style="display: none">
-							<span class="help-block">Campo Obligatorio</span>
-						</div>
-					</div>
-					<div class="form-group">
-						{{ form::label('departamento_id', 'Departamento *') }}
-						{{ form::select('departamento_id', isset($cliente) ? $departamentos : [],  null, ['class' => 'form-control inline-search', 'id' => 'departamento_id','placeholder' => 'Seleccionar...'] ) }}
-						<div id="departamento_idspan" class="form-group has-error" style="display: none">
-							<span class="help-block">Campo Obligatorio</span>
-						</div>
-					</div>
-					<div class="form-group">
-						{{ form::label('localidad_id', 'Localidad *') }}
-						{{ form::select('localidad_id', isset($cliente) ? $localidades : [],  null, ['class' => 'form-control inline-search', 'id' => 'localidad_id','placeholder' => 'Seleccionar...'] ) }}
-						{{ form::text('sinbarrio',  isset($sinbarrio) ? $sinbarrio : 0, ['class' => 'form-control', 'id' => 'sinbarrio']) }}
-						<div id="localidad_idspan" class="form-group has-error" style="display: none">
-							<span class="help-block">Campo Obligatorio</span>
-						</div>
-					</div>
-					<div class="form-group">
-						{{ form::label('barrio_id', 'Barrio *') }}
-						{{ form::select('barrio_id', isset($cliente) ? $barrios : [],  null, ['class' => 'form-control inline-search', 'id' => 'barrio_id','placeholder' => 'Seleccionar...'] ) }}
-						{{ form::text('sincalle', isset($sincalle) ? $sincalle : 0, ['class' => 'form-control', 'id' => 'sincalle']) }}
-						<div id="barrio_idspan" class="form-group has-error" style="display: none">
-							<span class="help-block">Campo Obligatorio</span>
-						</div>
-					</div>
-					<div class="form-group">
-						{{ form::label('calle_id', 'Calle *') }}
-						{{ form::select('calle_id', isset($cliente) ? $calles : [],  null, ['class' => 'form-control inline-search', 'id' => 'calle_id','placeholder' => 'Seleccionar...'] ) }}
-						<div id="calle_idspan" class="form-group has-error" style="display: none">
-							<span class="help-block">Campo Obligatorio</span>
-						</div>
-					</div>
-			     
-			    </div>
-			    <!-- /.box-body -->
-			  <!--</div>-->
-			  <!-- /.box -->
-			</div>
-			<!-- /.col -->
-
-			<div class="col-md-4">
-			  <!--<div class="box box-default">-->
-			  
-			    <!-- /.box-header -->
-			    <div class="box-body">
-					<div class="form-group">
-						<div class="table-responsive">
-							<table class="table table-striped table-hover" data-form="Form">
-								<thead>
-									<tr>
-										<td> 
-											{{ form::label('numero', 'Numero') }}
-											{{ form::number('numero', null, ['class' => 'form-control', 'id' => 'numero', 'max'=>'999999999']) }}
-										</td>
-										<td> 
-											{{ form::label('codigopostal', 'Codigo Postal') }}
-											{{ form::number('codigopostal', null, ['class' => 'form-control', 'id' => 'codigopostal', 'max' =>'999999999']) }}
-										</td>
-									</tr>	
-
-									<tr>
-										<td> 
-											{{ form::label('manzana', 'Manzana') }}
-											{{ form::text('manzana', null, ['class' => 'form-control', 'id' => 'manzana', 'maxlength' =>'10']) }}
-										</td>
-										<td> 
-											{{ form::label('casa', 'Casa') }}
-											{{ form::text('casa', null, ['class' => 'form-control', 'id' => 'casa', 'maxlength' =>'10']) }}
-										</td>
-									</tr>	
-									<tr>
-										<td> 
-											{{ form::label('edificiotorre', 'Edificio/Torre') }}
-											{{ form::text('edificiotorre', null, ['class' => 'form-control', 'id' => 'edificiotorre', 'maxlength' =>'10']) }}
-										</td>
-										<td> 
-											{{ form::label('piso', 'Piso') }}
-											{{ form::text('piso', null, ['class' => 'form-control', 'id' => 'piso', 'maxlength' =>'10']) }}
-										</td>
-									</tr>	
-									<tr>
-										<td> 
-											{{ form::label('seccion', 'Seccion') }}
-											{{ form::text('seccion', null, ['class' => 'form-control', 'id' => 'seccion', 'maxlength' =>'10']) }}
-										</td>
-										<td> 
-											{{ form::label('lote', 'Lote') }}
-											{{ form::text('lote', null, ['class' => 'form-control', 'id' => 'lote', 'maxlength' =>'10']) }}
-										</td>
-									</tr>	
-								</thead>
-							</table>
-						</div>
-					</div>	
-				</div>
-
-			</div>
-
-			    <!-- /.box-body -->
-			<div class="col-md-10">
-			    <div class="box-body">
-			    	<hr style="border-color:#C6BFBF;">
-			    	<div class="form-group">
-						{{ form::label('referenciadomicilio', 'Referencia') }}
-						{{ form::text('referenciadomicilio', null, ['class' => 'form-control', 'id' => 'referenciadomicilio', 'maxlength' =>'500']) }}
-					</div>
-			    	
-			      	<div class="form-group">
-						{{ form::label('observaciondomicilio', 'Observacion') }}
-						{{ form::text('observaciondomicilio', null, ['class' => 'form-control', 'id' => 'observaciondomicilio','disabled' => 'disabled']) }}
-						{{ form::text('cargarobservacion', 0, ['class' => 'form-control', 'id' => 'cargarobservacion', 'maxlength' =>'500']) }}
-						<div id="cargarobservacionspan" class="form-group has-error" style="display: none">
-							<span class="help-block">Campo Obligatorio</span>
-						</div>
-					</div>
-			    </div>
-			</div>
-	    </div>
-			  <!-- /.box -->
-			<!--</div>-->
-			<!-- /.col -->
-	  </div>
-	    <!-- /.box-body -->
-	</div>
-	  <!-- /.box -->
-
-	 <!-- tercer div general -->
-
-	<div class="col-md-12">
-	  <div class="box box-default">
-	    <!-- /.box-header -->
-	    <div class="box-body">
-
-			<div class="col-md-6">
 			  <!--<div class="box box-default">-->
 			    <div class="box-header with-border">
 			      <i class="fa fa-mobile-phone"></i>
@@ -438,23 +155,176 @@
 					{{ form::email('email', null, ['class' => 'form-control', 'id' => 'email', 'placeholder'=> 'juan@gmail.com']) }}
 			      </div>
 			    </div>
+			</div>
+
+	 	</div>
+	    <!-- /.box-body -->
+	  </div>
+	  <!-- /.box -->
+	</div>
+	<!-- /.col -->
+
+<!--      segundo div general                              -->
+
+
+	<div class="col-md-12">
+	  <div class="box box-default">
+	  	<div class="box-header with-border">
+	      <i class="fa fa-home"></i>
+
+	      <h3 class="box-title">
+	      	Dirección Particular
+	      </h3>
+	      <div id="direcciones" class="form-group pull-right">
+	          <label>
+	            {{ Form::checkbox('direcciones','1'), ['id'=>'direcciones', 'name'=>'direcciones']}} 
+	          </label>  
+	          &nbsp;
+	           {{ form::label('direcciones', ' Mas de una dirección') }}
+	           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	      </div>
+	    </div>
+
+	    <!-- /.box-header -->
+	    <div class="box-body">
+
+			<div class="col-md-6">
+			  <!--<div class="box box-default">-->
+			    <!-- /.box-header -->
+			    <div class="box-body">
+
+			      	<div class="form-group">
+						{{ form::label('provincia_id', 'Provincia *') }}
+						{{ form::select('provincia_id',  isset($provincias) ? $provincias : [] ,  null, ['class' => 'form-control inline-search', 'id' => 'provincia_id','placeholder' => 'Seleccionar...'] ) }}
+						<div id="provincia_idspan" class="form-group has-error" style="display: none">
+							<span class="help-block">Campo Obligatorio</span>
+						</div>
+					</div>
+					<br>
+					<div class="form-group">
+						{{ form::label('departamento_id', 'Departamento *') }}
+						{{ form::select('departamento_id', isset($cliente) ? $departamentos : [],  null, ['class' => 'form-control inline-search', 'id' => 'departamento_id','placeholder' => 'Seleccionar...'] ) }}
+						<div id="departamento_idspan" class="form-group has-error" style="display: none">
+							<span class="help-block">Campo Obligatorio</span>
+						</div>
+					</div>
+					<br>
+					<div class="form-group">
+						{{ form::label('localidad_id', 'Localidad *') }}
+						{{ form::select('localidad_id', isset($cliente) ? $localidades : [],  null, ['class' => 'form-control inline-search', 'id' => 'localidad_id','placeholder' => 'Seleccionar...'] ) }}
+						{{ form::text('sinbarrio',  isset($sinbarrio) ? $sinbarrio : 0, ['class' => 'form-control', 'id' => 'sinbarrio']) }}
+						<div id="localidad_idspan" class="form-group has-error" style="display: none">
+							<span class="help-block">Campo Obligatorio</span>
+						</div>
+					</div>
+					<br>
+					<div class="form-group">
+						{{ form::label('barrio_id', 'Barrio *') }}
+						{{ form::select('barrio_id', isset($cliente) ? $barrios : [],  null, ['class' => 'form-control inline-search', 'id' => 'barrio_id','placeholder' => 'Seleccionar...'] ) }}
+						{{ form::text('sincalle', isset($sincalle) ? $sincalle : 0, ['class' => 'form-control', 'id' => 'sincalle']) }}
+						<div id="barrio_idspan" class="form-group has-error" style="display: none">
+							<span class="help-block">Campo Obligatorio</span>
+						</div>
+					</div>
+
+					<br>
+					<div class="form-group">
+						{{ form::label('calle_id', 'Calle *') }}
+						{{ form::select('calle_id', isset($cliente) ? $calles : [],  null, ['class' => 'form-control inline-search', 'id' => 'calle_id','placeholder' => 'Seleccionar...'] ) }}
+						<div id="calle_idspan" class="form-group has-error" style="display: none">
+							<span class="help-block">Campo Obligatorio</span>
+						</div>
+					</div>
+			    </div>
 			    <!-- /.box-body -->
 			  <!--</div>-->
 			  <!-- /.box -->
 			</div>
 			<!-- /.col -->
 
-			<div class="col-md-5">
+			<div class="col-md-4">
 			  <!--<div class="box box-default">-->
-			    
-			    <div class="box-header with-border">
-			      <i class="fa fa-user"></i>
-
-			      <h3 class="box-title">Datos del Vendedor</h3>
-			    </div>
+			  
 			    <!-- /.box-header -->
 			    <div class="box-body">
-				  <div class="form-group">
+					<div class="form-group">
+						<div class="table-responsive">
+							<table class="table table-striped table-hover" data-form="Form">
+								<thead>
+									<tr>
+										<td > 
+											{{ form::label('numero', 'Numero') }}
+											{{ form::number('numero', null, ['class' => 'form-control', 'id' => 'numero', 'max'=>'999999999']) }}
+										</td>
+										<td> 
+											{{ form::label('codigopostal', 'Codigo Postal') }}
+											{{ form::number('codigopostal', null, ['class' => 'form-control', 'id' => 'codigopostal', 'max' =>'999999999']) }}
+										</td>
+									</tr>
+									
+									<tr>
+										<td> 
+											{{ form::label('manzana', 'Manzana') }}
+											{{ form::text('manzana', null, ['class' => 'form-control', 'id' => 'manzana', 'maxlength' =>'10']) }}
+										</td>
+										<td> 
+											{{ form::label('casa', 'Casa') }}
+											{{ form::text('casa', null, ['class' => 'form-control', 'id' => 'casa', 'maxlength' =>'10']) }}
+										</td>
+									</tr>	
+									<tr>
+										<td> 
+											{{ form::label('edificiotorre', 'Edificio/Torre') }}
+											{{ form::text('edificiotorre', null, ['class' => 'form-control', 'id' => 'edificiotorre', 'maxlength' =>'10']) }}
+										</td>
+										<td> 
+											{{ form::label('piso', 'Piso') }}
+											{{ form::text('piso', null, ['class' => 'form-control', 'id' => 'piso', 'maxlength' =>'10']) }}
+										</td>
+									</tr>	
+									<tr>
+										<td> 
+											{{ form::label('seccion', 'Seccion') }}
+											{{ form::text('seccion', null, ['class' => 'form-control', 'id' => 'seccion', 'maxlength' =>'10']) }}
+										</td>
+										<td> 
+											{{ form::label('lote', 'Lote') }}
+											{{ form::text('lote', null, ['class' => 'form-control', 'id' => 'lote', 'maxlength' =>'10']) }}
+										</td>
+									</tr>
+
+									<tr>
+										<td>
+											{{ form::label('referenciadomicilio', 'Referencia') }}
+											{{ form::textarea('referenciadomicilio', null, ['class' => 'form-control', 'id'=>'referenciadomicilio', 'rows' => 5, 'cols' => 40, 'maxlength' =>'500']) }}
+										</td>
+										<td>
+											{{ form::label('observaciondomicilio', 'Observacion') }}
+											{{ form::textarea('observaciondomicilio', null, ['class' => 'form-control', 'id'=>'observaciondomicilio', 'rows' => 5, 'cols' => 40, 'maxlength' =>'500']) }}
+											{{ form::text('cargarobservacion', 0, ['class' => 'form-control', 'id' => 'cargarobservacion', 'maxlength' =>'500']) }}
+											<div id="cargarobservacionspan" class="form-group has-error" style="display: none">
+											<span class="help-block">Campo Obligatorio</span>
+										</div>
+										</td>
+									</tr>	
+	
+								</thead>
+							</table>
+						</div>
+					</div>	
+				</div>
+
+			</div>
+
+			    <!-- /.box-body -->
+			<div class="col-md-10">
+				<div class="box-body">
+				    <div class="box-header with-border">
+				      <i class="fa fa-user"></i>
+
+				      <h3 class="box-title">Datos del Vendedor</h3>
+				    </div>
+			    	<div class="form-group">
 					<div class="table-responsive">
 						<table class="table table-striped table-hover" data-form="Form">
 							<thead>
@@ -465,72 +335,104 @@
 										<div id="empleado_idspan" class="form-group has-error" style="display: none">
 											<span class="help-block">Campo Obligatorio</span>
 										</div>
+										<br>
+										{{ form::label('movil', 'Tipo Movil') }}
+										{{ form::text('movil', null, ['class' => 'form-control', 'id' => 'movil', 'readonly' => 'readonly']) }}
+										
 									</td>
 									<td> 
 										{{ form::label('empleado', 'vendedor') }}
 										<br>
 										{{ form::select('empleado',$empleados,  null, ['class' => 'form-control inline-search', 'id' => 'empleado','placeholder' => 'Seleccionar...'] ) }}
-										
+										<div id="empleadospan" class="form-group has-error" style="display: none">
+											<span class="help-block">Campo Obligatorio</span>
+										</div>
+										<br>
+										{{ form::label('patente', 'Patente') }}
+										{{ form::text('patente', null, ['class' => 'form-control', 'id' => 'patente', 'readonly' => 'readonly']) }}
+									</td>
+									<td> 
+										{{ form::label('horariovisita', 'visita') }}
+										{{ form::select('horariovisita', ['1' => 'Mañana', '2' => 'Tarde', '3' => 'Noche' ],  null, ['class' => 'form-control', 'id' => 'horariovisita','placeholder' => 'Seleccionar...'] ) }}
+									</td>
+									<td>
+										{{ form::label('horadesde', 'Desde') }}
+										{{ form::time('horadesde', null, ['class' => 'form-control', 'id' => 'horadesde']) }}
+										</div>
+									</td>
+									<td> 
+										{{ form::label('horahasta', 'Hasta') }}
+										{{ form::time('horahasta', null, ['class' => 'form-control', 'id' => 'horahasta']) }}
+										</div>
 									</td>
 								</tr>	
 							</thead>
 						</table>
 					</div>
-					<div class="form-group">
-						<div class="table-responsive">
-							<table class="table table-striped table-hover" data-form="Form">
-								<thead>
-									<tr>
-										<td>
-											{{ form::label('movil', 'Tipo Movil') }}
-											{{ form::text('movil', null, ['class' => 'form-control', 'id' => 'movil', 'readonly' => 'readonly']) }}
-										</td>
-										<td> 
-											{{ form::label('patente', 'Patente') }}
-											{{ form::text('patente', null, ['class' => 'form-control', 'id' => 'patente', 'readonly' => 'readonly']) }}
-										</td>
-									</tr>	
-									
-								</thead>
-							</table>
-						</div>
-				  	</div>
-
-				  	<div class="form-group">
-						<div class="table-responsive">
-							<table class="table table-striped table-hover" data-form="Form">
-								<thead>
-									<tr>
-										<td> 
-											{{ form::label('horariovisita', 'visita') }}
-											{{ form::select('horariovisita', ['1' => 'Mañana', '2' => 'Tarde', '3' => 'Noche' ],  null, ['class' => 'form-control', 'id' => 'horariovisita','placeholder' => 'Seleccionar...'] ) }}
-										</td>
-										<td>
-											{{ form::label('horadesde', 'Desde') }}
-											{{ form::time('horadesde', null, ['class' => 'form-control', 'id' => 'horadesde']) }}
-											</div>
-										</td>
-										<td> 
-											{{ form::label('horahasta', 'Hasta') }}
-											{{ form::time('horahasta', null, ['class' => 'form-control', 'id' => 'horahasta']) }}
-											</div>
-										</td>
-									</tr>	
-									
-								</thead>
-							</table>
-						</div>
-				  	</div>
-				 
 			    </div>
-			    <!-- /.box-body -->
+			    <div class="form-group pull-right">
+				    <a type="button" id="agregardireccion" name="agregardireccion" class="btn btn btn-success">
+	                    <span class="fa fa-plus-circle">
+	                    </span>
+	                    Agregar Dirección
+	                </a>
+	            </div>
+	            <br>
+	            <br>
+	            <br>
+
+			    <div class="form-group pull">
+					<div class="table-responsive">
+						<table   id="table_direcciones" class="table table-striped table-hover" style="display:none" data-form="Form">
+							<thead>
+								<tr>
+								<!--<th width="10px"> ID</th>-->
+									<th style="display:none;"> provincia</th>
+									<th style="display:none;"> departamento</th>
+									<th style="display:none;"> localidad</th>
+									<th> Barrio</th>
+									<th> Calle</th>
+									<th> Numero</th>
+									<th> Manzana</th>
+									<th> Casa</th>
+									<th>Edificio/Torre</th>
+									<th> piso</th>
+									<th> Seccion</th>
+									<th> Lote</th>
+									<th style="display:none;"> Codigopostal</th>
+									<th style="display:none;"> Referencia</th>
+									<th style="display:none;"> Observacion</th>
+									<th style="display:none;"> empleado_id</th>
+									<th style="display:none;"> horariovisita</th>
+									<th style="display:none;"> horadesde</th>
+									<th style="display:none;"> horahasta</th>
+									<th style="display:none;"> barrio_id</th>
+									<th style="display:none;"> calle_id</th>
+									<th> Vendedor</th>
+								</tr>
+							</thead>
+							<tbody>
+								
+							</tbody>
+						</table>
+						<div id="table_direccionesspan" class="form-group has-error" style="display: none">
+							<span class="help-block">Debe haber al menos un registro en la lista</span>
+						</div>
+					</div>
+				</div>
 			</div>
-			
-	 	</div>
-	    <!-- /.box-body -->
+	    </div>
+			  <!-- /.box -->
+			<!--</div>-->
+			<!-- /.col -->
 	  </div>
-	  <!-- /.box -->
+	    <!-- /.box-body -->
 	</div>
+	  <!-- /.box -->
+
+	 <!-- tercer div general -->
+
+	
 
 <!-- cuarta seccion-->
 
@@ -643,6 +545,17 @@
 		$("#sincalle").hide();		
 		$("#sinbarrio").hide();
 		$("#cargarobservacion").hide();
+		
+		//para direcciones
+		var checkdirecciones = $("#direcciones").parent('[class*="icheckbox"]').hasClass("checked");
+		if(checkdirecciones) {
+  			$("#agregardireccion").show();
+  			$("#table_direcciones").show();
+		} else {
+			$("#agregardireccion").hide();
+			$("#table_direcciones").hide();
+		}//
+
 
 		/*de movida todo tiente que estar bloqueado*/
 		if(editshow == 0){
@@ -856,66 +769,7 @@
 			habilitarMotivoEstado();
 		});
 
-		/**/
-
-		/*buscador vendedor*/
-			/*
-		    $('#empleado').select2({
-				language: {
-
-					noResults: function() {
-
-					return "No hay resultado";        
-					},
-					searching: function() {
-
-					return "Buscando..";
-					},
-				},
-				
-		        ajax : {
-		            url : APP_URL + '/api/autocompleteempleadodesc',
-		            //url : '../api/autocompleteempleadodesc',
-		            dataType : 'json',
-		            delay : 20,
-		            data : function(params){
-		                return {
-		                    q : params.term,
-		                    page : params.page
-		                };
-		            },
-		            processResults : function(data, params){
-		                params.page = params.page || 1;
-		                return {
-		                    results : data.data,
-		                    pagination: {
-		                        more : (params.page  * 10) < data.total
-		                    }
-		                };
-		            }
-		        },
-				minimumInputLength: 1,
-		        templateResult : function (repo){
-		            if(repo.loading) return repo.empleado;
-		            var markup =  repo.empleado;
-		            return markup;
-		        },
-		        templateSelection : function(repo)
-		        {
-					$("#empleado_id").val(repo.id);
-					$("#patente").val(repo.patente);
-					$("#movil").val(repo.movil);
-					
-					return repo.empleado;
-					
-		        },
-		        escapeMarkup : function(markup){ 
-					
-					return markup; 
-				}
-		    });
-			*/
-
+		
 		/*buscar empleado desde codigo*/
 		function buscarEmpleado() {
 
@@ -936,6 +790,8 @@
 						$("#patente").val(data.patente);
 						$("#movil").val(data.movil);
 						$("#empleado").val(data.id);
+						//$("#patente").text(data.patente);
+
 
 						//$("#empleado").html('').select2({data: [ {id: data.id, text: data.empleado}]}); 
 						//toastr.info('Codigo de vendedor correcto');
@@ -944,6 +800,7 @@
 						$("#patente").val('');
 						$("#movil").val('');
 						$("#empleado").val('');
+
 						
 					}
 					
@@ -985,149 +842,67 @@
 
 		
 
-		//buscador articulos
-		function buscarArticulos(articulo_id) {
-
-			//alert(articulo_id);
-
-			if (articulo_id !== '') {
-			$.ajax({
-				dataType: 'json',
-				url: APP_URL + '/api/articulos',
-				//url: '../api/validardocumento',
-				data: {q: articulo_id}
-			}).done(function(data) {
-				//var $empleado = $('#empleado'); 
-				if(data !== 0) {
-					$("#articulo_id").val(data.id);
-					$("#articulo").val(data.id);
-					$("#cantidadarticulo").val(1);
-
-					//$("#empleado").html('').select2({data: [ {id: data.id, text: data.empleado}]}); 
-					//toastr.info('Codigo de vendedor correcto');
-				} else{
-					$("#articulo_id").val('');
-					$("#articulo").val('');
-					$("#cantidadarticulo").val('');
-					
-				}
-				
-			});
-			} else {
-				$("#articulo_id").val('');
-				$("#articulo").val('');
-				$("#cantidadarticulo").val('');
-			}
-		}
-
-
-		$('#articulo_id').focusout(function(e) {
-
-			buscarArticulos($('#articulo_id').val());
-
-		});
-
-		$(document).ready(function(){
-			$("#articulo_id").keypress(function(e) {
-			//no recuerdo la fuente pero lo recomiendan para
-			//mayor compatibilidad entre navegadores.
-			var code = (e.keyCode ? e.keyCode : e.which);
-				if(code==13){
-					buscarArticulos($('#articulo_id').val());
-
-				}
-			});
-		});
-
-		$('#articulo').on('change', function(e){
-			buscarArticulos($('#articulo').val());
-		});
-
-
 		/*para agregar articulos al listado*/
-		$( "#agregararticulo" ).click(function() {
+		$( "#agregardireccion" ).click(function() {
 
-			//para validar que no supere el stock ya ingresado en la grilla*/
-			/*var stocktemp = 0;
-			$('#table_ventas tr').each(function(index, element) {
-			    codigotemp = $(element).find("td").eq(0).text();
-			    cantidadtemp = $(element).find("td").eq(2).text();
-
-			    if(codigotemp == $("#articulo_id").val())
-			    {
-			    	stocktemp = stocktemp + parseInt(cantidadtemp);
-			    }
-			
-
-			});
-
-			stocktemp = parseInt($("#stockarticulo").val()) - stocktemp;
-			//
-			
-			//validaciones 
-			if($("#stockarticulo").val() == ''  || $("#cantidadarticulo").val() == '') {
-				swal({
-					title: 'No se puede agregar este articulo',
-					text: 'faltan algunos datos',
-					type: 'error',
-					//confirmButtonColor: '#DD6B55',
-					confirmButtonText: 'OK',
-					closeOnConfirm: false
-				});
-				return false;
-			} else if(parseInt($("#cantidadarticulo").val()) < 1) {
-				swal({
-					title: 'No se puede agregar este articulo',
-					text: 'Debe ingresar una cantidad mayor o igual a 1',
-					type: 'error',
-					//confirmButtonColor: '#DD6B55',
-					confirmButtonText: 'OK',
-					closeOnConfirm: false
-				});
-
-				return false;
-
-			} else if(stocktemp < parseInt($("#cantidadarticulo").val())) {
-				swal({
-					title: 'No se puede agregar este articulo',
-					text: 'El stock actual es menor a la cantidad ingresada',
-					type: 'error',
-					//confirmButtonColor: '#DD6B55',
-					confirmButtonText: 'OK',
-					closeOnConfirm: false
-				});
-
-				return false;
-			}
-
-			*/
+			//toastr.error('funciona');
 			if($('#articulo_id').val() == ''  || $("#cantidadarticulo").val() == '') {
-				/*swal({
-					title: 'No se puede agregar este articulo',
-					text: 'faltan algunos datos',
-					type: 'error',
-					//confirmButtonColor: '#DD6B55',
-					confirmButtonText: 'OK',
-					closeOnConfirm: false
-				});*/
 
 				toastr.error('No se puede agregar este articulo. Faltan datos');
 				return false;
 			}
 
 			//variables para guardar en la grilla
-			var codigo = $('#articulo_id').val();
-			//var descripcion = $("#descripcionarticulo").val();
-			var descripcion =$('select[name="articulo"] option:selected').text();
-			var cantidad = parseInt($('#cantidadarticulo').val());
+			var provincia_id = $('#provincia_id').val();
+			var departamento_id = $('#departamento_id').val();
+			var localidad_id = $('#localidad_id').val();
+			var barrio_id = $('#barrio_id').val();
+			var barrio = $('select[name="barrio_id"] option:selected').text();
+			var calle_id = $('#calle_id').val();
+			var calle = $('select[name="calle_id"] option:selected').text();
+			var numero = $('#numero').val();
+			var manzana = $('#manzana').val();
+			var casa = $('#casa').val();
+			var edificiotorre = $('#edificiotorre').val();
+			var piso = $('#piso').val();
+			var secccion = $('#seccion').val();
+			var lote = $('#lote').val();
+			var codigopostal = $('#codigopostal').val();
+			var referencia = $('#referenciadomicilio').val();
+			var observacion = $('#observaciondomicilio').val();
+			var empleado_id = $('#empleado_id').val();
+			var horariovisita = $('#horariovisita').val();
+			var horadesde = $('#horadesde').val();
+			var horasta = $('#horasta').val();
+			var empleado = $('select[name="empleado"] option:selected').text();
+
 
 			//cargo la grilla
-			$('#table_articulos tbody').prepend(
+			$('#table_direcciones tbody').prepend(
 				'<tr>' + 
-				'<td style="display:none;">' + codigo + '</td>' +
-				'<td>' + descripcion + '</td>' +
-				'<td>' + cantidad + '</td>' +
-				"<td><a class='delete btn btn-sm btn-danger' onclick ='deletearticulo_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
+				'<td style="display:none;">' + provincia_id + '</td>' +
+				'<td style="display:none;">' + departamento_id + '</td>' +
+				'<td style="display:none;">' + localidad_id + '</td>' +
+				'<td>' + barrio + '</td>' +
+				'<td>' + calle + '</td>' +
+				'<td>' + numero + '</td>' +
+				'<td>' + manzana + '</td>' +
+				'<td>' + casa + '</td>' +
+				'<td>' + edificiotorre + '</td>' +
+				'<td>' + piso + '</td>' +
+				'<td>' + secccion + '</td>' +
+				'<td>' + lote + '</td>' +
+				'<td style="display:none;">' + codigopostal + '</td>' +
+				'<td style="display:none;">' + referencia + '</td>' +
+				'<td style="display:none;">' + observacion + '</td>' +
+				'<td style="display:none;">' + empleado_id + '</td>' +
+				'<td style="display:none;">' + horariovisita + '</td>' +
+				'<td style="display:none;">' + horadesde + '</td>' +
+				'<td style="display:none;">' + horasta + '</td>' +
+				'<td style="display:none;">' + barrio_id + '</td>' +
+				'<td style="display:none;">' + calle_id + '</td>' +
+				'<td>' + empleado + '</td>' +
+				"<td><a class='delete btn btn-sm btn-danger' onclick ='deletedireccion_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
 				'</td>' +
 				'</tr>');
 
@@ -1142,10 +917,10 @@
 
 
 		/*borrar filas del listado de articulos*/
-		function deletearticulo_row(row) {
+		function deletedireccion_row(row) {
 
 		  	row.closest('tr').remove();
-		  	toastr.info('Articulo eliminado de la lista');
+		  	toastr.info('Direccion eliminada de la lista');
 		}
 
 
@@ -1270,6 +1045,18 @@
 			
 		});
 
+		// para habilitar listado para varias direcciones
+		$('#direcciones').on('ifChecked', function (event){
+		    $("#agregardireccion").show();
+		    $("#table_direcciones").show();
+		});
+		$('#direcciones').on('ifUnchecked', function (event) {
+		   $("#agregardireccion").hide();
+		   $("#table_direcciones").hide();
+		   $('#table_direccionesspan').hide();
+		});
+
+
 
 		/**/ 
 
@@ -1278,15 +1065,8 @@
 		$( "#agregarfamiliares" ).click(function() {
 
 			/*validaciones*/ 
-			if($("#nombrefamiliar").val() == ''  || $("#contactofamiliar").val() == ''  || $("#tipofamiliar_id").val() == '') {
-				/*swal({
-					title: 'No se puede agregar este articulo',
-					text: 'faltan algunos datos',
-					type: 'error',
-					//confirmButtonColor: '#DD6B55',
-					confirmButtonText: 'OK',
-					closeOnConfirm: false
-				});*/
+			if($("#nombrefamiliar").val() == ''  || $("#contactofamiliar").val() == ''  || $("#tipofamiliar_id").val() == '')
+			{
 				toastr.error('No se puede agregar este familiar. Faltan datos');
 				return false;
 			} 
@@ -1347,16 +1127,6 @@
 			numerodocumento = $.trim(numerodocumento);
 
 			if(tipodocumento_id > 0  && numerodocumento.length < 1) {
-				/*swal({
-						title: "El campo numero de documento no puede estar vacio",
-						text: "Verefique los datos",
-						type: "warning",
-						//showCancelButton: true,
-						closeOnConfirm: true//,
-						//showLoaderOnConfirm: true
-						}, function () {
-							return false;
-						});*/
 				toastr.error('El campo numero de documento no puede estar vacio');
 				return false;
 			}
@@ -1437,7 +1207,7 @@
 		   }
 
 		   // listado de articulos
-		    var listado = crear_listado_articulos();
+		    /*var listado = crear_listado_articulos();
       		$('#id_lista_articulos').val(listado);
 
       		if ($('#id_lista_articulos').val() == ''){
@@ -1445,69 +1215,47 @@
 			   	$('#table_articulosspan').show();
       		} else {
       			$('#table_articulosspan').hide();
-      		}
+      		}*/
 
       		//vendedor
       		if($.trim($('#empleado_id').val()) == ''){
 		   		estadocampos = 1;
 		   		$('#empleado_idspan').show();
+		   		$('#empleadospan').show();
 		   	} else{
 		   		//estadocampos = 0;
 		   		$('#empleado_idspan').hide();
+		   		$('#empleadospan').hide();
 		   	}
 
-		   	//direccion
-		   	if($('#provincia_id').val() == ''){
-		   		estadocampos = 1;
-		   		$('#provincia_idspan').show();
-		   	} else{
-		   		//estadocampos = 0;
-		   		$('#provincia_idspan').hide();
-		   	}
-		   	if($('#departamento_id').val() == ''){
-		   		estadocampos = 1;
-		   		$('#departamento_idspan').show();
-		   	} else{
-		   		//estadocampos = 0;
-		   		$('#departamento_idspan').hide();
-		   	}
-		   	if($('#localidad_id').val() == ''){
-		   		estadocampos = 1;
-		   		$('#localidad_idspan').show();
-		   	} else{
-		   		//estadocampos = 0;
-		   		$('#localidad_idspan').hide();
-		   	}
-		   	
+		   	//direcciones aca
+		   	//var checkdirecciones = $("#direcciones").parent('[class*="icheckbox"]').hasClass("checked");
 
-		   	sinbarrio = $('#sinbarrio').val();
-		   	barrio_id = $('#barrio_id').val();
+		  
+			if($('input[name=direcciones]:checkbox:checked').val() == '1')
+			{	
+			   	$('#provincia_idspan').hide();
+				$('#departamento_idspan').hide();
+				$('#localidad_idspan').hide();
+				$('#barrio_idspan').hide();
+				$('#calle_idspan').hide();
+			   	$('#cargarobservacionpan').hide();
 
-		   	if(sinbarrio == 0 && barrio_id == ''){
-		   		estadocampos = 1;
-			   	$('#barrio_idspan').show();
-		   	}else{
-		   		$('#barrio_idspan').hide();
-		   	}
+			   	var listado = crear_listado_direcciones();
+	      		$('#id_lista_direcciones').val(listado);
 
-
-		   	sincalle = $('#sincalle').val();
-		   	calle_id = $('#calle_id').val();
-
-		   	if(sincalle == 0 && calle_id == ''){
-		   		estadocampos = 1;
-			   	$('#calle_idspan').show();
-		   	}else{
-		   		$('#calle_idspan').hide();
-		   	}
-
-		   	obs = $('#cargarobservacion').val();
-
-		   	if(obs == 1 && $.trim($('#observaciondomicilio').val()) == ''){
-		   		estadocampos = 1;
-			   	$('#cargarobservacionpan').show();
-		   	}else{
-		   		$('#cargarobservacionpan').hide();
+	      		if ($('#id_lista_direcciones').val() == ''){
+	      			estadocampos = 1;
+				   	$('#table_direccionesspan').show();
+	      		} else {
+	      			$('#table_direccionesspan').hide();
+	      		}
+		   	} else {
+		   		$('#table_direccionesspan').hide();
+	      		var valdirecc = validardireccion();
+			   	if(valdirecc == 1){
+			   		estadocampos = 1;
+			   	}
 		   	}
 
 
@@ -1528,7 +1276,123 @@
 		   		return false;
 		   }
 
-		   		   	//validar que este cargado al menos un campo de texto de domicilio
+		   	// aca segunda validacion direcciones
+		   	if(valdirecc == 2){
+		   		return false;
+		   	}
+
+		   	// listado de familiares
+		    var listado = crear_listado_familiares();
+      		$('#id_lista_familiares').val(listado);
+		   
+      		if($('input[name=direcciones]:checkbox:checked').val() !== '1')
+			{
+				$.ajax({
+					dataType: 'json',
+					url: APP_URL + '/api/validardomicilioidentico',
+					//url: '../api/validardocumento',
+					data: {provincia: $('#provincia_id').val(), departamento: $('#departamento_id').val(), localidad: $('#localidad_id').val(), barrio: $('#barrio_id').val(), calle: $('#calle_id').val(), manzana: $('#manzana').val(), casa: $('#casa').val(), numero: $('#numero').val(), edificiotorre: $('#edificiotorre').val(), piso: $('#piso').val(), seccion: $('#seccion').val(), lote: $('#lote').val(), codigopostal: $('#codigopostal').val(), nrodocumento: $('#numerodocumento').val()}
+				}).done(function(data) {
+
+					if(data !== 0) {
+						swal({ 
+							title: "El domicilio registrado ya existe",
+							text: "¿Desea Guardarlo?",
+							type: "info",
+							showCancelButton: true,
+							//confirmButtonColor: "#DD6B55",
+							confirmButtonText: "Guardar",
+							cancelButtonText: "Ver registro identico", 
+							closeOnConfirm: false,
+							closeOnCancel: false },
+
+							function(isConfirm){ 
+							if (isConfirm) {
+								$('#form').submit();
+								//toastr.error('guardar');
+							} else { 
+								$('#cargarobservacion').val(1);
+								$('#cargarobservacionspan').show();
+								$("#observaciondomicilio").prop("disabled", false);
+								url = APP_URL + "/clientes/"+ data;
+								window.open(url, "_blank");
+								swal.close()
+							} 
+						});
+					} else{
+						$('#form').submit();
+						//toastr.error('no existe');
+					}
+					
+				});
+			} else {
+				$('#form').submit();
+			}
+
+			//return false;
+
+
+		});
+
+
+	    function validardireccion(){
+
+	    	var estadovalidacion = 0;
+	    	//direccion
+		   	if($('#provincia_id').val() == ''){
+		   		$('#provincia_idspan').show();
+		   		estadovalidacion = 1;
+		   	} else{
+		   		//estadocampos = 0;
+		   		$('#provincia_idspan').hide();
+		   	}
+		   	if($('#departamento_id').val() == ''){
+		   		$('#departamento_idspan').show();
+		   		estadovalidacion = 1;
+		   	} else{
+		   		//estadocampos = 0;
+		   		$('#departamento_idspan').hide();
+		   	}
+		   	if($('#localidad_id').val() == ''){
+		   		$('#localidad_idspan').show();
+		   		estadovalidacion = 1;
+		   	} else{
+		   		//estadocampos = 0;
+		   		$('#localidad_idspan').hide();
+		   	}
+		   	
+
+		   	sinbarrio = $('#sinbarrio').val();
+		   	barrio_id = $('#barrio_id').val();
+
+		   	if(sinbarrio == 0 && barrio_id == ''){
+			   	$('#barrio_idspan').show();
+			   	estadovalidacion = 1;
+		   	}else{
+		   		$('#barrio_idspan').hide();
+		   	}
+
+
+		   	sincalle = $('#sincalle').val();
+		   	calle_id = $('#calle_id').val();
+
+		   	if(sincalle == 0 && calle_id == ''){
+			   	$('#calle_idspan').show();
+			   	estadovalidacion = 1;
+		   	}else{
+		   		$('#calle_idspan').hide();
+		   	}
+
+		   	obs = $('#cargarobservacion').val();
+
+		   	if(obs == 1 && $.trim($('#observaciondomicilio').val()) == ''){
+			   	$('#cargarobservacionpan').show();
+			   estadovalidacion = 1;
+		   	}else{
+		   		$('#cargarobservacionpan').hide();
+		   	}
+		   	
+		   	//validar que este cargado al menos un campo de texto de domicilio
 		   	if($.trim($('#numero').val()) == '' && $.trim($('#manzana').val()) == '' && $.trim($('#casa').val()) == '' && $.trim($('#edificiotorre').val()) == '' && $.trim($('#piso').val()) == '' && $.trim($('#seccion').val()) == '' && $.trim($('#lote').val()) == '' && $.trim($('#referenciadomicilio').val()) == ''){
 
 		   		swal({
@@ -1541,102 +1405,51 @@
 					closeOnConfirm: false
 				});
 				//toastr.error('No se pueden guardar los datos. Existen campos vacios o mal cargados');
-		   		return false;
+		   		estadovalidacion = 2;
 		   	}
 
-		   	
-
-		   	// listado de familiares
-		    var listado = crear_listado_familiares();
-      		$('#id_lista_familiares').val(listado);
-		   
-
-      		/*swal({ 
-				title: "El domicilio registrado ya existe",
-				text: "¿Desea Guardarlo?",
-				type: "info",
-				showCancelButton: true,
-				//confirmButtonColor: "#DD6B55",
-				confirmButtonText: "Guardar",
-				cancelButtonText: "Ver registro identico", 
-				closeOnConfirm: false,
-				closeOnCancel: false },
-
-				function(isConfirm){ 
-				if (isConfirm) {
-				swal("¡Hecho!",
-				"Ahora eres uno de los nuestros",
-				"success"); 
-				} else { 
-				swal("¡Gallina!", 
-				"Tu te lo pierdes...", 
-				"error"); 
-				} 
-			});*/
-
-			$.ajax({
-				dataType: 'json',
-				url: APP_URL + '/api/validardomicilioidentico',
-				//url: '../api/validardocumento',
-				data: {provincia: $('#provincia_id').val(), departamento: $('#departamento_id').val(), localidad: $('#localidad_id').val(), barrio: $('#barrio_id').val(), calle: $('#calle_id').val(), manzana: $('#manzana').val(), casa: $('#casa').val(), numero: $('#numero').val(), edificiotorre: $('#edificiotorre').val(), piso: $('#piso').val(), seccion: $('#seccion').val(), lote: $('#lote').val(), codigopostal: $('#codigopostal').val(), nrodocumento: $('#numerodocumento').val()}
-			}).done(function(data) {
-
-				if(data !== 0) {
-					swal({ 
-						title: "El domicilio registrado ya existe",
-						text: "¿Desea Guardarlo?",
-						type: "info",
-						showCancelButton: true,
-						//confirmButtonColor: "#DD6B55",
-						confirmButtonText: "Guardar",
-						cancelButtonText: "Ver registro identico", 
-						closeOnConfirm: false,
-						closeOnCancel: false },
-
-						function(isConfirm){ 
-						if (isConfirm) {
-							$('#form').submit();
-							//toastr.error('guardar');
-						} else { 
-							$('#cargarobservacion').val(1);
-							$('#cargarobservacionspan').show();
-							$("#observaciondomicilio").prop("disabled", false);
-							url = APP_URL + "/clientes/"+ data;
-							window.open(url, "_blank");
-							swal.close()
-						} 
-					});
-				} else{
-					$('#form').submit();
-					//toastr.error('no existe');
-				}
-				
-			});
-
-			//return false;
 
 
+			
+	    }
 
 
-		   	//$('#form').submit();
-
-		});
-
-		function crear_listado_articulos() {
+		function crear_listado_direcciones() {
 		    var listado = '';
-		    var provincia_id, departamento_id, descripcion;
+		    //var provincia_id, departamento_id, localidad_id, barrio_id, calle_id, ;
 
 		    $("#id_lista_articulos").val('');
 
 		    $('#table_articulos tbody tr').each(function () {	 
-		    articulo_id = $(this).find("td").eq(0).html();
-		    cantidad = $(this).find("td").eq(2).html();
+		    provincia_id = $(this).find("td").eq(0).html();
+		    departamento_id = $(this).find("td").eq(1).html();
+		    localidad_id = $(this).find("td").eq(2).html();
+		    barrio = $(this).find("td").eq(3).html();
+		    calle = $(this).find("td").eq(4).html();
+		    numero = $(this).find("td").eq(5).html();
+		    manzana = $(this).find("td").eq(6).html();
+		    casa = $(this).find("td").eq(7).html();
+		    edificiotorre = $(this).find("td").eq(8).html();
+		    piso = $(this).find("td").eq(9).html();
+		    seccion = $(this).find("td").eq(10).html();
+		    lote = $(this).find("td").eq(11).html();
+		    codigopostal = $(this).find("td").eq(12).html();
+		    referencia = $(this).find("td").eq(13).html();
+		    observacion = $(this).find("td").eq(14).html();
+		    empleado_id = $(this).find("td").eq(15).html();
+		    horariovisita = $(this).find("td").eq(16).html();
+		    horadesde = $(this).find("td").eq(17).html();
+		    horahasta = $(this).find("td").eq(18).html();
+		   	barrio_id = $(this).find("td").eq(19).html();
+		    calle_id = $(this).find("td").eq(20).html();
 
-		    listado += articulo_id + "|" + cantidad + "&&&";
+		    listado += provincia_id + "|" + departamento_id + "|" + localidad_id + "|" + barrio_id + "|" + calle_id + "|" + numero + "|" + manzana + "|" + casa + "|" + edificiotorre + "|" + piso + "|" + seccion + "|" + lote + "|" + codigopostal + "|" + referencia + "|" + observacion + "|" + empleado_id + "|" + horariovisita + "|" + horadesde + "|" + horahasta + "&&&";
 		    });
 
 		      return listado;
 	    }
+
+
 
 	    function crear_listado_familiares() {
 		    var listado = '';

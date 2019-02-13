@@ -12,10 +12,10 @@ class Articulo extends Model
     	'descripcion', 'stock' ,'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
 	];
 
-    public function clientearticulo(){
+    /*public function clientearticulo(){
         
         return $this->belongsTo(Clientearticulo::class);
-    }
+    }*/
 
 
     public function scopeType($query, $type, $valor) 

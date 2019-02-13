@@ -131,7 +131,7 @@ class ClienteController extends Controller
         
 
         //guardar articulos asociados al cliente
-        $listado_articulos_text = $request->input("listado_articulos");
+        /*$listado_articulos_text = $request->input("listado_articulos");
         
         $listado_articulos_array = explode('&&&', $listado_articulos_text);
         array_pop($listado_articulos_array);
@@ -150,7 +150,7 @@ class ClienteController extends Controller
                 $clientearticulo->fecha_alta = date('Y-m-d H:i:s');
 
             $clientearticulo->save();
-        }
+        }*/
         //
 
 
@@ -235,13 +235,13 @@ class ClienteController extends Controller
 
         $tipofamiliar  = Tipofamiliar::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
-        $clientearticulos = Clientearticulo::where('cliente_id', $cliente->id)->get();
+        //$clientearticulos = Clientearticulo::where('cliente_id', $cliente->id)->get();
 
         $clientefamiliares = Clientefamiliar::where('cliente_id', $cliente->id)->get();
 
 
 
-        return view('admin.clientes.show', compact('cliente','companiatelefonicas', 'estadoclientes', 'provincias','departamentos' , 'localidades', 'barrios', 'calles', 'tipoivas', 'tipoclientes', 'tipodocumentos', 'articulos', 'empleados', 'tipofamiliar','clientearticulos', 'clientefamiliares' , 'editshow'));
+        return view('admin.clientes.show', compact('cliente','companiatelefonicas', 'estadoclientes', 'provincias','departamentos' , 'localidades', 'barrios', 'calles', 'tipoivas', 'tipoclientes', 'tipodocumentos', 'articulos', 'empleados', 'tipofamiliar', 'clientefamiliares' , 'editshow'));
 
        
 
@@ -295,7 +295,6 @@ class ClienteController extends Controller
         }
 
         $tipofamiliar  = Tipofamiliar::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
-        $clientearticulos = Clientearticulo::where('cliente_id', $cliente->id)->get();
         $clientefamiliares = Clientefamiliar::where('cliente_id', $cliente->id)->get();
 
 
@@ -316,7 +315,7 @@ class ClienteController extends Controller
 
 
 
-        return view('admin.clientes.edit', compact('cliente','companiatelefonicas', 'estadoclientes', 'provincias', 'departamentos', 'localidades', 'barrios', 'calles', 'tipoivas', 'tipoclientes', 'tipodocumentos', 'articulos', 'empleados', 'tipofamiliar', 'clientearticulos', 'clientefamiliares','sinbarrio', 'sincalle', 'editshow'));
+        return view('admin.clientes.edit', compact('cliente','companiatelefonicas', 'estadoclientes', 'provincias', 'departamentos', 'localidades', 'barrios', 'calles', 'tipoivas', 'tipoclientes', 'tipodocumentos', 'articulos', 'empleados', 'tipofamiliar', 'clientefamiliares','sinbarrio', 'sincalle', 'editshow'));
     }
 
     /**
@@ -334,32 +333,6 @@ class ClienteController extends Controller
 
         //auditoria
         $cliente->fill(['usuario_modi' => Auth::user()->username , 'fecha_modi' => date('Y-m-d H:i:s')])->save();
-        //
-        
-        //eliminar archivos
-        $clienteart = Clientearticulo::where('cliente_id', $id)->delete();
-
-        //guardar articulos asociados al cliente
-        $listado_articulos_text = $request->input("listado_articulos");
-        
-        $listado_articulos_array = explode('&&&', $listado_articulos_text);
-        array_pop($listado_articulos_array);
-
-        //dd($listado_articulos_array);
-
-        foreach ($listado_articulos_array as $articulo_text)
-        {
-            list($articulo_id, $cantidad) = explode('|', $articulo_text);
-
-            $clientearticulo = new Clientearticulo();
-                $clientearticulo->articulo_id = $articulo_id;
-                $clientearticulo->cliente_id = $cliente->id;
-                $clientearticulo->cantidad = $cantidad;
-                $clientearticulo->usuario_alta = Auth::user()->username;
-                $clientearticulo->fecha_alta = date('Y-m-d H:i:s');
-
-            $clientearticulo->save();
-        }
         //
 
 
@@ -413,7 +386,6 @@ class ClienteController extends Controller
             Alert::error('No se puede eliminar el registro');
             return back();
         }*/
-       Clientearticulo::where('cliente_id', $id)->delete();
 
        Clientefamiliar::where('cliente_id', $id)->delete();
 

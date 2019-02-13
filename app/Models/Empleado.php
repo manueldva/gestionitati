@@ -13,9 +13,11 @@ class Empleado extends Model
 	];
 
 
-	public function clientes(){//vendedor
-    	return $this->HasMany(Cliente::class);
+
+    public function clientedirecciones(){ //vendedor
+        return $this->HasMany(Clientedireccion::class);
     }
+
 
 
     public function tipoempleado(){

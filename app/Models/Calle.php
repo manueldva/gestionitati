@@ -14,8 +14,8 @@ class Calle extends Model
 	];
 
 
-	public function clientes(){
-    	return $this->HasMany(Cliente::class);
+	public function clientedirecciones(){
+    	return $this->HasMany(Clientedireccion::class);
     }
 
 
