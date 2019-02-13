@@ -64,7 +64,7 @@
           {{ form::select('localidad_id', [],  null, ['class' => 'form-control', 'id' => 'localidad_id','placeholder' => 'Seleccionar...'] ) }}
         </div>
         <div class="form-group">
-          {{ form::label('distrito_id', 'Distrito') }}
+          {{ form::label('distrito_id', 'Zona') }}
           {{ form::select('ditrito_id', $distritos,  null, ['class' => 'form-control', 'id' => 'distrito_id','placeholder' => 'Seleccionar...'] ) }}
         </div>
 

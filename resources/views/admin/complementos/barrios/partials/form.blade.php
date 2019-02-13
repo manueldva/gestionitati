@@ -33,6 +33,15 @@
 		{{ form::text('localidad', $barrio->departamento->descripcion, ['class' => 'form-control', 'id' => 'localidad', 'disabled']) }}
 	</div>
 
+	@if($barrio->distrito_id)
+		<div class="form-group">
+			{{ form::label('distrito', 'Zona') }}
+			{{ form::text('distrito', $barrio->distrito->descripcion, ['class' => 'form-control', 'id' => 'distrito', 'disabled']) }}
+		</div>
+	@endif
+	
+
+
 	<div class="form-group">
 		{{ form::label('descripcion', 'Descripción *') }}
 		{{ form::text('descripcion', null, ['class' => 'form-control', 'id' => 'descripcion']) }}

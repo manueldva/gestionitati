@@ -45,7 +45,7 @@
 
 				<p> <strong>Localidad:</strong> {{ $barrio->localidad->descripcion }}</p>
 				@if($barrio->distrito_id)
-					<p> <strong>Distrito:</strong> {{ $barrio->distrito->descripcion }}</p>
+					<p> <strong>Zona:</strong> {{ $barrio->distrito->descripcion }}</p>
 				@endif
 
 				<p> <strong>Barrio:</strong> {{ $barrio->descripcion }}</p>
