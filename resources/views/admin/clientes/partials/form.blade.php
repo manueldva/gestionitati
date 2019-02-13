@@ -906,9 +906,9 @@
 				'</td>' +
 				'</tr>');
 
-				$("#articulo_id").val('');
-				$("#articulo").val('');
-				$("#cantidadarticulo").val('');
+			$('#provincia_id').val('');
+
+			$('#provincia_id').change();
 
 			toastr.success('Articulo agregado a la lista');
 			
