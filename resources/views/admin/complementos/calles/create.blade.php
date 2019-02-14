@@ -151,7 +151,7 @@
 		    console.log(e);
 		    var localidad_id = e.target.value;
 
-		    $.get('{{ url("/") }}/api/localidades?departamento_id=' + localidad_id,function(data) {
+		    $.get('{{ url("/") }}/api/localidadescli?departamento_id=' + localidad_id,function(data) {
 
 		      $('#localidad_id').empty();
 		      $('#localidad_id').append('<option value="0" disable="true" selected="true">Seleccionar...</option>');

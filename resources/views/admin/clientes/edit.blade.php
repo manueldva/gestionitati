@@ -37,13 +37,14 @@
                     </span>
                       Guardar
                 </button>
-                <!--
+
                &nbsp;&nbsp;&nbsp;
-                <a href="#" type="button" id="contrato" class="btn btn btn-default">
+                <a href="{{ route('contratos.edit', $cliente->id) }}" type="button" id="contrato" class="btn btn btn-default">
                     <span class="fa fa-file-text">
                     </span>
                       Contrato
-                </a>  
+                </a> 
+                <!-- 
                 &nbsp;&nbsp;&nbsp;
                 <a href="#" type="button" id="movimiento" class="btn btn btn-default">
                     <span class="fa fa-list">

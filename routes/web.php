@@ -38,6 +38,7 @@ Route::get('autocompleteempleado', function() {
 route::resource('clientes', 		'Admin\ClienteController');
 route::resource('articulos', 		'Admin\ArticuloController');
 route::resource('empleados', 		'Admin\EmpleadoController');
+route::resource('contratos', 		'Admin\ContratoController');
 /*route::resource('tareas', 		'Admin\TareaController');
 route::get('/TA_obtenerbases/{id}',		'Admin\TareaController@TA_obtenerbases')->name('TA_obtenerbases');
 route::resource('informes', 		'Admin\InformeController');

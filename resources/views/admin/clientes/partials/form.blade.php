@@ -1106,7 +1106,7 @@
 			$('#table_direccionesspan').hide();
 	      	var valdirecc = validardireccion();
 			 if(valdirecc == 1){
-					toastr.error('No se puede agregar este domicilio. Faltan datos');
+				toastr.error('No se puede agregar este domicilio. Faltan datos');
 				//toastr.error('No se pueden guardar los datos. Existen campos vacios o mal cargados');
 		   		return false;
 			} else if(valdirecc == 2){
@@ -1122,6 +1122,7 @@
 			$.ajax({
 				dataType: 'json',
 				url: APP_URL + '/api/validardomicilioidentico',
+				async: false,
 				//url: '../api/validardocumento',
 				data: {provincia: $('#provincia_id').val(), departamento: $('#departamento_id').val(), localidad: $('#localidad_id').val(), barrio: barriotemp, calle: calletemp, manzana: $('#manzana').val(), casa: $('#casa').val(), numero: $('#numero').val(), edificiotorre: $('#edificiotorre').val(), piso: $('#piso').val(), seccion: $('#seccion').val(), lote: $('#lote').val(), codigopostal: $('#codigopostal').val(), nrodocumento: $('#numerodocumento').val(), tipodocumento_id: $('#tipodocumento_id').val()}
 			}).done(function(data) {
@@ -1229,6 +1230,8 @@
 
 							swal.close()
 							toastr.success('Direccion agregada a la lista');
+
+							return false;
 							//toastr.error('guardar');
 						} else { 
 							$('#cargarobservacion').val(1);
@@ -1241,7 +1244,86 @@
 					});
 				} 
 			});
+		
 
+
+			//variables para guardar en la grilla
+			var provincia_id = $('#provincia_id').val();
+			var departamento_id = $('#departamento_id').val();
+			var localidad_id = $('#localidad_id').val();
+			var barrio_id = $('#barrio_id').val();
+			var barrio = $('select[name="barrio_id"] option:selected').text();
+			var calle_id = $('#calle_id').val();
+			var calle = $('select[name="calle_id"] option:selected').text();
+			if(calle_id == '') calle = '';
+			var numero = $('#numero').val();
+			var manzana = $('#manzana').val();
+			var casa = $('#casa').val();
+			var edificiotorre = $('#edificiotorre').val();
+			var piso = $('#piso').val();
+			var secccion = $('#seccion').val();
+			var lote = $('#lote').val();
+			var codigopostal = $('#codigopostal').val();
+			var referencia = $('#referenciadomicilio').val();
+			var observacion = $('#observaciondomicilio').val();
+			var empleado_id = $('#empleado_id').val();
+			var horariovisita = $('#horariovisita').val();
+			var horadesde = $('#horadesde').val();
+			var horahasta = $('#horahasta').val();
+			var direccion_id = $('#direccion_id').val();
+			var empleado = $('select[name="empleado"] option:selected').text();
+
+
+			//cargo la grilla
+			$('#table_direcciones tbody').prepend(
+				'<tr>' + 
+				'<td style="display:none;">' + provincia_id + '</td>' +
+				'<td style="display:none;">' + departamento_id + '</td>' +
+				'<td style="display:none;">' + localidad_id + '</td>' +
+				'<td>' + barrio + '</td>' +
+				'<td>' + calle + '</td>' +
+				'<td>' + numero + '</td>' +
+				'<td>' + manzana + '</td>' +
+				'<td>' + casa + '</td>' +
+				'<td>' + edificiotorre + '</td>' +
+				'<td>' + piso + '</td>' +
+				'<td>' + secccion + '</td>' +
+				'<td>' + lote + '</td>' +
+				'<td style="display:none;">' + codigopostal + '</td>' +
+				'<td style="display:none;">' + referencia + '</td>' +
+				'<td style="display:none;">' + observacion + '</td>' +
+				'<td style="display:none;">' + empleado_id + '</td>' +
+				'<td style="display:none;">' + horariovisita + '</td>' +
+				'<td style="display:none;">' + horadesde + '</td>' +
+				'<td style="display:none;">' + horahasta + '</td>' +
+				'<td style="display:none;">' + barrio_id + '</td>' +
+				'<td style="display:none;">' + calle_id + '</td>' +
+				'<td style="display:none;">' + direccion_id + '</td>' +
+				'<td>' + empleado + '</td>' +
+				"<td><a class='delete btn btn-sm btn-danger' onclick ='deletedireccion_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
+				'</td>' +
+				'</tr>');
+
+			$('#provincia_id').val('');
+			$('#provincia_id').change();
+			$('#empleado').val('');
+			$('#empleado').change();
+
+			$('#numero').val('');
+			$('#manzana').val('');
+			$('#casa').val('');
+			$('#edificiotorre').val('');
+			$('#piso').val('');
+			$('#seccion').val('');
+			$('#lote').val('');
+			$('#codigopostal').val('');
+			$('#referenciadomicilio').val('');
+			$('#observaciondomicilio').val('');
+			$('#horariovisita').val('');
+			$('#horadesde').val('');
+			$('#horahasta').val('');
+
+			toastr.success('Direccion agregada a la lista');
 
 
 
