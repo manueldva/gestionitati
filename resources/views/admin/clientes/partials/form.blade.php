@@ -213,7 +213,15 @@
 			      			{{ form::text('direccion_id', 0, ['class' => 'form-control', 'id' => 'direccion_id', 'maxlength' =>'500', 'style' => 'display:none']) }}
 			      		@endif
 						{{ form::label('provincia_id', 'Provincia *') }}
-						{{ form::select('provincia_id',  isset($provincias) ? $provincias : [] ,  null, ['class' => 'form-control inline-search', 'id' => 'provincia_id','placeholder' => 'Seleccionar...'] ) }}
+						@isset($clientedirecciones)
+							@if($cliente->direcciones == 0)
+								{{ form::select('provincia_id',  isset($provincias) ? $provincias : [] ,  $clientedirecciones['0']['provincia_id'], ['class' => 'form-control inline-search', 'id' => 'provincia_id','placeholder' => 'Seleccionar...'] ) }}
+							@else
+								{{ form::select('provincia_id',  isset($provincias) ? $provincias : [] ,  null, ['class' => 'form-control inline-search', 'id' => 'provincia_id','placeholder' => 'Seleccionar...'] ) }}
+							@endif
+						@else
+							{{ form::select('provincia_id',  isset($provincias) ? $provincias : [] ,  null, ['class' => 'form-control inline-search', 'id' => 'provincia_id','placeholder' => 'Seleccionar...'] ) }}
+						@endif
 						<div id="provincia_idspan" class="form-group has-error" style="display: none">
 							<span class="help-block">Campo Obligatorio</span>
 						</div>
@@ -221,7 +229,15 @@
 					<br>
 					<div class="form-group">
 						{{ form::label('departamento_id', 'Departamento *') }}
-						{{ form::select('departamento_id', isset($cliente) ? $departamentos : [],  null, ['class' => 'form-control inline-search', 'id' => 'departamento_id','placeholder' => 'Seleccionar...'] ) }}
+						@isset($clientedirecciones)
+							@if($cliente->direcciones == 0)
+								{{ form::select('departamento_id',  isset($departamentos) ? $departamentos : [] ,  $clientedirecciones['0']['departamento_id'], ['class' => 'form-control inline-search', 'id' => 'departamento_id','placeholder' => 'Seleccionar...'] ) }}
+							@else
+								{{ form::select('departamento_id',  isset($departamentos) ? $departamentos : [] ,  null, ['class' => 'form-control inline-search', 'id' => 'departamento_id','placeholder' => 'Seleccionar...'] ) }}
+							@endif
+						@else
+							{{ form::select('departamento_id',  isset($departamentos) ? $departamentos : [] ,  null, ['class' => 'form-control inline-search', 'id' => 'departamento_id','placeholder' => 'Seleccionar...'] ) }}
+						@endif
 						<div id="departamento_idspan" class="form-group has-error" style="display: none">
 							<span class="help-block">Campo Obligatorio</span>
 						</div>
@@ -229,7 +245,15 @@
 					<br>
 					<div class="form-group">
 						{{ form::label('localidad_id', 'Localidad *') }}
-						{{ form::select('localidad_id', isset($cliente) ? $localidades : [],  null, ['class' => 'form-control inline-search', 'id' => 'localidad_id','placeholder' => 'Seleccionar...'] ) }}
+						@isset($clientedirecciones)
+							@if($cliente->direcciones == 0)
+								{{ form::select('localidad_id',  isset($localidades) ? $localidades : [] ,  $clientedirecciones['0']['localidad_id'], ['class' => 'form-control inline-search', 'id' => 'localidad_id','placeholder' => 'Seleccionar...'] ) }}
+							@else
+								{{ form::select('localidad_id',  isset($localidades) ? $localidades : [] ,  null, ['class' => 'form-control inline-search', 'id' => 'departamento_id','placeholder' => 'Seleccionar...'] ) }}
+							@endif
+						@else
+							{{ form::select('localidad_id',  isset($localidades) ? $localidades : [] ,  null, ['class' => 'form-control inline-search', 'id' => 'localidad_id','placeholder' => 'Seleccionar...'] ) }}
+						@endif
 						{{ form::text('sinbarrio',  isset($sinbarrio) ? $sinbarrio : 0, ['class' => 'form-control', 'id' => 'sinbarrio']) }}
 						<div id="localidad_idspan" class="form-group has-error" style="display: none">
 							<span class="help-block">Campo Obligatorio</span>
@@ -238,7 +262,15 @@
 					<br>
 					<div class="form-group">
 						{{ form::label('barrio_id', 'Barrio *') }}
-						{{ form::select('barrio_id', isset($cliente) ? $barrios : [],  null, ['class' => 'form-control inline-search', 'id' => 'barrio_id','placeholder' => 'Seleccionar...'] ) }}
+						@isset($clientedirecciones)
+							@if($cliente->direcciones == 0)
+								{{ form::select('barrio_id',  isset($barrios) ? $barrios : [] ,  $clientedirecciones['0']['barrio_id'], ['class' => 'form-control inline-search', 'id' => 'barrio_id','placeholder' => 'Seleccionar...'] ) }}
+							@else
+								{{ form::select('barrio_id',  isset($barrios) ? $barrios : [] ,  null, ['class' => 'form-control inline-search', 'id' => 'barrio_id','placeholder' => 'Seleccionar...'] ) }}
+							@endif
+						@else
+							{{ form::select('barrio_id',  isset($barrios) ? $barrios : [] ,  null, ['class' => 'form-control inline-search', 'id' => 'barrio_id','placeholder' => 'Seleccionar...'] ) }}
+						@endif
 						{{ form::text('sincalle', isset($sincalle) ? $sincalle : 0, ['class' => 'form-control', 'id' => 'sincalle']) }}
 						<div id="barrio_idspan" class="form-group has-error" style="display: none">
 							<span class="help-block">Campo Obligatorio</span>
@@ -248,7 +280,15 @@
 					<br>
 					<div class="form-group">
 						{{ form::label('calle_id', 'Calle *') }}
-						{{ form::select('calle_id', isset($cliente) ? $calles : [],  null, ['class' => 'form-control inline-search', 'id' => 'calle_id','placeholder' => 'Seleccionar...'] ) }}
+						@isset($clientedirecciones)
+							@if($cliente->direcciones == 0)
+								{{ form::select('calle_id',  isset($cales) ? $calles : [] ,  $clientedirecciones['0']['calle_id'], ['class' => 'form-control inline-search', 'id' => 'calle_id','placeholder' => 'Seleccionar...'] ) }}
+							@else
+								{{ form::select('calle_id',  isset($calles) ? $calles : [] ,  null, ['class' => 'form-control inline-search', 'id' => 'calle_id','placeholder' => 'Seleccionar...'] ) }}
+							@endif
+						@else
+							{{ form::select('calle_id',  isset($calles) ? $calles : [] ,  null, ['class' => 'form-control inline-search', 'id' => 'calle_id','placeholder' => 'Seleccionar...'] ) }}
+						@endif
 						<div id="calle_idspan" class="form-group has-error" style="display: none">
 							<span class="help-block">Campo Obligatorio</span>
 						</div>
@@ -272,53 +312,136 @@
 									<tr>
 										<td > 
 											{{ form::label('numero', 'Numero') }}
-											{{ form::number('numero', null, ['class' => 'form-control', 'id' => 'numero', 'max'=>'999999999']) }}
+											@isset($clientedirecciones)
+												@if($cliente->direcciones == 0)
+													{{ form::number('numero', $clientedirecciones['0']['numero'], ['class' => 'form-control', 'id' => 'numero', 'max'=>'999999999']) }}
+												@else
+													{{ form::number('numero', null, ['class' => 'form-control', 'id' => 'numero', 'max'=>'999999999']) }}
+												@endif
+											@else
+													{{ form::number('numero', null, ['class' => 'form-control', 'id' => 'numero', 'max'=>'999999999']) }}
+											@endif
 										</td>
 										<td> 
 											{{ form::label('codigopostal', 'Codigo Postal') }}
-											{{ form::number('codigopostal', null, ['class' => 'form-control', 'id' => 'codigopostal', 'max' =>'999999999']) }}
+											@isset($clientedirecciones)
+												@if($cliente->direcciones == 0)
+													{{ form::number('codigopostal', $clientedirecciones['0']['codigopostal'], ['class' => 'form-control', 'id' => 'codigopostal', 'max'=>'999999999']) }}
+												@else
+													{{ form::number('codigopostal', null, ['class' => 'form-control', 'id' => 'codigopostal', 'max'=>'999999999']) }}
+												@endif
+											@else
+													{{ form::number('codigopostal', null, ['class' => 'form-control', 'id' => 'codigopostal', 'max'=>'999999999']) }}
+											@endif
 										</td>
 									</tr>
 									
 									<tr>
 										<td> 
 											{{ form::label('manzana', 'Manzana') }}
-											{{ form::text('manzana', null, ['class' => 'form-control', 'id' => 'manzana', 'maxlength' =>'10']) }}
+											@isset($clientedirecciones)
+												@if($cliente->direcciones == 0)
+													{{ form::text('manzana', $clientedirecciones['0']['manzana'], ['class' => 'form-control', 'id' => 'manzana', 'maxlength' =>'10']) }}
+												@else
+													{{ form::text('manzana', null, ['class' => 'form-control', 'id' => 'manzana', 'maxlength' =>'10']) }}
+												@endif
+											@else
+												{{ form::text('manzana', null, ['class' => 'form-control', 'id' => 'manzana', 'maxlength' =>'10']) }}
+											@endif	
+	
 										</td>
 										<td> 
 											{{ form::label('casa', 'Casa') }}
-											{{ form::text('casa', null, ['class' => 'form-control', 'id' => 'casa', 'maxlength' =>'10']) }}
+											@isset($clientedirecciones)
+												@if($cliente->direcciones == 0)
+													{{ form::text('casa', $clientedirecciones['0']['casa'], ['class' => 'form-control', 'id' => 'casa', 'maxlength' =>'10']) }}
+												@else
+													{{ form::text('casa', null, ['class' => 'form-control', 'id' => 'casa', 'maxlength' =>'10']) }}
+												@endif
+											@else
+												{{ form::text('casa', null, ['class' => 'form-control', 'id' => 'casa', 'maxlength' =>'10']) }}
+											@endif	
 										</td>
 									</tr>	
 									<tr>
 										<td> 
 											{{ form::label('edificiotorre', 'Edificio/Torre') }}
-											{{ form::text('edificiotorre', null, ['class' => 'form-control', 'id' => 'edificiotorre', 'maxlength' =>'10']) }}
+											@isset($clientedirecciones)
+												@if($cliente->direcciones == 0)
+													{{ form::text('edificiotorre', $clientedirecciones['0']['edificiotorre'], ['class' => 'form-control', 'id' => 'edificiotorre', 'maxlength' =>'10']) }}
+												@else
+													{{ form::text('edificiotorre', null, ['class' => 'form-control', 'id' => 'edificiotorre', 'maxlength' =>'10']) }}
+												@endif
+											@else
+												{{ form::text('edificiotorre', null, ['class' => 'form-control', 'id' => 'edificiotorre', 'maxlength' =>'10']) }}
+											@endif	
 										</td>
 										<td> 
 											{{ form::label('piso', 'Piso') }}
-											{{ form::text('piso', null, ['class' => 'form-control', 'id' => 'piso', 'maxlength' =>'10']) }}
+											@isset($clientedirecciones)
+												@if($cliente->direcciones == 0)
+													{{ form::text('piso', $clientedirecciones['0']['piso'], ['class' => 'form-control', 'id' => 'piso', 'maxlength' =>'10']) }}
+												@else
+													{{ form::text('piso', null, ['class' => 'form-control', 'id' => 'piso', 'maxlength' =>'10']) }}
+												@endif
+											@else
+												{{ form::text('piso', null, ['class' => 'form-control', 'id' => 'piso', 'maxlength' =>'10']) }}
+											@endif	
 										</td>
 									</tr>	
 									<tr>
 										<td> 
 											{{ form::label('seccion', 'Seccion') }}
-											{{ form::text('seccion', null, ['class' => 'form-control', 'id' => 'seccion', 'maxlength' =>'10']) }}
+											@isset($clientedirecciones)
+												@if($cliente->direcciones == 0)
+													{{ form::text('seccion', $clientedirecciones['0']['seccion'], ['class' => 'form-control', 'id' => 'seccion', 'maxlength' =>'10']) }}
+												@else
+													{{ form::text('seccion', null, ['class' => 'form-control', 'id' => 'seccion', 'maxlength' =>'10']) }}
+												@endif
+											@else
+												{{ form::text('seccion', null, ['class' => 'form-control', 'id' => 'seccion', 'maxlength' =>'10']) }}
+											@endif	
 										</td>
 										<td> 
 											{{ form::label('lote', 'Lote') }}
-											{{ form::text('lote', null, ['class' => 'form-control', 'id' => 'lote', 'maxlength' =>'10']) }}
+											@isset($clientedirecciones)
+												@if($cliente->direcciones == 0)
+													{{ form::text('lote', $clientedirecciones['0']['lote'], ['class' => 'form-control', 'id' => 'lote', 'maxlength' =>'10']) }}
+												@else
+													{{ form::text('lote', null, ['class' => 'form-control', 'id' => 'lote', 'maxlength' =>'10']) }}
+												@endif
+											@else
+												{{ form::text('lote', null, ['class' => 'form-control', 'id' => 'lote', 'maxlength' =>'10']) }}
+											@endif	
 										</td>
 									</tr>
 
 									<tr>
 										<td>
 											{{ form::label('referenciadomicilio', 'Referencia') }}
-											{{ form::textarea('referenciadomicilio', null, ['class' => 'form-control', 'id'=>'referenciadomicilio', 'rows' => 5, 'cols' => 40, 'maxlength' =>'500']) }}
+											@isset($clientedirecciones)
+												@if($cliente->direcciones == 0)
+													{{ form::textarea('referenciadomicilio',  $clientedirecciones['0']['referenciadomicilio'], ['class' => 'form-control', 'id'=>'referenciadomicilio', 'rows' => 5, 'cols' => 40, 'maxlength' =>'500']) }}
+												@else
+													{{ form::textarea('referenciadomicilio', null, ['class' => 'form-control', 'id'=>'referenciadomicilio', 'rows' => 5, 'cols' => 40, 'maxlength' =>'500']) }}
+												@endif
+											@else
+												{{ form::textarea('referenciadomicilio', null, ['class' => 'form-control', 'id'=>'referenciadomicilio', 'rows' => 5, 'cols' => 40, 'maxlength' =>'500']) }}
+											@endif
+
+
 										</td>
 										<td>
 											{{ form::label('observaciondomicilio', 'Observacion') }}
-											{{ form::textarea('observaciondomicilio', null, ['class' => 'form-control', 'id'=>'observaciondomicilio', 'rows' => 5, 'cols' => 40, 'maxlength' =>'500']) }}
+											@isset($clientedirecciones)
+												@if($cliente->direcciones == 0)
+													{{ form::textarea('observaciondomicilio',  $clientedirecciones['0']['observaciondomicilio'], ['class' => 'form-control', 'id'=>'observaciondomicilio', 'rows' => 5, 'cols' => 40, 'maxlength' =>'500']) }}
+												@else
+													{{ form::textarea('observaciondomicilio', null, ['class' => 'form-control', 'id'=>'observaciondomicilio', 'rows' => 5, 'cols' => 40, 'maxlength' =>'500']) }}
+												@endif
+											@else
+												{{ form::textarea('observaciondomicilio', null, ['class' => 'form-control', 'id'=>'observaciondomicilio', 'rows' => 5, 'cols' => 40, 'maxlength' =>'500']) }}
+											@endif
 											{{ form::text('cargarobservacion', 0, ['class' => 'form-control', 'id' => 'cargarobservacion', 'maxlength' =>'500']) }}
 											<div id="cargarobservacionspan" class="form-group has-error" style="display: none">
 											<span class="help-block">Campo Obligatorio</span>
@@ -349,7 +472,15 @@
 								<tr>
 									<td class="col-md-3"> 
 										{{ form::label('empleado_id', 'Cod. *') }}
-										{{ form::number('empleado_id', null, ['class' => 'form-control', 'id' => 'empleado_id']) }}
+										@isset($clientedirecciones)
+											@if($cliente->direcciones == 0)
+												{{ form::number('empleado_id', $clientedirecciones['0']['empleado_id'], ['class' => 'form-control', 'id' => 'empleado_id', 'max'=>'999999999']) }}
+											@else
+												{{ form::number('empleado_id', null, ['class' => 'form-control', 'id' => 'empleado_id', 'max'=>'999999999']) }}
+											@endif
+										@else
+												{{ form::number('empleado_id', null, ['class' => 'form-control', 'id' => 'empleado_id', 'max'=>'999999999']) }}
+										@endif
 										<div id="empleado_idspan" class="form-group has-error" style="display: none">
 											<span class="help-block">Campo Obligatorio</span>
 										</div>
@@ -371,16 +502,40 @@
 									</td>
 									<td> 
 										{{ form::label('horariovisita', 'visita') }}
-										{{ form::select('horariovisita', ['1' => 'Mañana', '2' => 'Tarde', '3' => 'Noche' ],  null, ['class' => 'form-control', 'id' => 'horariovisita','placeholder' => 'Seleccionar...'] ) }}
+										@isset($clientedirecciones)
+											@if($cliente->direcciones == 0)
+												{{ form::select('horariovisita', ['1' => 'Mañana', '2' => 'Tarde', '3' => 'Noche' ],  $clientedirecciones['0']['horariovisita'], ['class' => 'form-control', 'id' => 'horariovisita','placeholder' => 'Seleccionar...'] ) }}
+											@else
+												{{ form::select('horariovisita', ['1' => 'Mañana', '2' => 'Tarde', '3' => 'Noche' ],  null, ['class' => 'form-control', 'id' => 'horariovisita','placeholder' => 'Seleccionar...'] ) }}
+											@endif
+										@else
+											{{ form::select('horariovisita', ['1' => 'Mañana', '2' => 'Tarde', '3' => 'Noche' ],  null, ['class' => 'form-control', 'id' => 'horariovisita','placeholder' => 'Seleccionar...'] ) }}
+										@endif
 									</td>
 									<td>
 										{{ form::label('horadesde', 'Desde') }}
-										{{ form::time('horadesde', null, ['class' => 'form-control', 'id' => 'horadesde']) }}
+										@isset($clientedirecciones)
+											@if($cliente->direcciones == 0)
+												{{ form::time('horadesde', $clientedirecciones['0']['horadesde'], ['class' => 'form-control', 'id' => 'horadesde']) }}
+											@else
+												{{ form::time('horadesde', null, ['class' => 'form-control', 'id' => 'horadesde']) }}
+											@endif
+										@else
+											{{ form::time('horadesde', null, ['class' => 'form-control', 'id' => 'horadesde']) }}
+										@endif
 										</div>
 									</td>
 									<td> 
 										{{ form::label('horahasta', 'Hasta') }}
-										{{ form::time('horahasta', null, ['class' => 'form-control', 'id' => 'horahasta']) }}
+										@isset($clientedirecciones)
+											@if($cliente->direcciones == 0)
+												{{ form::time('horahasta', $clientedirecciones['0']['horahasta'], ['class' => 'form-control', 'id' => 'horahasta']) }}
+											@else
+												{{ form::time('horahasta', null, ['class' => 'form-control', 'id' => 'horahasta']) }}
+											@endif
+										@else
+											{{ form::time('horahasta', null, ['class' => 'form-control', 'id' => 'horahasta']) }}
+										@endif
 										</div>
 									</td>
 								</tr>	
@@ -949,8 +1104,8 @@
 			//toastr.error('funciona');
 			
 			$('#table_direccionesspan').hide();
-	      		var valdirecc = validardireccion();
-			   	if(valdirecc == 1){
+	      	var valdirecc = validardireccion();
+			 if(valdirecc == 1){
 					toastr.error('No se puede agregar este domicilio. Faltan datos');
 				//toastr.error('No se pueden guardar los datos. Existen campos vacios o mal cargados');
 		   		return false;
@@ -985,7 +1140,95 @@
 
 						function(isConfirm){ 
 						if (isConfirm) {
-							$('#form').submit();
+							//$('#form').submit();
+							$('#cargarobservacion').val(1);
+							$('#cargarobservacionspan').show();
+							$("#observaciondomicilio").prop("disabled", false);
+
+							if($("#observaciondomicilio").val() == '') 
+							{
+								swal.close()
+								toastr.error('Debe cargar una observacion');
+								return false;
+							}	
+							//variables para guardar en la grilla
+							var provincia_id = $('#provincia_id').val();
+							var departamento_id = $('#departamento_id').val();
+							var localidad_id = $('#localidad_id').val();
+							var barrio_id = $('#barrio_id').val();
+							var barrio = $('select[name="barrio_id"] option:selected').text();
+							var calle_id = $('#calle_id').val();
+							var calle = $('select[name="calle_id"] option:selected').text();
+							if(calle_id == '') calle = '';
+							var numero = $('#numero').val();
+							var manzana = $('#manzana').val();
+							var casa = $('#casa').val();
+							var edificiotorre = $('#edificiotorre').val();
+							var piso = $('#piso').val();
+							var secccion = $('#seccion').val();
+							var lote = $('#lote').val();
+							var codigopostal = $('#codigopostal').val();
+							var referencia = $('#referenciadomicilio').val();
+							var observacion = $('#observaciondomicilio').val();
+							var empleado_id = $('#empleado_id').val();
+							var horariovisita = $('#horariovisita').val();
+							var horadesde = $('#horadesde').val();
+							var horahasta = $('#horahasta').val();
+							var direccion_id = $('#direccion_id').val();
+							var empleado = $('select[name="empleado"] option:selected').text();
+
+
+							//cargo la grilla
+							$('#table_direcciones tbody').prepend(
+								'<tr>' + 
+								'<td style="display:none;">' + provincia_id + '</td>' +
+								'<td style="display:none;">' + departamento_id + '</td>' +
+								'<td style="display:none;">' + localidad_id + '</td>' +
+								'<td>' + barrio + '</td>' +
+								'<td>' + calle + '</td>' +
+								'<td>' + numero + '</td>' +
+								'<td>' + manzana + '</td>' +
+								'<td>' + casa + '</td>' +
+								'<td>' + edificiotorre + '</td>' +
+								'<td>' + piso + '</td>' +
+								'<td>' + secccion + '</td>' +
+								'<td>' + lote + '</td>' +
+								'<td style="display:none;">' + codigopostal + '</td>' +
+								'<td style="display:none;">' + referencia + '</td>' +
+								'<td style="display:none;">' + observacion + '</td>' +
+								'<td style="display:none;">' + empleado_id + '</td>' +
+								'<td style="display:none;">' + horariovisita + '</td>' +
+								'<td style="display:none;">' + horadesde + '</td>' +
+								'<td style="display:none;">' + horahasta + '</td>' +
+								'<td style="display:none;">' + barrio_id + '</td>' +
+								'<td style="display:none;">' + calle_id + '</td>' +
+								'<td style="display:none;">' + direccion_id + '</td>' +
+								'<td>' + empleado + '</td>' +
+								"<td><a class='delete btn btn-sm btn-danger' onclick ='deletedireccion_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
+								'</td>' +
+								'</tr>');
+
+							$('#provincia_id').val('');
+							$('#provincia_id').change();
+							$('#empleado').val('');
+							$('#empleado').change();
+
+							$('#numero').val('');
+							$('#manzana').val('');
+							$('#casa').val('');
+							$('#edificiotorre').val('');
+							$('#piso').val('');
+							$('#seccion').val('');
+							$('#lote').val('');
+							$('#codigopostal').val('');
+							$('#referenciadomicilio').val('');
+							$('#observaciondomicilio').val('');
+							$('#horariovisita').val('');
+							$('#horadesde').val('');
+							$('#horahasta').val('');
+
+							swal.close()
+							toastr.success('Direccion agregada a la lista');
 							//toastr.error('guardar');
 						} else { 
 							$('#cargarobservacion').val(1);
@@ -1003,84 +1246,6 @@
 
 
 
-			//variables para guardar en la grilla
-			var provincia_id = $('#provincia_id').val();
-			var departamento_id = $('#departamento_id').val();
-			var localidad_id = $('#localidad_id').val();
-			var barrio_id = $('#barrio_id').val();
-			var barrio = $('select[name="barrio_id"] option:selected').text();
-			var calle_id = $('#calle_id').val();
-			var calle = $('select[name="calle_id"] option:selected').text();
-			var numero = $('#numero').val();
-			var manzana = $('#manzana').val();
-			var casa = $('#casa').val();
-			var edificiotorre = $('#edificiotorre').val();
-			var piso = $('#piso').val();
-			var secccion = $('#seccion').val();
-			var lote = $('#lote').val();
-			var codigopostal = $('#codigopostal').val();
-			var referencia = $('#referenciadomicilio').val();
-			var observacion = $('#observaciondomicilio').val();
-			var empleado_id = $('#empleado_id').val();
-			var horariovisita = $('#horariovisita').val();
-			var horadesde = $('#horadesde').val();
-			var horahasta = $('#horahasta').val();
-			var direccion_id = $('#direccion_id').val();
-			var empleado = $('select[name="empleado"] option:selected').text();
-
-
-			//cargo la grilla
-			$('#table_direcciones tbody').prepend(
-				'<tr>' + 
-				'<td style="display:none;">' + provincia_id + '</td>' +
-				'<td style="display:none;">' + departamento_id + '</td>' +
-				'<td style="display:none;">' + localidad_id + '</td>' +
-				'<td>' + barrio + '</td>' +
-				'<td>' + calle + '</td>' +
-				'<td>' + numero + '</td>' +
-				'<td>' + manzana + '</td>' +
-				'<td>' + casa + '</td>' +
-				'<td>' + edificiotorre + '</td>' +
-				'<td>' + piso + '</td>' +
-				'<td>' + secccion + '</td>' +
-				'<td>' + lote + '</td>' +
-				'<td style="display:none;">' + codigopostal + '</td>' +
-				'<td style="display:none;">' + referencia + '</td>' +
-				'<td style="display:none;">' + observacion + '</td>' +
-				'<td style="display:none;">' + empleado_id + '</td>' +
-				'<td style="display:none;">' + horariovisita + '</td>' +
-				'<td style="display:none;">' + horadesde + '</td>' +
-				'<td style="display:none;">' + horahasta + '</td>' +
-				'<td style="display:none;">' + barrio_id + '</td>' +
-				'<td style="display:none;">' + calle_id + '</td>' +
-				'<td style="display:none;">' + direccion_id + '</td>' +
-				'<td>' + empleado + '</td>' +
-				"<td><a class='delete btn btn-sm btn-danger' onclick ='deletedireccion_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
-				'</td>' +
-				'</tr>');
-
-			$('#provincia_id').val('');
-			$('#provincia_id').change();
-			$('#empleado').val('');
-			$('#empleado').change();
-
-			$('#numero').val('');
-			$('#manzana').val('');
-			$('#casa').val('');
-			$('#edificiotorre').val('');
-			$('#piso').val('');
-			$('#seccion').val('');
-			$('#lote').val('');
-			$('#codigopostal').val('');
-			$('#referenciadomicilio').val('');
-			$('#observaciondomicilio').val('');
-			$('#horariovisita').val('');
-			$('#horadesde').val('');
-			$('#horahasta').val('');
-
-
-
-			toastr.success('Direccion agregada a la lista');
 			
 
 		});

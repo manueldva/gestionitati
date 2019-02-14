@@ -167,7 +167,7 @@ Route::get('validardomicilioidentico', function() {
     }  
 
     if($clientedireccion){
-        $id = $clientedireccion->id;
+        $id = $clientedireccion->cliente_id;
     } else
     {
         $id = 0;

@@ -176,7 +176,9 @@ class ClienteController extends Controller
                 $clientedireccion->save();
             }
         } else {
-            $cliente = Clientedireccion::create($request->all());
+            $clientedireccion = Clientedireccion::create($request->all());
+
+            $clientedireccion->fill( ['cliente_id'=> $cliente->id, 'usuario_alta' => Auth::user()->username , 'fecha_alta' => date('Y-m-d H:i:s')])->save();
         }
         
         //
@@ -224,50 +226,12 @@ class ClienteController extends Controller
     {
         $editshow = 2;
 
-         $cliente = Cliente::find($id);
+        $cliente = Cliente::find($id);
 
-        if ($cliente->fechanacimiento) $cliente->fechanacimiento = FechaHelper::getFechaInputDate( $cliente->fechanacimiento); 
-
-        if ($cliente->fechaingreso) $cliente->fechaingreso = FechaHelper::getFechaInputDate( $cliente->fechaingreso); 
-
-        $companiatelefonicas  = Companiatelefonica::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
-
-        $provincias  = Provincia::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
-
-        $departamentos  = Departamento::orderBy('descripcion', 'ASC')->where('provincia_id', $cliente->provincia_id)->pluck('descripcion' , 'id');
-
-        $localidades  = Localidad::orderBy('descripcion', 'ASC')->where('departamento_id', $cliente->departamento_id)->pluck('descripcion' , 'id');
-
-        $barrios  = Barrio::orderBy('descripcion', 'ASC')->where('localidad_id', $cliente->localidad_id)->pluck('descripcion' , 'id');
-
-        $calles  = Calle::orderBy('descripcion', 'ASC')->where('localidad_id', $cliente->localidad_id)->pluck('descripcion' , 'id');
-
-        $articulos  = Articulo::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
-
-        $tipoivas  = Tipoiva::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
-
-        $tipodocumentos  = Tipodocumento::orderBy('id', 'ASC')->pluck('descripcion' , 'id');
-
-        $tipoclientes  = Tipocliente::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
-
-       $estadoclientes    = [ 0 => 'Inactivo', 1 => 'Activo'];
-
-        $tipoempleado = Tipoempleado::where('descripcion', '=', 'Vendedor')->first();
-        if($tipoempleado) {
-            $empleados  = Empleado::orderBy('empleado', 'ASC')->where('tipoempleado_id', $tipoempleado->id)->pluck('empleado' , 'id');
-                
-            if(!$empleados) $empleados = [];
-        } else {
-            $empleados = [];
-        }
-
-        $tipofamiliar  = Tipofamiliar::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
-        $clientefamiliares = Clientefamiliar::where('cliente_id', $cliente->id)->get();
         $clientedirecciones = Clientedireccion::where('cliente_id', $cliente->id)->get();
 
 
         //para saber si tiene barrio o no
-        //dd($clientedirecciones['0']['localidad_id']);
         if($cliente->direcciones == 0){
             $localidatemp = Localidad::find($clientedirecciones['0']['localidad_id']);
             $sinbarrio = $localidatemp->sinbarrio;
@@ -288,12 +252,51 @@ class ClienteController extends Controller
         } else {
             $sincalle = 0;
         }
-       
+
+        $companiatelefonicas  = Companiatelefonica::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+        $provincias  = Provincia::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+        if($cliente->direcciones == 0)
+        {    
+            $departamentos  = Departamento::orderBy('descripcion', 'ASC')->where('provincia_id', $clientedirecciones['0']['provincia_id'])->pluck('descripcion' , 'id');
+
+            $localidades  = Localidad::orderBy('descripcion', 'ASC')->where('departamento_id', $clientedirecciones['0']['departamento_id'])->pluck('descripcion' , 'id');
+
+            $barrios  = Barrio::orderBy('descripcion', 'ASC')->where('localidad_id', $clientedirecciones['0']['localidad_id'])->pluck('descripcion' , 'id');
+
+            $calles  = Calle::orderBy('descripcion', 'ASC')->where('localidad_id', $clientedirecciones['0']['localidad_id'])->pluck('descripcion' , 'id');
+
+        } 
+
+        //dd($calles);
+        $tipoivas  = Tipoiva::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+        $tipodocumentos  = Tipodocumento::orderBy('id', 'ASC')->pluck('descripcion' , 'id');
+
+        $tipoclientes  = Tipocliente::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+        $tipoempleado = Tipoempleado::where('descripcion', '=', 'Vendedor')->first();
+        if($tipoempleado) {
+            $empleados  = Empleado::orderBy('empleado', 'ASC')->where('tipoempleado_id', $tipoempleado->id)->pluck('empleado' , 'id');
+                
+            if(!$empleados) $empleados = [];
+        } else {
+            $empleados = [];
+        }
+
+        $estadoclientes    = [ 0 => 'Inactivo', 1 => 'Activo'];
+
+        $tipofamiliar  = Tipofamiliar::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+        //$clientearticulos = Clientearticulo::where('cliente_id', $cliente->id)->get();
+
+        $clientefamiliares = Clientefamiliar::where('cliente_id', $cliente->id)->get();
 
 
 
 
-        return view('admin.clientes.show', compact('cliente','companiatelefonicas', 'estadoclientes', 'provincias', 'departamentos', 'localidades', 'barrios', 'calles', 'tipoivas', 'tipoclientes', 'tipodocumentos', 'articulos', 'empleados', 'tipofamiliar', 'clientefamiliares', 'clientedirecciones','sinbarrio', 'sincalle', 'editshow'));
+        return view('admin.clientes.show', compact('cliente','companiatelefonicas', 'estadoclientes', 'provincias','departamentos' , 'localidades', 'barrios', 'calles', 'tipoivas', 'tipoclientes', 'tipodocumentos', 'articulos', 'empleados', 'tipofamiliar', 'clientefamiliares', 'clientedirecciones' , 'editshow'));
 
        
 
@@ -309,50 +312,13 @@ class ClienteController extends Controller
     {
         $editshow = 1;
 
+        
         $cliente = Cliente::find($id);
 
-        if ($cliente->fechanacimiento) $cliente->fechanacimiento = FechaHelper::getFechaInputDate( $cliente->fechanacimiento); 
-
-        if ($cliente->fechaingreso) $cliente->fechaingreso = FechaHelper::getFechaInputDate( $cliente->fechaingreso); 
-
-        $companiatelefonicas  = Companiatelefonica::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
-
-        $provincias  = Provincia::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
-
-        $departamentos  = Departamento::orderBy('descripcion', 'ASC')->where('provincia_id', $cliente->provincia_id)->pluck('descripcion' , 'id');
-
-        $localidades  = Localidad::orderBy('descripcion', 'ASC')->where('departamento_id', $cliente->departamento_id)->pluck('descripcion' , 'id');
-
-        $barrios  = Barrio::orderBy('descripcion', 'ASC')->where('localidad_id', $cliente->localidad_id)->pluck('descripcion' , 'id');
-
-        $calles  = Calle::orderBy('descripcion', 'ASC')->where('localidad_id', $cliente->localidad_id)->pluck('descripcion' , 'id');
-
-        $articulos  = Articulo::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
-
-        $tipoivas  = Tipoiva::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
-
-        $tipodocumentos  = Tipodocumento::orderBy('id', 'ASC')->pluck('descripcion' , 'id');
-
-        $tipoclientes  = Tipocliente::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
-
-       $estadoclientes    = [ 0 => 'Inactivo', 1 => 'Activo'];
-
-        $tipoempleado = Tipoempleado::where('descripcion', '=', 'Vendedor')->first();
-        if($tipoempleado) {
-            $empleados  = Empleado::orderBy('empleado', 'ASC')->where('tipoempleado_id', $tipoempleado->id)->pluck('empleado' , 'id');
-                
-            if(!$empleados) $empleados = [];
-        } else {
-            $empleados = [];
-        }
-
-        $tipofamiliar  = Tipofamiliar::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
-        $clientefamiliares = Clientefamiliar::where('cliente_id', $cliente->id)->get();
         $clientedirecciones = Clientedireccion::where('cliente_id', $cliente->id)->get();
 
 
         //para saber si tiene barrio o no
-        //dd($clientedirecciones['0']['localidad_id']);
         if($cliente->direcciones == 0){
             $localidatemp = Localidad::find($clientedirecciones['0']['localidad_id']);
             $sinbarrio = $localidatemp->sinbarrio;
@@ -373,7 +339,49 @@ class ClienteController extends Controller
         } else {
             $sincalle = 0;
         }
-       
+
+        $companiatelefonicas  = Companiatelefonica::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+        $provincias  = Provincia::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+        if($cliente->direcciones == 0)
+        {    
+            $departamentos  = Departamento::orderBy('descripcion', 'ASC')->where('provincia_id', $clientedirecciones['0']['provincia_id'])->pluck('descripcion' , 'id');
+
+            $localidades  = Localidad::orderBy('descripcion', 'ASC')->where('departamento_id', $clientedirecciones['0']['departamento_id'])->pluck('descripcion' , 'id');
+
+            $barrios  = Barrio::orderBy('descripcion', 'ASC')->where('localidad_id', $clientedirecciones['0']['localidad_id'])->pluck('descripcion' , 'id');
+
+            $calles  = Calle::orderBy('descripcion', 'ASC')->where('localidad_id', $clientedirecciones['0']['localidad_id'])->pluck('descripcion' , 'id');
+
+        } 
+
+        //dd($calles);
+        $tipoivas  = Tipoiva::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+        $tipodocumentos  = Tipodocumento::orderBy('id', 'ASC')->pluck('descripcion' , 'id');
+
+        $tipoclientes  = Tipocliente::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+        $tipoempleado = Tipoempleado::where('descripcion', '=', 'Vendedor')->first();
+        if($tipoempleado) {
+            $empleados  = Empleado::orderBy('empleado', 'ASC')->where('tipoempleado_id', $tipoempleado->id)->pluck('empleado' , 'id');
+                
+            if(!$empleados) $empleados = [];
+        } else {
+            $empleados = [];
+        }
+
+        $estadoclientes    = [ 0 => 'Inactivo', 1 => 'Activo'];
+
+        $tipofamiliar  = Tipofamiliar::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+        //$clientearticulos = Clientearticulo::where('cliente_id', $cliente->id)->get();
+
+        $clientefamiliares = Clientefamiliar::where('cliente_id', $cliente->id)->get();
+
+
+
 
 
 
@@ -447,7 +455,16 @@ class ClienteController extends Controller
                 }
             }
         } else {
-            $cliente = Clientedireccion::create($request->all());
+            //$cliente = Clientedireccion::create($request->all());
+
+            $clientedirecciontemp = Clientedireccion::where('cliente_id', $cliente->id)->first();
+
+             $direccion = Clientedireccion::find($clientedirecciontemp->id);
+
+            $direccion->fill($request->all())->save();
+
+            //auditoria
+            $direccion->fill(['usuario_modi' => Auth::user()->username , 'fecha_modi' => date('Y-m-d H:i:s')])->save();
         }
         
 
