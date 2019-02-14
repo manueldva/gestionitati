@@ -224,7 +224,7 @@ class ClienteController extends Controller
     {
         $editshow = 2;
 
-        $cliente = Cliente::find($id);
+         $cliente = Cliente::find($id);
 
         if ($cliente->fechanacimiento) $cliente->fechanacimiento = FechaHelper::getFechaInputDate( $cliente->fechanacimiento); 
 
@@ -250,6 +250,8 @@ class ClienteController extends Controller
 
         $tipoclientes  = Tipocliente::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
+       $estadoclientes    = [ 0 => 'Inactivo', 1 => 'Activo'];
+
         $tipoempleado = Tipoempleado::where('descripcion', '=', 'Vendedor')->first();
         if($tipoempleado) {
             $empleados  = Empleado::orderBy('empleado', 'ASC')->where('tipoempleado_id', $tipoempleado->id)->pluck('empleado' , 'id');
@@ -259,17 +261,39 @@ class ClienteController extends Controller
             $empleados = [];
         }
 
-        $estadoclientes    = [ 0 => 'Inactivo', 1 => 'Activo'];
-
         $tipofamiliar  = Tipofamiliar::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
-
-        //$clientearticulos = Clientearticulo::where('cliente_id', $cliente->id)->get();
-
         $clientefamiliares = Clientefamiliar::where('cliente_id', $cliente->id)->get();
+        $clientedirecciones = Clientedireccion::where('cliente_id', $cliente->id)->get();
+
+
+        //para saber si tiene barrio o no
+        //dd($clientedirecciones['0']['localidad_id']);
+        if($cliente->direcciones == 0){
+            $localidatemp = Localidad::find($clientedirecciones['0']['localidad_id']);
+            $sinbarrio = $localidatemp->sinbarrio;
+        } else {
+            $sinbarrio = 0;
+        }
+
+        //sin calle
+        if($cliente->direcciones == 0){
+             if($clientedirecciones['0']['barrio_id']){
+            //para saber si tiene barrio o no
+                $barriotemp = Barrio::find($clientedirecciones['0']['barrio_id']);
+                $sincalle = $barriotemp->sincalle;
+            //sin 
+            } else {
+                $sincalle = 0;
+            }
+        } else {
+            $sincalle = 0;
+        }
+       
 
 
 
-        return view('admin.clientes.show', compact('cliente','companiatelefonicas', 'estadoclientes', 'provincias','departamentos' , 'localidades', 'barrios', 'calles', 'tipoivas', 'tipoclientes', 'tipodocumentos', 'articulos', 'empleados', 'tipofamiliar', 'clientefamiliares' , 'editshow'));
+
+        return view('admin.clientes.show', compact('cliente','companiatelefonicas', 'estadoclientes', 'provincias', 'departamentos', 'localidades', 'barrios', 'calles', 'tipoivas', 'tipoclientes', 'tipodocumentos', 'articulos', 'empleados', 'tipofamiliar', 'clientefamiliares', 'clientedirecciones','sinbarrio', 'sincalle', 'editshow'));
 
        
 
