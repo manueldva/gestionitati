@@ -175,12 +175,16 @@
 	      <h3 class="box-title">
 	      	Dirección Particular
 	      </h3>
-	      <div id="direcciones" class="form-group pull-right">
+	      @if($editshow == 1)
+	     	<div id="direcciones1" class="form-group pull-right" style="display:none">
+	     @else
+	      	<div id="direcciones1" class="form-group pull-right">
+	     @endif
 	          <label>
-	            {{ Form::checkbox('direcciones','1'), ['id'=>'direcciones', 'name'=>'direcciones']}} 
+	            {{ Form::checkbox('direcciones1','1'), ['id'=>'direcciones1', 'name'=>'direcciones1']}} 
 	          </label>  
 	          &nbsp;
-	           {{ form::label('direcciones', ' Mas de una dirección') }}
+	           {{ form::label('direcciones1', ' Mas de una dirección') }}
 	           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	      </div>
 	    </div>
@@ -193,7 +197,21 @@
 			    <!-- /.box-header -->
 			    <div class="box-body">
 
+
 			      	<div class="form-group">
+			      		<!--direccionid para validar cuando pasa de una direccion a otra -->
+			      		@isset($cliente)
+			      			{{ form::number('direcciones', null, ['class' => 'form-control', 'id' => 'direcciones', 'style' => 'display:none']) }}
+			      		@else 
+			      			{{ form::number('direcciones', 0, ['class' => 'form-control', 'id' => 'direcciones', 'style' => 'display:none']) }}
+			      		@endif
+			      		@isset($cliente)
+			      			@if($cliente->direcciones == 0)
+			      				{{ form::text('direccion_id', $clientedirecciones['0']['id'], ['class' => 'form-control', 'id' => 'direccion_id', 'maxlength' =>'500', 'style' => 'display:none']) }}
+			      			@endif
+			      		@else
+			      			{{ form::text('direccion_id', 0, ['class' => 'form-control', 'id' => 'direccion_id', 'maxlength' =>'500', 'style' => 'display:none']) }}
+			      		@endif
 						{{ form::label('provincia_id', 'Provincia *') }}
 						{{ form::select('provincia_id',  isset($provincias) ? $provincias : [] ,  null, ['class' => 'form-control inline-search', 'id' => 'provincia_id','placeholder' => 'Seleccionar...'] ) }}
 						<div id="provincia_idspan" class="form-group has-error" style="display: none">
@@ -408,11 +426,117 @@
 									<th style="display:none;"> horahasta</th>
 									<th style="display:none;"> barrio_id</th>
 									<th style="display:none;"> calle_id</th>
+									<th style="display:none;"> direccion_id</th>
 									<th> Vendedor</th>
+
 								</tr>
 							</thead>
 							<tbody>
-								
+								@if($editshow !== 0)
+									@foreach ($clientedirecciones as $clientedireccion)
+					                  <tr>
+					                    <td style="display:none;">{{ $clientedireccion->provincia_id }}</td>
+					                    <td style="display:none;">{{ $clientedireccion->departamento_id }}</td>
+					                    <td style="display:none;">{{ $clientedireccion->localidad_id }}</td>
+					                    @if($clientedireccion->barrio_id)
+					                    	<td>{{ $clientedireccion->barrio->descripcion }}</td>
+					                    @else
+					                    	<td></td>
+					                    @endif
+					                    @if($clientedireccion->calle_id)
+					                    	<td>{{ $clientedireccion->calle->descripcion }}</td>
+					                    @else
+					                    	<td></td>
+					                    @endif
+					                    @if($clientedireccion->numero)
+					                    	<td>{{ $clientedireccion->numero }}</td>
+					                    @else
+					                    	<td></td>
+					                    @endif
+					                    @if($clientedireccion->manzana)
+					                    	<td>{{ $clientedireccion->manzana }}</td>
+					                    @else
+					                    	<td></td>
+					                    @endif
+					                    @if($clientedireccion->casa)
+					                    	<td>{{ $clientedireccion->casa }}</td>
+					                    @else
+					                    	<td></td>
+					                    @endif
+					                    @if($clientedireccion->edificiotorre)
+					                    	<td>{{ $clientedireccion->edificiotorre }}</td>
+					                    @else
+					                    	<td></td>
+					                    @endif
+					                    @if($clientedireccion->piso)
+					                    	<td>{{ $clientedireccion->piso }}</td>
+					                    @else
+					                    	<td></td>
+					                    @endif
+					                    @if($clientedireccion->seccion)
+					                    	<td>{{ $clientedireccion->seccion }}</td>
+					                    @else
+					                    	<td></td>
+					                    @endif
+					                    @if($clientedireccion->lote)
+					                    	<td>{{ $clientedireccion->lote }}</td>
+					                    @else
+					                    	<td></td>
+					                    @endif
+					                    @if($clientedireccion->codigopostal)
+					                    	<td style="display:none;">{{ $clientedireccion->codigopostal }}</td>
+					                    @else
+					                    	<td style="display:none;"></td>
+					                    @endif
+					                    @if($clientedireccion->referenciadomicilio)
+					                    	<td style="display:none;">{{ $clientedireccion->referenciadomicilio }}</td>
+					                    @else
+					                    	<td style="display:none;"></td>
+					                    @endif
+					                    @if($clientedireccion->observaciondomicilio)
+					                    	<td style="display:none;">{{ $clientedireccion->observaciondomicilio }}</td>
+					                    @else
+					                    	<td style="display:none;"></td>
+					                    @endif
+					                    <td  style="display:none;">{{ $clientedireccion->empleado_id }}</td>
+
+					                    @if($clientedireccion->horariovisita)
+					                    	<td style="display:none;">{{ $clientedireccion->horariovisita }}</td>
+					                    @else
+					                    	<td style="display:none;"></td>
+					                    @endif
+					                 	@if($clientedireccion->horadesde)
+					                    	<td style="display:none;">{{ $clientedireccion->horadesde }}</td>
+					                    @else
+					                    	<td style="display:none;"></td>
+					                    @endif
+					                    @if($clientedireccion->horahasta)
+					                    	<td style="display:none;">{{ $clientedireccion->horahasta }}</td>
+					                    @else
+					                    	<td style="display:none;"></td>
+					                    @endif
+					                    @if($clientedireccion->barrio_id)
+					                    	<td style="display:none;">{{ $clientedireccion->barrio_id }}</td>
+					                    @else
+					                    	<td style="display:none;"></td>
+					                    @endif
+					                    @if($clientedireccion->calle_id)
+					                    	<td style="display:none;">{{ $clientedireccion->calle_id }}</td>
+					                    @else
+					                    	<td style="display:none;"></td>
+					                    @endif
+					                    <td style="display:none;">{{ $clientedireccion->id }}</td>
+					                    <td>{{ $clientedireccion->empleado->empleado }}</td>
+					                    @if($editshow == 3) 
+						                    <td>
+							                   <a class='delete btn btn-sm btn-danger' onclick ='deletedireccion_row($(this))'>
+							                   	<span class='glyphicon glyphicon-trash'></span>
+							                   </a>
+						               	    </td>
+					                    @endif
+					                  </tr>
+					                @endforeach
+								@endif
 							</tbody>
 						</table>
 						<div id="table_direccionesspan" class="form-group has-error" style="display: none">
@@ -545,16 +669,31 @@
 		$("#sincalle").hide();		
 		$("#sinbarrio").hide();
 		$("#cargarobservacion").hide();
+
+		if($("#direcciones").val() == '1') {
+			$('input[name=direcciones1]').iCheck('check');
+			$("#agregardireccion").show();
+		    $("#table_direcciones").show();
+		    hidecamposdireccion();
+		} else {
+			$('input[name=direcciones1]').iCheck('uncheck');
+			$("#agregardireccion").hide();
+		    $("#table_direcciones").hide();
+		    hidecamposdireccion();
+		}
 		
 		//para direcciones
-		var checkdirecciones = $("#direcciones").parent('[class*="icheckbox"]').hasClass("checked");
+		/*var checkdirecciones = $("#direcciones1").parent('[class*="icheckbox"]').hasClass("checked");
+		alert(checkdirecciones);
 		if(checkdirecciones) {
   			$("#agregardireccion").show();
   			$("#table_direcciones").show();
+  			hidecamposdireccion()
 		} else {
 			$("#agregardireccion").hide();
 			$("#table_direcciones").hide();
-		}//
+			hidecamposdireccion();
+		}*///
 
 
 		/*de movida todo tiente que estar bloqueado*/
@@ -576,31 +715,6 @@
 		$('#localidad_id').select2();
 		$('#barrio_id').select2();
 		$('#calle_id').select2();
-
-		/*para calcular edad a partir de una fecha de nacimientpo*/
-		/*function calcularEdad() {
-			FechaNacimiento = $('#fechanacimiento').val();
-			var fechaNace = new Date(FechaNacimiento);
-			var fechaActual = new Date();
-			var mes = fechaActual.getMonth();
-			var dia = fechaActual.getDate();
-			var año = fechaActual.getFullYear();
-			fechaActual.setDate(dia);
-			fechaActual.setMonth(mes);
-			fechaActual.setFullYear(año);
-			edad = Math.floor(((fechaActual - fechaNace) / (1000 * 60 * 60 * 24) / 365));
-			//return edad;
-			if(!isNaN(edad)) {
-				$('#edad').val(edad);
-			}
-			
-		}
-
-		calcularEdad();
-
-		$('#fechanacimiento').focusout(function(e) {
-			calcularEdad();
-		});*/
 
 
 		/*mostrar campos dependiendo del tipo del cliente*/
@@ -664,19 +778,6 @@
 				}).done(function(data) {
 
 					if(data !== 0) {
-						/*if(parseInt($('#id').val()) !== parseInt(data)){
-							swal({
-							title: "El cliente ingresado ya existe",
-							text: "Verefique los datos",
-							type: "info",
-							//showCancelButton: true,
-							closeOnConfirm: true//,
-							//showLoaderOnConfirm: true
-							}, function () {
-								window.location.replace(APP_URL + "/clientes/"+ data +"/edit");
-
-							});
-						}*/
 						swal({ 
 							title: "El cliente ingresado ya existe",
 							text: "¿Desea recuperar los datos?",
@@ -846,6 +947,7 @@
 		$( "#agregardireccion" ).click(function() {
 
 			//toastr.error('funciona');
+			
 			$('#table_direccionesspan').hide();
 	      		var valdirecc = validardireccion();
 			   	if(valdirecc == 1){
@@ -853,8 +955,52 @@
 				//toastr.error('No se pueden guardar los datos. Existen campos vacios o mal cargados');
 		   		return false;
 			} else if(valdirecc == 2){
+				
 				return false;
 			}
+
+			var barriotemp = $('#barrio_id').val();
+			if(barriotemp == '') barriotemp = 0;
+			var calletemp =  $('#calle_id').val();
+			if(calletemp == '') calletemp = 0;
+
+			$.ajax({
+				dataType: 'json',
+				url: APP_URL + '/api/validardomicilioidentico',
+				//url: '../api/validardocumento',
+				data: {provincia: $('#provincia_id').val(), departamento: $('#departamento_id').val(), localidad: $('#localidad_id').val(), barrio: barriotemp, calle: calletemp, manzana: $('#manzana').val(), casa: $('#casa').val(), numero: $('#numero').val(), edificiotorre: $('#edificiotorre').val(), piso: $('#piso').val(), seccion: $('#seccion').val(), lote: $('#lote').val(), codigopostal: $('#codigopostal').val(), nrodocumento: $('#numerodocumento').val(), tipodocumento_id: $('#tipodocumento_id').val()}
+			}).done(function(data) {
+
+				if(data !== 0) {
+					swal({ 
+						title: "El domicilio registrado ya existe",
+						text: "¿Desea Agregarlo a la lista?",
+						type: "info",
+						showCancelButton: true,
+						//confirmButtonColor: "#DD6B55",
+						confirmButtonText: "Guardar",
+						cancelButtonText: "Ver registro identico", 
+						closeOnConfirm: false,
+						closeOnCancel: false },
+
+						function(isConfirm){ 
+						if (isConfirm) {
+							$('#form').submit();
+							//toastr.error('guardar');
+						} else { 
+							$('#cargarobservacion').val(1);
+							$('#cargarobservacionspan').show();
+							$("#observaciondomicilio").prop("disabled", false);
+							url = APP_URL + "/clientes/"+ data;
+							window.open(url, "_blank");
+							swal.close()
+						} 
+					});
+				} 
+			});
+
+
+
 
 
 			//variables para guardar en la grilla
@@ -878,7 +1024,8 @@
 			var empleado_id = $('#empleado_id').val();
 			var horariovisita = $('#horariovisita').val();
 			var horadesde = $('#horadesde').val();
-			var horasta = $('#horasta').val();
+			var horahasta = $('#horahasta').val();
+			var direccion_id = $('#direccion_id').val();
 			var empleado = $('select[name="empleado"] option:selected').text();
 
 
@@ -903,17 +1050,35 @@
 				'<td style="display:none;">' + empleado_id + '</td>' +
 				'<td style="display:none;">' + horariovisita + '</td>' +
 				'<td style="display:none;">' + horadesde + '</td>' +
-				'<td style="display:none;">' + horasta + '</td>' +
+				'<td style="display:none;">' + horahasta + '</td>' +
 				'<td style="display:none;">' + barrio_id + '</td>' +
 				'<td style="display:none;">' + calle_id + '</td>' +
+				'<td style="display:none;">' + direccion_id + '</td>' +
 				'<td>' + empleado + '</td>' +
 				"<td><a class='delete btn btn-sm btn-danger' onclick ='deletedireccion_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
 				'</td>' +
 				'</tr>');
 
 			$('#provincia_id').val('');
-
 			$('#provincia_id').change();
+			$('#empleado').val('');
+			$('#empleado').change();
+
+			$('#numero').val('');
+			$('#manzana').val('');
+			$('#casa').val('');
+			$('#edificiotorre').val('');
+			$('#piso').val('');
+			$('#seccion').val('');
+			$('#lote').val('');
+			$('#codigopostal').val('');
+			$('#referenciadomicilio').val('');
+			$('#observaciondomicilio').val('');
+			$('#horariovisita').val('');
+			$('#horadesde').val('');
+			$('#horahasta').val('');
+
+
 
 			toastr.success('Direccion agregada a la lista');
 			
@@ -1051,17 +1216,19 @@
 		});
 
 		// para habilitar listado para varias direcciones
-		$('#direcciones').on('ifChecked', function (event){
+		$('#direcciones1').on('ifChecked', function (event){
+			$('#direcciones').val('1');
 		    $("#agregardireccion").show();
 		    $("#table_direcciones").show();
+		    hidecamposdireccion()
 		});
-		$('#direcciones').on('ifUnchecked', function (event) {
-		   $("#agregardireccion").hide();
-		   $("#table_direcciones").hide();
-		   $('#table_direccionesspan').hide();
+		$('#direcciones1').on('ifUnchecked', function (event) {
+			$('#direcciones').val('0');
+		    $("#agregardireccion").hide();
+		    $("#table_direcciones").hide();
+		    $('#table_direccionesspan').hide();
+		   hidecamposdireccion()
 		});
-
-
 
 		/**/ 
 
@@ -1177,7 +1344,7 @@
 		   var estadocampos = 0;
 
 		   // si es persona fisica
-		   if($('#tipocliente_id').val() == 1){
+		   	if($('#tipocliente_id').val() == 1){
 		   		if($.trim($('#apellido').val()) == ''){
 			   		estadocampos = 1;
 			   		$('#apellidospan').show();
@@ -1193,7 +1360,7 @@
 			   		//estadocampos = 0;
 			   		$('#nombrespan').hide();
 			   	}
-		   } else {
+		   	} else {
 		   		if($.trim($('#cliente').val()) == ''){
 			   		estadocampos = 1;
 			   		$('#clientespan').show();
@@ -1209,36 +1376,15 @@
 			   		//estadocampos = 0;
 			   		$('#referentespan').hide();
 			   	}
-		   }
+		   	}
 
-		   // listado de articulos
-		    /*var listado = crear_listado_articulos();
-      		$('#id_lista_articulos').val(listado);
-
-      		if ($('#id_lista_articulos').val() == ''){
-      			estadocampos = 1;
-			   	$('#table_articulosspan').show();
-      		} else {
-      			$('#table_articulosspan').hide();
-      		}*/
-
-
-		   	//direcciones aca
-		   	//var checkdirecciones = $("#direcciones").parent('[class*="icheckbox"]').hasClass("checked");
-
-		  
-			if($('input[name=direcciones]:checkbox:checked').val() == '1')
+			if($('input[name=direcciones1]:checkbox:checked').val() == '1')
 			{	
-			   	$('#provincia_idspan').hide();
-				$('#departamento_idspan').hide();
-				$('#localidad_idspan').hide();
-				$('#barrio_idspan').hide();
-				$('#calle_idspan').hide();
-			   	$('#cargarobservacionpan').hide();
-			   	$('#empleado_idspan').hide();
-			   	$('#empleadospan').hide();
+
+			   	hidecamposdireccion();
 
 			   	var listado = crear_listado_direcciones();
+			   	//alert(listado);
 	      		$('#id_lista_direcciones').val(listado);
 
 	      		if ($('#id_lista_direcciones').val() == ''){
@@ -1260,16 +1406,7 @@
 		   // si estadocampos == 1 faltaron algunos datos
 		   if(estadocampos == 1) 
 		   {
-		   	swal({
-					title: 'No se pueden guardar los datos',
-					text: 'Existen campos vacios o mal cargados',
-					type: 'error',
-					//confirmButtonColor: '#DD6B55',
-					//confirmButtonText: 'OK',
-					//timer: 3500,
-					closeOnConfirm: false
-				});
-				//toastr.error('No se pueden guardar los datos. Existen campos vacios o mal cargados');
+				toastr.error('No se pueden guardar los datos. Existen campos vacios o mal cargados');
 		   		return false;
 		   }
 
@@ -1282,13 +1419,13 @@
 		    var listado = crear_listado_familiares();
       		$('#id_lista_familiares').val(listado);
 		   
-      		if($('input[name=direcciones]:checkbox:checked').val() !== '1')
+      		if($('input[name=direcciones1]:checkbox:checked').val() !== '1')
 			{
 				$.ajax({
 					dataType: 'json',
 					url: APP_URL + '/api/validardomicilioidentico',
 					//url: '../api/validardocumento',
-					data: {provincia: $('#provincia_id').val(), departamento: $('#departamento_id').val(), localidad: $('#localidad_id').val(), barrio: $('#barrio_id').val(), calle: $('#calle_id').val(), manzana: $('#manzana').val(), casa: $('#casa').val(), numero: $('#numero').val(), edificiotorre: $('#edificiotorre').val(), piso: $('#piso').val(), seccion: $('#seccion').val(), lote: $('#lote').val(), codigopostal: $('#codigopostal').val(), nrodocumento: $('#numerodocumento').val()}
+					data: {provincia: $('#provincia_id').val(), departamento: $('#departamento_id').val(), localidad: $('#localidad_id').val(), barrio: $('#barrio_id').val(), calle: $('#calle_id').val(), manzana: $('#manzana').val(), casa: $('#casa').val(), numero: $('#numero').val(), edificiotorre: $('#edificiotorre').val(), piso: $('#piso').val(), seccion: $('#seccion').val(), lote: $('#lote').val(), codigopostal: $('#codigopostal').val(), nrodocumento: $('#numerodocumento').val(), tipodocumento_id: $('#tipodocumento_id').val()}
 				}).done(function(data) {
 
 					if(data !== 0) {
@@ -1404,7 +1541,7 @@
 		   	//validar que este cargado al menos un campo de texto de domicilio
 		   	if($.trim($('#numero').val()) == '' && $.trim($('#manzana').val()) == '' && $.trim($('#casa').val()) == '' && $.trim($('#edificiotorre').val()) == '' && $.trim($('#piso').val()) == '' && $.trim($('#seccion').val()) == '' && $.trim($('#lote').val()) == '' && $.trim($('#referenciadomicilio').val()) == ''){
 
-		   		swal({
+		   		/*swal({
 					title: 'No se pueden guardar los datos',
 					text: 'Faltan datos en la direccion',
 					type: 'error',
@@ -1412,13 +1549,15 @@
 					//confirmButtonText: 'OK',
 					//timer: 3500,
 					closeOnConfirm: false
-				});
+				});*/
+
+				toastr.error('No se pueden guardar los datos. Faltan datos en la direccion');
 				//toastr.error('No se pueden guardar los datos. Existen campos vacios o mal cargados');
 		   		estadovalidacion = 2;
 		   	}
 
 
-
+		   	return	estadovalidacion;
 			
 	    }
 
@@ -1429,7 +1568,7 @@
 
 		    $("#id_lista_articulos").val('');
 
-		    $('#table_articulos tbody tr').each(function () {	 
+		    $('#table_direcciones tbody tr').each(function () {	 
 		    provincia_id = $(this).find("td").eq(0).html();
 		    departamento_id = $(this).find("td").eq(1).html();
 		    localidad_id = $(this).find("td").eq(2).html();
@@ -1451,9 +1590,13 @@
 		    horahasta = $(this).find("td").eq(18).html();
 		   	barrio_id = $(this).find("td").eq(19).html();
 		    calle_id = $(this).find("td").eq(20).html();
+		    direccion_id = $(this).find("td").eq(21).html();
 
-		    listado += provincia_id + "|" + departamento_id + "|" + localidad_id + "|" + barrio_id + "|" + calle_id + "|" + numero + "|" + manzana + "|" + casa + "|" + edificiotorre + "|" + piso + "|" + seccion + "|" + lote + "|" + codigopostal + "|" + referencia + "|" + observacion + "|" + empleado_id + "|" + horariovisita + "|" + horadesde + "|" + horahasta + "&&&";
+
+
+		    listado += provincia_id + "|" + departamento_id + "|" + localidad_id + "|" + barrio_id + "|" + calle_id + "|" + numero + "|" + manzana + "|" + casa + "|" + edificiotorre + "|" + piso + "|" + seccion + "|" + lote + "|" + codigopostal + "|" + referencia + "|" + observacion + "|" + empleado_id + "|" + horariovisita + "|" + horadesde + "|" + horahasta + "|" + direccion_id + "&&&";
 		    });
+
 
 		      return listado;
 	    }
@@ -1475,6 +1618,19 @@
 		    });
 
 		    return listado;
+	    }
+
+
+	    function hidecamposdireccion(){
+	    	$('#provincia_idspan').hide();
+			$('#departamento_idspan').hide();
+			$('#localidad_idspan').hide();
+			$('#barrio_idspan').hide();
+			$('#calle_idspan').hide();
+		   	$('#cargarobservacionpan').hide();
+		   	$('#empleado_idspan').hide();
+		   	$('#empleadospan').hide();
+
 	    }
 
 	</script>

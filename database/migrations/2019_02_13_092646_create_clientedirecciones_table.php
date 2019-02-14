@@ -42,6 +42,10 @@ class CreateClientedireccionesTable extends Migration
             $table->integer('horariovisita')->nullable();
             $table->string('horadesde',5)->default('00:00')->nullable();
             $table->string('horahasta',5)->default('00:00')->nullable();
+            $table->string('usuario_alta',50)->nullable();
+            $table->dateTime('fecha_alta')->nullable();
+            $table->string('usuario_modi',50)->nullable();
+            $table->dateTime('fecha_modi')->nullable();
             $table->timestamps();
         });
     }

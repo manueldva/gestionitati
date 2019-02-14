@@ -158,11 +158,16 @@ Route::get('verificarcalle', function() {
 
 //validar direccion
 Route::get('validardomicilioidentico', function() {
+     $cliente = App\Models\Cliente::where('numerodocumento', '=', request('nrodocumento'))->where('tipodocumento_id', '=', request('tipodocumento_id'))->first();
 
-    $cliente = App\Models\Cliente::where('provincia_id', '=', request('provincia'))->where('departamento_id', '=', request('departamento'))->where('localidad_id', '=', request('localidad'))->where('barrio_id', '=', request('barrio'))->where('calle_id', '=', request('calle'))->where('manzana', '=', request('manzana'))->where('casa', '=', request('casa'))->where('numero', '=', request('numero'))->where('edificiotorre', '=', request('edificiotorre'))->where('piso', '=', request('piso'))->where('seccion', '=', request('seccion'))->where('lote', '=', request('lote'))->where('codigopostal', '=', request('codigopostal'))->where('numerodocumento', '<>', request('nrodocumento'))->first();
+    if($cliente) {
+        $clientedireccion = App\Models\Clientedireccion::where('provincia_id', '=', request('provincia'))->where('departamento_id', '=', request('departamento'))->where('localidad_id', '=', request('localidad'))->where('barrio_id', '=', request('barrio'))->where('calle_id', '=', request('calle'))->where('manzana', '=', request('manzana'))->where('casa', '=', request('casa'))->where('numero', '=', request('numero'))->where('edificiotorre', '=', request('edificiotorre'))->where('piso', '=', request('piso'))->where('seccion', '=', request('seccion'))->where('lote', '=', request('lote'))->where('codigopostal', '=', request('codigopostal'))->where('cliente_id', '<>', $cliente->id)->first();
+    } else {
+         $clientedireccion = App\Models\Clientedireccion::where('provincia_id', '=', request('provincia'))->where('departamento_id', '=', request('departamento'))->where('localidad_id', '=', request('localidad'))->where('barrio_id', '=', request('barrio'))->where('calle_id', '=', request('calle'))->where('manzana', '=', request('manzana'))->where('casa', '=', request('casa'))->where('numero', '=', request('numero'))->where('edificiotorre', '=', request('edificiotorre'))->where('piso', '=', request('piso'))->where('seccion', '=', request('seccion'))->where('lote', '=', request('lote'))->where('codigopostal', '=', request('codigopostal'))->first();
+    }  
 
-    if($cliente){
-        $id = $cliente->id;
+    if($clientedireccion){
+        $id = $clientedireccion->id;
     } else
     {
         $id = 0;

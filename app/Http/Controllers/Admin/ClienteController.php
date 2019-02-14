@@ -17,6 +17,7 @@ use Alert;
 use App\Http\Controllers\Controller;
 use App\Models\Cliente;
 use App\Models\Clientefamiliar;
+use App\Models\Clientedireccion;
 use App\Models\Clientearticulo;
 use App\Models\Empleado;
 //use App\Models\Movil;
@@ -122,6 +123,7 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request->all());
 
         $cliente = Cliente::create($request->all());
 
@@ -130,27 +132,53 @@ class ClienteController extends Controller
         //
         
 
-        //guardar articulos asociados al cliente
-        /*$listado_articulos_text = $request->input("listado_articulos");
+        //guardar direcciones asociados al cliente
+        if($request->get('direcciones') == '1'){ // varias direcciones
+            $listado_direcciones_text = $request->input("listado_direcciones");
         
-        $listado_articulos_array = explode('&&&', $listado_articulos_text);
-        array_pop($listado_articulos_array);
+            $listado_direcciones_array = explode('&&&', $listado_direcciones_text);
+            array_pop($listado_direcciones_array);
 
-        //dd($listado_articulos_array);
+            //dd($listado_direcciones_array);
 
-        foreach ($listado_articulos_array as $articulo_text)
-        {
-            list($articulo_id, $cantidad) = explode('|', $articulo_text);
+            foreach ($listado_direcciones_array as $direccion_text)
+            {
+                list($provincia_id, $departamento_id, $localidad_id, 
+                    $barrio_id, $calle_id, $numero, $manzana, $casa, 
+                    $edificiotorre, $piso, $seccion, $lote, $codigopostal, 
+                    $referencia, $observacion, $empleado_id, $horariovisita,
+                    $horadesde, $horahasta, $direccion_id) = explode('|', $direccion_text);
 
-            $clientearticulo = new Clientearticulo();
-                $clientearticulo->articulo_id = $articulo_id;
-                $clientearticulo->cliente_id = $cliente->id;
-                $clientearticulo->cantidad = $cantidad;
-                $clientearticulo->usuario_alta = Auth::user()->username;
-                $clientearticulo->fecha_alta = date('Y-m-d H:i:s');
+                $clientedireccion = new Clientedireccion();
+                    $clientedireccion->cliente_id = $cliente->id;
+                    $clientedireccion->provincia_id = $provincia_id;
+                    $clientedireccion->departamento_id = $departamento_id;
+                    $clientedireccion->localidad_id = $localidad_id;
+                    if($barrio_id !== '') $clientedireccion->barrio_id = $barrio_id;
+                    if($calle_id !== '') $clientedireccion->calle_id = $calle_id;
+                    if($numero !== '')$clientedireccion->numero = $numero;
+                    if($manzana !== '')$clientedireccion->manzana = $manzana;
+                    if($casa !== '')$clientedireccion->casa = $casa;
+                    if($edificiotorre !== '')$clientedireccion->edificiotorre = $edificiotorre;
+                    if($piso !== '')$clientedireccion->piso = $piso;
+                    if($seccion !== '')$clientedireccion->seccion = $seccion;
+                    if($lote !== '')$clientedireccion->lote = $lote;
+                    if($codigopostal !== '')$clientedireccion->codigopostal = $codigopostal;
+                    if($referencia !== '')$clientedireccion->referenciadomicilio = $referencia;
+                    if($observacion !== '')$clientedireccion->observaciondomicilio = $observacion;
+                    $clientedireccion->empleado_id = $empleado_id;
+                    if($horariovisita !== '') $clientedireccion->horariovisita = $horariovisita;
+                    if($horadesde !== '')$clientedireccion->horadesde = $horadesde;
+                    if($horahasta !== '') $clientedireccion->horahasta = $horahasta;
+                    $clientedireccion->usuario_alta = Auth::user()->username;
+                    $clientedireccion->fecha_alta = date('Y-m-d H:i:s');
 
-            $clientearticulo->save();
-        }*/
+                $clientedireccion->save();
+            }
+        } else {
+            $cliente = Clientedireccion::create($request->all());
+        }
+        
         //
 
 
@@ -296,26 +324,37 @@ class ClienteController extends Controller
 
         $tipofamiliar  = Tipofamiliar::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
         $clientefamiliares = Clientefamiliar::where('cliente_id', $cliente->id)->get();
+        $clientedirecciones = Clientedireccion::where('cliente_id', $cliente->id)->get();
 
 
         //para saber si tiene barrio o no
-        $localidatemp = Localidad::find( $cliente->localidad_id);
-        $sinbarrio = $localidatemp->sinbarrio;
+        //dd($clientedirecciones['0']['localidad_id']);
+        if($cliente->direcciones == 0){
+            $localidatemp = Localidad::find($clientedirecciones['0']['localidad_id']);
+            $sinbarrio = $localidatemp->sinbarrio;
+        } else {
+            $sinbarrio = 0;
+        }
 
         //sin calle
-        if($cliente->barrio_id){
-        //para saber si tiene barrio o no
-            $barriotemp = Barrio::find( $cliente->barrio_id);
-            $sincalle = $barriotemp->sincalle;
-        //sin 
+        if($cliente->direcciones == 0){
+             if($clientedirecciones['0']['barrio_id']){
+            //para saber si tiene barrio o no
+                $barriotemp = Barrio::find($clientedirecciones['0']['barrio_id']);
+                $sincalle = $barriotemp->sincalle;
+            //sin 
+            } else {
+                $sincalle = 0;
+            }
         } else {
             $sincalle = 0;
         }
+       
 
 
 
 
-        return view('admin.clientes.edit', compact('cliente','companiatelefonicas', 'estadoclientes', 'provincias', 'departamentos', 'localidades', 'barrios', 'calles', 'tipoivas', 'tipoclientes', 'tipodocumentos', 'articulos', 'empleados', 'tipofamiliar', 'clientefamiliares','sinbarrio', 'sincalle', 'editshow'));
+        return view('admin.clientes.edit', compact('cliente','companiatelefonicas', 'estadoclientes', 'provincias', 'departamentos', 'localidades', 'barrios', 'calles', 'tipoivas', 'tipoclientes', 'tipodocumentos', 'articulos', 'empleados', 'tipofamiliar', 'clientefamiliares', 'clientedirecciones','sinbarrio', 'sincalle', 'editshow'));
     }
 
     /**
@@ -335,6 +374,58 @@ class ClienteController extends Controller
         $cliente->fill(['usuario_modi' => Auth::user()->username , 'fecha_modi' => date('Y-m-d H:i:s')])->save();
         //
 
+
+        //guardar direcciones asociados al cliente
+        if($request->get('direcciones') == '1'){ // varias direcciones
+            $listado_direcciones_text = $request->input("listado_direcciones");
+        
+            $listado_direcciones_array = explode('&&&', $listado_direcciones_text);
+            array_pop($listado_direcciones_array);
+
+            //dd($listado_direcciones_array);
+
+            foreach ($listado_direcciones_array as $direccion_text)
+            {
+                list($provincia_id, $departamento_id, $localidad_id, 
+                    $barrio_id, $calle_id, $numero, $manzana, $casa, 
+                    $edificiotorre, $piso, $seccion, $lote, $codigopostal, 
+                    $referencia, $observacion, $empleado_id, $horariovisita,
+                    $horadesde, $horahasta, $direccion_id) = explode('|', $direccion_text);
+                
+                //alert($direccion_id);
+                if($direccion_id == 0)
+                {
+                    $clientedireccion = new Clientedireccion();
+                        $clientedireccion->cliente_id = $cliente->id;
+                        $clientedireccion->provincia_id = $provincia_id;
+                        $clientedireccion->departamento_id = $departamento_id;
+                        $clientedireccion->localidad_id = $localidad_id;
+                        if($barrio_id !== '') $clientedireccion->barrio_id = $barrio_id;
+                        if($calle_id !== '') $clientedireccion->calle_id = $calle_id;
+                        if($numero !== '')$clientedireccion->numero = $numero;
+                        if($manzana !== '')$clientedireccion->manzana = $manzana;
+                        if($casa !== '')$clientedireccion->casa = $casa;
+                        if($edificiotorre !== '')$clientedireccion->edificiotorre = $edificiotorre;
+                        if($piso !== '')$clientedireccion->piso = $piso;
+                        if($seccion !== '')$clientedireccion->seccion = $seccion;
+                        if($lote !== '')$clientedireccion->lote = $lote;
+                        if($codigopostal !== '')$clientedireccion->codigopostal = $codigopostal;
+                        if($referencia !== '')$clientedireccion->referenciadomicilio = $referencia;
+                        if($observacion !== '')$clientedireccion->observaciondomicilio = $observacion;
+                        $clientedireccion->empleado_id = $empleado_id;
+                        if($horariovisita !== '') $clientedireccion->horariovisita = $horariovisita;
+                        if($horadesde !== '')$clientedireccion->horadesde = $horadesde;
+                        if($horahasta !== '') $clientedireccion->horahasta = $horahasta;
+                        $clientedireccion->usuario_alta = Auth::user()->username;
+                        $clientedireccion->fecha_alta = date('Y-m-d H:i:s');
+
+                    $clientedireccion->save();
+                }
+            }
+        } else {
+            $cliente = Clientedireccion::create($request->all());
+        }
+        
 
         //eliminar familiares
         $clientefam = Clientefamiliar::where('cliente_id', $id)->delete();
@@ -386,8 +477,8 @@ class ClienteController extends Controller
             Alert::error('No se puede eliminar el registro');
             return back();
         }*/
-
-       Clientefamiliar::where('cliente_id', $id)->delete();
+        Clientedireccion::where('cliente_id', $id)->delete();    
+        Clientefamiliar::where('cliente_id', $id)->delete();
 
         Cliente::find($id)->delete();
 
