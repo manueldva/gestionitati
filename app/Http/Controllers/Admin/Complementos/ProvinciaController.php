@@ -11,6 +11,7 @@ use Alert;
 
 use App\Models\Provincia;
 use App\Models\Cliente;
+use App\Models\Clientedireccion;
 use App\Models\Modulo;
 use App\Models\Perfil;
 use Auth;
@@ -141,7 +142,7 @@ class ProvinciaController extends Controller
     public function destroy($id)
     {
 
-        $existe = Cliente::where('provincia_id', $id)->count();
+        $existe = Clientedireccion::where('provincia_id', $id)->count();
 
         if($existe > 0) 
         {

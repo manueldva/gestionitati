@@ -111,7 +111,7 @@ class ClienteController extends Controller
             } 
 
             if($clientedireccion->piso) {
-                $temp = $temp . ' Piso ' . $clientedireccion->piso;
+                $temp = $temp . ' Piso/Dpto ' . $clientedireccion->piso;
             } 
 
             $value->usuario_modi = $temp;

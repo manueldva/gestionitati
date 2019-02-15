@@ -386,7 +386,7 @@
 											@endif	
 										</td>
 										<td> 
-											{{ form::label('piso', 'Piso') }}
+											{{ form::label('piso', 'Piso/Dpto') }}
 											@isset($clientedirecciones)
 												@if($cliente->direcciones == 0)
 													{{ form::text('piso', $clientedirecciones['0']['piso'], ['class' => 'form-control', 'id' => 'piso', 'maxlength' =>'10']) }}
@@ -578,7 +578,7 @@
 									<th> Manzana</th>
 									<th> Casa</th>
 									<th>Edificio/Torre</th>
-									<th> piso</th>
+									<th> piso/Dpto</th>
 									<th> Seccion</th>
 									<th> Lote</th>
 									<th style="display:none;"> Codigopostal</th>
@@ -1705,7 +1705,7 @@
 			}
 
 			if(tipodocumento_id > 0  && tipodocumento_id < 5) {
-				if( numerodocumento.length !== 8) {
+				if( numerodocumento.length > 8 || numerodocumento.length < 7) {
 					toastr.error('Solo se permiten 8 digitos para este tipo de documento');
 					return false;
 				} 

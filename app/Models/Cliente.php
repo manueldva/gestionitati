@@ -51,7 +51,7 @@ class Cliente extends Model
 		
 		if ($type == 'nrodocumento')
         {
-            $query->where('numerodocumento', 'like', '%' . $valor . '%')->orderBy('apellido', 'DESC');
+            $query->where('numerodocumento', 'like', '%' . $valor . '%')->orderBy('apellido');
         }else if ($type == 'apellido') 
         {
             $query->where('apellido', 'like', '%' . $valor . '%')->orderBy('apellido');
@@ -71,18 +71,18 @@ class Cliente extends Model
         }
         else if ($type == 'barrio') 
         {
-            $query->orderBy('apellido', 'DESC'); //cambiar mas adelante
+            $query->orderBy('apellido'); //cambiar mas adelante
         }
         else if ($type == 'tipocliente') 
         {
             //$query->where('id', $valor)->orderBy('id', 'ASC');
-            $query->where('tipocliente_id', '=', $tipoclientes)->orderBy('apellido', 'DESC');
+            $query->where('tipocliente_id', '=', $tipoclientes)->orderBy('apellido');
             //$query->client()->where('name', 'like', '%' . $valor . '%')->orderBy('id', 'ASC');
 
 
         } else
         {
-            $query->orderBy('apellido', 'DESC');
+            $query->orderBy('apellido');
         }
     }
 }

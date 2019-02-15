@@ -121,7 +121,7 @@ class ContratoController extends Controller
             } 
 
             if($value->piso) {
-                $temp = $temp . ' Piso ' . $value->piso;
+                $temp = $temp . ' Piso/Dpto ' . $value->piso;
             } 
 
             $direcciones += [$value->id => $temp];

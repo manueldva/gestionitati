@@ -12,6 +12,7 @@ use App\Models\Provincia;
 use App\Models\Departamento;
 use App\Models\Localidad;
 use App\Models\Cliente;
+use App\Models\Clientedireccion;
 use App\Models\Calle;
 use App\Models\Barrio;
 use App\Models\Modulo;
@@ -174,7 +175,7 @@ class CalleController extends Controller
     public function destroy($id)
     {
 
-        $existe = Cliente::where('calle_id', $id)->count();
+        $existe = Clientedireccion::where('calle_id', $id)->count();
 
         if($existe > 0) 
         {

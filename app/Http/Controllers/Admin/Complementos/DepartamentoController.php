@@ -14,6 +14,7 @@ use App\Models\Localidad;
 use App\Models\Barrio;
 use App\Models\Calle;
 use App\Models\Cliente;
+use App\Models\Clientedireccion;
 use App\Models\Modulo;
 use App\Models\Perfil;
 use Auth;
@@ -177,7 +178,7 @@ class DepartamentoController extends Controller
     public function destroy($id)
     {
 
-        $existe = Cliente::where('departamento_id', $id)->count();
+        $existe = Clientedireccion::where('departamento_id', $id)->count();
 
         if($existe > 0) 
         {
