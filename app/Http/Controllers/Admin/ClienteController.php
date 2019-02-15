@@ -502,7 +502,7 @@ class ClienteController extends Controller
         Alert::success('Cliente Actualizado con exito')->persistent('Cerrar');
 
         //return redirect()->route('receptions.index');
-        return redirect()->route('clientes.index');
+       return redirect()->route('clientes.edit', $cliente->id);
     }
 
     /**

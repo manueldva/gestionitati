@@ -180,7 +180,12 @@
 	      	Dirección Particular
 	      </h3>
 	      @if($editshow == 1)
-	     	<div id="direcciones1" class="form-group pull-right" style="display:none">
+	      	@if($cliente->direcciones == 1)
+
+	     		<div id="direcciones1" class="form-group pull-right" style="display:none">
+	     	@else
+	     		<div id="direcciones1" class="form-group pull-right">
+	     	@endif
 	     @else
 	      	<div id="direcciones1" class="form-group pull-right">
 	     @endif
@@ -863,7 +868,9 @@
 		} else if(editshow == 2){
 			$(":input").prop("disabled", true);
 		} else if(editshow == 1){
-			if($("#observaciondomicilio").val() !== '') {
+			if($("#observaciondomicilio").val() == '') {
+				$("#observaciondomicilio").prop("disabled", true);
+			} else {
 				$("#observaciondomicilio").prop("disabled", false);
 			}
 		}
@@ -1586,6 +1593,30 @@
 		    $("#agregardireccion").show();
 		    $("#table_direcciones").show();
 		    hidecamposdireccion()
+		    if(editshow == 1)
+		    {
+		    	$('#provincia_id').val('');
+				$('#provincia_id').change();
+				$('#empleado').val('');
+				$('#empleado').change();
+
+				$('#numero').val('');
+				$('#manzana').val('');
+				$('#casa').val('');
+				$('#edificiotorre').val('');
+				$('#piso').val('');
+				$('#seccion').val('');
+				$('#lote').val('');
+				$('#codigopostal').val('');
+				$('#referenciadomicilio').val('');
+				$('#observaciondomicilio').val('');
+				$('#horariovisita').val('');
+				$('#horadesde').val('');
+				$('#horahasta').val('');
+				$('#cargarobservacionspan').hide();
+				$("#observaciondomicilio").prop("disabled", true);
+		    }
+
 		});
 		$('#direcciones1').on('ifUnchecked', function (event) {
 			$('#direcciones').val('0');
@@ -1593,6 +1624,10 @@
 		    $("#table_direcciones").hide();
 		    $('#table_direccionesspan').hide();
 		   hidecamposdireccion()
+		   if(editshow == 1)
+		   {
+		   		window.location.reload();
+		   }
 		});
 
 		/**/ 
