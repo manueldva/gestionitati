@@ -17,7 +17,7 @@
 			    <!-- /.box-header -->
 			    <div class="box-body">
 			      <div class="form-group">
-			      	{{ form::label('id', 'Codigo Cliente') }}
+			      	{{ form::label('id', 'Nro Cliente') }}
 					{{ form::text('id', null, ['class' => 'form-control', 'id' => 'id', 'readonly'=> 'readonly']) }}
 			      </div>
 			      <div class="form-group">

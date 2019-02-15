@@ -169,7 +169,7 @@
 								<tr>
 								<!--<th width="10px"> ID</th>-->
 								
-									<th> <center>Codigo</center></th>
+									<th> <center>Nro Cliente</center></th>
 									<th> <center>Fecha Contrato</center></th>
 									<th> <center>Modelo Contrato</center></th>
 									<th> <center>Articulos</center></th>
@@ -180,7 +180,7 @@
 									@foreach ($contratos as $contrato)
 					                  <tr>
 					                    
-					                    <td><center>{{ $contrato->id }}</center></td>
+					                    <td><center>{{ $cliente->id }}</center></td>
 										<td><center>{{ \Carbon\Carbon::parse($contrato->fechacontrato)->format('d/m/Y') }}</center></td>
 										<td><center>{{ $contrato->modelocontrato->descripcion }}</center></td>
 										<td><center>{{ $contrato->usuario_modi }}</center></td>

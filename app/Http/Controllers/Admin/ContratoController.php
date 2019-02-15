@@ -214,7 +214,7 @@ class ContratoController extends Controller
         //
         Alert::success('Contrato creado con exito')->persistent("Cerrar");
         //return redirect()->route('clientes.index');
-         return redirect()->route('contratos.edit', $id);
+        return redirect()->route('contratos.edit', $id);
 
     }
 
