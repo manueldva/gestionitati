@@ -101,7 +101,7 @@
 									<td> 
 										{{ form::label('estado', 'Estado') }}
 										@if($editshow == 0)
-											{{ form::select('estado', [1 => 'Activo', 0 => 'Inactivo'], null, ['class' => 'form-control', 'readonly' => 'readonly'] ) }}
+											{{ form::select('estado', [1 => 'Activo', 0 => 'Inactivo'], null, ['class' => 'form-control'] ) }}
 										@else
 											{{ form::select('estado', [1 => 'Activo', 0 => 'Inactivo'], null, ['class' => 'form-control'] ) }}
 										@endif
@@ -258,7 +258,7 @@
 							@if($cliente->direcciones == 0)
 								{{ form::select('localidad_id',  isset($localidades) ? $localidades : [] ,  $clientedirecciones['0']['localidad_id'], ['class' => 'form-control inline-search', 'id' => 'localidad_id','placeholder' => 'Seleccionar...'] ) }}
 							@else
-								{{ form::select('localidad_id',  isset($localidades) ? $localidades : [] ,  null, ['class' => 'form-control inline-search', 'id' => 'departamento_id','placeholder' => 'Seleccionar...'] ) }}
+								{{ form::select('localidad_id',  isset($localidades) ? $localidades : [] ,  null, ['class' => 'form-control inline-search', 'id' => 'localidad_id','placeholder' => 'Seleccionar...'] ) }}
 							@endif
 						@else
 							{{ form::select('localidad_id',  isset($localidades) ? $localidades : [] ,  null, ['class' => 'form-control inline-search', 'id' => 'localidad_id','placeholder' => 'Seleccionar...'] ) }}
@@ -968,6 +968,7 @@
 						toastr.success('Numero de documento no existente en la base de datos');
 						$(":input").prop("disabled", false);
 						$("#observaciondomicilio").prop("disabled", true);
+						if(editshow == 0) $("#estado").prop("disabled", true);
 						habilitarMotivoEstado();
 						habilitarCliente();
 					}
