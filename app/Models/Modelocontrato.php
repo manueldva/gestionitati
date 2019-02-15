@@ -16,7 +16,9 @@ class Modelocontrato extends Model
 
 
 
-
+    public function contratos(){
+      return $this->HasMany(Contrato::class);
+    }
 
     /*public function localidades(){
       return $this->HasMany(Localidad::class);

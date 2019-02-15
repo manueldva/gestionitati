@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,26 +13,11 @@ class Contrato extends Model
 	];
 
 
-    /*public function clientedirecciones(){
-        return $this->HasMany(Clientedireccion::class);
-    }
-
-    public function localidades(){
-    	return $this->HasMany(Localidad::class);
-    }
-
-    public function barrios(){
-    	return $this->HasMany(Localidad::class);
-    }
-
-    public function calles(){
-    	return $this->HasMany(Localidad::class);
-    }
-
-    public function provincia(){
+   
+    public function modelocontrato(){
         
-        return $this->belongsTo(Provincia::class);
-    }*/
+        return $this->belongsTo(Modelocontrato::class);
+    }
 
 
     

@@ -100,7 +100,11 @@
 								<tr>
 									<td> 
 										{{ form::label('estado', 'Estado') }}
-										{{ form::select('estado', [1 => 'Activo', 0 => 'Inactivo'], null, ['class' => 'form-control'] ) }}
+										@if($editshow == 0)
+											{{ form::select('estado', [1 => 'Activo', 0 => 'Inactivo'], null, ['class' => 'form-control', 'readonly' => 'readonly'] ) }}
+										@else
+											{{ form::select('estado', [1 => 'Activo', 0 => 'Inactivo'], null, ['class' => 'form-control'] ) }}
+										@endif
 									</td>
 									<td> 
 										{{ form::label('motivoestado', 'Motivo') }}
@@ -282,7 +286,7 @@
 						{{ form::label('calle_id', 'Calle *') }}
 						@isset($clientedirecciones)
 							@if($cliente->direcciones == 0)
-								{{ form::select('calle_id',  isset($cales) ? $calles : [] ,  $clientedirecciones['0']['calle_id'], ['class' => 'form-control inline-search', 'id' => 'calle_id','placeholder' => 'Seleccionar...'] ) }}
+								{{ form::select('calle_id',  isset($calles) ? $calles : [] ,  $clientedirecciones['0']['calle_id'], ['class' => 'form-control inline-search', 'id' => 'calle_id','placeholder' => 'Seleccionar...'] ) }}
 							@else
 								{{ form::select('calle_id',  isset($calles) ? $calles : [] ,  null, ['class' => 'form-control inline-search', 'id' => 'calle_id','placeholder' => 'Seleccionar...'] ) }}
 							@endif
@@ -1104,7 +1108,7 @@
 			//toastr.error('funciona');
 			
 			$('#table_direccionesspan').hide();
-	      	var valdirecc = validardireccion();
+	      	/*var valdirecc = validardireccion();
 			 if(valdirecc == 1){
 				toastr.error('No se puede agregar este domicilio. Faltan datos');
 				//toastr.error('No se pueden guardar los datos. Existen campos vacios o mal cargados');
@@ -1112,7 +1116,90 @@
 			} else if(valdirecc == 2){
 				
 				return false;
-			}
+			}*/
+
+			var estadovalidacion = 0;
+	    	//direccion
+		   	if($('#provincia_id').val() == ''){
+		   		$('#provincia_idspan').show();
+		   		estadovalidacion = 1;
+		   	} else{
+		   		//estadocampos = 0;
+		   		$('#provincia_idspan').hide();
+		   	}
+		   	if($('#departamento_id').val() == ''){
+		   		$('#departamento_idspan').show();
+		   		estadovalidacion = 2;
+		   	} else{
+		   		//estadocampos = 0;
+		   		$('#departamento_idspan').hide();
+		   	}
+		   	if($('#localidad_id').val() == ''){
+		   		$('#localidad_idspan').show();
+		   		estadovalidacion = 3;
+		   	} else{
+		   		//estadocampos = 0;
+		   		$('#localidad_idspan').hide();
+		   	}
+		   	
+
+		   	sinbarrio = $('#sinbarrio').val();
+		   	barrio_id = $('#barrio_id').val();
+
+		   	if(sinbarrio == 0 && barrio_id == ''){
+			   	$('#barrio_idspan').show();
+			   	estadovalidacion = 4;
+		   	}else{
+		   		$('#barrio_idspan').hide();
+		   	}
+
+
+		   	sincalle = $('#sincalle').val();
+		   	calle_id = $('#calle_id').val();
+
+		   	if(sincalle == 0 && calle_id == ''){
+			   	$('#calle_idspan').show();
+			   	estadovalidacion = 5;
+		   	}else{
+		   		$('#calle_idspan').hide();
+		   	}
+
+		   	obs = $('#cargarobservacion').val();
+
+		   	if(obs == 1 && $.trim($('#observaciondomicilio').val()) == ''){
+			   	$('#cargarobservacionpan').show();
+			   estadovalidacion = 6;
+		   	}else{
+		   		$('#cargarobservacionpan').hide();
+		   	}
+
+		   	//vendedor
+      		if($.trim($('#empleado_id').val()) == ''){
+		   		$('#empleado_idspan').show();
+		   		$('#empleadospan').show();
+		   		 estadovalidacion = 7;
+		   	} else{
+		   		//estadocampos = 0;
+		   		$('#empleado_idspan').hide();
+		   		$('#empleadospan').hide();
+		   	}
+
+		   	
+		   	//validar que este cargado al menos un campo de texto de domicilio
+		   	if($.trim($('#numero').val()) == '' && $.trim($('#manzana').val()) == '' && $.trim($('#casa').val()) == '' && $.trim($('#edificiotorre').val()) == '' && $.trim($('#piso').val()) == '' && $.trim($('#seccion').val()) == '' && $.trim($('#lote').val()) == '' && $.trim($('#referenciadomicilio').val()) == ''){
+
+				
+				//toastr.error('No se pueden guardar los datos. Existen campos vacios o mal cargados');
+		   		estadovalidacion = 8;
+		   	}
+
+
+		   	if(estadovalidacion !== 0 ){
+		   		toastr.error('No se pueden guardar los datos. Faltan datos en la direccion');
+		   		return false;
+		   	} 
+		   
+
 
 			var barriotemp = $('#barrio_id').val();
 			if(barriotemp == '') barriotemp = 0;
@@ -1124,210 +1211,241 @@
 				url: APP_URL + '/api/validardomicilioidentico',
 				async: false,
 				//url: '../api/validardocumento',
-				data: {provincia: $('#provincia_id').val(), departamento: $('#departamento_id').val(), localidad: $('#localidad_id').val(), barrio: barriotemp, calle: calletemp, manzana: $('#manzana').val(), casa: $('#casa').val(), numero: $('#numero').val(), edificiotorre: $('#edificiotorre').val(), piso: $('#piso').val(), seccion: $('#seccion').val(), lote: $('#lote').val(), codigopostal: $('#codigopostal').val(), nrodocumento: $('#numerodocumento').val(), tipodocumento_id: $('#tipodocumento_id').val()}
+				data: {provincia: $('#provincia_id').val(), departamento: $('#departamento_id').val(), localidad: $('#localidad_id').val(), barrio: barriotemp, calle: calletemp, manzana: $('#manzana').val(), casa: $('#casa').val(), numero: $('#numero').val(), edificiotorre: $('#edificiotorre').val(), piso: $('#piso').val(), seccion: $('#seccion').val(), lote: $('#lote').val(), nrodocumento: $('#numerodocumento').val(), tipodocumento_id: $('#tipodocumento_id').val()}
 			}).done(function(data) {
 
 				if(data !== 0) {
-					swal({ 
-						title: "El domicilio registrado ya existe",
-						text: "¿Desea Agregarlo a la lista?",
-						type: "info",
-						showCancelButton: true,
-						//confirmButtonColor: "#DD6B55",
-						confirmButtonText: "Guardar",
-						cancelButtonText: "Ver registro identico", 
-						closeOnConfirm: false,
-						closeOnCancel: false },
+					if($("#observaciondomicilio").val() == '')
+					{
+						swal({ 
+							title: "El domicilio registrado ya existe",
+							text: "¿Desea agregarlo a la lista?",
+							type: "info",
+							showCancelButton: true,
+							//confirmButtonColor: "#DD6B55",
+							confirmButtonText: "Guardar",
+							cancelButtonText: "Ver registro identico", 
+							closeOnConfirm: false,
+							closeOnCancel: false },
 
-						function(isConfirm){ 
-						if (isConfirm) {
-							//$('#form').submit();
-							$('#cargarobservacion').val(1);
-							$('#cargarobservacionspan').show();
-							$("#observaciondomicilio").prop("disabled", false);
-
-							if($("#observaciondomicilio").val() == '') 
-							{
+							function(isConfirm){ 
+							if (isConfirm) {
+								$('#cargarobservacion').val(1);
+								$('#cargarobservacionspan').show();
+								$("#observaciondomicilio").prop("disabled", false);
+								//url = APP_URL + "/clientes/"+ data;
+								//window.open(url, "_blank");
+								toastr.error('No se pueden guardar los datos. Existen campos vacios o mal cargados');
 								swal.close()
-								toastr.error('Debe cargar una observacion');
-								return false;
-							}	
-							//variables para guardar en la grilla
-							var provincia_id = $('#provincia_id').val();
-							var departamento_id = $('#departamento_id').val();
-							var localidad_id = $('#localidad_id').val();
-							var barrio_id = $('#barrio_id').val();
-							var barrio = $('select[name="barrio_id"] option:selected').text();
-							var calle_id = $('#calle_id').val();
-							var calle = $('select[name="calle_id"] option:selected').text();
-							if(calle_id == '') calle = '';
-							var numero = $('#numero').val();
-							var manzana = $('#manzana').val();
-							var casa = $('#casa').val();
-							var edificiotorre = $('#edificiotorre').val();
-							var piso = $('#piso').val();
-							var secccion = $('#seccion').val();
-							var lote = $('#lote').val();
-							var codigopostal = $('#codigopostal').val();
-							var referencia = $('#referenciadomicilio').val();
-							var observacion = $('#observaciondomicilio').val();
-							var empleado_id = $('#empleado_id').val();
-							var horariovisita = $('#horariovisita').val();
-							var horadesde = $('#horadesde').val();
-							var horahasta = $('#horahasta').val();
-							var direccion_id = $('#direccion_id').val();
-							var empleado = $('select[name="empleado"] option:selected').text();
+							} else {
+								$('#cargarobservacion').val(1);
+								$('#cargarobservacionspan').show();
+								$("#observaciondomicilio").prop("disabled", false);
+								url = APP_URL + "/clientes/"+ data;
+								window.open(url, "_blank");
+								swal.close()
+							} 
+						});
+					} else {
+						swal({ 
+							title: "El domicilio registrado ya existe",
+							text: "¿Desea agregarlo a la lista?",
+							type: "info",
+							showCancelButton: true,
+							//confirmButtonColor: "#DD6B55",
+							confirmButtonText: "Guardar",
+							cancelButtonText: "Ver registro identico", 
+							closeOnConfirm: false,
+							closeOnCancel: false },
+
+							function(isConfirm){ 
+							if (isConfirm) {
+								//$('#form').submit();
+									//variables para guardar en la grilla
+								var provincia_id = $('#provincia_id').val();
+								var departamento_id = $('#departamento_id').val();
+								var localidad_id = $('#localidad_id').val();
+								var barrio_id = $('#barrio_id').val();
+								var barrio = $('select[name="barrio_id"] option:selected').text();
+								var calle_id = $('#calle_id').val();
+								var calle = $('select[name="calle_id"] option:selected').text();
+								if(calle_id == '') calle = '';
+								var numero = $('#numero').val();
+								var manzana = $('#manzana').val();
+								var casa = $('#casa').val();
+								var edificiotorre = $('#edificiotorre').val();
+								var piso = $('#piso').val();
+								var secccion = $('#seccion').val();
+								var lote = $('#lote').val();
+								var codigopostal = $('#codigopostal').val();
+								var referencia = $('#referenciadomicilio').val();
+								var observacion = $('#observaciondomicilio').val();
+								var empleado_id = $('#empleado_id').val();
+								var horariovisita = $('#horariovisita').val();
+								var horadesde = $('#horadesde').val();
+								var horahasta = $('#horahasta').val();
+								var direccion_id = $('#direccion_id').val();
+								var empleado = $('select[name="empleado"] option:selected').text();
 
 
-							//cargo la grilla
-							$('#table_direcciones tbody').prepend(
-								'<tr>' + 
-								'<td style="display:none;">' + provincia_id + '</td>' +
-								'<td style="display:none;">' + departamento_id + '</td>' +
-								'<td style="display:none;">' + localidad_id + '</td>' +
-								'<td>' + barrio + '</td>' +
-								'<td>' + calle + '</td>' +
-								'<td>' + numero + '</td>' +
-								'<td>' + manzana + '</td>' +
-								'<td>' + casa + '</td>' +
-								'<td>' + edificiotorre + '</td>' +
-								'<td>' + piso + '</td>' +
-								'<td>' + secccion + '</td>' +
-								'<td>' + lote + '</td>' +
-								'<td style="display:none;">' + codigopostal + '</td>' +
-								'<td style="display:none;">' + referencia + '</td>' +
-								'<td style="display:none;">' + observacion + '</td>' +
-								'<td style="display:none;">' + empleado_id + '</td>' +
-								'<td style="display:none;">' + horariovisita + '</td>' +
-								'<td style="display:none;">' + horadesde + '</td>' +
-								'<td style="display:none;">' + horahasta + '</td>' +
-								'<td style="display:none;">' + barrio_id + '</td>' +
-								'<td style="display:none;">' + calle_id + '</td>' +
-								'<td style="display:none;">' + direccion_id + '</td>' +
-								'<td>' + empleado + '</td>' +
-								"<td><a class='delete btn btn-sm btn-danger' onclick ='deletedireccion_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
-								'</td>' +
-								'</tr>');
+								//cargo la grilla
+								$('#table_direcciones tbody').prepend(
+									'<tr>' + 
+									'<td style="display:none;">' + provincia_id + '</td>' +
+									'<td style="display:none;">' + departamento_id + '</td>' +
+									'<td style="display:none;">' + localidad_id + '</td>' +
+									'<td>' + barrio + '</td>' +
+									'<td>' + calle + '</td>' +
+									'<td>' + numero + '</td>' +
+									'<td>' + manzana + '</td>' +
+									'<td>' + casa + '</td>' +
+									'<td>' + edificiotorre + '</td>' +
+									'<td>' + piso + '</td>' +
+									'<td>' + secccion + '</td>' +
+									'<td>' + lote + '</td>' +
+									'<td style="display:none;">' + codigopostal + '</td>' +
+									'<td style="display:none;">' + referencia + '</td>' +
+									'<td style="display:none;">' + observacion + '</td>' +
+									'<td style="display:none;">' + empleado_id + '</td>' +
+									'<td style="display:none;">' + horariovisita + '</td>' +
+									'<td style="display:none;">' + horadesde + '</td>' +
+									'<td style="display:none;">' + horahasta + '</td>' +
+									'<td style="display:none;">' + barrio_id + '</td>' +
+									'<td style="display:none;">' + calle_id + '</td>' +
+									'<td style="display:none;">' + direccion_id + '</td>' +
+									'<td>' + empleado + '</td>' +
+									"<td><a class='delete btn btn-sm btn-danger' onclick ='deletedireccion_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
+									'</td>' +
+									'</tr>');
 
-							$('#provincia_id').val('');
-							$('#provincia_id').change();
-							$('#empleado').val('');
-							$('#empleado').change();
+								$('#provincia_id').val('');
+								$('#provincia_id').change();
+								$('#empleado').val('');
+								$('#empleado').change();
 
-							$('#numero').val('');
-							$('#manzana').val('');
-							$('#casa').val('');
-							$('#edificiotorre').val('');
-							$('#piso').val('');
-							$('#seccion').val('');
-							$('#lote').val('');
-							$('#codigopostal').val('');
-							$('#referenciadomicilio').val('');
-							$('#observaciondomicilio').val('');
-							$('#horariovisita').val('');
-							$('#horadesde').val('');
-							$('#horahasta').val('');
+								$('#numero').val('');
+								$('#manzana').val('');
+								$('#casa').val('');
+								$('#edificiotorre').val('');
+								$('#piso').val('');
+								$('#seccion').val('');
+								$('#lote').val('');
+								$('#codigopostal').val('');
+								$('#referenciadomicilio').val('');
+								$('#observaciondomicilio').val('');
+								$('#horariovisita').val('');
+								$('#horadesde').val('');
+								$('#horahasta').val('');
+								$('#cargarobservacionspan').hide();
+								$("#observaciondomicilio").prop("disabled", true);
+								toastr.success('Direccion agregada a la lista');
 
-							swal.close()
-							toastr.success('Direccion agregada a la lista');
 
-							return false;
-							//toastr.error('guardar');
-						} else { 
-							$('#cargarobservacion').val(1);
-							$('#cargarobservacionspan').show();
-							$("#observaciondomicilio").prop("disabled", false);
-							url = APP_URL + "/clientes/"+ data;
-							window.open(url, "_blank");
-							swal.close()
-						} 
-					});
-				} 
+								swal.close()
+								//toastr.error('guardar');
+							} else { 
+								
+								$('#cargarobservacion').val(1);
+								$('#cargarobservacionspan').show();
+								$("#observaciondomicilio").prop("disabled", false);
+								url = APP_URL + "/clientes/"+ data;
+								window.open(url, "_blank");
+								swal.close()
+							} 
+						});
+					}
+				} else {
+					var provincia_id = $('#provincia_id').val();
+					var departamento_id = $('#departamento_id').val();
+					var localidad_id = $('#localidad_id').val();
+					var barrio_id = $('#barrio_id').val();
+					var barrio = $('select[name="barrio_id"] option:selected').text();
+					var calle_id = $('#calle_id').val();
+					var calle = $('select[name="calle_id"] option:selected').text();
+					if(calle_id == '') calle = '';
+					var numero = $('#numero').val();
+					var manzana = $('#manzana').val();
+					var casa = $('#casa').val();
+					var edificiotorre = $('#edificiotorre').val();
+					var piso = $('#piso').val();
+					var secccion = $('#seccion').val();
+					var lote = $('#lote').val();
+					var codigopostal = $('#codigopostal').val();
+					var referencia = $('#referenciadomicilio').val();
+					var observacion = $('#observaciondomicilio').val();
+					var empleado_id = $('#empleado_id').val();
+					var horariovisita = $('#horariovisita').val();
+					var horadesde = $('#horadesde').val();
+					var horahasta = $('#horahasta').val();
+					var direccion_id = $('#direccion_id').val();
+					var empleado = $('select[name="empleado"] option:selected').text();
+
+
+					//cargo la grilla
+					$('#table_direcciones tbody').prepend(
+						'<tr>' + 
+						'<td style="display:none;">' + provincia_id + '</td>' +
+						'<td style="display:none;">' + departamento_id + '</td>' +
+						'<td style="display:none;">' + localidad_id + '</td>' +
+						'<td>' + barrio + '</td>' +
+						'<td>' + calle + '</td>' +
+						'<td>' + numero + '</td>' +
+						'<td>' + manzana + '</td>' +
+						'<td>' + casa + '</td>' +
+						'<td>' + edificiotorre + '</td>' +
+						'<td>' + piso + '</td>' +
+						'<td>' + secccion + '</td>' +
+						'<td>' + lote + '</td>' +
+						'<td style="display:none;">' + codigopostal + '</td>' +
+						'<td style="display:none;">' + referencia + '</td>' +
+						'<td style="display:none;">' + observacion + '</td>' +
+						'<td style="display:none;">' + empleado_id + '</td>' +
+						'<td style="display:none;">' + horariovisita + '</td>' +
+						'<td style="display:none;">' + horadesde + '</td>' +
+						'<td style="display:none;">' + horahasta + '</td>' +
+						'<td style="display:none;">' + barrio_id + '</td>' +
+						'<td style="display:none;">' + calle_id + '</td>' +
+						'<td style="display:none;">' + direccion_id + '</td>' +
+						'<td>' + empleado + '</td>' +
+						"<td><a class='delete btn btn-sm btn-danger' onclick ='deletedireccion_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
+						'</td>' +
+						'</tr>');
+
+					$('#provincia_id').val('');
+					$('#provincia_id').change();
+					$('#empleado').val('');
+					$('#empleado').change();
+					if ($('#empleado').val() !== '') {
+						$('#empleado').val('');
+						$('#empleado').change();
+					}
+					if ($('#empleado').val() !== '') {
+						$('#empleado').val('');
+						$('#empleado').change();
+					}
+
+					$('#numero').val('');
+					$('#manzana').val('');
+					$('#casa').val('');
+					$('#edificiotorre').val('');
+					$('#piso').val('');
+					$('#seccion').val('');
+					$('#lote').val('');
+					$('#codigopostal').val('');
+					$('#referenciadomicilio').val('');
+					$('#observaciondomicilio').val('');
+					$('#horariovisita').val('');
+					$('#horadesde').val('');
+					$('#horahasta').val('');
+					$('#cargarobservacionspan').hide();
+					$("#observaciondomicilio").prop("disabled", true);
+					toastr.success('Direccion agregada a la lista');
+
+
+				}
+							
 			});
 		
-
-
-			//variables para guardar en la grilla
-			var provincia_id = $('#provincia_id').val();
-			var departamento_id = $('#departamento_id').val();
-			var localidad_id = $('#localidad_id').val();
-			var barrio_id = $('#barrio_id').val();
-			var barrio = $('select[name="barrio_id"] option:selected').text();
-			var calle_id = $('#calle_id').val();
-			var calle = $('select[name="calle_id"] option:selected').text();
-			if(calle_id == '') calle = '';
-			var numero = $('#numero').val();
-			var manzana = $('#manzana').val();
-			var casa = $('#casa').val();
-			var edificiotorre = $('#edificiotorre').val();
-			var piso = $('#piso').val();
-			var secccion = $('#seccion').val();
-			var lote = $('#lote').val();
-			var codigopostal = $('#codigopostal').val();
-			var referencia = $('#referenciadomicilio').val();
-			var observacion = $('#observaciondomicilio').val();
-			var empleado_id = $('#empleado_id').val();
-			var horariovisita = $('#horariovisita').val();
-			var horadesde = $('#horadesde').val();
-			var horahasta = $('#horahasta').val();
-			var direccion_id = $('#direccion_id').val();
-			var empleado = $('select[name="empleado"] option:selected').text();
-
-
-			//cargo la grilla
-			$('#table_direcciones tbody').prepend(
-				'<tr>' + 
-				'<td style="display:none;">' + provincia_id + '</td>' +
-				'<td style="display:none;">' + departamento_id + '</td>' +
-				'<td style="display:none;">' + localidad_id + '</td>' +
-				'<td>' + barrio + '</td>' +
-				'<td>' + calle + '</td>' +
-				'<td>' + numero + '</td>' +
-				'<td>' + manzana + '</td>' +
-				'<td>' + casa + '</td>' +
-				'<td>' + edificiotorre + '</td>' +
-				'<td>' + piso + '</td>' +
-				'<td>' + secccion + '</td>' +
-				'<td>' + lote + '</td>' +
-				'<td style="display:none;">' + codigopostal + '</td>' +
-				'<td style="display:none;">' + referencia + '</td>' +
-				'<td style="display:none;">' + observacion + '</td>' +
-				'<td style="display:none;">' + empleado_id + '</td>' +
-				'<td style="display:none;">' + horariovisita + '</td>' +
-				'<td style="display:none;">' + horadesde + '</td>' +
-				'<td style="display:none;">' + horahasta + '</td>' +
-				'<td style="display:none;">' + barrio_id + '</td>' +
-				'<td style="display:none;">' + calle_id + '</td>' +
-				'<td style="display:none;">' + direccion_id + '</td>' +
-				'<td>' + empleado + '</td>' +
-				"<td><a class='delete btn btn-sm btn-danger' onclick ='deletedireccion_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
-				'</td>' +
-				'</tr>');
-
-			$('#provincia_id').val('');
-			$('#provincia_id').change();
-			$('#empleado').val('');
-			$('#empleado').change();
-
-			$('#numero').val('');
-			$('#manzana').val('');
-			$('#casa').val('');
-			$('#edificiotorre').val('');
-			$('#piso').val('');
-			$('#seccion').val('');
-			$('#lote').val('');
-			$('#codigopostal').val('');
-			$('#referenciadomicilio').val('');
-			$('#observaciondomicilio').val('');
-			$('#horariovisita').val('');
-			$('#horadesde').val('');
-			$('#horahasta').val('');
-
-			toastr.success('Direccion agregada a la lista');
-
-
-
-
 			
 
 		});
@@ -1672,39 +1790,73 @@
 					dataType: 'json',
 					url: APP_URL + '/api/validardomicilioidentico',
 					//url: '../api/validardocumento',
-					data: {provincia: $('#provincia_id').val(), departamento: $('#departamento_id').val(), localidad: $('#localidad_id').val(), barrio: $('#barrio_id').val(), calle: $('#calle_id').val(), manzana: $('#manzana').val(), casa: $('#casa').val(), numero: $('#numero').val(), edificiotorre: $('#edificiotorre').val(), piso: $('#piso').val(), seccion: $('#seccion').val(), lote: $('#lote').val(), codigopostal: $('#codigopostal').val(), nrodocumento: $('#numerodocumento').val(), tipodocumento_id: $('#tipodocumento_id').val()}
+					data: {provincia: $('#provincia_id').val(), departamento: $('#departamento_id').val(), localidad: $('#localidad_id').val(), barrio: $('#barrio_id').val(), calle: $('#calle_id').val(), manzana: $('#manzana').val(), casa: $('#casa').val(), numero: $('#numero').val(), edificiotorre: $('#edificiotorre').val(), piso: $('#piso').val(), seccion: $('#seccion').val(), lote: $('#lote').val(), nrodocumento: $('#numerodocumento').val(), tipodocumento_id: $('#tipodocumento_id').val()}
 				}).done(function(data) {
 
-					if(data !== 0) {
-						swal({ 
-							title: "El domicilio registrado ya existe",
-							text: "¿Desea Guardarlo?",
-							type: "info",
-							showCancelButton: true,
-							//confirmButtonColor: "#DD6B55",
-							confirmButtonText: "Guardar",
-							cancelButtonText: "Ver registro identico", 
-							closeOnConfirm: false,
-							closeOnCancel: false },
+						if(data !== 0) {
+							if($("#observaciondomicilio").val() == '')
+							{
+								swal({ 
+									title: "El domicilio registrado ya existe",
+									text: "¿Desea Guardarlo?",
+									type: "info",
+									showCancelButton: true,
+									//confirmButtonColor: "#DD6B55",
+									confirmButtonText: "Guardar",
+									cancelButtonText: "Ver registro identico", 
+									closeOnConfirm: false,
+									closeOnCancel: false },
 
-							function(isConfirm){ 
-							if (isConfirm) {
-								$('#form').submit();
-								//toastr.error('guardar');
-							} else { 
-								$('#cargarobservacion').val(1);
-								$('#cargarobservacionspan').show();
-								$("#observaciondomicilio").prop("disabled", false);
-								url = APP_URL + "/clientes/"+ data;
-								window.open(url, "_blank");
-								swal.close()
-							} 
-						});
-					} else{
-						$('#form').submit();
-						//toastr.error('no existe');
-					}
-					
+									function(isConfirm){ 
+									if (isConfirm) {
+										$('#cargarobservacion').val(1);
+										$('#cargarobservacionspan').show();
+										$("#observaciondomicilio").prop("disabled", false);
+										//url = APP_URL + "/clientes/"+ data;
+										//window.open(url, "_blank");
+										toastr.error('No se pueden guardar los datos. Existen campos vacios o mal cargados');
+										swal.close()
+									} else { 
+										$('#cargarobservacion').val(1);
+										$('#cargarobservacionspan').show();
+										$("#observaciondomicilio").prop("disabled", false);
+										url = APP_URL + "/clientes/"+ data;
+										window.open(url, "_blank");
+										swal.close()
+									} 
+								});
+							} else {
+								swal({ 
+									title: "El domicilio registrado ya existe",
+									text: "¿Desea Guardarlo?",
+									type: "info",
+									showCancelButton: true,
+									//confirmButtonColor: "#DD6B55",
+									confirmButtonText: "Guardar",
+									cancelButtonText: "Ver registro identico", 
+									closeOnConfirm: false,
+									closeOnCancel: false },
+
+									function(isConfirm){ 
+									if (isConfirm) {
+										$('#form').submit();
+										//toastr.error('guardar');
+									} else { 
+										$('#cargarobservacion').val(1);
+										$('#cargarobservacionspan').show();
+										$("#observaciondomicilio").prop("disabled", false);
+										url = APP_URL + "/clientes/"+ data;
+										window.open(url, "_blank");
+										swal.close()
+									} 
+								});
+							}
+								
+						} else{
+							$('#form').submit();
+							//toastr.error('no existe');
+						}
+						
 				});
 			} else {
 				$('#form').submit();
@@ -1787,16 +1939,6 @@
 		   	
 		   	//validar que este cargado al menos un campo de texto de domicilio
 		   	if($.trim($('#numero').val()) == '' && $.trim($('#manzana').val()) == '' && $.trim($('#casa').val()) == '' && $.trim($('#edificiotorre').val()) == '' && $.trim($('#piso').val()) == '' && $.trim($('#seccion').val()) == '' && $.trim($('#lote').val()) == '' && $.trim($('#referenciadomicilio').val()) == ''){
-
-		   		/*swal({
-					title: 'No se pueden guardar los datos',
-					text: 'Faltan datos en la direccion',
-					type: 'error',
-					//confirmButtonColor: '#DD6B55',
-					//confirmButtonText: 'OK',
-					//timer: 3500,
-					closeOnConfirm: false
-				});*/
 
 				toastr.error('No se pueden guardar los datos. Faltan datos en la direccion');
 				//toastr.error('No se pueden guardar los datos. Existen campos vacios o mal cargados');

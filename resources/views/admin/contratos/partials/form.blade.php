@@ -30,8 +30,8 @@
 			      </div>
 			      
 			      <div class="form-group">
-					{{ form::label('direccion_id', 'Dirección *') }}
-					{{ form::select('direccion_id',  $direcciones, null, ['class' => 'form-control' ,'placeholder' => 'Seleccionar...'] ) }} 
+					{{ form::label('clientedireccion_id', 'Dirección *') }}
+					{{ form::select('clientedireccion_id',  $direcciones, null, ['class' => 'form-control' ,'placeholder' => 'Seleccionar...'] ) }} 
 					<div id="direccion_idspan" class="form-group has-error" style="display: none">
 						<span class="help-block">Campo Obligatorio</span>
 					</div>
@@ -149,7 +149,54 @@
 
 <!--      segundo div general                              -->
 
+<div class="col-md-12">
+	  <div class="box box-default">
+	  	<div class="box-header with-border">
+	      <i class="fa fa-file"></i>
 
+	      <h3 class="box-title">Lista de Contratos</h3>
+	    </div>
+
+	    <!-- /.box-header -->
+	    <div class="box-body">
+
+			<div class="form-group">
+				
+				<div class="form-group">
+					<div class="table-responsive">
+						<table   id="table_familiares" class="table table-striped table-hover" data-form="Form">
+							<thead>
+								<tr>
+								<!--<th width="10px"> ID</th>-->
+								
+									<th> <center>Codigo</center></th>
+									<th> <center>Fecha Contrato</center></th>
+									<th> <center>Modelo Contrato</center></th>
+									<th> <center>Articulos</center></th>
+								</tr>
+							</thead>
+							<tbody>
+								@isset($contratos)
+									@foreach ($contratos as $contrato)
+					                  <tr>
+					                    
+					                    <td><center>{{ $contrato->id }}</center></td>
+										<td><center>{{ \Carbon\Carbon::parse($contrato->fechacontrato)->format('d/m/Y') }}</center></td>
+										<td><center>{{ $contrato->modelocontrato->descripcion }}</center></td>
+										<td><center>{{ $contrato->usuario_modi }}</center></td>
+					                    
+					                  </tr>
+					                @endforeach
+								@endif
+							</tbody>
+						</table>
+					</div>
+				</div>
+				
+			</div>
+	    </div>
+	  </div>
+	</div>
 	
 </div>
 	<!-- /.col -->
@@ -285,7 +332,29 @@
 		$( "#guardar" ).click(function() {
 
 
-			
+			estadocampos = 0;
+
+			if ($('#fechacontrato').val() == ''){
+      			estadocampos = 1;
+			   	$('#fechacontratospan').show();
+      		} else {
+      			$('#fechacontratospan').hide();
+      		}
+
+      		if ($('#clientedireccion_id').val() == ''){
+      			estadocampos = 1;
+			   	$('#direccion_idspan').show();
+      		} else {
+      			$('#direccion_idspan').hide();
+      		}
+
+      		if ($('#modelocontrato_id').val() == ''){
+      			estadocampos = 1;
+			   	$('#modelocontrato_idspan').show();
+      		} else {
+      			$('#modelocontrato_idspan').hide();
+      		}
+
 		   // listado de articulos
 		    var listado = crear_listado_articulos();
       		$('#id_lista_articulos').val(listado);
@@ -297,7 +366,14 @@
       			$('#table_articulosspan').hide();
       		}
 
-      		alert($('#fechacontrato').val());
+      		
+      		if(estadocampos == 1) 
+      		{
+      			toastr.error('No se puede guardar el contrato. Faltan datos');
+      			return false;
+      		} else {
+      			$('#form').submit();
+      		}
 
 
 		   	//$('#form').submit();

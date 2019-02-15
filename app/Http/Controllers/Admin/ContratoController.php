@@ -83,7 +83,7 @@ class ContratoController extends Controller
         
         $clientedirecciones = Clientedireccion::where('cliente_id', $cliente->id)->get();
 
-        $direcciones = [];
+        $direcciones =  array();
 
         foreach ($clientedirecciones as $key => $value) {
              
@@ -124,7 +124,7 @@ class ContratoController extends Controller
                 $temp = $temp . ' Piso ' . $value->piso;
             } 
 
-            $direcciones = [$value->id => $temp];
+            $direcciones += [$value->id => $temp];
         }
 
         //dd($direcciones);
@@ -133,9 +133,35 @@ class ContratoController extends Controller
 
         $articulos  = Articulo::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
+        // para el listado
+        $contratos  = Contrato::where('cliente_id', $id)->orderBy('fechacontrato' , 'DESC')->get();
+
+        $temp = '';
+        foreach ($contratos as $key => $value) {
+            $contratoarticulos  = Contratoarticulo::where('contrato_id', $value->id)->get();
+
+            foreach ($contratoarticulos as $key1 => $value1) {
+                
+                if($temp == ''){
+                    $temp =  $value1->articulo->descripcion . ' (' . $value1->cantidad . ' Unidad/es)';
+                } else {
+                    $temp = $temp . ' - ' .  $value1->articulo->descripcion . ' (' . $value1->cantidad . ' Unidad/es)';
+                }
+               
+            }
+
+             $value->usuario_modi = $temp;
+
+             $temp = '';
+        }
+        //
 
 
-        return view('admin.contratos.edit', compact('cliente', 'articulos', 'direcciones', 'modelocontratos'));
+       
+
+
+
+        return view('admin.contratos.edit', compact('cliente', 'articulos', 'direcciones', 'modelocontratos', 'contratos'));
 
     }
 
@@ -146,20 +172,50 @@ class ContratoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ArticuloUpdateRequest $request, $id)
+    public function update(Request $request, $id)
     {
         
-        $articulo = Articulo::find($id);
+        //$contrato = Contrato::find($id);
 
-        $articulo->fill($request->all())->save();
+        $contrato = Contrato::create($request->all());
 
 
         //auditoria
-        $articulo->fill(['usuario_modi' => Auth::user()->username , 'fecha_modi' => date('Y-m-d H:i:s')])->save();
+        $contrato->fill(['cliente_id' => $id, 'usuario_modi' => Auth::user()->username , 'fecha_modi' => date('Y-m-d H:i:s')])->save();
         //
 
-        Alert::success('Articulo actualizado con exito')->persistent("Cerrar");
-        return redirect()->route('articulos.index');
+
+         //guardar familiares asociados al cliente
+        $listado_articulos_text = $request->input("listado_articulos");
+
+        if($listado_articulos_text) {
+
+
+            $listado_articulos_array = explode('&&&', $listado_articulos_text);
+            array_pop($listado_articulos_array);
+
+
+
+            foreach ($listado_articulos_array as $articulo_text)
+            {
+                list($articulo_id, $cantidad) = explode('|', $articulo_text);
+
+                $contratoarticulo = new Contratoarticulo();
+                    $contratoarticulo->contrato_id = $contrato->id;
+                    $contratoarticulo->articulo_id = $articulo_id;
+                    $contratoarticulo->cantidad = $cantidad;
+                    $contratoarticulo->usuario_alta = Auth::user()->username;
+                    $contratoarticulo->fecha_alta = date('Y-m-d H:i:s');
+
+                $contratoarticulo->save();
+            }
+        }
+
+        //
+        Alert::success('Contrato creado con exito')->persistent("Cerrar");
+        //return redirect()->route('clientes.index');
+         return redirect()->route('contratos.edit', $id);
+
     }
 
 

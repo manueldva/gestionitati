@@ -109,7 +109,7 @@ class ClienteController extends Controller
         }
 
         $tipofamiliar  = Tipofamiliar::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
-
+    
         $estadoclientes    = [ 0 => 'Inactivo', 1 => 'Activo'];
 
         return view('admin.clientes.create', compact('companiatelefonicas', 'estadoclientes', 'provincias', 'tipodocumentos', 'tipoclientes', 'tipoivas', 'articulos', 'empleados', 'tipofamiliar', 'editshow'));

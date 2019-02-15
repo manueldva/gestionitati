@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Clientefamiliar extends Model
+class Contratoarticulo extends Model
 {
    	//protected $table = 'clientefamiliares';
 
@@ -12,6 +12,11 @@ class Clientefamiliar extends Model
     	'contrato_id', 'articulo_id', 'cantidad','usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
 	]; 
 
+
+    public function articulo(){
+        
+        return $this->belongsTo(Articulo::class);
+    }
 
     /*public function cliente(){
         
