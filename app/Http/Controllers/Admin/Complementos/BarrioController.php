@@ -132,8 +132,10 @@ class BarrioController extends Controller
     public function edit($id)
     {
         $barrio = Barrio::find($id);
+        $distritos  = Distrito::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
-        return view('admin.complementos.barrios.edit', compact('barrio'));
+
+        return view('admin.complementos.barrios.edit', compact('barrio', 'distritos'));
     }
 
     /**
@@ -146,6 +148,7 @@ class BarrioController extends Controller
     public function update(request $request, $id)
     {
         $barrio = Barrio::find($id);
+
 
         $localidad = Localidad::where('id', $barrio->localidad_id)->first();
         /*validacion en el controlador por que el request personalizado no lo permite*/
