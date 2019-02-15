@@ -105,7 +105,8 @@ class BarrioController extends Controller
 
         //
         Alert::success('Barrio creado con exito')->persistent("Cerrar");
-        return redirect()->route('barrios.index');
+        //return redirect()->route('barrios.index');
+        return redirect()->route('barrios.edit', $barrio->id);
     }
 
     /**
@@ -175,7 +176,8 @@ class BarrioController extends Controller
         //
 
         Alert::success('Barrio actualizado con exito')->persistent("Cerrar");
-        return redirect()->route('barrios.index');
+        //return redirect()->route('barrios.index');
+        return redirect()->route('barrios.edit', $id);
     }
 
     /**
