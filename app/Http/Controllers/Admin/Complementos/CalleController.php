@@ -99,6 +99,7 @@ class CalleController extends Controller
 
         //
         Alert::success('Calle creada con exito')->persistent("Cerrar");
+        //return redirect()->route('calles.edit', $calle->id);
         return redirect()->route('calles.index');
     }
 
@@ -139,9 +140,9 @@ class CalleController extends Controller
      */
     public function update(CalleUpdateRequest $request, $id)
     {
-        $Calle = Calle::find($id);
+        $calle = Calle::find($id);
 
-        $localidad = Localidad::where('id', $Calle->localidad_id)->first();
+        $localidad = Localidad::where('id', $calle->localidad_id)->first();
         /*validacion en el controlador por que el request personalizado no lo permite*/
         $existe = Calle::where('localidad_id', $localidad->id)->where('descripcion', '=', $request->get('descripcion'))->where('id', '<>', $id)->count();
 
@@ -152,15 +153,16 @@ class CalleController extends Controller
         }
         
 
-        $Calle->fill($request->all())->save();
+        $calle->fill($request->all())->save();
 
 
         //auditoria
-        $Calle->fill(['usuario_modi' => Auth::user()->username , 'fecha_modi' => date('Y-m-d H:i:s')])->save();
+        $calle->fill(['usuario_modi' => Auth::user()->username , 'fecha_modi' => date('Y-m-d H:i:s')])->save();
         //
 
         Alert::success('Calle actualizada con exito')->persistent("Cerrar");
-        return redirect()->route('calles.index');
+        //return redirect()->route('calles.index');
+        return redirect()->route('calles.edit', $calle->id);
     }
 
     /**

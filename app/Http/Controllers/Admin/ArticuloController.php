@@ -77,7 +77,8 @@ class ArticuloController extends Controller
         $articulo->fill(['usuario_alta' => Auth::user()->username , 'fecha_alta' => date('Y-m-d H:i:s')])->save();
         //
         Alert::success('Articulo creado con exito')->persistent("Cerrar");
-        return redirect()->route('articulos.index');
+        //return redirect()->route('articulos.index');
+        return redirect()->route('articulos.edit', $articulo->id);
     }
 
     /**
@@ -128,7 +129,8 @@ class ArticuloController extends Controller
         //
 
         Alert::success('Articulo actualizado con exito')->persistent("Cerrar");
-        return redirect()->route('articulos.index');
+        //return redirect()->route('articulos.index');
+        return redirect()->route('articulos.edit', $articulo->id);
     }
 
     /**

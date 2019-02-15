@@ -79,7 +79,8 @@ class EmpleadoController extends Controller
         $empleado->fill(['empleado'=> $empleado->apellido . ' ' . $empleado->nombre,  'usuario_alta' => Auth::user()->username , 'fecha_alta' => date('Y-m-d H:i:s')])->save();
         //
         Alert::success('Empleado creado con exito')->persistent("Cerrar");
-        return redirect()->route('empleados.index');
+        //return redirect()->route('empleados.index');
+        return redirect()->route('empleados.edit', $empleado->id);
     }
 
     /**
@@ -131,7 +132,8 @@ class EmpleadoController extends Controller
         //
 
         Alert::success('Empleado actualizado con exito')->persistent("Cerrar");
-        return redirect()->route('empleados.index');
+        //return redirect()->route('empleados.index');
+        return redirect()->route('empleados.edit', $empleado->id);
     }
 
     /**

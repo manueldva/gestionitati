@@ -76,7 +76,8 @@ class ProvinciaController extends Controller
         $provincia->fill(['usuario_alta' => Auth::user()->username , 'fecha_alta' => date('Y-m-d H:i:s')])->save();
         //
         Alert::success('Provincia creada con exito')->persistent("Cerrar");
-        return redirect()->route('provincias.index');
+        //return redirect()->route('provincias.index');
+        return redirect()->route('provincias.edit', $provincia->id);
     }
 
     /**
@@ -127,7 +128,8 @@ class ProvinciaController extends Controller
         //
 
         Alert::success('Provincia actualizada con exito')->persistent("Cerrar");
-        return redirect()->route('provincias.index');
+        //return redirect()->route('provincias.index');
+        return redirect()->route('provincias.edit', $provincia->id);
     }
 
     /**

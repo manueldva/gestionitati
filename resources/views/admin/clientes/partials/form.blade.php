@@ -131,7 +131,7 @@
 			    <!-- /.box-header -->
 			    <div class="box-body">
 			      <div class="form-group">
-					{{ form::label('telefonoparticular', 'Telefono Particulo') }}
+					{{ form::label('telefonoparticular', 'Telefono Particular') }}
 					{{ form::number('telefonoparticular', null, ['class' => 'form-control', 'id' => 'telefonoparticular']) }}
 				  </div>
 

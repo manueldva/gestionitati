@@ -76,7 +76,8 @@ class TipoivaController extends Controller
         $tipoiva->fill(['usuario_alta' => Auth::user()->username , 'fecha_alta' => date('Y-m-d H:i:s')])->save();
         //
         Alert::success('Tipo Iva creado con exito')->persistent("Cerrar");
-        return redirect()->route('tipoivas.index');
+        //return redirect()->route('tipoivas.index');
+        return redirect()->route('tipoivas.edit', $tipoiva->id);
     }
 
     /**
@@ -127,7 +128,8 @@ class TipoivaController extends Controller
         //
 
         Alert::success('Tipo Iva actualizado con exito')->persistent("Cerrar");
-        return redirect()->route('tipoivas.index');
+        //return redirect()->route('tipoivas.index');
+        return redirect()->route('tipoivas.edit', $tipoiva->id);
     }
 
     /**

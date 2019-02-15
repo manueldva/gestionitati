@@ -100,6 +100,7 @@ class DepartamentoController extends Controller
         //
         Alert::success('Departamentos creados con exito')->persistent("Cerrar");
         return redirect()->route('departamentos.index');
+        //return redirect()->route('departamentos.edit', $departamento->id);
     }
 
     /**
@@ -164,6 +165,7 @@ class DepartamentoController extends Controller
 
         Alert::success('Departamento actualizado con exito')->persistent("Cerrar");
         return redirect()->route('departamentos.index');
+        //return redirect()->route('departamentos.edit', $departamento->id);
     }
 
     /**

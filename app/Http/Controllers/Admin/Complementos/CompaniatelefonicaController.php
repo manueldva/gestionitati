@@ -76,7 +76,8 @@ class CompaniatelefonicaController extends Controller
         $companiatelefonica->fill(['usuario_alta' => Auth::user()->username , 'fecha_alta' => date('Y-m-d H:i:s')])->save();
         //
         Alert::success('Proveedor Telefonico creado con exito')->persistent("Cerrar");
-        return redirect()->route('companiatelefonicas.index');
+        //return redirect()->route('companiatelefonicas.index');
+        return redirect()->route('companiatelefonicas.edit', $companiatelefonica->id);
     }
 
     /**
@@ -127,7 +128,8 @@ class CompaniatelefonicaController extends Controller
         //
 
         Alert::success('Proveedor Telefonico actualizado con exito')->persistent("Cerrar");
-        return redirect()->route('companiatelefonicas.index');
+        return redirect()->route('companiatelefonicas.edit', $companiatelefonica->id);
+        //return redirect()->route('companiatelefonicas.index');
     }
 
     /**

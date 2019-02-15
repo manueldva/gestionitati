@@ -76,7 +76,8 @@ class TipofamiliarController extends Controller
         $tipofamiliar->fill(['usuario_alta' => Auth::user()->username , 'fecha_alta' => date('Y-m-d H:i:s')])->save();
         //
         Alert::success('Vinculo Familiar creado con exito')->persistent("Cerrar");
-        return redirect()->route('tipofamiliares.index');
+        //return redirect()->route('tipofamiliares.index');
+        return redirect()->route('tipofamiliares.edit', $tipofamiliar->id);
     }
 
     /**
@@ -127,7 +128,8 @@ class TipofamiliarController extends Controller
         //
 
         Alert::success('Vinculo Familiar actualizado con exito')->persistent("Cerrar");
-        return redirect()->route('tipofamiliares.index');
+        //return redirect()->route('tipofamiliares.index');
+        return redirect()->route('tipofamiliares.edit', $tipofamiliar->id);
     }
 
     /**

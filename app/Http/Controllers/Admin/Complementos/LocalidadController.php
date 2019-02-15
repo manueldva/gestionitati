@@ -102,6 +102,7 @@ class LocalidadController extends Controller
         //
         Alert::success('Localidad creada con exito')->persistent("Cerrar");
         return redirect()->route('localidades.index');
+        //return redirect()->route('localidades.edit', $localidad->id);
     }
 
     /**
@@ -173,7 +174,8 @@ class LocalidadController extends Controller
         //
 
         Alert::success('Localidad actualizada con exito')->persistent("Cerrar");
-        return redirect()->route('localidades.index');
+        //return redirect()->route('localidades.index');
+        return redirect()->route('localidades.edit', $localidad->id);
     }
 
     /**

@@ -63,7 +63,7 @@
 	                  <th> Nro Cliente</th>
 					  <th> Cliente</th>
 	                  <th> Tipo Cliente</th>
-	                  <!--<th>Domicilio</th>-->
+	                  <th>Direccion</th>
 	                  <th>Celular</th>
 	                  <th>Estado</th>
 	                  <th colspan="1">&nbsp;</th>
@@ -92,6 +92,12 @@
 	                    <td>@if($cliente->tipocliente_id !== null)
 	                    	<a href="{{ route('clientes.show', $cliente->id) }}" style="color:#000000;">
 	                    	{{ $cliente->tipocliente->descripcion }}
+	                    	</a>
+	                    	@endif
+	                    </td>
+	                    <td>@if($cliente->usuario_modi !== null)
+	                    	<a href="{{ route('clientes.show', $cliente->id) }}" style="color:#000000;">
+	                    	{{ $cliente->usuario_modi }}
 	                    	</a>
 	                    	@endif
 	                    </td>

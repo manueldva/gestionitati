@@ -79,7 +79,8 @@ class TipoempleadoController extends Controller
         $tipoempleado->fill(['usuario_alta' => Auth::user()->username , 'fecha_alta' => date('Y-m-d H:i:s')])->save();
         //
         Alert::success('Tipo Empleado creado con exito')->persistent("Cerrar");
-        return redirect()->route('tipoempleados.index');
+        //return redirect()->route('tipoempleados.index');
+        return redirect()->route('tipoempleados.edit', $tipoempleado->id);
     }
 
     /**
@@ -130,7 +131,8 @@ class TipoempleadoController extends Controller
         //
 
         Alert::success('Tipo Empleado actualizado con exito')->persistent("Cerrar");
-        return redirect()->route('tipoempleados.index');
+        //return redirect()->route('tipoempleados.index');
+        return redirect()->route('tipoempleados.edit', $tipoempleado->id);
     }
 
     /**
