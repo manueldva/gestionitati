@@ -1,0 +1,230 @@
+@extends('adminlte::page')
+
+@section('title', 'Gestión - Clientes')
+
+@section('content_header')
+  <h1>
+    Gestionar Clientes
+    <!--<small>Listado</small>-->
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a href="{{ route('clientes.index')}}">Clientes</a></li>
+    <li class="active">Listado</li>
+  </ol>
+
+@stop
+
+
+@section('include_delete')
+	@include('include.modal-delete')
+@stop
+
+@section('content')	
+
+<div class="box box-primary">
+	<div class="box-header with-border box-default">
+	   <strong> Listado Clientes </strong>
+	   <form class="navbar-form navbar-right" role="search">
+	       {{ Form::model(Request::only('type', 'val', 'val2', 'barrios', 'tipoclientes'), array('route' => 'clientes.index', 'method' => 'GET'), array('role' => 'form', 'class' => 'navbar-form pull-right')) }}
+			    <div class="form-group">
+			      {{ form::label('buscar', 'Tipo Busqueda:') }}
+			      {{ form::select('type', config('options.clientetypes'), null, ['class' => 'form-control', 'id' => 'type'] ) }}
+					&nbsp;
+			      {{ form::text('val', null, ['class' => 'form-control', 'id' => 'val']) }}
+			      {{ form::text('val2', null, ['class' => 'form-control', 'id' => 'val2']) }}
+			      <span id="barrio" class="form-group">
+						{{ Form::select('barrios', $barrios, null, ['class'=>'form-control', 'id' => 'barrios','placeholder' => 'Seleccionar...']) }}
+				  </span>
+				   <span id="tipocliente" class="form-group">
+						{{ Form::select('tipoclientes', $tipoclientes, null, ['class'=>'form-control', 'id' => 'tipoclientes','placeholder' => 'Seleccionar...']) }}
+				  </span>
+			      &nbsp;
+			      <button type="submit" class="form-control btn btn-sm btn-success"><span class="glyphicon glyphicon-search"></span> Buscar</button>
+						&nbsp;
+			      @if($permiso == 2)
+			      <a href="{{ route('clientes.create')}}" class="form-control btn btn-sm btn-primary">
+			        <span class="glyphicon glyphicon-plus"></span> Crear
+			      </a>  
+			      @endif
+			    </div>
+		    {{ Form::close() }}
+      </form>
+	</div>
+		
+	<div class="panel-body">
+	    <div class="panel-body">
+	        <div class="row">
+	          <div class="table-responsive">
+	            <table class="table table-striped table-hover" data-form="Form">
+	              <thead>
+	                <tr>
+	                  <!--<th width="10px"> ID</th>-->
+	                  <th> Codigo</th>
+					  <th> Cliente</th>
+	                  <th> Tipo Cliente</th>
+	                  <!--<th>Domicilio</th>-->
+	                  <th>Celular</th>
+	                  <th>Estado</th>
+	                  <th colspan="2">&nbsp;</th>
+	                </tr>
+	              </thead>
+	              <tbody>
+
+	                @foreach ($clientes as $cliente)
+	                  <tr>
+						<td>
+							<a href="{{ route('clientes.show', $cliente->id) }}" style="color:#000000;">
+								{{ $cliente->id }}
+							</a>
+						</td>
+						<td>
+							<a href="{{ route('clientes.show', $cliente->id) }}" style="color:#000000;">
+								@if($cliente->tipocliente_id == 1)
+									{{ $cliente->apellido }} {{ $cliente->nombre }}
+								@else
+
+									{{ $cliente->cliente }}
+								@endif
+							</a>
+							
+						</td>
+	                    <td>@if($cliente->tipocliente_id !== null)
+	                    	<a href="{{ route('clientes.show', $cliente->id) }}" style="color:#000000;">
+	                    	{{ $cliente->tipocliente->descripcion }}
+	                    	</a>
+	                    	@endif
+	                    </td>
+						<td>
+							<a href="{{ route('clientes.show', $cliente->id) }}" style="color:#000000;">
+								{{ $cliente->celular }}
+							</a>
+						</td>	
+						<td>
+							<a href="{{ route('clientes.show', $cliente->id) }}" style="color:#000000;">
+								@if($cliente->estado == 0)
+									Inactivo
+								@else
+									Activo
+								@endif
+							</a>
+						</td>	
+
+	                    
+	                    @if($permiso == 2) 
+	                    <td width="10px">
+	                      <a href="{{ route('clientes.edit', $cliente->id) }}" class="btn btn-sm btn-default">
+	                        Editar
+	                      </a>
+	                    </td>
+	                    <td width="10px">
+							{!! Form::model($cliente, ['method' => 'delete', 'route' => ['clientes.destroy', $cliente->id], 'class' =>'form-inline form-delete']) !!}
+							{!! Form::hidden('id', $cliente->id) !!}
+							{!! Form::submit('Eliminar', ['class' => 'btn btn-sm btn-danger delete', 'name' => 'delete_modal']) !!}
+							{!! Form::close() !!}
+
+	                    </td>
+	                   
+	                    @endif
+	                  </tr>
+	                @endforeach
+	              </tbody>
+	            </table>
+	          </div>  
+						<div> <?php echo  'Mostrando ' . $clientes->firstItem() . ' a ' . $clientes->lastItem() . ' de ' . $clientes->total() . ' registros'; ?>	</div>
+	          {{ $clientes->appends(Request::only(['type', 'val', 'val2' ,'barrios', 'tipoclientes']))->render() }}
+	        </div>
+	    </div>
+    </div>
+</div>
+
+
+@endsection
+
+
+
+
+
+@push('js')
+	
+	<script src="{{ asset('js/resources/confirm-delete-general.js') }}"></script>
+
+	<script type="text/javascript">
+
+
+		$('#barrios').select2();
+		$('#tipoclientes').select2();
+ 
+		function searchType(){ 
+		  var type = $('#type').val();
+			
+			if (type == 'nrodocumento'){
+				$('#val').show();
+				$('#val2').hide();
+				$('#barrio').hide();
+				$('#tipocliente').hide();
+				$('#val').attr('type','number');
+			} else if (type == 'apellido')
+			{
+				$('#val').show();
+				$('#val2').hide();
+				$('#barrio').hide();
+				$('#tipocliente').hide();
+				$('#val').attr('type','text');
+			} else if (type == 'nombre')
+			{
+				$('#val').show();
+				$('#val2').hide();
+				$('#barrio').hide();
+				$('#tipocliente').hide();
+				$('#val').attr('type','text');	
+			} else if (type == 'apellidonombre')
+			{
+				$('#val').show();
+				$('#val2').show();
+				$('#barrio').hide();
+				$('#tipocliente').hide();
+				$('#val').attr('type','text');
+			}else if (type == 'barrio')
+			{
+				$('#val').hide();
+				$('#val2').hide();
+				$('#barrio').show();
+				$('#tipocliente').hide();
+				$('#val').attr('type','text');
+			}else if (type == 'tipocliente')
+			{
+				$('#val').hide();
+				$('#val2').hide();
+				$('#barrio').hide();
+				$('#tipocliente').show();
+				$('#val').attr('type','text');
+			} else
+			{
+				$('#val').show();
+				$('#val2').hide();
+				$('#barrio').hide();
+				$('#tipocliente').hide();
+				$('#val').attr('type','text');
+			}
+		}
+
+
+		searchType(); 
+		
+
+		$('#type').change(function(e) {
+			searchType(); 
+			$('#val').val('');
+			$('#val').focus();
+			$('#val2').val('');
+			$('#barrios').val('').select2();
+			$('#tipoclientes').val('').select2();
+			//$('#cajas').val($('#cajas option:first').val());
+			
+
+		});
+
+		
+	</script>
+@endpush

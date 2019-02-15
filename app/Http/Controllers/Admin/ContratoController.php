@@ -11,7 +11,11 @@ use App\Http\Requests\ArticuloUpdateRequest;
 use Alert;
 
 use App\Models\Contrato;
-use App\Models\Clientearticulo;
+use App\Models\Contratoarticulo;
+use App\Models\Clientedireccion;
+use App\Models\Modelocontrato;
+use App\Models\Cliente;
+use App\Models\Articulo;
 use App\Models\Modulo;
 use App\Models\Perfil;
 use Auth;
@@ -73,9 +77,66 @@ class ContratoController extends Controller
     {
         /*$articulo = Articulo::find($id);
 
-        return view('admin.articulos.edit', compact('articulo'));*/
+        return view('admin.articulos.edit'
+        , compact('articulo'));*/
+        $cliente = Cliente::find($id);
+        
+        $clientedirecciones = Clientedireccion::where('cliente_id', $cliente->id)->get();
 
-        echo $id;
+        $direcciones = [];
+
+        foreach ($clientedirecciones as $key => $value) {
+             
+            if($value->barrio_id) {
+                $temp = 'Bº ' . $value->barrio->descripcion;
+            } 
+
+            if($value->calle_id) {
+                $temp = $temp . ' Calle ' . $value->calle->descripcion;
+            } 
+
+            if($value->numero) {
+                $temp = $temp . ' Nro. ' . $value->numero;
+            }
+
+            if($value->manzana) {
+                $temp = $temp . ' Mz. ' . $value->manzana;
+            } 
+
+
+            if($value->casa) {
+                $temp = $temp . ' C. ' . $value->casa;
+            } 
+
+            if($value->seccion) {
+                $temp = $temp . ' Seccion ' . $value->seccion;
+            }
+
+            if($value->lote) {
+                $temp = $temp . ' Lote ' . $value->lote;
+            }
+
+            if($value->edificiotorre) {
+                $temp = $temp . ' Edificio ' . $value->edificiotorre;
+            } 
+
+            if($value->piso) {
+                $temp = $temp . ' Piso ' . $value->piso;
+            } 
+
+            $direcciones = [$value->id => $temp];
+        }
+
+        //dd($direcciones);
+
+        $modelocontratos  = Modelocontrato::orderBy('id', 'ASC')->pluck('descripcion' , 'id');
+
+        $articulos  = Articulo::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+
+
+        return view('admin.contratos.edit', compact('cliente', 'articulos', 'direcciones', 'modelocontratos'));
+
     }
 
     /**

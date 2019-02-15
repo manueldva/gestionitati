@@ -213,7 +213,8 @@ class ClienteController extends Controller
 
         //
         Alert::success('Cliente creado con exito')->persistent("Cerrar");
-        return redirect()->route('clientes.index');
+        //return redirect()->route('clientes.index');
+         return redirect()->route('clientes.edit', $cliente->id);
     }
 
     /**
