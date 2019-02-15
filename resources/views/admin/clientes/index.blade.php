@@ -60,7 +60,7 @@
 	              <thead>
 	                <tr>
 	                  <!--<th width="10px"> ID</th>-->
-	                  <th> Codigo</th>
+	                  <th> Nro Cliente</th>
 					  <th> Cliente</th>
 	                  <th> Tipo Cliente</th>
 	                  <!--<th>Domicilio</th>-->
@@ -165,6 +165,13 @@
 				$('#barrio').hide();
 				$('#tipocliente').hide();
 				$('#val').attr('type','text');
+			} else if (type == 'codigo')
+			{
+				$('#val').show();
+				$('#val2').hide();
+				$('#barrio').hide();
+				$('#tipocliente').hide();
+				$('#val').attr('type','number');
 			} else if (type == 'nombre')
 			{
 				$('#val').show();

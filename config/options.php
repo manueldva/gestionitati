@@ -5,6 +5,7 @@ return array(
 
 	'clientetypes' => [
 		''    		=> 'Seleccionar',
+		'codigo'  => 'Nro Cliente',
 		'apellido'  => 'Apellido',
 		'nombre'  => 'Nombre',
 		'apellidonombre'  => 'Apellido y Nombre',

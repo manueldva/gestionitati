@@ -60,6 +60,10 @@ class Cliente extends Model
         {
             $query->where('nombre', 'like', '%' . $valor . '%')->orderBy('apellido');
 
+        }else if ($type == 'codigo') 
+        {
+            $query->where('id', '=',  $valor)->orderBy('apellido'); 
+
         }else if ($type == 'apellidonombre') 
         {
             $query->where('apellido', 'like', '%' . $valor . '%')->where('nombre', 'like', '%' . $valor2 . '%')->orderBy('apellido');
