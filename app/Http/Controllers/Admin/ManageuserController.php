@@ -148,7 +148,7 @@ class ManageuserController extends Controller
     public function update(Request $request, $id)
     {
         
-        if ($request->input('name') == ''  || $request->input('username') == '' || $request->input('email') == '') 
+        if ($request->input('name') == ''  || $request->input('username') == '') 
         {
             //Alert::error('Faltas datos para dar de alta el Usuario');
             return back()->with('danger', 'Complete todos los datos del usuario')->withInput();
@@ -160,10 +160,10 @@ class ManageuserController extends Controller
             return back()->with('danger', 'Este username ya esta en uso')->withInput();
         }
 
-        if (User::where('email', $request->input('email'))->where('id', '!=',  $id)->first()) 
+        /*if (User::where('email', $request->input('email'))->where('id', '!=',  $id)->first()) 
         {
             return back()->with('danger', 'Este email ya esta en uso')->withInput();
-        }
+        }*/
 
 
         $user = User::find($id);
