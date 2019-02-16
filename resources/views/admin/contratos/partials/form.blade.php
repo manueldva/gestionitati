@@ -168,7 +168,7 @@
 							<thead>
 								<tr>
 								<!--<th width="10px"> ID</th>-->
-								
+									<th style="display:none;">contradoID</th>
 									<th> <center>Nro Cliente</center></th>
 									<th> <center>Fecha Contrato</center></th>
 									<th> <center>Modelo Contrato</center></th>
@@ -180,11 +180,16 @@
 									@foreach ($contratos as $contrato)
 					                  <tr>
 					                    
+					                    <td style="display:none" >{{ $contrato->id }}</td>
 					                    <td><center>{{ $cliente->id }}</center></td>
 										<td><center>{{ \Carbon\Carbon::parse($contrato->fechacontrato)->format('d/m/Y') }}</center></td>
 										<td><center>{{ $contrato->modelocontrato->descripcion }}</center></td>
 										<td><center>{{ $contrato->usuario_modi }}</center></td>
-					                    
+					                     <td>
+						                   <a class='delete btn btn-sm btn-danger' onclick ='deletecontrato_row($(this))'>
+						                   	<span class='glyphicon glyphicon-trash'></span>
+						                   </a>
+					               	    </td>
 					                  </tr>
 					                @endforeach
 								@endif
@@ -326,6 +331,26 @@
 		}
 
 
+
+		function deletecontrato_row(row) {
+
+		  	 var contrato_id = row.parents("tr").find('td').eq(0).html();
+ 			// aqui va codigo para la eliminacion
+            $.ajax({
+				dataType: 'json',
+				url: APP_URL + '/eliminarcontrato/' + contrato_id
+				//url: '../api/validardocumento',
+				//data: {id: contrato_id}
+			}).done(function(data) {
+				//var $empleado = $('#empleado'); 
+				if(data == 0) {
+					row.closest('tr').remove();
+		  			toastr.info('Articulo eliminado de la lista');
+					
+				}
+				
+			});
+		}
 
 
 

@@ -30,7 +30,7 @@
 										{{ form::select('tipodocumento_id', isset($tipodocumentos) ? $tipodocumentos : [], null, ['class' => 'form-control'] ) }} 
 									</td>
 									<td> 
-										{{ form::label('numerodocumento', 'Nro Docuemento *') }}
+										{{ form::label('numerodocumento', 'Nro Documento *') }}
 										{{ form::number('numerodocumento', null, ['class' => 'form-control', 'id' => 'numerodocumento']) }}
 									</td>
 								</tr>
@@ -101,9 +101,9 @@
 									<td> 
 										{{ form::label('estado', 'Estado') }}
 										@if($editshow == 0)
-											{{ form::select('estado', [1 => 'Activo', 0 => 'Inactivo'], null, ['class' => 'form-control'] ) }}
+											{{ form::select('estado', ['1' => 'Activo', '0' => 'Inactivo'], null, ['class' => 'form-control'] ) }}
 										@else
-											{{ form::select('estado', [1 => 'Activo', 0 => 'Inactivo'], null, ['class' => 'form-control'] ) }}
+											{{ form::select('estado', ['1' => 'Activo', '0' => 'Inactivo'], null, ['class' => 'form-control'] ) }}
 										@endif
 									</td>
 									<td> 

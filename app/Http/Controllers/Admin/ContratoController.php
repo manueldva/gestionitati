@@ -225,8 +225,31 @@ class ContratoController extends Controller
      * @param  \App\Contrato  $contrato
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Contrato $contrato)
+    public function destroy($id)
     {
-        //
+        
+        Contratoarticulo::where('contrato_id', $id)->delete();    
+
+        Contrato::find($id)->delete();
+
+        /*Alert::success('Eliminado correctamente')->persistent('Cerrar');
+        return back();*/
+
+        return true;
+    }
+
+
+    public function eliminar($id)
+    {
+        
+        //dd($id);
+        Contratoarticulo::where('contrato_id', $id)->delete();    
+
+        Contrato::find($id)->delete();
+
+        /*Alert::success('Eliminado correctamente')->persistent('Cerrar');
+        return back();*/
+
+        return 0;
     }
 }
