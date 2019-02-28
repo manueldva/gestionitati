@@ -24,7 +24,7 @@
 
 <div class="box box-primary">
 	<div class="box-header with-border box-default">
-	   <strong> Listado Clientes </strong>
+	   <strong> Listado Clientes  </strong>
 	   <form class="navbar-form navbar-right" role="search">
 	       {{ Form::model(Request::only('type', 'val', 'val2', 'barrios', 'tipoclientes'), array('route' => 'clientes.index', 'method' => 'GET'), array('role' => 'form', 'class' => 'navbar-form pull-right')) }}
 			    <div class="form-group">
@@ -74,54 +74,111 @@
 	                @foreach ($clientes as $cliente)
 	                  <tr>
 						<td>
-							<a href="{{ route('clientes.show', $cliente->id) }}" style="color:#000000;">
-								{{ $cliente->id }}
-							</a>
+							@if ($typetemp == 'barrio')
+								<a href="{{ route('clientes.show', $cliente->cliente->id) }}" style="color:#000000;">
+									{{ $cliente->cliente->id }}
+								</a>
+							@else
+								<a href="{{ route('clientes.show', $cliente->id) }}" style="color:#000000;">
+									{{ $cliente->id }}
+								</a>
+							@endif
 						</td>
 						<td>
-							<a href="{{ route('clientes.show', $cliente->id) }}" style="color:#000000;">
-								@if($cliente->tipocliente_id == 1)
-									{{ $cliente->apellido }} {{ $cliente->nombre }}
-								@else
+							@if ($typetemp == 'barrio')
+								<a href="{{ route('clientes.show', $cliente->cliente->id) }}" style="color:#000000;">
+									@if($cliente->cliente->tipocliente_id == 1)
+										{{ $cliente->cliente->apellido }} {{ $cliente->cliente->nombre }}
+									@else
 
-									{{ $cliente->cliente }}
-								@endif
-							</a>
+										{{ $cliente->cliente->cliente }}
+									@endif
+								</a>
+							@else
+								<a href="{{ route('clientes.show', $cliente->id) }}" style="color:#000000;">
+									@if($cliente->tipocliente_id == 1)
+										{{ $cliente->apellido }} {{ $cliente->nombre }}
+									@else
+
+										{{ $cliente->cliente }}
+									@endif
+								</a>
+							@endif
 							
 						</td>
-	                    <td>@if($cliente->tipocliente_id !== null)
-	                    	<a href="{{ route('clientes.show', $cliente->id) }}" style="color:#000000;">
-	                    	{{ $cliente->tipocliente->descripcion }}
-	                    	</a>
-	                    	@endif
+	                    <td>
+	                    	@if ($typetemp == 'barrio')
+		                    	@if($cliente->cliente->tipocliente_id !== null)
+		                    	<a href="{{ route('clientes.show', $cliente->cliente->id) }}" style="color:#000000;">
+		                    	{{ $cliente->cliente->tipocliente->descripcion }}
+		                    	</a>
+		                    	@endif
+		                    @else
+								@if($cliente->tipocliente_id !== null)
+		                    	<a href="{{ route('clientes.show', $cliente->id) }}" style="color:#000000;">
+		                    	{{ $cliente->tipocliente->descripcion }}
+		                    	</a>
+		                    	@endif
+							@endif
 	                    </td>
-	                    <td>@if($cliente->usuario_modi !== null)
-	                    	<a href="{{ route('clientes.show', $cliente->id) }}" style="color:#000000;">
-	                    	{{ $cliente->usuario_modi }}
-	                    	</a>
-	                    	@endif
+	                    <td>
+	                    	@if ($typetemp == 'barrio')
+		                    	@if($cliente->usuario_modi !== null)
+		                    	<a href="{{ route('clientes.show', $cliente->cliente->id) }}" style="color:#000000;">
+		                    	{{ $cliente->usuario_modi }}
+		                    	</a>
+		                    	@endif
+		                     @else
+								@if($cliente->usuario_modi !== null)
+		                    	<a href="{{ route('clientes.show', $cliente->id) }}" style="color:#000000;">
+		                    	{{ $cliente->usuario_modi }}
+		                    	</a>
+		                    	@endif
+							@endif
 	                    </td>
 						<td>
-							<a href="{{ route('clientes.show', $cliente->id) }}" style="color:#000000;">
-								{{ $cliente->celular }}
-							</a>
+							@if ($typetemp == 'barrio')
+								<a href="{{ route('clientes.show', $cliente->cliente->id) }}" style="color:#000000;">
+									{{ $cliente->cliente->celular }}
+								</a>
+							 @else
+								<a href="{{ route('clientes.show', $cliente->id) }}" style="color:#000000;">
+									{{ $cliente->celular }}
+								</a>
+							@endif
 						</td>	
 						<td>
-							<a href="{{ route('clientes.show', $cliente->id) }}" style="color:#000000;">
-								@if($cliente->estado == 0)
-									Inactivo
-								@else
-									Activo
-								@endif
-							</a>
+							@if ($typetemp == 'barrio')
+								<a href="{{ route('clientes.show', $cliente->cliente->id) }}" style="color:#000000;">
+									@if($cliente->cliente->estado == 0)
+										Inactivo
+									@else
+										Activo
+									@endif
+								</a>
+							 @else
+								<a href="{{ route('clientes.show', $cliente->id) }}" style="color:#000000;">
+									@if($cliente->estado == 0)
+										Inactivo
+									@else
+										Activo
+									@endif
+								</a>
+							@endif
 						</td>	
 
 	                    
 	                    @if($permiso == 2) 
 	                    <td width="10px">
-	                      <a href="{{ route('clientes.edit', $cliente->id) }}" class="btn btn-sm btn-default">
-	                        Editar
-	                      </a>
+	                    	@if ($typetemp == 'barrio')
+			                    <a href="{{ route('clientes.edit', $cliente->cliente->id) }}" class="btn btn-sm btn-default">
+			                      Editar
+			                    </a>
+			                @else
+								<a href="{{ route('clientes.edit', $cliente->id) }}" class="btn btn-sm btn-default">
+			                      Editar
+			                    </a>
+							@endif
 	                    </td>
 	                   
 	                   
@@ -130,9 +187,12 @@
 	                @endforeach
 	              </tbody>
 	            </table>
-	          </div>  
-						<div> <?php echo  'Mostrando ' . $clientes->firstItem() . ' a ' . $clientes->lastItem() . ' de ' . $clientes->total() . ' registros'; ?>	</div>
-	          {{ $clientes->appends(Request::only(['type', 'val', 'val2' ,'barrios', 'tipoclientes']))->render() }}
+	          </div> 
+
+			  <div>
+			  	<strong> <?php echo  'Mostrando ' . $clientes->firstItem() . ' a ' . $clientes->lastItem() . ' de ' . $clientes->total() . ' registros'; ?>	</div>
+	          			{{ $clientes->appends(Request::only(['type', 'val', 'val2' ,'barrios', 'tipoclientes']))->render() }}
+	      		</strong>
 	        </div>
 	    </div>
     </div>

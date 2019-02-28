@@ -18,6 +18,7 @@ class Clientedireccion extends Model
     public function cliente(){
         
         return $this->belongsTo(Cliente::class);
+        //->orderBy('title');
     }
 
     public function empleado(){
@@ -52,48 +53,23 @@ class Clientedireccion extends Model
         
         return $this->belongsTo(Departamento::class);
     }
-    
+   
 
-
-
-    
-    
-/*
-	public function scopeType($query, $type, $valor, $valor2, $barrios, $tipoclientes) 
+    public function scopeType($query, $type, $barrios) 
     {
-		
-		if ($type == 'nrodocumento')
+        
+        if ($type == 'barrio')
         {
-            $query->where('numerodocumento', 'like', '%' . $valor . '%')->orderBy('apellido', 'DESC');
-        }else if ($type == 'apellido') 
-        {
-            $query->where('apellido', 'like', '%' . $valor . '%')->orderBy('apellido');
+            $query->where('barrio_id', '=', $barrios );
 
-        }else if ($type == 'nombre') 
-        {
-            $query->where('nombre', 'like', '%' . $valor . '%')->orderBy('apellido');
-
-        }else if ($type == 'apellidonombre') 
-        {
-            $query->where('apellido', 'like', '%' . $valor . '%')->where('nombre', 'like', '%' . $valor2 . '%')->orderBy('apellido');
-
-        }
-        else if ($type == 'barrio') 
-        {
-            //$query->where('id', $valor)->orderBy('id', 'ASC');
-            $query->where('barrio_id', '=', $barrios)->orderBy('apellido', 'DESC');
-            //$query->client()->where('name', 'like', '%' . $valor . '%')->orderBy('id', 'ASC');
-        }
-        else if ($type == 'tipocliente') 
-        {
-            //$query->where('id', $valor)->orderBy('id', 'ASC');
-            $query->where('tipocliente_id', '=', $tipoclientes)->orderBy('apellido', 'DESC');
-            //$query->client()->where('name', 'like', '%' . $valor . '%')->orderBy('id', 'ASC');
-
-
+            /*$query->with('cliente')->with(['cliente' => function($query2) {
+                $query2->orderBy('apellido');
+            }])->where('barrio_id', '=', $barrios );*/
+       
         } else
         {
             $query;
         }
-    }*/
+
+    }
 }
