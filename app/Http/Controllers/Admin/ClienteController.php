@@ -273,7 +273,7 @@ class ClienteController extends Controller
                     if($observacion !== '')$clientedireccion->observaciondomicilio = $observacion;
                     $clientedireccion->empleado_id = $empleado_id;
                     if($horariovisita !== '') $clientedireccion->horariovisita = $horariovisita;
-                    if($horadesde !== '')$clientedireccion->horadesde = $horadesde;
+                    if($horadesde !== '') $clientedireccion->horadesde = $horadesde;
                     if($horahasta !== '') $clientedireccion->horahasta = $horahasta;
                     $clientedireccion->usuario_alta = Auth::user()->username;
                     $clientedireccion->fecha_alta = date('Y-m-d H:i:s');
@@ -504,6 +504,7 @@ class ClienteController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $cliente = Cliente::find($id);
 
         $cliente->fill($request->all())->save();
