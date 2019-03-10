@@ -18,12 +18,8 @@
 @section('content')	
 
 <div class="box box-primary">
-	<div class="box-header with-border box-default">
-		@if( $miusuario == 0)
-		 	<strong> Listado de otras tareas abiertas </strong>
-		@else	 
-			<strong> Listado de mis tareas abiertas </strong>
-		@endif
+	<div class="box-header with-border box-default">	 
+		<strong> Informe Contratos </strong>
 	</div>
 		
 	<div class="panel-body">
@@ -33,12 +29,8 @@
 	            <table class="table table-striped table-hover tablesorter">
 	              <thead>
 	                <tr>
-	                  <!--<th width="10px"> ID</th>-->
 	                  <th> Nro Tarea</th>
-										@if( $miusuario == 0)
-											<th>Asignado</th>
-										@endif
-										<th> Titulo</th>
+					  <th> Titulo</th>
 	                  <th> Motivo</th>
                       <th> Servidor</th>
 	                </tr>
@@ -47,12 +39,9 @@
 	                @foreach ($tareas as $tarea)
 	                  <tr>
 	                    <td>{{ $tarea->id }}</td>
-											@if( $miusuario == 0)
-												<td>{{ $tarea->usuario_alta }}</td>
-											@endif
-											<td>{{ $tarea->titulotarea }}</td>
+						<td>{{ $tarea->titulotarea }}</td>
 	                    <td>{{ $tarea->motivo->descripcion }}</td>
-                      <td>{{ $tarea->servidor->descripcion }}</td>
+                      	<td>{{ $tarea->servidor->descripcion }}</td>
 	                  </tr>
 	                @endforeach
 	              </tbody>

@@ -3,21 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use DB;
-
-//use App\Models\Tarea;
 use Auth;
-/*use App\Models\Compra;
-use App\Models\Comprapago;
-use App\Models\Venta;
-use App\Models\Ventapago;
-use App\Models\Cliente;
-use Illuminate\Support\Facades\Input;*/
 use App\Models\Modulo;
 use App\Models\Perfil;
-
+use Illuminate\Support\Facades\Input;
 use App\Helpers\FechaHelper;
+
+use App\Models\Articulo;
+use App\Models\Contrato;
+use App\Models\Contratoarticulo;
 
 class HomeController extends Controller
 {
@@ -38,57 +33,53 @@ class HomeController extends Controller
      */
     public function index()
     {
-        /*$mistareasabiertas  = Tarea::where('usuario_alta', Auth::user()->username)->where('estado','Abierta')->count();
 
-        $otrastareasabiertas  = Tarea::where('usuario_alta', '<>' , Auth::user()->username)->where('estado','Abierta')->count();*/
-        
-        //return view('home', compact('mistareasabiertas', 'otrastareasabiertas'));
         $perfil = Perfil::find(Auth::user()->perfil_id);
         $modulo_actual = Modulo::where('valor', '=', 'TABLERO')->get();
         $modulos = $perfil->modulos()->where('modulo_id', '=', $modulo_actual[0]->id)->get();
         $permiso = $modulos[0]->pivot->permiso;
- 
-        return view('home', compact('permiso'));
+
+
+         $contratos = DB::table('contratos')->count();
+
+        return view('home', compact('contratos', 'permiso'));
     }
 
 
-    public function detallemistareasabiertas(Request $request)
+    public function detalleinformecontratos(Request $request)
     { 
-        
-        /*$ventas = array();
+            /*$data = DB::select(DB::raw('CALL InformeHomeArticuloGeneraldetalle()'));
 
-        //$comp = Compra::orderBy('nrofactura')->get();
-        $fechaventa = date('Y-m-d 00:00:01');*/
+            // parametros para la paginacion
+            $page = Input::get('page', 1);
+            $paginate = 15;
+            //
+            $offSet = ($page * $paginate) - $paginate; //calcula la cantidad de paginas
+            $itemsForCurrentPage = array_slice($data, $offSet, $paginate, true); //calcula que pagina es la actual
+            $articulos = new \Illuminate\Pagination\LengthAwarePaginator($itemsForCurrentPage, count($data), $paginate, $page);//genera el paginador personalizado
 
-        $miusuario = 1;
+            $articulos->setPath('detallegeneralfaltantehome'); //general arl personalizada
 
-        $tareas =  Tarea::where('usuario_alta', Auth::user()->username)->where('estado','Abierta')->paginate(10);
+            return view('admin.home.informearticulogeneralfaltante',compact('articulos'));
 
+            //return view('admin.home.informearticulogondolafaltante', compact('articulos'));*/
 
-        $tareas->setPath('detallemistareasabiertas');
+        $data = [];
 
-        return view('admin.home.detalletareasabiertas',compact('tareas', 'miusuario'));
+        $articulos = Articulo::all();
 
-        //return view('homeinforme.listadoventasdiarias', ['ventas' => $ventas]); 
-    }
+        foreach ($articulos as $key => $value) {
+            
+            //$contratos = Contratoarticulo::where('articulo_id', $value->id)->count();
+            $cantidad = DB::table('contratoarticulos')
+                     ->select(DB::raw('sum(cantidad) as cantidad'))
+                     ->where('articulo_id', '=', $value->id)
+                     ->first();
 
-    public function detalleotrastareasabiertas(Request $request)
-    { 
-        
-        /*$ventas = array();
+            $data [] = ['articulo' => $value->descripcion, 'cantidad' => $cantidad->cantidad];
 
-        //$comp = Compra::orderBy('nrofactura')->get();
-        $fechaventa = date('Y-m-d 00:00:01');*/
+        }
 
-        $miusuario = 0;
-
-        $tareas =  Tarea::where('usuario_alta','<>' , Auth::user()->username)->where('estado','Abierta')->paginate(10);
-
-
-        $tareas->setPath('detallemistareasabiertas');
-
-        return view('admin.home.detalletareasabiertas',compact('tareas', 'miusuario'));
-
-        //return view('homeinforme.listadoventasdiarias', ['ventas' => $ventas]); 
+        dd($data);
     }
 }

@@ -18,6 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/detalleinformecontratos', 'HomeController@detalleinformecontratos')->name('detalleinformecontratos');
 /*Route::get('/detallemistareasabiertas', 'HomeController@detallemistareasabiertas')->name('detallemistareasabiertas');
 Route::get('/detalleotrastareasabiertas', 'HomeController@detalleotrastareasabiertas')->name('detalleotrastareasabiertas');*/
 
@@ -70,6 +71,7 @@ route::resource('tipoivas', 		'Admin\Complementos\TipoivaController');
 route::resource('tipoempleados', 		'Admin\Complementos\TipoempleadoController');
 route::resource('tipofamiliares', 		'Admin\Complementos\TipofamiliarController');
 route::resource('companiatelefonicas', 		'Admin\Complementos\CompaniatelefonicaController');
+
 
 // servicios
 Route::get('/habilitarmodulos/{user}', 'Service\ServiceController@habilitarmodulos')->name('habilitarmodulos');
