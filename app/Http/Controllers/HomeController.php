@@ -41,7 +41,7 @@ class HomeController extends Controller
         $permiso = $modulos[0]->pivot->permiso;
 
 
-         $contratos = DB::table('contratos')->count();
+        $contratos = DB::table('contratos')->count();
 
         return view('home', compact('contratos', 'permiso'));
     }
@@ -73,6 +73,17 @@ class HomeController extends Controller
 
         $articulos = Articulo::orderBy('descripcion')->get();
 
+        if($request->get('barrios') == null) {
+            $contratos = DB::table('contratos')->count();
+        } else {
+            $contratos = DB::table('contratoarticulos')
+                    ->select(DB::raw('sum(contratoarticulos.cantidad) as cantidad'))
+                    ->join('contratos', 'contratoarticulos.contrato_id', '=', 'contratos.id')
+                    ->join('clientedirecciones', 'contratos.clientedireccion_id', '=', 'clientedirecciones.id')
+                    ->where('clientedirecciones.barrio_id', '=', $request->get('barrios'))
+                    ->count();
+        }
+
         foreach ($articulos as $key => $value) {
             
             //$contratos = Contratoarticulo::where('articulo_id', $value->id)->count();
@@ -82,6 +93,7 @@ class HomeController extends Controller
                          ->select(DB::raw('sum(cantidad) as cantidad'))
                          ->where('articulo_id', '=', $value->id)
                          ->first();
+
             } else {
                 $temp = DB::table('contratoarticulos')
                     ->select(DB::raw('sum(contratoarticulos.cantidad) as cantidad'))
@@ -103,6 +115,6 @@ class HomeController extends Controller
 
         }
 
-        return view('admin.home.detalleinformecontratos', compact('data', 'barrios'));
+        return view('admin.home.detalleinformecontratos', compact('data', 'barrios', 'contratos'));
     }
 }

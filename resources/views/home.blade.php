@@ -42,7 +42,7 @@
             <div class="icon">
               <i class="fa fa-file"></i>
             </div>
-            <a   href="{{ route('detalleinformecontratos') }}"  class="small-box-footer">Ver Detalle Por Barrio <i class="fa fa-arrow-circle-right"></i></a>
+            <a   href="{{ route('detalleinformecontratos') }}"  class="small-box-footer">Ver Detalle de Articulos <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
     </div>

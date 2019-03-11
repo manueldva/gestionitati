@@ -19,7 +19,7 @@
 
 <div class="box box-primary">
 	<div class="box-header with-border box-default">	 
-		<strong> Informe Contratos </strong>
+		<strong> Cantidad de articulos registrados en los contratos </strong>
 		 <form class="navbar-form navbar-right" role="search">
 	       {{ Form::model(Request::only('barrios'), array('route' => 'detalleinformecontratos', 'method' => 'GET'), array('role' => 'form', 'class' => 'navbar-form pull-right')) }}
 			    <div class="form-group">
@@ -37,6 +37,8 @@
 	<div class="panel-body">
 	    <div class="panel-body">
 	        <div class="row">
+			<strong> <h3>Contratos Registrados: {{ $contratos }} </h3></strong>
+	        <hr>	
 	          <div class="table-responsive" >
 	            <table class="table table-striped table-hover tablesorter">
 	              <thead>
