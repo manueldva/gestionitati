@@ -20,6 +20,18 @@
 <div class="box box-primary">
 	<div class="box-header with-border box-default">	 
 		<strong> Informe Contratos </strong>
+		 <form class="navbar-form navbar-right" role="search">
+	       {{ Form::model(Request::only('barrios'), array('route' => 'detalleinformecontratos', 'method' => 'GET'), array('role' => 'form', 'class' => 'navbar-form pull-right')) }}
+			    <div class="form-group">
+			      {{ form::label('buscar', 'Barrio:') }}
+			      <span id="barrio" class="form-group">
+						{{ Form::select('barrios', $barrios, null, ['class'=>'form-control', 'id' => 'barrios','placeholder' => 'Seleccionar...']) }}
+				  </span>
+				   &nbsp;
+			      <button type="submit" class="form-control btn btn-sm btn-success"><span class="glyphicon glyphicon-search"></span> Buscar</button>
+			    </div>
+		    {{ Form::close() }}
+      	</form>
 	</div>
 		
 	<div class="panel-body">
@@ -29,24 +41,21 @@
 	            <table class="table table-striped table-hover tablesorter">
 	              <thead>
 	                <tr>
-	                  <th> Nro Tarea</th>
-					  <th> Titulo</th>
-	                  <th> Motivo</th>
-                      <th> Servidor</th>
+	                  <th> Cod. Articulo</th>
+	                  <th> Articulo</th>
+					  <th> Cantidad</th>
 	                </tr>
 	              </thead>
 	              <tbody>
-	                @foreach ($tareas as $tarea)
+	                @foreach ($data as $dt)
 	                  <tr>
-	                    <td>{{ $tarea->id }}</td>
-						<td>{{ $tarea->titulotarea }}</td>
-	                    <td>{{ $tarea->motivo->descripcion }}</td>
-                      	<td>{{ $tarea->servidor->descripcion }}</td>
+	                  	<td>{{ $dt['codigo'] }}</td>
+	                    <td>{{ $dt['articulo'] }}</td>
+						<td>{{ $dt['cantidad'] }}</td>
 	                  </tr>
 	                @endforeach
 	              </tbody>
 	            </table>
-                {{ $tareas->links() }}
                 
 	          </div>  
 	        </div>
@@ -66,6 +75,7 @@
 
 	<script type="text/javascript">
 
-		
+		$('#barrios').select2();
+
 	</script>
 @endpush

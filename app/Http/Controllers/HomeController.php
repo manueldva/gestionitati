@@ -13,6 +13,7 @@ use App\Helpers\FechaHelper;
 use App\Models\Articulo;
 use App\Models\Contrato;
 use App\Models\Contratoarticulo;
+use App\Models\Barrio;
 
 class HomeController extends Controller
 {
@@ -64,22 +65,44 @@ class HomeController extends Controller
 
             //return view('admin.home.informearticulogondolafaltante', compact('articulos'));*/
 
+
+
+        $barrios  = Barrio::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+        
         $data = [];
 
-        $articulos = Articulo::all();
+        $articulos = Articulo::orderBy('descripcion')->get();
 
         foreach ($articulos as $key => $value) {
             
             //$contratos = Contratoarticulo::where('articulo_id', $value->id)->count();
-            $cantidad = DB::table('contratoarticulos')
-                     ->select(DB::raw('sum(cantidad) as cantidad'))
-                     ->where('articulo_id', '=', $value->id)
-                     ->first();
+            if($request->get('barrios') == null) {
+      
+                $temp = DB::table('contratoarticulos')
+                         ->select(DB::raw('sum(cantidad) as cantidad'))
+                         ->where('articulo_id', '=', $value->id)
+                         ->first();
+            } else {
+                $temp = DB::table('contratoarticulos')
+                    ->select(DB::raw('sum(contratoarticulos.cantidad) as cantidad'))
+                    ->join('contratos', 'contratoarticulos.contrato_id', '=', 'contratos.id')
+                    ->join('clientedirecciones', 'contratos.clientedireccion_id', '=', 'clientedirecciones.id')
+                    ->where('contratoarticulos.articulo_id', '=', $value->id)
+                    ->where('clientedirecciones.barrio_id', '=', $request->get('barrios'))
+                    ->first();
+            }
 
-            $data [] = ['articulo' => $value->descripcion, 'cantidad' => $cantidad->cantidad];
+            if ($temp->cantidad == null) {
+                $cantidad = 0;
+            } else {
+                $cantidad = $temp->cantidad;
+            }
+
+
+            $data [] = ['codigo' => $value->id,  'articulo' => $value->descripcion, 'cantidad' => $cantidad];
 
         }
 
-        dd($data);
+        return view('admin.home.detalleinformecontratos', compact('data', 'barrios'));
     }
 }
