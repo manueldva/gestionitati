@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
 	<head>
-		<title>Gestion-Dba</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<title>Gestion</title>
+		<meta charset="utf-8">
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<link  rel="icon" href="{!! asset('imagedefeult/navegador.jpeg') !!}"/>
 
 	</head>
 	<style> 
