@@ -19,6 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/detalleinformecontratos', 'HomeController@detalleinformecontratos')->name('detalleinformecontratos');
+route::get('/detalleinformecontratoprint/{barrio}',		'Admin\InformeController@detalleinformecontratoprint')->name('detalleinformecontratoprint');
 /*Route::get('/detallemistareasabiertas', 'HomeController@detallemistareasabiertas')->name('detallemistareasabiertas');
 Route::get('/detalleotrastareasabiertas', 'HomeController@detalleotrastareasabiertas')->name('detalleotrastareasabiertas');*/
 

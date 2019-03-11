@@ -6,12 +6,17 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use Alert;
+use DB;
 
-use App\Models\Servidor;
+use App\Models\Modulo;
+use App\Models\Perfil;
+use Illuminate\Support\Facades\Input;
+
 use App\User;
-use App\Models\Base;
-use App\Models\Motivo;
-use App\Models\Tarea;
+use App\Models\Articulo;
+use App\Models\Contrato;
+use App\Models\Contratoarticulo;
+use App\Models\Barrio;
 use Auth;
 
 use App\Helpers\FechaHelper;
@@ -104,26 +109,65 @@ class InformeController extends Controller
     }
 
 
-    public function informeprint($usuario, $fechadesde, $fechahasta)
+    public function detalleinformecontratoprint($barrio)
     {
 
-        //return  $fechadesde;
-        if($usuario == 'Todos')
-        {
-            $tareas = Tarea::orderBy('id', 'DESC')->whereBetween('fecha', array($fechadesde, $fechahasta))->get();
-        }else{
-            $tareas = Tarea::orderBy('id', 'DESC')->where('usuario_alta', $usuario)->whereBetween('fecha', array($fechadesde, $fechahasta))->get();
+        $data = [];
+
+        $articulos = Articulo::orderBy('descripcion')->get();
+
+        if($barrio == null   || $barrio == '0') {
+            $contratos = DB::table('contratos')->count();
+
+            $barriodesc = 'Todos';
+        } else {
+            $contratos = DB::table('contratos')
+                    ->join('clientedirecciones', 'contratos.clientedireccion_id', '=', 'clientedirecciones.id')
+                    ->where('clientedirecciones.barrio_id', '=', $barrio)
+                    ->count();
+
+
+            $barriotemp = Barrio::find($barrio);
+            $barriodesc = $barriotemp->descripcion;
         }
 
-        //$tareas = Tarea::orderBy('fecha', 'DESC')->where('usuario_alta', $usuario)->whereBetween('fecha', array($fechadesde, $fechahasta))->get();
+        foreach ($articulos as $key => $value) {
+            
+            //$contratos = Contratoarticulo::where('articulo_id', $value->id)->count();
+            if($barrio == null   || $barrio == '0') {
+      
+                $temp = DB::table('contratoarticulos')
+                         ->select(DB::raw('sum(cantidad) as cantidad'))
+                         ->where('articulo_id', '=', $value->id)
+                         ->first();
 
-        foreach($tareas as $tarea){
-            $tarea->fecha = FechaHelper::getFechaImpresion($tarea->fecha); 
+            } else {
+                $temp = DB::table('contratoarticulos')
+                    ->select(DB::raw('sum(contratoarticulos.cantidad) as cantidad'))
+                    ->join('contratos', 'contratoarticulos.contrato_id', '=', 'contratos.id')
+                    ->join('clientedirecciones', 'contratos.clientedireccion_id', '=', 'clientedirecciones.id')
+                    ->where('contratoarticulos.articulo_id', '=', $value->id)
+                    ->where('clientedirecciones.barrio_id', '=', $barrio)
+                    ->first();
+            }
+
+            if ($temp->cantidad == null) {
+                $cantidad = 0;
+            } else {
+                $cantidad = $temp->cantidad;
+            }
+
+
+            $data [] = ['codigo' => $value->id,  'articulo' => $value->descripcion, 'cantidad' => $cantidad];
+
         }
 
-        $pdf = PDF::loadView('admin.informes.informeprint', compact('tareas', 'usuario', 'fechadesde', 'fechahasta'));
 
-        return $pdf->stream('reporte.pdf');
+        //dd($data);
+
+        $pdf = PDF::loadView('admin.informes.informecontratos.detalleinformecontratoprint', compact('barriodesc', 'data', 'contratos'));
+
+        return $pdf->stream('informe.pdf');
 
 
     }

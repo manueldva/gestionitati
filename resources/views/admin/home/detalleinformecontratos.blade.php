@@ -29,7 +29,10 @@
 				  </span>
 				   &nbsp;
 			      <button type="submit" class="form-control btn btn-sm btn-success"><span class="glyphicon glyphicon-search"></span> Buscar</button>
-			      
+			      &nbsp;
+			      <a target="_blank" href="#" id="imprimir"> 
+                        <button  type="button" class="btn btn btn-primary"><span class="glyphicon glyphicon-print"></span> Imprimir</button>
+                    </a>
 			    </div>
 		    {{ Form::close() }}
       	</form>
@@ -79,6 +82,21 @@
 	<script type="text/javascript">
 
 		$('#barrios').select2();
+
+		$('#imprimir').on('click', function(e){
+            
+            var barrio = $("#barrios option:selected").attr("value")
+            //alert(barrio);
+            if (barrio == '')
+            {
+                barrio = '0';
+            }
+
+            e.preventDefault();
+            window.open("{{url('detalleinformecontratoprint')}}/"+ barrio);
+
+
+        });
 
 	</script>
 @endpush
