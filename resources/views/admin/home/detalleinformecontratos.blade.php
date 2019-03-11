@@ -29,6 +29,7 @@
 				  </span>
 				   &nbsp;
 			      <button type="submit" class="form-control btn btn-sm btn-success"><span class="glyphicon glyphicon-search"></span> Buscar</button>
+			      
 			    </div>
 		    {{ Form::close() }}
       	</form>

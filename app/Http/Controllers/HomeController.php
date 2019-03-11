@@ -76,9 +76,7 @@ class HomeController extends Controller
         if($request->get('barrios') == null) {
             $contratos = DB::table('contratos')->count();
         } else {
-            $contratos = DB::table('contratoarticulos')
-                    ->select(DB::raw('sum(contratoarticulos.cantidad) as cantidad'))
-                    ->join('contratos', 'contratoarticulos.contrato_id', '=', 'contratos.id')
+            $contratos = DB::table('contratos')
                     ->join('clientedirecciones', 'contratos.clientedireccion_id', '=', 'clientedirecciones.id')
                     ->where('clientedirecciones.barrio_id', '=', $request->get('barrios'))
                     ->count();
