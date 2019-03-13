@@ -112,7 +112,7 @@ return [
 
         'MENU PRINCIPAL',
         [
-            'text' => 'Articulos',
+            'text' => 'Productos', // se cambia la descripcion a Productos para que se entiende mejor para los usuarios(se mantiene la url y el valor en articulo)
             'url'  => 'articulos',
             'icon' => 'archive',
         ],

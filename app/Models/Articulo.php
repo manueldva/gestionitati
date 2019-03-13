@@ -9,12 +9,18 @@ class Articulo extends Model
     //protected $table = 'barrios';
 
 	protected $fillable = [
-    	'descripcion', 'stock' ,'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
+    	'descripcion', 'tipoarticulo_id' ,'stock' ,'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
 	];
 
     public function contratoarticulos(){
         return $this->HasMany(Contratoarticulo::class);
     }
+
+    public function tipoarticulo(){
+        
+        return $this->belongsTo(Tipoarticulo::class);
+    }
+
 
 
     public function scopeType($query, $type, $valor) 

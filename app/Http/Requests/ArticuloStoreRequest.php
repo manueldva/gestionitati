@@ -27,10 +27,18 @@ class ArticuloStoreRequest extends FormRequest
         return [
             //'codigo' => 'required|max:50|unique:articulos,codigo',
             'descripcion' => 'required|max:250|unique:articulos,descripcion',
+            'tipoarticulo_id' => 'required',
             /*'stock' => 'required',
             'stockminimo' => 'required',
             'preciounitario' => 'required'//,*/
             //'estado'    => 'required|in:Activo,Inactivo'
         ];
+    }
+
+    public function messages()
+    {
+      return [
+        'tipoarticulo_id.required' => 'El campo tipo de producto es obligatorio.',
+      ];
     }
 }

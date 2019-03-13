@@ -10,6 +10,7 @@ use App\Http\Requests\ArticuloUpdateRequest;
 use Alert;
 
 use App\Models\Articulo;
+use App\Models\Tipoarticulo;
 use App\Models\Clientearticulo;
 use App\Models\Modulo;
 use App\Models\Perfil;
@@ -59,8 +60,9 @@ class ArticuloController extends Controller
      */
     public function create()
     {
+        $tipoarticulos  = Tipoarticulo::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
-        return view('admin.articulos.create');
+        return view('admin.articulos.create', compact('tipoarticulos'));
     }
 
     /**
@@ -76,7 +78,7 @@ class ArticuloController extends Controller
         //auditoria
         $articulo->fill(['usuario_alta' => Auth::user()->username , 'fecha_alta' => date('Y-m-d H:i:s')])->save();
         //
-        Alert::success('Articulo creado con exito')->persistent("Cerrar");
+        Alert::success('Producto creado con exito')->persistent("Cerrar");
         //return redirect()->route('articulos.index');
         return redirect()->route('articulos.edit', $articulo->id);
     }
@@ -106,7 +108,9 @@ class ArticuloController extends Controller
     {
         $articulo = Articulo::find($id);
 
-        return view('admin.articulos.edit', compact('articulo'));
+        $tipoarticulos  = Tipoarticulo::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+        return view('admin.articulos.edit', compact('articulo', 'tipoarticulos'));
     }
 
     /**
@@ -128,7 +132,7 @@ class ArticuloController extends Controller
         $articulo->fill(['usuario_modi' => Auth::user()->username , 'fecha_modi' => date('Y-m-d H:i:s')])->save();
         //
 
-        Alert::success('Articulo actualizado con exito')->persistent("Cerrar");
+        Alert::success('Producto actualizado con exito')->persistent("Cerrar");
         //return redirect()->route('articulos.index');
         return redirect()->route('articulos.edit', $articulo->id);
     }

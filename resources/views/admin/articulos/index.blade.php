@@ -1,15 +1,15 @@
 @extends('adminlte::page')
 
-@section('title', 'Gestión - Articulos')
+@section('title', 'Gestión - Productos')
 
 @section('content_header')
   <h1>
-    Gestionar Articulos
+    Gestionar Productos
     <!--<small>Listado</small>-->
   </h1>
   <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li><a href="{{ route('articulos.index')}}">Articulos</a></li>
+    <li><a href="{{ route('articulos.index')}}">Productos</a></li>
     <li class="active">Listado</li>
   </ol>
 
@@ -24,7 +24,7 @@
 
 <div class="box box-primary">
 	<div class="box-header with-border box-default">
-	   <strong> Listado Articulos </strong>
+	   <strong> Listado Productos </strong>
 	   <form class="navbar-form navbar-right" role="search">
 	       {{ Form::model(Request::only('type', 'val'), array('route' => 'articulos.index', 'method' => 'GET'), array('role' => 'form', 'class' => 'navbar-form pull-right')) }}
 			    <div class="form-group">

@@ -22,6 +22,10 @@
 		{{ form::label('descripcion', 'Descripción *') }}
 		{{ form::text('descripcion', null, ['class' => 'form-control', 'id' => 'descripcion']) }}
 	</div>
+	<div class="form-group">
+		{{ form::label('tipoarticulo_id', 'Tipo de Producto *') }}
+		{{ form::select('tipoarticulo_id', $tipoarticulos , null, ['class' => 'form-control','placeholder' => 'Seleccionar...'] ) }} 
+  	</div>
 
 </div>
 
