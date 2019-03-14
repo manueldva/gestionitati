@@ -111,6 +111,7 @@ class ArticuloController extends Controller
         $tipoarticulos  = Tipoarticulo::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
         return view('admin.articulos.edit', compact('articulo', 'tipoarticulos'));
+
     }
 
     /**

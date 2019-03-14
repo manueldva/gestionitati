@@ -126,6 +126,11 @@ return [
             'text' => 'Empleados',
             'url'  => 'empleados',
             'icon' => 'user',
+        ],
+        [
+            'text' => 'Modelo_Contratos',
+            'url'  => 'modelocontratos',
+            'icon' => 'file',
         ],     
         [
             'text'    => 'Complementos',

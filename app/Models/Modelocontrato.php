@@ -11,7 +11,7 @@ class Modelocontrato extends Model
 
 
     protected $fillable = [
-        'descripcion', 'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
+        'modelo', 'descripcion', 'cuerpo' , 'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
     ];
 
 

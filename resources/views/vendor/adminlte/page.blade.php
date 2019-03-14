@@ -227,8 +227,8 @@
     <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
     <script type="text/javascript">
 
-        /*$('.Gestion_de_Articulos').text('Gestión de Artículos');
-        $('.Remitos_Internos').text('Remitos Internos');
+        $('.Modelo_Contratos').text('Modelo Contratos');
+        /*$('.Remitos_Internos').text('Remitos Internos');
         $('.Manual_de_usuario').text('Manual de Usuario');*/
 
 
@@ -293,22 +293,22 @@
 
                     if(resultado[i]['permiso'] == 0){
 
-                        $('#' + resultado[i]['descripcion']).hide();
+                        //$('#' + resultado[i]['descripcion']).hide();
 
-                        /*if(resultado[i]['descripcion'] == 'Gestión de Artículos')
+                        if(resultado[i]['descripcion'] == 'Modelo Contratos')
                         {
-                            $('#Gestion_de_Articulos').hide();
-                        }if(resultado[i]['descripcion'] == 'Remitos Internos')
+                            $('#Modelo_Contratos').hide();
+                        /*}if(resultado[i]['descripcion'] == 'Remitos Internos')
                         {
                             $('#Remitos_Internos').hide();
 
                         }if(resultado[i]['descripcion'] == 'Manual de usuario')
                         {
-                            $('#Manual_de_usuario').hide();
+                            $('#Manual_de_usuario').hide();*/
 
                         }else  {
                             $('#' + resultado[i]['descripcion']).hide();
-                        }*/
+                        }
                         
                     }
                 }

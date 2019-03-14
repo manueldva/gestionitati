@@ -51,9 +51,13 @@
 		    {{ Form::close() }}
       </form>
 	</div>
-		
+	
 	<div class="panel-body">
+		<div>
+    		<h3><strong> <?php  echo ' Total de Clientes: ' . $clientes->total(); ?></strong></h3>
+  		</div>
 	    <div class="panel-body">
+
 	        <div class="row">
 	          <div class="table-responsive">
 	            <table class="table table-striped table-hover" data-form="Form">
