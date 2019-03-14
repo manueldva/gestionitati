@@ -5,7 +5,7 @@
 @section('content_header')
 
     <h1>
-      Gestionar Tipo Iva
+      Gestionar Modelo Contratos
       <!--<small>Listado</small>-->
     </h1>
     <ol class="breadcrumb">

@@ -10,7 +10,7 @@ use App\Http\Requests\ModelocontratoUpdateRequest;
 use Alert;
 
 use App\Models\Modelocontrato;
-use App\Models\Cliente;
+use App\Models\Contrato;
 use App\Models\Modulo;
 use App\Models\Perfil;
 use Auth;
@@ -33,7 +33,8 @@ class ModelocontratoController extends Controller
     {
        
         $perfil = Perfil::find(Auth::user()->perfil_id);
-        $modulo_actual = Modulo::where('valor', '=', 'MODELOCONTRATO')->get();
+        $modulo_actual = Modulo::where('valor', '=', 'MODELO_CONTRATO')->get();
+
         $modulos = $perfil->modulos()->where('modulo_id', '=', $modulo_actual[0]->id)->get();
         $permiso = $modulos[0]->pivot->permiso;
  
@@ -44,9 +45,12 @@ class ModelocontratoController extends Controller
             $tipoiva->fecha_alta = FechaHelper::getFechaImpresion($tipoiva->fecha_alta); 
         }*/
 
+
         $modelocontratos->setPath('modelocontratos');
 
          //dd($motivos);
+
+
 
        return view('admin.modelocontratos.index', compact('modelocontratos', 'permiso'));
     }
@@ -141,7 +145,7 @@ class ModelocontratoController extends Controller
     public function destroy($id)
     {
 
-        $existe = Cliente::where('tipoiva_id', $id)->count();
+        $existe = Contrato::where('modelocontrato_id', $id)->count();
 
         if($existe > 0) 
         {
@@ -150,7 +154,7 @@ class ModelocontratoController extends Controller
         }
 
         
-        Tipoiva::find($id)->delete();
+        Modelocontrato::find($id)->delete();
 
         Alert::success('Eliminado correctamente')->persistent("Cerrar");
         return back();
