@@ -29,10 +29,6 @@ class ModelocontratoUpdateRequest extends FormRequest
             'modelo' => 'required|max:200|unique:modelocontratos,modelo, '  . $this->modelocontrato,
             'descripcion' => 'required|max:350',
             'cuerpo' => 'required',
-            /*'stock' => 'required',
-            'stockminimo' => 'required',
-            'preciounitario' => 'required'//,*/
-            //'estado'    => 'required|in:Activo,Inactivo'
         ];
     }
 

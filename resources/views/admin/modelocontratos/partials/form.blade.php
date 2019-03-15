@@ -33,10 +33,8 @@
 
 
 <div class="col-md-8">
-
 	<br>
 	<br>
-
 	<div class="form-group">
 		{{ form::label('cuerpo', 'Cuerpo del Contrato*') }}
 		{{ form::textarea('cuerpo', null, ['class' => 'form-control', 'id' => 'cuerpo']) }}

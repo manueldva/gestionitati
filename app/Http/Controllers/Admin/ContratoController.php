@@ -138,6 +138,54 @@ class ContratoController extends Controller
 
         $temp = '';
         foreach ($contratos as $key => $value) {
+
+
+         //para direcciones
+            $clientedirectemp = Clientedireccion::find($value->clientedireccion_id);
+                 
+            if($clientedirectemp->barrio_id) {
+                $temp2 = 'Bº ' . $clientedirectemp->barrio->descripcion;
+            } 
+
+            if($clientedirectemp->calle_id) {
+                $temp2 = $temp2 . ' Calle ' . $clientedirectemp->calle->descripcion;
+            } 
+
+            if($clientedirectemp->numero) {
+                $temp2 = $temp2 . ' Nro. ' . $clientedirectemp->numero;
+            }
+
+            if($clientedirectemp->manzana) {
+                $temp2 = $temp2 . ' Mz. ' . $clientedirectemp->manzana;
+            } 
+
+
+            if($clientedirectemp->casa) {
+                $temp2 = $temp2 . ' C. ' . $clientedirectemp->casa;
+            } 
+
+            if($clientedirectemp->seccion) {
+                $temp2 = $temp2 . ' Seccion ' . $clientedirectemp->seccion;
+            }
+
+            if($clientedirectemp->lote) {
+                $temp2 = $temp2 . ' Lote ' . $clientedirectemp->lote;
+            }
+
+            if($clientedirectemp->edificiotorre) {
+                $temp2 = $temp2 . ' Edificio ' . $clientedirectemp->edificiotorre;
+            } 
+
+            if($clientedirectemp->piso) {
+                $temp2 = $temp2 . ' Piso/Dpto ' . $clientedirectemp->piso;
+            } 
+
+            $value->usuario_alta = $temp2;
+
+            $temp2 = '';
+                //
+            //
+
             $contratoarticulos  = Contratoarticulo::where('contrato_id', $value->id)->get();
 
             foreach ($contratoarticulos as $key1 => $value1) {
@@ -150,9 +198,11 @@ class ContratoController extends Controller
                
             }
 
-             $value->usuario_modi = $temp;
+            $value->usuario_modi = $temp;
 
-             $temp = '';
+            $temp = '';
+        
+                //
         }
         //
 

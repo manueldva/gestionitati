@@ -170,6 +170,7 @@
 								<!--<th width="10px"> ID</th>-->
 									<th style="display:none;">contradoID</th>
 									<th> <center>Nro Cliente</center></th>
+									<th> <center>Dirección</center></th>
 									<th> <center>Fecha Contrato</center></th>
 									<th> <center>Modelo Contrato</center></th>
 									<th> <center>Articulos</center></th>
@@ -182,6 +183,7 @@
 					                    
 					                    <td style="display:none" >{{ $contrato->id }}</td>
 					                    <td><center>{{ $cliente->id }}</center></td>
+					                    <td><center>{{ $contrato->usuario_alta }}</center></td>
 										<td><center>{{ \Carbon\Carbon::parse($contrato->fechacontrato)->format('d/m/Y') }}</center></td>
 										<td><center>{{ $contrato->modelocontrato->descripcion }}</center></td>
 										<td><center>{{ $contrato->usuario_modi }}</center></td>
