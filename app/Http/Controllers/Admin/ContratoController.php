@@ -41,7 +41,7 @@ class ContratoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
         //
     }
@@ -64,6 +64,142 @@ class ContratoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
+    {
+       $cliente = Cliente::find($id);
+        
+        $clientedirecciones = Clientedireccion::where('cliente_id', $cliente->id)->get();
+
+        $direcciones =  array();
+
+        foreach ($clientedirecciones as $key => $value) {
+             
+            if($value->barrio_id) {
+                $temp = 'Bº ' . $value->barrio->descripcion;
+            } 
+
+            if($value->calle_id) {
+                $temp = $temp . ' Calle ' . $value->calle->descripcion;
+            } 
+
+            if($value->numero) {
+                $temp = $temp . ' Nro. ' . $value->numero;
+            }
+
+            if($value->manzana) {
+                $temp = $temp . ' Mz. ' . $value->manzana;
+            } 
+
+
+            if($value->casa) {
+                $temp = $temp . ' C. ' . $value->casa;
+            } 
+
+            if($value->seccion) {
+                $temp = $temp . ' Seccion ' . $value->seccion;
+            }
+
+            if($value->lote) {
+                $temp = $temp . ' Lote ' . $value->lote;
+            }
+
+            if($value->edificiotorre) {
+                $temp = $temp . ' Edificio ' . $value->edificiotorre;
+            } 
+
+            if($value->piso) {
+                $temp = $temp . ' Piso/Dpto ' . $value->piso;
+            } 
+
+            $direcciones += [$value->id => $temp];
+        }
+
+        //dd($direcciones);
+
+        $modelocontratos  = Modelocontrato::orderBy('id', 'ASC')->pluck('descripcion' , 'id');
+
+        $articulos  = Articulo::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+        // para el listado
+        $contratos  = Contrato::where('cliente_id', $id)->orderBy('fechacontrato' , 'DESC')->get();
+
+        $temp = '';
+        foreach ($contratos as $key => $value) {
+
+
+         //para direcciones
+            $clientedirectemp = Clientedireccion::find($value->clientedireccion_id);
+                 
+            if($clientedirectemp->barrio_id) {
+                $temp2 = 'Bº ' . $clientedirectemp->barrio->descripcion;
+            } 
+
+            if($clientedirectemp->calle_id) {
+                $temp2 = $temp2 . ' Calle ' . $clientedirectemp->calle->descripcion;
+            } 
+
+            if($clientedirectemp->numero) {
+                $temp2 = $temp2 . ' Nro. ' . $clientedirectemp->numero;
+            }
+
+            if($clientedirectemp->manzana) {
+                $temp2 = $temp2 . ' Mz. ' . $clientedirectemp->manzana;
+            } 
+
+
+            if($clientedirectemp->casa) {
+                $temp2 = $temp2 . ' C. ' . $clientedirectemp->casa;
+            } 
+
+            if($clientedirectemp->seccion) {
+                $temp2 = $temp2 . ' Seccion ' . $clientedirectemp->seccion;
+            }
+
+            if($clientedirectemp->lote) {
+                $temp2 = $temp2 . ' Lote ' . $clientedirectemp->lote;
+            }
+
+            if($clientedirectemp->edificiotorre) {
+                $temp2 = $temp2 . ' Edificio ' . $clientedirectemp->edificiotorre;
+            } 
+
+            if($clientedirectemp->piso) {
+                $temp2 = $temp2 . ' Piso/Dpto ' . $clientedirectemp->piso;
+            } 
+
+            $value->usuario_alta = $temp2;
+
+            $temp2 = '';
+                //
+            //
+
+            $contratoarticulos  = Contratoarticulo::where('contrato_id', $value->id)->get();
+
+            foreach ($contratoarticulos as $key1 => $value1) {
+                
+                if($temp == ''){
+                    $temp =  $value1->articulo->descripcion . ' (' . $value1->cantidad . ' Unidad/es)';
+                } else {
+                    $temp = $temp . ' - ' .  $value1->articulo->descripcion . ' (' . $value1->cantidad . ' Unidad/es)';
+                }
+               
+            }
+
+            $value->usuario_modi = $temp;
+
+            $temp = '';
+        
+                //
+        }
+        //
+
+        $edit = 0;
+
+        return view('admin.contratos.show', compact('edit', 'cliente', 'articulos', 'direcciones', 'modelocontratos', 'contratos'));
+
+    }
+
+
+    public function printcontrato($id)
     {
         $contratotemp = Contrato::find($id);
         $modelocontrato = Modelocontrato::find($contratotemp->modelocontrato_id);
@@ -146,7 +282,6 @@ class ContratoController extends Controller
                  
         }
 
-
         //
 
         $contrato = str_replace('{{codigo_contrato}}', $contratotemp->cliente_id, $contrato);
@@ -163,6 +298,8 @@ class ContratoController extends Controller
         return $pdf->setPaper('Legal')->stream('contrato.pdf');
     }
 
+
+
       /**
      * Show the form for editing the specified resource.
      *
@@ -171,10 +308,7 @@ class ContratoController extends Controller
      */
     public function edit($id)
     {
-        /*$articulo = Articulo::find($id);
 
-        return view('admin.articulos.edit'
-        , compact('articulo'));*/
         $cliente = Cliente::find($id);
         
         $clientedirecciones = Clientedireccion::where('cliente_id', $cliente->id)->get();
@@ -302,12 +436,9 @@ class ContratoController extends Controller
         }
         //
 
+        $edit = 1;
 
-       
-
-
-
-        return view('admin.contratos.edit', compact('cliente', 'articulos', 'direcciones', 'modelocontratos', 'contratos'));
+        return view('admin.contratos.edit', compact('edit', 'cliente', 'articulos', 'direcciones', 'modelocontratos', 'contratos'));
 
     }
 

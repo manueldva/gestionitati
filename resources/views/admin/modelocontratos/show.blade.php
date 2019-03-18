@@ -1,15 +1,14 @@
 @extends('adminlte::page')
 
-@section('title', 'Gestión - Tipo Iva')
-
+@section('title', 'Gestión - Modelo Contratos')
 @section('content_header')
   <h1>
-    Gestionar Tipo Iva
+    Gestionar  Modelo Contratos
     <!--<small>Listado</small>-->
   </h1>
   <ol class="breadcrumb">
     <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li><a href="{{ route('tipoivas.index')}}">Tipo Iva</a></li>
+    <li><a href="{{ route('modelocontratos.index')}}"> Modelo Contratos</a></li>
     <li class="active">Ver</li>
   </ol>
 
@@ -19,7 +18,7 @@
 
 <div class="box box-primary">
 	<div class="box-header with-border box-default">
-	   <strong> Ver Tipo Iva </strong>
+	   <strong> Ver  Modelo Contrato </strong>
 	</div>
 		
 	<div class="panel-body">
@@ -27,7 +26,7 @@
 			<div class="col-md-12">
 				<div class="row col-md-12">
 					<div class="form-group pull-right">
-								<a href="{{ route('tipoivas.index') }}" type="button" class="btn btn btn-default">
+								<a href="{{ route('modelocontratos.index') }}" type="button" class="btn btn btn-default">
 									<span class="fa fa-list">
 									</span>
 										Listado
@@ -35,13 +34,15 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-8">
 
-				<p> <strong>Codigo:</strong> {{ $tipoiva->id }}</p>
+				<p> <strong>Codigo:</strong> {{ $modelocontrato->id }}</p>
 
-				<p> <strong>Tipo Iva:</strong> {{ $tipoiva->descripcion }}</p>
+				<p> <strong>Nombre Modelo:</strong> {{ $modelocontrato->modelo }}</p>
 
-				<p> <strong>Fecha Alta:</strong> {{ $tipoiva->fecha_alta }}</p>
+				<p> <strong>Descripcion:</strong> {{ $modelocontrato->descripcion }}</p>
+
+				<p> <strong>Cuerpo:</strong> {!! $modelocontrato->cuerpo !!}</p>
 			</div>
 		</div>
 	</div>

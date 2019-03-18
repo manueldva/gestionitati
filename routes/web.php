@@ -43,6 +43,7 @@ route::resource('empleados', 		'Admin\EmpleadoController');
 route::resource('modelocontratos', 	'Admin\ModelocontratoController');
 route::resource('contratos', 		'Admin\ContratoController');
 route::get('/eliminarcontrato/{id}',		'Admin\ContratoController@eliminar')->name('eliminarcontrato');
+Route::get('/printcontrato/{id}', 'Admin\ContratoController@printcontrato');
 /*route::resource('tareas', 		'Admin\TareaController');
 route::get('/TA_obtenerbases/{id}',		'Admin\TareaController@TA_obtenerbases')->name('TA_obtenerbases');
 route::resource('informes', 		'Admin\InformeController');

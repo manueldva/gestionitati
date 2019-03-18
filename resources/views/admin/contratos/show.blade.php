@@ -1,23 +1,20 @@
 @extends('adminlte::page')
 
-@section('title', 'Gestión - Clientes')
-
-@section('css')
-  <link rel="stylesheet" href="{{ asset('css/resources/bootstrap-clockpicker.min.css') }}">
-@endsection
+@section('title', 'Gestión - Contratos')
 
 @section('content_header')
     <h1>
-      Gestionar Clientes
+      Gestionar Contratos
       <!--<small>Listado</small>-->
     </h1>
     <ol class="breadcrumb">
       <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
       <li><a href="{{ route('clientes.index')}}">Clientes</a></li>
-      <li class="active">Nuevo</li>
+      <li class="active">Contrato</li>
     </ol>
 
 @stop
+
 
 
 @section('content')
@@ -30,39 +27,49 @@
   <div class="panel-body">
     <div class="row">
 
-    {!! Form::model($cliente, ['route' => ['clientes.show', $cliente->id], 'method' => 'PUT']) !!}
+    {!! Form::model($cliente, ['route' => ['contratos.show', $cliente->id], 'method' => 'PUT']) !!}
   
-        <div class="col-md-12" >
+         <div class="col-md-12" >
           <div class="row col-md-12">
             <div class="form-group" style="text-align: center">
 
-                <!--
-                <a href="#" type="button" id="contrato" class="btn btn btn-default">
-                    <span class="fa fa-file-text">
-                    </span>
-                      Contrato
-                </a>  
-
+                <!-- 
+                &nbsp;&nbsp;&nbsp;
                 <a href="#" type="button" id="movimiento" class="btn btn btn-default">
                     <span class="fa fa-list">
                     </span>
                       Movimientos del cliente
+                </a>
+                &nbsp;&nbsp;&nbsp;
+                <a href="#" type="button" id="movimiento" class="btn btn btn-danger">
+                    <span class="fa fa-trash-o">
+                    </span>
+                     Baja definitiva
                 </a>-->
-
+                &nbsp;&nbsp;&nbsp;
                 <a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">
+                <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
                     <span class="fa fa-list">
                     </span>
                       Listado
-                </a>
+                  </a>
+                 &nbsp;&nbsp;&nbsp;
+                <a href=" {{ route('clientes.show', $cliente->id) }}" type="button" class="btn btn btn-default">
+                <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
+                    <span class="glyphicon glyphicon-remove">
+                    </span>
+                      Cancelar
+                  </a>
             </div>
           </div>
         </div>
+       
       
     </div>
   </div>
 </div>
 
-@include('admin.clientes.partials.form')
+@include('admin.contratos.partials.form')
 
 {!! Form::close() !!}
 

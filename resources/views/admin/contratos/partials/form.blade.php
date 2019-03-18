@@ -191,14 +191,18 @@
 										<td><center>{{ \Carbon\Carbon::parse($contrato->fechacontrato)->format('d/m/Y') }}</center></td>
 										<td><center>{{ $contrato->modelocontrato->modelo }}</center></td>
 										<td><center>{{ $contrato->usuario_modi }}</center></td>
-					                     <td>
-						                   	<a class='delete btn btn-sm btn-danger' onclick ='deletecontrato_row($(this))'>
-						                   		<span class='glyphicon glyphicon-trash'></span>
-						                   	</a>
-						                   	<a href="{{ route('contratos.show', $contrato->id) }}" target="blank_" class='btn btn-sm btn-primary'>
+				                   
+					                    <td>
+					                    	@if($edit !== 0)
+							                   	<a class='delete btn btn-sm btn-danger' onclick ='deletecontrato_row($(this))'>
+							                   		<span class='glyphicon glyphicon-trash'></span>
+							                   	</a>
+						                   	@endif
+						                   	<a  href="{{ asset('printcontrato/') . '/' . $contrato->id }}" target="blank_" class='btn btn-sm btn-primary'>
 						                   		<span class='glyphicon glyphicon-print'></span>
 						                   	</a>
 					               	    </td>
+					               	
 					                  </tr>
 					                @endforeach
 								@endif

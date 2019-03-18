@@ -92,11 +92,11 @@ class ModelocontratoController extends Controller
      */
     public function show($id)
     {
-        $tipoiva = Tipoiva::find($id);
+        $modelocontrato = Modelocontrato::find($id);
 
-        $tipoiva->fecha_alta = FechaHelper::getFechaImpresion($tipoiva->fecha_alta); 
+        $modelocontrato->fecha_alta = FechaHelper::getFechaImpresion($modelocontrato->fecha_alta); 
 
-        return view('admin.complementos.tipoivas.show', compact('tipoiva'));
+        return view('admin.modelocontratos.show', compact('modelocontrato'));
     }
 
     /**

@@ -48,7 +48,12 @@
                     </span>
                       Movimientos del cliente
                 </a>-->
-
+                <a href="{{ route('contratos.show', $cliente->id) }}" type="button" id="contrato" class="btn btn btn-default">
+                    <span class="fa fa-file-text">
+                    </span>
+                      Contrato
+                </a> 
+                &nbsp;&nbsp;&nbsp;
                 <a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">
                     <span class="fa fa-list">
                     </span>
