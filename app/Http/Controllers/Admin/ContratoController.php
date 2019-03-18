@@ -289,6 +289,7 @@ class ContratoController extends Controller
         $contrato = str_replace('{{mes_contrato}}',$mes, $contrato);
         $contrato = str_replace('{{anio_contrato}}', $fecha->year, $contrato);
         $contrato = str_replace('{{apellido_nombre_cliente}}', $apellidonombre, $contrato);
+        $contrato = str_replace('{{tipodocumento}}', $cliente->tipodocumento->descripcion, $contrato);
         $contrato = str_replace('{{nrodocumento_cliente}}', $cliente->numerodocumento, $contrato);
         $contrato = str_replace('{{domicilio_cliente}}', $direcciones, $contrato);
         $contrato = str_replace('{{articulo_cantidad}}', $articulos, $contrato);
