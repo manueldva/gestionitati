@@ -20,8 +20,9 @@ use App\Models\Modulo;
 use App\Models\Perfil;
 use Auth;
 
-
 use App\Helpers\FechaHelper;
+use Barryvdh\DomPDF\Facade as PDF;
+use Carbon\Carbon;
 
 class ContratoController extends Controller
 {
@@ -62,9 +63,104 @@ class ContratoController extends Controller
      * @param  \App\Contrato  $contrato
      * @return \Illuminate\Http\Response
      */
-    public function show(Contrato $contrato)
+    public function show($id)
     {
+        $contratotemp = Contrato::find($id);
+        $modelocontrato = Modelocontrato::find($contratotemp->modelocontrato_id);
+        $cliente = Cliente::find($contratotemp->cliente_id);
+        //echo $modelocontrato;
+        
+        $contrato = $modelocontrato->cuerpo;
+        $fecha = new Carbon($contratotemp->fechacontrato);
+        //para el mes
+        $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+        $mes = $meses[($fecha->format('n')) - 1];
         //
+        // cliente
+        if($cliente->tipocliente_id == 1){
+            $apellidonombre = $cliente->apellido .' '. $cliente->nombre;
+        } else {
+            $apellidonombre = $cliente->cliente; 
+        }
+        //
+
+        //direccion
+        $clientedireccion = Clientedireccion::where('id', $contratotemp->clientedireccion_id)->first();
+
+       //dd($clientedireccion);
+
+        if($clientedireccion->barrio_id) {
+            $direcciones = 'Bº ' . $clientedireccion->barrio->descripcion;
+        } 
+
+        if($clientedireccion->calle_id) {
+            $direcciones = $direcciones . ' Calle ' . $clientedireccion->calle->descripcion;
+        } 
+
+        if($clientedireccion->numero) {
+            $direcciones = $direcciones . ' Nro. ' . $clientedireccion->numero;
+        }
+
+        if($clientedireccion->manzana) {
+            $direcciones = $direcciones . ' Mz. ' . $clientedireccion->manzana;
+        } 
+
+
+        if($clientedireccion->casa) {
+            $direcciones = $direcciones . ' C. ' . $clientedireccion->casa;
+        } 
+
+        if($clientedireccion->seccion) {
+            $direcciones = $direcciones . ' Seccion ' . $clientedireccion->seccion;
+        }
+
+        if($clientedireccion->lote) {
+            $direcciones = $direcciones . ' Lote ' . $clientedireccion->lote;
+        }
+
+        if($clientedireccion->edificiotorre) {
+            $direcciones = $direcciones . ' Edificio ' . $clientedireccion->edificiotorre;
+        } 
+
+        if($clientedireccion->piso) {
+            $direcciones = $direcciones . ' Piso/Dpto ' . $clientedireccion->piso;
+        }
+
+        //
+
+        //articulos
+        $contratoarticulos  = Contratoarticulo::where('contrato_id', $id)->get();
+        $tot = count($contratoarticulos);
+        $articulos = '';
+        foreach ($contratoarticulos as $key => $value) {
+            
+            if($articulos == ''){
+                $articulos =  '<ul><li>'. $value->articulo->descripcion . ' - ' . $value->cantidad . ' Unidad/es</li>';
+            } else {
+                $articulos = $articulos . '<li>' .  $value->articulo->descripcion . ' - ' . $value->cantidad . ' Unidad/es</li>';
+            }
+            
+            if ($key == $tot-1){
+                $articulos = $articulos . '</ul>';
+            }
+                 
+        }
+
+
+        //
+
+        $contrato = str_replace('{{codigo_contrato}}', $contratotemp->cliente_id, $contrato);
+        $contrato = str_replace('{{dia_contrato}}', $fecha->day, $contrato);
+        $contrato = str_replace('{{mes_contrato}}',$mes, $contrato);
+        $contrato = str_replace('{{anio_contrato}}', $fecha->year, $contrato);
+        $contrato = str_replace('{{apellido_nombre_cliente}}', $apellidonombre, $contrato);
+        $contrato = str_replace('{{nrodocumento_cliente}}', $cliente->numerodocumento, $contrato);
+        $contrato = str_replace('{{domicilio_cliente}}', $direcciones, $contrato);
+        $contrato = str_replace('{{articulo_cantidad}}', $articulos, $contrato);
+
+        $pdf = PDF::loadView('admin.contratos.printcontrato', compact('contrato'));
+
+        return $pdf->setPaper('Legal')->stream('contrato.pdf');
     }
 
       /**

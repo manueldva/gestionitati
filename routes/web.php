@@ -40,7 +40,7 @@ Route::get('autocompleteempleado', function() {
 route::resource('clientes', 		'Admin\ClienteController');
 route::resource('articulos', 		'Admin\ArticuloController');
 route::resource('empleados', 		'Admin\EmpleadoController');
-route::resource('modelocontratos', 	'Admin\ModeloContratoController');
+route::resource('modelocontratos', 	'Admin\ModelocontratoController');
 route::resource('contratos', 		'Admin\ContratoController');
 route::get('/eliminarcontrato/{id}',		'Admin\ContratoController@eliminar')->name('eliminarcontrato');
 /*route::resource('tareas', 		'Admin\TareaController');

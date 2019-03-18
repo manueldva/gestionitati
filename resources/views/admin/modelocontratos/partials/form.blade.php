@@ -36,7 +36,7 @@
 	<br>
 	<br>
 	<div class="form-group">
-		{{ form::label('cuerpo', 'Cuerpo del Contrato*') }}
+		{{ form::label('cuerpo', 'Cuerpo del Contrato *') }}
 		{{ form::textarea('cuerpo', null, ['class' => 'form-control', 'id' => 'cuerpo']) }}
 	</div>
 
@@ -50,12 +50,30 @@
 
 @push('js')
 	
-	<script src="{{ asset('vendor/ckeditor/ckeditor.js') }}"></script>
+	<!--<script src="{{ asset('vendor/ckeditor/ckeditor.js') }}"></script>-->
+
+	<script src="{{ asset('editor/summernote.min.js') }}"></script>
 
 	<script type="text/javascript">
 
-		CKEDITOR.replace('cuerpo');
-	
+		//CKEDITOR.replace('cuerpo');
+		$('#cuerpo').summernote({
+		  toolbar: [
+		    ['fontsize', ['fontsize']],
+		    ['font', ['bold', 'italic', 'underline', 'clear']],
+		    ['fontname', ['fontname']],
+		    ['color', ['color']],
+		    ['para', ['ul', 'ol', 'paragraph']],
+		    ['height', ['height']],
+		    ['insert', ['picture', 'hr']],
+		    ['table', ['table']]
+		  ],
+		  height: 300,                 // set editor height
+		  minHeight: null,             // set minimum height of editor
+		  maxHeight: null,             // set maximum height of editor
+		  focus: true,
+		  fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36', '48' , '64', '82', '150']                  // set focus to editable area after initializing summernote
+		});
 		
 	</script>
 @endpush

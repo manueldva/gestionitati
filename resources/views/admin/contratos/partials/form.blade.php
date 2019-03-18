@@ -7,7 +7,11 @@
 	  	<div class="box-header with-border">
 	      <i class="fa fa-user"></i>
 
-	      <h3 class="box-title"><strong>Cliente: {{ $cliente->apellido }} {{ $cliente->nombre }}  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Nro. Documento: {{ $cliente->numerodocumento }} </strong></h3>
+	      <h3 class="box-title">
+	      	<strong>
+	      		Cliente: @if($cliente->tipocliente_id == 2) {{ $cliente->cliente }} @else {{ $cliente->apellido }} {{ $cliente->nombre }} @endif &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Nro. Documento: {{ $cliente->numerodocumento }} 
+	      	</strong>
+	      </h3>
 	    </div>
 	    <!-- /.box-header -->
 	    <div class="box-body">
@@ -185,12 +189,15 @@
 					                    <td><center>{{ $cliente->id }}</center></td>
 					                    <td><center>{{ $contrato->usuario_alta }}</center></td>
 										<td><center>{{ \Carbon\Carbon::parse($contrato->fechacontrato)->format('d/m/Y') }}</center></td>
-										<td><center>{{ $contrato->modelocontrato->descripcion }}</center></td>
+										<td><center>{{ $contrato->modelocontrato->modelo }}</center></td>
 										<td><center>{{ $contrato->usuario_modi }}</center></td>
 					                     <td>
-						                   <a class='delete btn btn-sm btn-danger' onclick ='deletecontrato_row($(this))'>
-						                   	<span class='glyphicon glyphicon-trash'></span>
-						                   </a>
+						                   	<a class='delete btn btn-sm btn-danger' onclick ='deletecontrato_row($(this))'>
+						                   		<span class='glyphicon glyphicon-trash'></span>
+						                   	</a>
+						                   	<a href="{{ route('contratos.show', $contrato->id) }}" target="blank_" class='btn btn-sm btn-primary'>
+						                   		<span class='glyphicon glyphicon-print'></span>
+						                   	</a>
 					               	    </td>
 					                  </tr>
 					                @endforeach

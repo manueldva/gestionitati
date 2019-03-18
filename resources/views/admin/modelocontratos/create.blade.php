@@ -2,6 +2,10 @@
 
 @section('title', 'Gestión - Modelo Contratos')
 
+@section('css')
+  <link rel="stylesheet" href="{{ asset('editor/summernote.css') }}">
+@endsection
+
 @section('content_header')
     <h1>
       Gestionar Modelo Contratos
