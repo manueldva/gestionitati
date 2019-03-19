@@ -65,7 +65,7 @@ class ContratoController extends Controller
      */
     public function show($id)
     {
-       $cliente = Cliente::find($id);
+        $cliente = Cliente::find($id);
         
         $clientedirecciones = Clientedireccion::where('cliente_id', $cliente->id)->get();
 
@@ -261,9 +261,7 @@ class ContratoController extends Controller
         if($clientedireccion->piso) {
             $direcciones = $direcciones . ' Piso/Dpto ' . $clientedireccion->piso;
         }
-
         //
-
         //articulos
         $contratoarticulos  = Contratoarticulo::where('contrato_id', $id)->get();
         $tot = count($contratoarticulos);
@@ -281,9 +279,7 @@ class ContratoController extends Controller
             }
                  
         }
-
         //
-
         $contrato = str_replace('{{codigo_contrato}}', $contratotemp->cliente_id, $contrato);
         $contrato = str_replace('{{dia_contrato}}', $fecha->day, $contrato);
         $contrato = str_replace('{{mes_contrato}}',$mes, $contrato);
@@ -452,9 +448,7 @@ class ContratoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
         //$contrato = Contrato::find($id);
-
         $contrato = Contrato::create($request->all());
 
 
