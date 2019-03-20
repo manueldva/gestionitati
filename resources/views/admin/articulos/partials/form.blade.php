@@ -143,49 +143,49 @@
 			    <div class="box-body">
 		      
 				  	<div class="form-group">
-				<div class="table-responsive">
-					<table class="table table-striped table-hover" data-form="Form">
-						<thead>
-							<tr>
-								<td> 
-									{{ form::label('tipoprecio_id', 'Tipo Precio') }}
-									{{ form::select('tipoprecio_id', [],  null, ['class' => 'form-control', 'id' => 'tipoprecio_id','placeholder' => 'Seleccionar...'] ) }}
-								</td>
-								<td> 
-									{{ form::label('precio', 'Precio') }}
-									{{ form::number('precio', null, ['class' => 'form-control', 'id' => 'precio']) }}
-								</td>
-								<td> 
-									<br>
-									<a type="button" id="agregarprecios" name="agregarprecios" class="btn btn btn-success">
-					                    <span class="fa fa-plus-circle">
-					                    </span>
-					                    AGREGAR
-					                </a>
-								</td>
-							</tr>		
-						</thead>
-					</table>
-				</div>
-				<div class="form-group">
-					<div class="table-responsive">
-						<table   id="table_precios" class="table table-striped table-hover" data-form="Form">
-							<thead>
-								<tr>
-								<!--<th width="10px"> ID</th>-->
-									<th style="display:none;">Codigo</th>
-									<th> Tipo Precio</th>
-									<th> Precio</th>
-								</tr>
-							</thead>
-							<tbody>
-								
-							</tbody>
-						</table>
+						<div class="table-responsive">
+							<table class="table table-striped table-hover" data-form="Form">
+								<thead>
+									<tr>
+										<td> 
+											{{ form::label('tipoprecio_id', 'Tipo Precio') }}
+											{{ form::select('tipoprecio_id', [],  null, ['class' => 'form-control', 'id' => 'tipoprecio_id','placeholder' => 'Seleccionar...'] ) }}
+										</td>
+										<td> 
+											{{ form::label('precio', 'Precio') }}
+											{{ form::number('precio', null, ['class' => 'form-control', 'id' => 'precio']) }}
+										</td>
+										<td> 
+											<br>
+											<a type="button" id="agregarprecios" name="agregarprecios" class="btn btn btn-success">
+							                    <span class="fa fa-plus-circle">
+							                    </span>
+							                    AGREGAR
+							                </a>
+										</td>
+									</tr>		
+								</thead>
+							</table>
+						</div>
+						<div class="form-group">
+							<div class="table-responsive">
+								<table   id="table_precios" class="table table-striped table-hover" data-form="Form">
+									<thead>
+										<tr>
+										<!--<th width="10px"> ID</th>-->
+											<th style="display:none;">Codigo</th>
+											<th> Tipo Precio</th>
+											<th> Precio</th>
+										</tr>
+									</thead>
+									<tbody>
+										
+									</tbody>
+								</table>
+							</div>
+						</div>
+						
 					</div>
-				</div>
-				
-			</div>
 			    </div>
 			    <!-- /.box-body -->
 			  <!--</div>-->
@@ -238,64 +238,81 @@
 	<div class="col-md-12">
 	  <div class="box box-default">
 	  	<div class="box-header with-border">
-	      <i class="fa fa-users"></i>
-
-	      <h3 class="box-title">Ingresar articulos al plan</h3>
+	      
 	    </div>
 
 	    <!-- /.box-header -->
 	    <div class="box-body">
+	    	<div class="col-md-10">
+			  <!--<div class="box box-default">-->
+			    <div class="box-header with-border">
+			      <!--<i class="fa fa-user"></i>-->
 
-			<div class="form-group">
-				<div class="table-responsive">
-					<table class="table table-striped table-hover" data-form="Form">
-						<thead>
-							<tr>
-								<td> 
-									{{ form::label('articulo_id', 'Vinculo') }}
-									{{ form::select('articulo_id', [],  null, ['class' => 'form-control', 'id' => 'articulo_id','placeholder' => 'Seleccionar...'] ) }}
-								</td>
-								<td> 
-									{{ form::label('nombrefamiliar', 'Apellido y Nombre') }}
-									{{ form::text('nombrefamiliar', null, ['class' => 'form-control', 'id' => 'nombrefamiliar', 'maxlength' =>'200']) }}
-								</td>
-								<td> 
-									{{ form::label('contactofamiliar', 'Contacto') }}
-									{{ form::number('contactofamiliar', null, ['class' => 'form-control', 'id' => 'contactofamiliar']) }}
-								</td>
-								<td> 
-									<br>
-									<a type="button" id="agregarfamiliares" name="agregarfamiliares" class="btn btn btn-success">
-					                    <span class="fa fa-plus-circle">
-					                    </span>
-					                    AGREGAR
-					                </a>
-								</td>
-							</tr>		
-						</thead>
-					</table>
-				</div>
-				<div class="form-group">
-					<div class="table-responsive">
-						<table   id="table_familiares" class="table table-striped table-hover" data-form="Form">
-							<thead>
-								<tr>
-								<!--<th width="10px"> ID</th>-->
-									<th style="display:none;"> Codigo</th>
-									<th> Vinculo</th>
-									<th> Apellido y Nombre</th>
-									<th>Contacto</th>
-								</tr>
-							</thead>
-							<tbody>
-								
-							</tbody>
-						</table>
-					</div>
-				</div>
-				
+			      <h3 class="box-title">Ingrese un precio:</h3>
+			    </div>
+			    <!-- /.box-header -->
+			    <div class="box-body">
+		      
+				  	<div class="form-group">
+						<div class="table-responsive">
+							<table class="table table-striped table-hover" data-form="Form">
+								<thead>
+									<tr>	
+										<td class="col-md-3"> 
+											{{ form::label('articulo_id', 'Cod.') }}
+											{{ form::number('articulo_id', null, ['class' => 'form-control', 'id' => 'articulo_id']) }}
+										</td>
+										<td>
+											{{ form::label('articulo', 'Articulo') }}
+											<br>
+											{{ form::select('articulo', [],  null, ['class' => 'form-control inline-search', 'id' => 'articulo','placeholder' => 'Seleccionar...'] ) }}
+										</td>
+										<td> 
+											{{ form::label('cantidadarticulo', 'Cantidad') }}
+											{{ form::number('cantidadarticulo', null, ['class' => 'form-control', 'id' => 'cantidadarticulo']) }}
+										</td>
+										<td> 
+											<br>
+											<a type="button" id="agregararticulo" name="agregararticulo" class="btn btn btn-success">
+							                <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
+							                    <span class="fa fa-plus-circle">
+							                    </span>
+							                      AGREGAR
+							                  </a>
+										</td>
+									</tr>	
+									
+								</thead>
+							</table>
+							<div class="form-group">
+								<div class="table-responsive">
+									<table   id="table_articulos" class="table table-striped table-hover" data-form="Form">
+										<thead>
+											<tr>
+											<!--<th width="10px"> ID</th>-->
+												<th style="display:none;"> Codigo</th>
+												<th> Articulo</th>
+												<th> Cantidad</th>
+												<th> </th>
+											</tr>
+										</thead>
+										<tbody>
+											
+										</tbody>
+									</table>
+									<div id="table_articulosspan" class="form-group has-error" style="display: none">
+										<span class="help-block">Debe haber al menos un registro en la lista</span>
+									</div>
+								</div>
+							</div>
+						</div>
+			    	</div>
+			    </div>
+			    <!-- /.box-body -->
+			  <!--</div>-->
+			  <!-- /.box -->
 			</div>
-	    </div>
+			
 	  </div>
 	</div>
 </div>
