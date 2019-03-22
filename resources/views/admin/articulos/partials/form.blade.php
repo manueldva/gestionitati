@@ -1,6 +1,6 @@
 
 <input type="hidden" name="listado_precios" id="id_lista_precios">
-<input type="hidden" name="listado_familiares" id="id_lista_familiares">
+<input type="hidden" name="listado_planarticulos" id="id_lista_planarticulos">
 <div class="row">
 	<div class="col-md-12">	
 	  <div class="box box-default">
@@ -286,7 +286,7 @@
 							</table>
 							<div class="form-group">
 								<div class="table-responsive">
-									<table   id="table_articulos" class="table table-striped table-hover" data-form="Form">
+									<table   id="table_planarticulos" class="table table-striped table-hover" data-form="Form">
 										<thead>
 											<tr>
 											<!--<th width="10px"> ID</th>-->
