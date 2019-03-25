@@ -11,7 +11,7 @@ use Alert;
 
 use App\Models\Articulo;
 use App\Models\Tipoarticulo;
-use App\Models\Clientearticulo;
+use App\Models\Contratoarticulo;
 use App\Models\Modulo;
 use App\Models\Perfil;
 use Auth;
@@ -61,8 +61,9 @@ class ArticuloController extends Controller
     public function create()
     {
         $tipoarticulos  = Tipoarticulo::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+        $planarticulos  = Articulo::where('tipoarticulo_id', 1)->orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
-        return view('admin.articulos.create', compact('tipoarticulos'));
+        return view('admin.articulos.create', compact('tipoarticulos', 'planarticulos'));
     }
 
     /**
@@ -109,8 +110,9 @@ class ArticuloController extends Controller
         $articulo = Articulo::find($id);
 
         $tipoarticulos  = Tipoarticulo::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+        $planarticulos  = Articulo::where('tipoarticulo_id', 1)->orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
-        return view('admin.articulos.edit', compact('articulo', 'tipoarticulos'));
+        return view('admin.articulos.edit', compact('articulo','planarticulos' , 'tipoarticulos'));
 
     }
 
@@ -147,7 +149,7 @@ class ArticuloController extends Controller
     public function destroy($id)
     {
 
-        $existe = Clientearticulo::where('articulo_id', $id)->count();
+        $existe = Contratoarticulo::where('articulo_id', $id)->count();
 
         if($existe > 0) 
         {

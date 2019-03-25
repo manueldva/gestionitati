@@ -356,9 +356,9 @@ class ContratoController extends Controller
 
         //dd($direcciones);
 
-        $modelocontratos  = Modelocontrato::orderBy('id', 'ASC')->pluck('descripcion' , 'id');
+        $modelocontratos  = Modelocontrato::orderBy('id', 'ASC')->pluck('modelo' , 'id');
 
-        $articulos  = Articulo::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+        $articulos  = Articulo::where('tipoarticulo_id', '<>', 3)->orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
         // para el listado
         $contratos  = Contrato::where('cliente_id', $id)->orderBy('fechacontrato' , 'DESC')->get();
@@ -449,13 +449,33 @@ class ContratoController extends Controller
     public function update(Request $request, $id)
     {
         //$contrato = Contrato::find($id);
-        $contrato = Contrato::create($request->all());
 
 
-        //auditoria
-        $contrato->fill(['cliente_id' => $id, 'usuario_modi' => Auth::user()->username , 'fecha_modi' => date('Y-m-d H:i:s')])->save();
-        //
+        if($request->get("contrato_id")) {
+            
+            $contrato = Contrato::find($request->get("contrato_id"));
 
+            $contrato->fill($request->all())->save();
+
+                        //auditoria
+            $contrato->fill(['usuario_modi' => Auth::user()->username , 'fecha_modi' => date('Y-m-d H:i:s')])->save();
+            //
+
+            Contratoarticulo::where('contrato_id', $contrato->id)->delete();    
+
+            Alert::success('Contrato modificado con exito')->persistent("Cerrar");
+        } else {
+
+            $contrato = Contrato::create($request->all());
+
+            //auditoria
+            $contrato->fill(['cliente_id' => $id, 'usuario_alta' => Auth::user()->username , 'fecha_alta' => date('Y-m-d H:i:s')])->save();
+            //
+
+            Alert::success('Contrato creado con exito')->persistent("Cerrar");
+        }
+
+      
 
          //guardar familiares asociados al cliente
         $listado_articulos_text = $request->input("listado_articulos");
@@ -484,7 +504,7 @@ class ContratoController extends Controller
         }
 
         //
-        Alert::success('Contrato creado con exito')->persistent("Cerrar");
+        //Alert::success('Contrato creado con exito')->persistent("Cerrar");
         //return redirect()->route('clientes.index');
         return redirect()->route('contratos.edit', $id);
 

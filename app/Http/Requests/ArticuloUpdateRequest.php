@@ -24,9 +24,15 @@ class ArticuloUpdateRequest extends FormRequest
     public function rules()
     {
 
+        //dd($this::path());  
+            
+        $articulo = $this::path();
+        $cant = strpos($articulo, '/', 1) + 1;
+        $articulo = substr($articulo, $cant);
+        //   
         return [
             //'codigo' => 'required|max:50|unique:articulos,codigo, ' . $this->articulo,
-            'descripcion' => 'required|max:250|unique:articulos,descripcion, '  . $this->articulo,
+            'descripcion' => 'required|max:250|unique:articulos,descripcion,'  . $articulo,
             'tipoarticulo_id' => 'required',
             /*'stock' => 'required',
             'stockminimo' => 'required',

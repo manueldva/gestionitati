@@ -28,6 +28,28 @@ Route::get('articulos', function() {
     return $articulo;
 });
 
+Route::get('planarticulos', function() {
+
+    $articulo = App\Models\Articulo::where('id', '=', request('q'))->where('tipoarticulo_id', '=' , 1)->first();
+    if(!$articulo){
+        $articulo = 0;
+    }
+    return $articulo;
+});
+
+Route::get('contratoarticulos', function() {
+
+    $articulos = App\Models\Contratoarticulo::where('contrato_id', '=', request('q'))->get();
+    if(!$articulos){
+        $articulos = 0;
+    }
+
+    foreach ($articulos as $key => $value) {
+        $value->usuario_alta = $value->articulo->descripcion;
+    }
+    return $articulos;
+});
+
 
 Route::get('departamentos', function() {
 

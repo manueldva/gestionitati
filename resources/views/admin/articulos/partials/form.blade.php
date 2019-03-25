@@ -235,7 +235,7 @@
 
 <!-- cuarta seccion-->
 
-	<div class="col-md-12">
+	<div class="col-md-12" id ="articulo_planes">
 	  <div class="box box-default">
 	  	<div class="box-header with-border">
 	      
@@ -248,7 +248,7 @@
 			    <div class="box-header with-border">
 			      <!--<i class="fa fa-user"></i>-->
 
-			      <h3 class="box-title">Ingrese un precio:</h3>
+			      <h3 class="box-title">Ingrese articulos al plan:</h3>
 			    </div>
 			    <!-- /.box-header -->
 			    <div class="box-body">
@@ -265,7 +265,7 @@
 										<td>
 											{{ form::label('articulo', 'Articulo') }}
 											<br>
-											{{ form::select('articulo', [],  null, ['class' => 'form-control inline-search', 'id' => 'articulo','placeholder' => 'Seleccionar...'] ) }}
+											{{ form::select('articulo', $planarticulos,  null, ['class' => 'form-control inline-search', 'id' => 'articulo','placeholder' => 'Seleccionar...'] ) }}
 										</td>
 										<td> 
 											{{ form::label('cantidadarticulo', 'Cantidad') }}
@@ -325,6 +325,141 @@
 @push('js')
 	<!-- todo lo que tenga que realizar un ajax -->
 	<script type="text/javascript">
+
+		/*mostrar campos dependiendo del tipo del articulo*/
+		function habilitar_Planarticulos(){
+			var tipoa = $('#tipoarticulo_id').val();
+
+			if(tipoa == 2){
+				$("#articulo_planes").show();
+			} else {
+				$("#articulo_planes").hide();
+			}
+
+		}
+
+		habilitar_Planarticulos();
+
+		$('#tipoarticulo_id').change(function(e) {
+			
+			habilitar_Planarticulos();
+		});//
+
+
+		var APP_RL = "{{ url('/') }}";
+
+
+		//buscador articulos
+		function buscarArticulos(articulo_id) {
+
+			//alert(articulo_id);
+
+			if (articulo_id !== '') {
+			$.ajax({
+				dataType: 'json',
+				url: APP_URL + '/api/planarticulos',
+				//url: '../api/validardocumento',
+				data: {q: articulo_id}
+			}).done(function(data) {
+				//var $empleado = $('#empleado'); 
+				if(data !== 0) {
+					$("#articulo_id").val(data.id);
+					$("#articulo").val(data.id);
+					$("#cantidadarticulo").val(1);
+
+					//$("#empleado").html('').select2({data: [ {id: data.id, text: data.empleado}]}); 
+					//toastr.info('Codigo de vendedor correcto');
+				} else{
+					$("#articulo_id").val('');
+					$("#articulo").val('');
+					$("#cantidadarticulo").val('');
+					
+				}
+				
+			});
+			} else {
+				$("#articulo_id").val('');
+				$("#articulo").val('');
+				$("#cantidadarticulo").val('');
+			}
+		}
+
+
+		$('#articulo_id').focusout(function(e) {
+
+			buscarArticulos($('#articulo_id').val());
+
+		});
+
+		$(document).ready(function(){
+			$("#articulo_id").keypress(function(e) {
+			//no recuerdo la fuente pero lo recomiendan para
+			//mayor compatibilidad entre navegadores.
+			var code = (e.keyCode ? e.keyCode : e.which);
+				if(code==13){
+					if ($('#articulo_id').val() == '') $('#articulo').val(''); 
+					buscarArticulos($('#articulo_id').val());
+
+				}
+			});
+		});
+
+		$('#articulo').on('change', function(e){
+			if ($('#articulo').val() == '') $('#articulo_id').val(''); 
+			buscarArticulos($('#articulo').val());
+		});
+
+
+		/*para agregar articulos al listado*/
+		$( "#agregararticulo" ).click(function() {
+
+			
+			if($('#articulo_id').val() == ''  || $("#cantidadarticulo").val() == '') {
+
+
+				toastr.error('No se puede agregar este articulo. Faltan datos');
+				return false;
+			}
+
+			if(parseInt($("#cantidadarticulo").val()) < 1) {
+
+
+				toastr.error('La cantidad ingresada no puede ser menor a 1');
+				return false;
+			}
+
+			//variables para guardar en la grilla
+			var codigo = $('#articulo_id').val();
+			//var descripcion = $("#descripcionarticulo").val();
+			var descripcion =$('select[name="articulo"] option:selected').text();
+			var cantidad = parseInt($('#cantidadarticulo').val());
+
+			//cargo la grilla
+			$('#table_planarticulos tbody').prepend(
+				'<tr>' + 
+				'<td style="display:none;">' + codigo + '</td>' +
+				'<td>' + descripcion + '</td>' +
+				'<td>' + cantidad + '</td>' +
+				"<td><a class='delete btn btn-sm btn-danger' onclick ='deletearticulo_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
+				'</td>' +
+				'</tr>');
+
+				$("#articulo_id").val('');
+				$("#articulo").val('');
+				$("#cantidadarticulo").val('');
+
+			toastr.success('Articulo agregado a la lista');
+			
+
+		});
+
+
+		/*borrar filas del listado de articulos*/
+		function deletearticulo_row(row) {
+
+		  	row.closest('tr').remove();
+		  	toastr.info('Articulo eliminado de la lista');
+		}
 
 		
 		$( "#guardar" ).click(function() {

@@ -15,7 +15,13 @@
 	    </div>
 	    <!-- /.box-header -->
 	    <div class="box-body">
-
+	    	<a type="button" id="cancelaredicion" name="cancelaredicion" class="btn btn btn-danger pull-right" onclick="javascript:window.location.reload();">
+	            <span class="fa fa-remove">
+	            </span>
+	              Cancelar Edicion
+	         </a>
+	         <br>
+	          <br>
 			<div class="col-md-4">
 			  <!--<div class="box box-default">-->
 			    <div class="box-header with-border">
@@ -26,6 +32,7 @@
 			    <!-- /.box-header -->
 			    <div class="box-body">
 			      <div class="form-group">
+			      	{{ form::number('contrato_id', null, ['class' => 'form-control', 'id' => 'contrato_id']) }}
 			      	{{ form::label('fechacontrato', 'Fecha Contrato') }}
 					{{ form::date('fechacontrato', null, ['class' => 'form-control', 'id' => 'fechacontrato']) }}
 					<div id="fechacontratospan" class="form-group has-error" style="display: none">
@@ -173,11 +180,14 @@
 								<tr>
 								<!--<th width="10px"> ID</th>-->
 									<th style="display:none;">contradoID</th>
+									<th style="display:none;">direccionID</th>
 									<th> <center>Nro Cliente</center></th>
 									<th> <center>Dirección</center></th>
 									<th> <center>Fecha Contrato</center></th>
+									<th style="display:none;">modeloID</th>
 									<th> <center>Modelo Contrato</center></th>
 									<th> <center>Articulos</center></th>
+									 <th colspan="2">&nbsp;</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -186,19 +196,27 @@
 					                  <tr>
 					                    
 					                    <td style="display:none" >{{ $contrato->id }}</td>
+					                    <td style="display:none" >{{ $contrato->clientedireccion_id }}</td>
 					                    <td><center>{{ $cliente->id }}</center></td>
 					                    <td><center>{{ $contrato->usuario_alta }}</center></td>
 										<td><center>{{ \Carbon\Carbon::parse($contrato->fechacontrato)->format('d/m/Y') }}</center></td>
+										<td><center>{{ $contrato->modelocontrato_id }}</center></td>
 										<td><center>{{ $contrato->modelocontrato->modelo }}</center></td>
 										<td><center>{{ $contrato->usuario_modi }}</center></td>
 				                   
-					                    <td>
+					                    <td width="10px">
 					                    	@if($edit !== 0)
-							                   	<a class='delete btn btn-sm btn-danger' onclick ='deletecontrato_row($(this))'>
+							                   	<!--<a class='delete btn btn-sm btn-danger' onclick ='deletecontrato_row($(this))'>
 							                   		<span class='glyphicon glyphicon-trash'></span>
+							                   	</a>-->
+							                   	<a  class='delete btn btn-sm btn-primary' onclick ='editcontrato_row($(this))' title="Editar Contrato">
+							                   		<span class='glyphicon glyphicon-edit'></span>
 							                   	</a>
+
 						                   	@endif
-						                   	<a  href="{{ asset('printcontrato/') . '/' . $contrato->id }}" target="blank_" class='btn btn-sm btn-primary'>
+						                    </td>
+						                     <td width="10px">
+						                   	<a  href="{{ asset('printcontrato/') . '/' . $contrato->id }}" target="blank_" class='btn btn-sm btn-success' title="Imprimir Contrato">
 						                   		<span class='glyphicon glyphicon-print'></span>
 						                   	</a>
 					               	    </td>
@@ -229,6 +247,10 @@
 
 		
 		var APP_RL = "{{ url('/') }}";
+
+		$("#cancelaredicion").hide();
+
+		$("#contrato_id").hide();
 
 
 		//buscador articulos
@@ -344,11 +366,12 @@
 		}
 
 
-
+		/*
 		function deletecontrato_row(row) {
 
 		  	 var contrato_id = row.parents("tr").find('td').eq(0).html();
  			// aqui va codigo para la eliminacion
+ 			
             $.ajax({
 				dataType: 'json',
 				url: APP_URL + '/eliminarcontrato/' + contrato_id
@@ -363,7 +386,59 @@
 				}
 				
 			});
-		}
+		}*/
+
+
+		function editcontrato_row(row) {
+
+		  	var contrato_id = row.parents("tr").find('td').eq(0).html();
+		  	var direccion_id = row.parents("tr").find('td').eq(1).html();
+		  	var fecha = row.parents("tr").find('td').eq(4).html();
+		  	var modelocontrato_id = row.parents("tr").find('td').eq(5).html();	
+		  	//
+		  	fecha = fecha.replace('<center>', '');
+		  	fecha = fecha.replace('</center>', '');
+		  	modelocontrato_id = modelocontrato_id.replace('<center>', '');
+		  	modelocontrato_id = modelocontrato_id.replace('</center>', '');
+		  	var arregloFecha = fecha.split("/");
+			var anio = arregloFecha[2];
+			var mes = arregloFecha[1];
+			var dia = arregloFecha[0];
+			fecha = anio  + "-" + mes + "-" + dia;
+
+			//
+
+ 			// 
+ 			$('#contrato_id').val(contrato_id);
+ 			$('#clientedireccion_id').val(direccion_id);
+ 			$('#fechacontrato').val(fecha);
+ 			$('#modelocontrato_id').val(modelocontrato_id);
+
+ 			//buscar articulos
+ 			$("#table_articulos tr").remove();
+ 			 $.get('{{ url("/") }}/api/contratoarticulos?q=' + contrato_id,function(data) {
+
+		     
+		      $.each(data, function(fetch, value){
+		        console.log(data);
+			        $('#table_articulos tbody').prepend(
+					'<tr>' +
+					'<td style="display:none;">' + value.articulo_id + '</td>' +
+					'<td>' + value.usuario_alta + '</td>' +
+					'<td>' + value.cantidad + '</td>' +
+					"<td><a class='delete btn btn-sm btn-danger' onclick ='deletearticulo_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
+					'</td>' +
+					'</tr>');
+
+		      })
+		    });
+ 			//
+
+ 			$("#cancelaredicion").show();
+ 			toastr.info('Contrato seleccionado para editar');
+
+ 			
+        }
 
 
 
