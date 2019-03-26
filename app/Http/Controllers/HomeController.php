@@ -71,7 +71,7 @@ class HomeController extends Controller
         
         $data = [];
 
-        $articulos = Articulo::orderBy('descripcion')->get();
+        $articulos = Articulo::where('tipoarticulo_id', '<>', 3)->orderBy('descripcion')->get();
 
         if($request->get('barrios') == null) {
             $contratos = DB::table('contratos')->count();

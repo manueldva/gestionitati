@@ -114,7 +114,7 @@ class InformeController extends Controller
 
         $data = [];
 
-        $articulos = Articulo::orderBy('descripcion')->get();
+        $articulos = Articulo::where('tipoarticulo_id', '<>', 3)->orderBy('descripcion')->get();
 
         if($barrio == null   || $barrio == '0') {
             $contratos = DB::table('contratos')->count();
