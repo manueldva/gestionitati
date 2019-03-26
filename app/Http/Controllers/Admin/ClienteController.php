@@ -611,6 +611,36 @@ class ClienteController extends Controller
        return redirect()->route('clientes.edit', $cliente->id);
     }
 
+
+    public function editdireccion($id)
+    {
+        
+        $direccion = Clientedireccion::find($id);  
+
+        $provincias  = Provincia::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+   
+        $departamentos  = Departamento::orderBy('descripcion', 'ASC')->where('provincia_id', $direccion->provincia_id)->pluck('descripcion' , 'id');
+
+        $localidades  = Localidad::orderBy('descripcion', 'ASC')->where('departamento_id', $direccion->departamento_id)->pluck('descripcion' , 'id');
+
+        $barrios  = Barrio::orderBy('descripcion', 'ASC')->where('localidad_id', $direccion->localidad_id)->pluck('descripcion' , 'id');
+
+        $calles  = Calle::orderBy('descripcion', 'ASC')->where('localidad_id', $direccion->localidad_id)->pluck('descripcion' , 'id');
+
+        $tipoempleado = Tipoempleado::where('descripcion', '=', 'Vendedor')->first();
+        if($tipoempleado) {
+            $empleados  = Empleado::orderBy('empleado', 'ASC')->where('tipoempleado_id', $tipoempleado->id)->pluck('empleado' , 'id');
+                
+            if(!$empleados) $empleados = [];
+        } else {
+            $empleados = [];
+        }
+
+        
+        return view('admin.clientes.editdirecciones', compact('direccion','provincias','departamentos' , 'localidades', 'barrios', 'calles', 'empleados'));
+
+    }
+
     /**
      * Remove the specified resource from storage.
      *

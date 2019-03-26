@@ -592,6 +592,7 @@
 									<th style="display:none;"> calle_id</th>
 									<th style="display:none;"> direccion_id</th>
 									<th> Vendedor</th>
+									<th colspan="">&nbsp;</th>
 
 								</tr>
 							</thead>
@@ -697,6 +698,14 @@
 							                   	<span class='glyphicon glyphicon-trash'></span>
 							                   </a>
 						               	    </td>
+					                    @endif
+
+					                    @if($editshow == 3) 
+						                    <td width="10px">
+						                      <a target="_blank" href="{{ route('editdireccion', $clientedireccion->id) }}"class='delete btn btn-sm btn-primary'>
+						                        <span class='glyphicon glyphicon-edit'></span>
+						                      </a>
+						                    </td>
 					                    @endif
 					                  </tr>
 					                @endforeach
@@ -1102,7 +1111,7 @@
 		});
 
 		$('#empleado').on('change', function(e){
-			if ($('#empleado').val() == '') $('#empleado_id').val(''); 
+			if ($('#empleado').val() !== '') $('#empleado_id').val(''); 
 			buscarEmpleado();
 		});
 

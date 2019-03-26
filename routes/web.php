@@ -38,6 +38,8 @@ Route::get('autocompleteempleado', function() {
 
 //menu principal
 route::resource('clientes', 		'Admin\ClienteController');
+route::get('/editdireccion/{id}',		'Admin\ClienteController@editdireccion')->name('editdireccion');
+route::put('/updatedireccion/{id}',		'Admin\ClienteController@updatedireccion')->name('updatedireccion');
 route::resource('articulos', 		'Admin\ArticuloController');
 route::resource('empleados', 		'Admin\EmpleadoController');
 route::resource('modelocontratos', 	'Admin\ModelocontratoController');
