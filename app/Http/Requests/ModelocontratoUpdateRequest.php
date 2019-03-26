@@ -23,7 +23,7 @@ class ModelocontratoUpdateRequest extends FormRequest
      */
     public function rules()
     {
-        dd($this);
+        //dd($this);
         return [
             //'codigo' => 'required|max:50|unique:articulos,codigo',
             'modelo' => 'required|max:200|unique:modelocontratos,modelo, '  . $this->modelocontrato,
