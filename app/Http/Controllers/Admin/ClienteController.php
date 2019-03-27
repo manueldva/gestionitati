@@ -230,6 +230,15 @@ class ClienteController extends Controller
     {
         //dd($request->all());
 
+        //validacion para verificar que no este el dni en la base
+        $existe = Cliente::where('numerodocumento', $request->get('numerodocumento'))->where('tipodocumento_id', $request->get('tipodocumento_id'))->first();
+        if($existe){
+            Alert::error('El numero de documento que quiere utilizar ya se encuentra en la base de datos')->persistent("Cerrar");
+            //return redirect()->route('clientes.index');
+            return redirect()->route('clientes.edit', $existe->id);
+        }
+        //
+
         $cliente = Cliente::create($request->all());
 
         //auditoria
@@ -504,6 +513,14 @@ class ClienteController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        $existe = Cliente::where('numerodocumento', $request->get('numerodocumento'))->where('tipodocumento_id', $request->get('tipodocumento_id'))->where('id', '<>', $id)->first();
+        if($existe){
+            Alert::error('El numero de documento que quiere utilizar ya se encuentra en la base de datos')->persistent("Cerrar");
+            //return redirect()->route('clientes.index');
+            return redirect()->route('clientes.edit', $id);
+        }
+
 
         $cliente = Cliente::find($id);
 
