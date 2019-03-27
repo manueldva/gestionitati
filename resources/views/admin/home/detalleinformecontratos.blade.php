@@ -54,11 +54,13 @@
 	              </thead>
 	              <tbody>
 	                @foreach ($data as $dt)
-	                  <tr>
-	                  	<td>{{ $dt['codigo'] }}</td>
-	                    <td>{{ $dt['articulo'] }}</td>
-						<td>{{ $dt['cantidad'] }}</td>
-	                  </tr>
+	                	@if($dt['cantidad'] > 0)
+		                  <tr>
+		                  	<td>{{ $dt['codigo'] }}</td>
+		                    <td>{{ $dt['articulo'] }}</td>
+							<td>{{ $dt['cantidad'] }}</td>
+		                  </tr>
+		                @endif
 	                @endforeach
 	              </tbody>
 	            </table>
