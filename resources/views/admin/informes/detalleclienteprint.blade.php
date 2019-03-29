@@ -28,7 +28,17 @@
 				</th>
 				<th>
 					<center>
+						<i></i> Celular
+					</center>
+				</th>
+				<th>
+					<center>
 						<i></i> Articulos
+					</center>
+				</th>
+				<th>
+					<center>
+						<i></i> Observación
 					</center>
 				</th>
 			</tr>
@@ -58,6 +68,7 @@
 						} 
 					?></center>
 					</td>	
+					
 					<td><center>
                     <?php 
 						if (isset($cliente->usuario_modi)) {
@@ -67,10 +78,20 @@
 					</td>	
 					<td><center>
                     <?php 
+						if (isset($cliente->cliente->celular )) {
+							echo $cliente->cliente->celular;
+						} 
+					?></center>
+					</td>
+					<td><center>
+                    <?php 
 						if (isset($cliente->usuario_alta)) {
 							echo $cliente->usuario_alta;
 						} 
 					?></center>
+					</td>
+					<td>
+                    
 					</td>
 					
                  </tr>
