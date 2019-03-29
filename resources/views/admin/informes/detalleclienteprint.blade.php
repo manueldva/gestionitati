@@ -11,29 +11,26 @@
 											
 		<thead>
 			<tr>
-            <th>
-				<center>
-					<i></i>  Nro Cliente
-				</center>	
-			</th>
-			<th>
-				<center>
-					<i></i> Cliente
-				</center>	
-			</th>
-			<th>
-				<center>
-					<i></i> Tipo Cliente
-				</center>
-			</th>
-			
-			<th>
-				<center>
-					<i></i> Estado
-				</center>
-			</th>
-			
-			
+	            <th>
+					<center>
+						<i></i>  Nro Cliente
+					</center>	
+				</th>
+				<th>
+					<center>
+						<i></i> Cliente
+					</center>	
+				</th>
+				<th>
+					<center>
+						<i></i> Dirección
+					</center>
+				</th>
+				<th>
+					<center>
+						<i></i> Articulos
+					</center>
+				</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -63,24 +60,18 @@
 					</td>	
 					<td><center>
                     <?php 
-						if (isset($cliente->cliente->tipocliente_id )) {
-							echo $cliente->cliente->tipocliente->descripcion;
+						if (isset($cliente->usuario_modi)) {
+							echo $cliente->usuario_modi;
 						} 
 					?></center>
 					</td>	
-					
 					<td><center>
                     <?php 
-						if (isset($cliente->cliente->estado )) {
-							if($cliente->cliente->estado == 0) {
-								echo "Inactivo";
-							} else {
-								echo "Activo";
-							}	
-						
+						if (isset($cliente->usuario_alta)) {
+							echo $cliente->usuario_alta;
 						} 
 					?></center>
-					</td>				
+					</td>
 					
                  </tr>
                     

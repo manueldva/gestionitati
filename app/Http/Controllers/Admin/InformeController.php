@@ -228,6 +228,31 @@ class InformeController extends Controller
 
             $value->usuario_modi = $temp;
 
+            $temp = '';
+            // articulos
+
+            $contrato = Contrato::where('Clientedireccion_id', $value->id)->where('cliente_id', $value->cliente_id)->first();
+            
+            if($contrato) {
+                $contratoarticulos  = Contratoarticulo::where('contrato_id', $contrato->id)->get();
+
+                foreach ($contratoarticulos as $key1 => $value1) {
+                    
+                    if($temp == ''){
+                        $temp =  $value1->articulo->descripcion . ' (' . $value1->cantidad . ' Unidad/es)';
+                    } else {
+                        $temp = $temp . ' - ' .  $value1->articulo->descripcion . ' (' . $value1->cantidad . ' Unidad/es)';
+                    }
+                   
+                }
+
+                $value->usuario_alta = $temp;
+            } else {
+                $value->usuario_alta = '';
+            }
+            
+            //
+
         }
         //dd($clientes);
 
