@@ -38,6 +38,11 @@
 				</th>
 				<th>
 					<center>
+						<i></i> Cantidad
+					</center>
+				</th>
+				<th>
+					<center>
 						<i></i> Observación
 					</center>
 				</th>
@@ -89,6 +94,9 @@
 							echo $cliente->usuario_alta;
 						} 
 					?></center>
+					</td>
+					<td>
+                    
 					</td>
 					<td>
                     

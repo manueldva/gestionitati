@@ -259,7 +259,7 @@ class InformeController extends Controller
         //dd($clientes);
 
         $pdf = PDF::loadView('admin.informes.detalleclienteprint', compact('barriodesc', 'clientes', 'cantidad'));
-        $pdf->setPaper('A4', 'landscape');
+        $pdf->setPaper('legal', 'landscape');
 
         return $pdf->stream('informe.pdf');
         //$dompdf->set_paper ('a4','landscape'); 
