@@ -185,8 +185,10 @@ class InformeController extends Controller
 
         $clientes = Clientedireccion::where('barrio_id', $barrio)->get();
 
-        foreach ($clientes as $key => $value) {
 
+        foreach ($clientes as $key => $value) {
+            $temp = '';
+            $temp2 = '';
             //$direcciones =  array();
          
             /*if($value->barrio_id) {
@@ -228,7 +230,7 @@ class InformeController extends Controller
 
             $value->usuario_modi = $temp;
 
-            $temp = '';
+           
             // articulos
 
             $contrato = Contrato::where('Clientedireccion_id', $value->id)->where('cliente_id', $value->cliente_id)->orderBy('fechacontrato', 'desc')->first();
@@ -238,15 +240,15 @@ class InformeController extends Controller
 
                 foreach ($contratoarticulos as $key1 => $value1) {
                     
-                    if($temp == ''){
-                        $temp =  $value1->articulo->descripcion . ' (' . $value1->cantidad . ' Unidad/es)';
+                    if($temp2 == ''){
+                        $temp2 =  $value1->articulo->descripcion . ' (' . $value1->cantidad . ' Unidad/es)';
                     } else {
-                        $temp = $temp . ' - ' .  $value1->articulo->descripcion . ' (' . $value1->cantidad . ' Unidad/es)';
+                        $temp2 = $temp2 . ' - ' .  $value1->articulo->descripcion . ' (' . $value1->cantidad . ' Unidad/es)';
                     }
                    
                 }
 
-                $value->usuario_alta = $temp;
+                $value->usuario_alta = $temp2;
             } else {
                 $value->usuario_alta = '';
             }
