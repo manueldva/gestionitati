@@ -189,12 +189,12 @@ class InformeController extends Controller
 
             //$direcciones =  array();
          
-            if($value->barrio_id) {
+            /*if($value->barrio_id) {
                 $temp = 'Bº ' . $value->barrio->descripcion;
-            } 
+            } */
 
             if($value->calle_id) {
-                $temp = $temp . ' Calle ' . $value->calle->descripcion;
+                $temp = ' Calle ' . $value->calle->descripcion;
             } 
 
             if($value->numero) {
@@ -231,7 +231,7 @@ class InformeController extends Controller
             $temp = '';
             // articulos
 
-            $contrato = Contrato::where('Clientedireccion_id', $value->id)->where('cliente_id', $value->cliente_id)->first();
+            $contrato = Contrato::where('Clientedireccion_id', $value->id)->where('cliente_id', $value->cliente_id)->orderBy('fechacontrato', 'desc')->first();
             
             if($contrato) {
                 $contratoarticulos  = Contratoarticulo::where('contrato_id', $contrato->id)->get();
