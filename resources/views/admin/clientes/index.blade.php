@@ -41,12 +41,13 @@
 				  </span>
 			      &nbsp;
 			      <button type="submit" class="form-control btn btn-sm btn-success"><span class="glyphicon glyphicon-search"></span> Buscar</button>
-						&nbsp;
+					&nbsp;
 			      @if($permiso == 2)
 			      <a href="{{ route('clientes.create')}}" class="form-control btn btn-sm btn-primary">
 			        <span class="glyphicon glyphicon-plus"></span> Crear
 			      </a>  
 			      @endif
+			      
 			    </div>
 		    {{ Form::close() }}
       </form>
@@ -55,7 +56,15 @@
 	<div class="panel-body">
 		<div>
     		<h3><strong> <?php  echo ' Total de Clientes: ' . $clientes->total(); ?></strong></h3>
+    		
   		</div>
+  		<div>
+  			&nbsp;
+	      	<a target="_blank" href="#" id="imprimir" class="pull-right"> 
+                <button  type="button" class="btn btn btn-primary"><span class="glyphicon glyphicon-print"></span> Imprimir </button>
+            </a>
+  		</div>
+  		<br>
 	    <div class="panel-body">
 
 	        <div class="row">
@@ -223,6 +232,7 @@
 		  var type = $('#type').val();
 			
 			if (type == 'nrodocumento'){
+				$('#imprimir').hide();
 				$('#val').show();
 				$('#val2').hide();
 				$('#barrio').hide();
@@ -230,6 +240,7 @@
 				$('#val').attr('type','number');
 			} else if (type == 'apellido')
 			{
+				$('#imprimir').hide();
 				$('#val').show();
 				$('#val2').hide();
 				$('#barrio').hide();
@@ -237,6 +248,7 @@
 				$('#val').attr('type','text');
 			} else if (type == 'codigo')
 			{
+				$('#imprimir').hide();
 				$('#val').show();
 				$('#val2').hide();
 				$('#barrio').hide();
@@ -244,6 +256,7 @@
 				$('#val').attr('type','number');
 			} else if (type == 'nombre')
 			{
+				$('#imprimir').hide();
 				$('#val').show();
 				$('#val2').hide();
 				$('#barrio').hide();
@@ -251,6 +264,7 @@
 				$('#val').attr('type','text');	
 			} else if (type == 'apellidonombre')
 			{
+				$('#imprimir').hide();
 				$('#val').show();
 				$('#val2').show();
 				$('#barrio').hide();
@@ -258,6 +272,7 @@
 				$('#val').attr('type','text');
 			}else if (type == 'barrio')
 			{
+				$('#imprimir').show();
 				$('#val').hide();
 				$('#val2').hide();
 				$('#barrio').show();
@@ -265,6 +280,7 @@
 				$('#val').attr('type','text');
 			}else if (type == 'tipocliente')
 			{
+				$('#imprimir').hide();
 				$('#val').hide();
 				$('#val2').hide();
 				$('#barrio').hide();
@@ -272,6 +288,7 @@
 				$('#val').attr('type','text');
 			} else
 			{
+				$('#imprimir').hide();
 				$('#val').show();
 				$('#val2').hide();
 				$('#barrio').hide();
@@ -295,6 +312,22 @@
 			
 
 		});
+
+
+		$('#imprimir').on('click', function(e){
+            
+            var barrio = $("#barrios option:selected").attr("value")
+            //alert(barrio);
+            if (barrio !== '')
+            {
+                e.preventDefault();
+            	window.open("{{url('detalleclienteprint')}}/"+ barrio);
+            } else {
+            	return false;
+            }
+
+
+        });
 
 		
 	</script>

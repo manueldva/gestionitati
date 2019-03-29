@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Input;
 
 use App\User;
 use App\Models\Articulo;
+use App\Models\Cliente;
+use App\Models\Clientedireccion;
 use App\Models\Contrato;
 use App\Models\Contratoarticulo;
 use App\Models\Barrio;
@@ -168,6 +170,71 @@ class InformeController extends Controller
         $pdf = PDF::loadView('admin.informes.informecontratos.detalleinformecontratoprint', compact('barriodesc', 'data', 'contratos'));
 
         return $pdf->stream('informe.pdf');
+
+
+    }
+
+    public function detalleclienteprint($barrio)
+    {
+
+        $barriotemp = Barrio::find($barrio);
+        $barriodesc = $barriotemp->descripcion;
+
+        $cantidad = DB::table('clientedirecciones')->where('barrio_id', $barrio)->count();
+
+
+        $clientes = Clientedireccion::where('barrio_id', $barrio)->get();
+
+        foreach ($clientes as $key => $value) {
+
+            //$direcciones =  array();
+         
+            if($value->barrio_id) {
+                $temp = 'Bº ' . $value->barrio->descripcion;
+            } 
+
+            if($value->calle_id) {
+                $temp = $temp . ' Calle ' . $value->calle->descripcion;
+            } 
+
+            if($value->numero) {
+                $temp = $temp . ' Nro. ' . $value->numero;
+            }
+
+            if($value->manzana) {
+                $temp = $temp . ' Mz. ' . $value->manzana;
+            } 
+
+
+            if($value->casa) {
+                $temp = $temp . ' C. ' . $value->casa;
+            } 
+
+            if($value->seccion) {
+                $temp = $temp . ' Seccion ' . $value->seccion;
+            }
+
+            if($value->lote) {
+                $temp = $temp . ' Lote ' . $value->lote;
+            }
+
+            if($value->edificiotorre) {
+                $temp = $temp . ' Edificio ' . $value->edificiotorre;
+            } 
+
+            if($value->piso) {
+                $temp = $temp . ' Piso/Dpto ' . $value->piso;
+            } 
+
+            $value->usuario_modi = $temp;
+
+        }
+        //dd($clientes);
+
+        $pdf = PDF::loadView('admin.informes.detalleclienteprint', compact('barriodesc', 'clientes', 'cantidad'));
+
+        return $pdf->stream('informe.pdf');
+        
 
 
     }
