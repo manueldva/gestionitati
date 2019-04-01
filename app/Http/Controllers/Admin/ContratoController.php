@@ -177,9 +177,9 @@ class ContratoController extends Controller
             foreach ($contratoarticulos as $key1 => $value1) {
                 
                 if($temp == ''){
-                    $temp =  $value1->articulo->descripcion . ' (' . $value1->cantidad . ' Unidad/es)';
+                    $temp =  $value1->articulo->descripcion . ' (' . $value1->cantidad . ' Unidad/es) <br>';
                 } else {
-                    $temp = $temp . ' - ' .  $value1->articulo->descripcion . ' (' . $value1->cantidad . ' Unidad/es)';
+                    $temp = $temp  .  $value1->articulo->descripcion . ' (' . $value1->cantidad . ' Unidad/es)  <br>';
                 }
                
             }
@@ -418,10 +418,11 @@ class ContratoController extends Controller
             foreach ($contratoarticulos as $key1 => $value1) {
                 
                 if($temp == ''){
-                    $temp =  $value1->articulo->descripcion . ' (' . $value1->cantidad . ' Unidad/es)';
+                    $temp =  $value1->articulo->descripcion . ' (' . $value1->cantidad . ' Unidad/es) <br>';
                 } else {
-                    $temp = $temp . ' - ' .  $value1->articulo->descripcion . ' (' . $value1->cantidad . ' Unidad/es)';
+                    $temp = $temp  .  $value1->articulo->descripcion . ' (' . $value1->cantidad . ' Unidad/es)  <br>';
                 }
+               
                
             }
 

@@ -52,7 +52,7 @@
 			<?php foreach($clientes as $cliente){ ?>
                  
                 <tr>
-                    <td><center>
+                    <td class="col-md-4"><center>
                     <?php 
 						if (isset($cliente->cliente->id )) {
 							echo $cliente->cliente->id;
@@ -88,12 +88,12 @@
 						} 
 					?></center>
 					</td>
-					<td><center>
-                    <?php 
-						if (isset($cliente->usuario_alta)) {
-							echo $cliente->usuario_alta;
-						} 
-					?></center>
+					<td>
+					<center>
+						@isset($cliente->usuario_alta)
+							{!! $cliente->usuario_alta !!}
+						@endif
+                   	</center>
 					</td>
 					<td>
                     

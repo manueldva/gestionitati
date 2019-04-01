@@ -182,8 +182,8 @@
 									<th style="display:none;">contradoID</th>
 									<th style="display:none;">direccionID</th>
 									<th> <center>Nro Cliente</center></th>
-									<th> <center>Dirección</center></th>
 									<th> <center>Fecha Contrato</center></th>
+									<th> <center>Dirección</center></th>
 									<th style="display:none;">modeloID</th>
 									<th> <center>Modelo Contrato</center></th>
 									<th> <center>Articulos</center></th>
@@ -198,11 +198,12 @@
 					                    <td style="display:none" >{{ $contrato->id }}</td>
 					                    <td style="display:none" >{{ $contrato->clientedireccion_id }}</td>
 					                    <td><center>{{ $cliente->id }}</center></td>
-					                    <td><center>{{ $contrato->usuario_alta }}</center></td>
+					                   
 										<td><center>{{ \Carbon\Carbon::parse($contrato->fechacontrato)->format('d/m/Y') }}</center></td>
-										<td><center>{{ $contrato->modelocontrato_id }}</center></td>
+										<td><center>{{ $contrato->usuario_alta }}</center></td>
+										<td style="display:none;"><center>{{ $contrato->modelocontrato_id }}</center></td>
 										<td><center>{{ $contrato->modelocontrato->modelo }}</center></td>
-										<td><center>{{ $contrato->usuario_modi }}</center></td>
+										<td><center>{!! $contrato->usuario_modi !!}</center></td>
 				                   
 					                    <td width="10px">
 					                    	@if($edit !== 0)
@@ -393,7 +394,7 @@
 
 		  	var contrato_id = row.parents("tr").find('td').eq(0).html();
 		  	var direccion_id = row.parents("tr").find('td').eq(1).html();
-		  	var fecha = row.parents("tr").find('td').eq(4).html();
+		  	var fecha = row.parents("tr").find('td').eq(3).html();
 		  	var modelocontrato_id = row.parents("tr").find('td').eq(5).html();	
 		  	//
 		  	fecha = fecha.replace('<center>', '');

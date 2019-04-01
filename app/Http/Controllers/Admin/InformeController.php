@@ -241,9 +241,9 @@ class InformeController extends Controller
                 foreach ($contratoarticulos as $key1 => $value1) {
                     
                     if($temp2 == ''){
-                        $temp2 =  $value1->articulo->descripcion . ' (' . $value1->cantidad . ' Unidad/es)';
+                        $temp2 =  $value1->articulo->descripcion . ' (' . $value1->cantidad . ' u.) <br>';
                     } else {
-                        $temp2 = $temp2 . ' - ' .  $value1->articulo->descripcion . ' (' . $value1->cantidad . ' Unidad/es)';
+                        $temp2 = $temp2  .  $value1->articulo->descripcion . ' (' . $value1->cantidad . ' u.) <br>';
                     }
                    
                 }
