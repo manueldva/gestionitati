@@ -30,7 +30,7 @@
   <div class="panel-body">
     <div class="row">
 
-  {!! Form::open(['route' => 'articulos.store', 'files' => true, 'id' => 'form']) !!}
+  {!! Form::open(['route' => 'articulos.store','files' => true, 'id' => 'form']) !!}
   
         <div class="col-md-12" >
           <div class="row col-md-12">

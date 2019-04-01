@@ -9,7 +9,7 @@ class Articulo extends Model
     //protected $table = 'barrios';
 
 	protected $fillable = [
-    	'descripcion', 'tipoarticulo_id' ,'stock' ,'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
+    	'descripcion', 'tipoarticulo_id' ,'tipoenvase_id', 'abreviatura', 'caracteristicas', 'precioventa', 'precioreparto', 'costo', 'costovendedor', 'costorepartidor' ,'condicioniva' , 'stock' ,'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
 	];
 
     public function contratoarticulos(){

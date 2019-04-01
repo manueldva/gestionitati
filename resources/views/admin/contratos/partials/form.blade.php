@@ -349,9 +349,11 @@
 				'</td>' +
 				'</tr>');
 
-				$("#articulo_id").val('');
+				/*$("#articulo_id").val('');
 				$("#articulo").val('');
-				$("#cantidadarticulo").val('');
+				$("#cantidadarticulo").val('');*/
+			
+			buscarArticulos(0);
 
 			toastr.success('Articulo agregado a la lista');
 			

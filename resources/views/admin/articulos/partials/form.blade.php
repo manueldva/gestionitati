@@ -24,20 +24,41 @@
 				  	<div class="form-group">
 					  	{{ form::label('tipoarticulo_id', 'Tipo de Producto *') }}
 						{{ form::select('tipoarticulo_id', $tipoarticulos, null, ['class' => 'form-control', 'placeholder'=> 'Seleccionar...'] ) }} 
+						<div id="tipoarticulo_idspan" class="form-group has-error" style="display: none">
+							<span class="help-block">Campo Obligatorio</span>
+						</div>
 				  	</div>
 				  	<div class="form-group">
 					  	{{ form::label('descripcion', 'Descripción *') }}
-						{{ form::text('descripcion', null, ['class' => 'form-control', 'id' => 'descripcion', 'placeholder'=> 'Descripción', 'maxlength' =>'200']) }}
+						{{ form::text('descripcion', null, ['class' => 'form-control', 'id' => 'descripcion', 'placeholder'=> 'Descripción', 'maxlength' =>'300']) }}
+						<div id="descripcionspan" class="form-group has-error" style="display: none">
+							<span class="help-block">Campo Obligatorio</span>
+						</div>
 				  	</div>
 				  	
-				  	<div class="form-group">
-					  	{{ form::label('tipoenvase_id', 'Tipo de Envase') }}
+				  	<div class="form-group" id="envase">
+					  	{{ form::label('tipoenvase_id', 'Tipo de Envase *') }}
 						{{ form::select('tipoenvase_id', $tipoenvases, null, ['class' => 'form-control', 'placeholder'=> 'Seleccionar...'] ) }} 
+						<div id="tipoenvasespan" class="form-group has-error" style="display: none">
+							<span class="help-block">Campo Obligatorio</span>
+						</div>
 				  	</div>
-				  	<div class="form-group" id="razonsocial">
-					  	{{ form::label('caracteristicas', 'Carateristicas *') }}
-						{{ form::text('caracteristicas', null, ['class' => 'form-control', 'id' => 'caracteristicas', 'placeholder'=> 'Caracteristicas', 'maxlength' =>'200']) }}
+				  	<div class="form-group">
+					  	{{ form::label('caracteristicas', 'Carateristicas ') }}
+						{{ form::text('caracteristicas', null, ['class' => 'form-control', 'id' => 'caracteristicas', 'placeholder'=> 'Caracteristicas', 'maxlength' =>'300']) }}
 						
+				  	</div>	
+				  	<div class="form-group">
+					  	{{ form::label('abreviatura', 'Abreviatura ') }}
+						{{ form::text('abreviatura', null, ['class' => 'form-control', 'id' => 'abreviatura', 'placeholder'=> 'Abreviatura', 'maxlength' =>'50']) }}
+						
+				  	</div>	
+				  	<div class="form-group" id="precio_plan">
+					  	{{ form::label('precioplan', 'Precio *') }}
+						{{ form::number('precioplan', null, ['class' => 'form-control', 'id' => 'precioplan']) }}
+						<div id="precioplanspan" class="form-group has-error" style="display: none">
+							<span class="help-block">Campo Obligatorio</span>
+						</div>
 				  	</div>	
 			    </div>
 			    <!-- /.box-body -->
@@ -55,14 +76,36 @@
 			    </div>
 			    <!-- /.box-header -->
 			    <div class="box-body">
-			      		<div class="form-group">
-						{{-- {{ form::label('calsifcacion', 'Clasificación:') }} --}}
+			      	<div class="form-group">
 						<label>
-							{{ Form::radio('calsifcacion','Venta')}} Venta
+							<label>
+								@if(isset($cuenta))
+									@if($cuenta == 1)
+										{{ Form::checkbox('cuentasi','1', true)}} Si
+									@else 
+										{{ Form::checkbox('cuentasi','1')}} Si	
+									@endif
+								@else 
+									{{ Form::checkbox('cuentasi','1')}} Si
+								@endif
+								
+							</label>
 						</label>
+						&nbsp;&nbsp;&nbsp;&nbsp;
 						<label class="pull-right">
-							{{ Form::radio('calsifcacion','scargo')}} Sin Cargo
+							<label >
+								@if(isset($cuenta))
+									@if($cuenta == 0)
+										{{ Form::checkbox('cuentano','1', true)}} No
+									@else 
+										{{ Form::checkbox('cuentano','1')}} No	
+									@endif
+								@else 
+									{{ Form::checkbox('cuentano','1')}} No
+								@endif
+							</label>
 						</label>
+						
 					</div>
 					<hr>
 
@@ -135,7 +178,7 @@
 										</td>
 										<td> 
 											<br>
-											<a type="button" id="agregarprecios" name="agregarprecios" class="btn btn btn-success">
+											<a type="button" id="agregarprecio" name="agregarprecio" class="btn btn btn-success">
 							                    <span class="fa fa-plus-circle">
 							                    </span>
 							                    AGREGAR
@@ -160,6 +203,9 @@
 										
 									</tbody>
 								</table>
+								<div id="table_preciosspan" class="form-group has-error" style="display: none">
+									<span class="help-block">Debe haber al menos un registro en la lista</span>
+								</div>
 							</div>
 						</div>
 						
@@ -193,8 +239,8 @@
 						{{ form::number('costorepartidor', null, ['class' => 'form-control', 'id' => 'costorepartidor']) }}
 				  	</div>
 				  	<div class="form-group">
-					  	{{ form::label('porcentajeiva', 'Con. IVA') }}
-						{{ form::number('porcentajeiva', null, ['class' => 'form-control', 'id' => 'porcentajeiva']) }}
+					  	{{ form::label('condicioniva', 'Con. IVA') }}
+						{{ form::number('condicioniva', null, ['class' => 'form-control', 'id' => 'condicioniva']) }}
 				  	</div>
 			      
 			    </div>
@@ -278,7 +324,7 @@
 											
 										</tbody>
 									</table>
-									<div id="table_articulosspan" class="form-group has-error" style="display: none">
+									<div id="table_planarticulosspan" class="form-group has-error" style="display: none">
 										<span class="help-block">Debe haber al menos un registro en la lista</span>
 									</div>
 								</div>
@@ -311,15 +357,25 @@
 			if(tipoa == 2){
 				$("#panel_articulo_planes").show();
 				$("#panel_articulo_precios").show();
+				$("#precio_plan").show();
+				$("#envase").hide();
+				$("#agregarprecio").hide();
 			} else if (tipoa == 3){
 				$("#panel_articulo_planes").hide();
 				$("#panel_articulo_precios").hide();
-			
+				$("#precio_plan").hide();
+				$("#envase").hide();
+				$("#agregarprecio").hide();
 			} else {
 				$("#panel_articulo_planes").hide();
+				$("#panel_articulo_precios").show();
+				$("#precio_plan").hide();
+				$("#envase").show();
+				$("#agregarprecio").show();
 			}
 
 		}
+		precio_plan
 
 		habilitar_Planarticulos();
 
@@ -328,6 +384,26 @@
 			habilitar_Planarticulos();
 		});//
 
+
+		
+		//para usar en ves del input radio
+		if(!$('input[name=cuentasi]:checkbox:checked').val() == '1' && !$('input[name=cuentano]:checkbox:checked').val() == '1') 	$('input[name=cuentano]').iCheck('check');
+
+		$('input[name=cuentano]').on('ifChecked', function(event){
+
+			$('input[name=cuentasi]').iCheck('uncheck');
+
+		});
+
+		$('input[name=cuentasi]').on('ifChecked', function(event){
+
+			$('input[name=cuentano]').iCheck('uncheck');
+						
+			$("#limite").removeAttr("disabled");
+			$("#limite").focus();
+			
+
+		});
 
 		var APP_RL = "{{ url('/') }}";
 
@@ -417,6 +493,25 @@
 			var descripcion =$('select[name="articulo"] option:selected').text();
 			var cantidad = parseInt($('#cantidadarticulo').val());
 
+			//validar que no se repita el mismo precio
+			
+			existearticulo = 0;
+			$('#table_planarticulos tbody tr').each(function () {	 
+		    articulo_idtemp = $(this).find("td").eq(0).html();
+		    	if(articulo_idtemp == codigo) {
+		    		
+		    		existearticulo = 1;
+		    	}
+		    	
+		    });
+
+		    if(existearticulo == 1){
+		    	toastr.error('Este articulo ya existe en la lista');
+		    	return false;
+		    }
+			
+			//
+
 			//cargo la grilla
 			$('#table_planarticulos tbody').prepend(
 				'<tr>' + 
@@ -427,12 +522,12 @@
 				'</td>' +
 				'</tr>');
 
-				$("#articulo_id").val('');
-				$("#articulo").val('');
-				$("#cantidadarticulo").val('');
-
 			toastr.success('Articulo agregado a la lista');
 			
+				/*$("#articulo_id").val('');
+				$("#articulo").val('');
+				$("#cantidadarticulo").val('');*/
+			buscarArticulos(0);
 
 		});
 
@@ -444,13 +539,192 @@
 		  	toastr.info('Articulo eliminado de la lista');
 		}
 
+
+		$('#tipoprecio_id').on('change', function(e){
+		   $('#precio').focus();
+		});
+
+
+		/*para agregar precios al listado*/
+		$( "#agregarprecio" ).click(function() {
+
+			
+			if($('#tipoprecio_id').val() == ''  || $("#precio").val() == '') {
+
+
+				toastr.error('No se puede agregar este precio. Faltan datos');
+				return false;
+			}
+
+			if(parseInt($("#precio").val()) < 1) {
+
+
+				toastr.error('El precio ingresada no puede ser menor a 1');
+				return false;
+			}
+
+
+			//variables para guardar en la grilla
+			var codigo = $('#tipoprecio_id').val();
+			//var descripcion = $("#descripcionarticulo").val();
+			var descripcion =$('select[name="tipoprecio_id"] option:selected').text();
+			var precio = parseFloat($('#precio').val());
+
+
+			//validar que no se repita el mismo precio
+			existeprecio = 0;
+			$('#table_precios tbody tr').each(function () {	 
+		    tipoprecio_idtemp = $(this).find("td").eq(0).html();
+		    
+		    	if(tipoprecio_idtemp == codigo) {
+		    		
+		    		existeprecio = 1;
+		    	}
+		    	
+		    });
+
+		    //alert(existeprecio);
+		    if(existeprecio == 1){
+		    	toastr.error('Este precio ya existe en la lista');
+		    	return false;
+		    }
+			
+			//
+			//cargo la grilla
+			$('#table_precios tbody').prepend(
+				'<tr>' + 
+				'<td style="display:none;">' + codigo + '</td>' +
+				'<td>' + descripcion + '</td>' +
+				'<td>' + precio + '</td>' +
+				"<td><a class='delete btn btn-sm btn-danger' onclick ='deleteprecio_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
+				'</td>' +
+				'</tr>');
+
+				$("#tipoprecio_id").val('');
+				$("#precio").val('');
+
+			toastr.success('Precio agregado a la lista');
+
+	
+			
+		});
+
+
+		/*borrar filas del listado de articulos*/
+		function deleteprecio_row(row) {
+
+		  	row.closest('tr').remove();
+		  	toastr.info('Precio eliminado de la lista');
+		}
+
 		
 		$( "#guardar" ).click(function() {
 
+			estadocampos = 0;
+			//alert($('#tipoarticulo_id').val());
+			if ($('#tipoarticulo_id').val() == ''){
+      			estadocampos = 1;
+			   	$('#tipoarticulo_idspan').show();
+      		} else {
+      			$('#tipoarticulo_idspan').hide();
+      		}
 
-			$('#form').submit();
+			if ($('#descripcion').val() == ''){
+      			estadocampos = 1;
+			   	$('#descripcionspan').show();
+      		} else {
+      			$('#descripcionspan').hide();
+      		}
+
+
+			// listado de familiares
+		    var listado = crear_listado_precios();
+      		$('#id_lista_precios').val(listado);
+
+      		 var listado2 = crear_listado_planarticulos();
+      		$('#id_lista_planarticulos').val(listado2);
+
+      		/*if ($('#id_lista_direcciones').val() == ''){
+
+      		}*/
+      		var tipoa = $('#tipoarticulo_id').val();
+
+			if(tipoa == 1){
+				if ($('#tipoenvase_id').val() == ''){
+	      			estadocampos = 1;
+				   	$('#tipoenvasespan').show();
+	      		} else {
+	      			$('#tipoenvasespan').hide();
+	      		}
+	      		if($('#id_lista_precios').val() == ''){
+	      			estadocampos = 1;
+				   	$('#table_preciosspan').show();
+				} else {
+					$('#table_preciosspan ').hide();
+				}
+			} else if (tipoa == 2){
+				if ($('#precioplan').val() == ''){
+	      			estadocampos = 1;
+				   	$('#precioplanspan').show();
+	      		} else {
+	      			$('#precioplanspan').hide();
+	      		}
+	      		if($('#id_lista_planarticulos').val() == ''){
+	      			estadocampos = 1;
+				   	$('#table_planarticulosspan').show();
+				} else {
+					$('#table_planarticulosspan ').hide();
+				}
+			
+			} 
+
+			if(estadocampos == 1) 
+      		{
+      			toastr.error('No se puede guardar el contrato. Faltan datos');
+      			return false;
+      		} else {
+      			$('#form').submit();
+      		}
+
+			//$('#form').submit();
 		
 		});
+
+
+
+		function crear_listado_planarticulos() {
+		    var listado = '';
+		    var articulo_id, cantidad;
+
+		    $("#id_lista_planarticulos").val('');
+
+		    $('#table_planarticulos tbody tr').each(function () {	 
+		    articulo_id = $(this).find("td").eq(0).html();
+		    cantidad = $(this).find("td").eq(2).html();
+		    
+
+		    	listado += articulo_id + "|" + cantidad + "&&&";
+		    });
+
+		    return listado;
+	    }
+
+	    function crear_listado_precios() {
+		    var listado = '';
+		    var tipoprecio_id, precio;
+
+		    $("#id_lista_precios").val('');
+
+		    $('#table_precios tbody tr').each(function () {	 
+		    tipoprecio_id = $(this).find("td").eq(0).html();
+		    precio = $(this).find("td").eq(2).html();
+		    
+
+		    	listado += tipoprecio_id + "|" + precio + "&&&";
+		    });
+
+		    return listado;
+	    }
 
 
 	</script>

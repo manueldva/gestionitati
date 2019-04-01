@@ -64,7 +64,7 @@ class ArticuloController extends Controller
     {
         $tipoarticulos  = Tipoarticulo::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
         $tipoenvases  = Tipoenvase::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
-        $tipoprecios  = tipoprecios::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+        $tipoprecios  = Tipoprecio::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
         $planarticulos  = Articulo::where('tipoarticulo_id', 1)->orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
         return view('admin.articulos.create', compact('tipoarticulos', 'planarticulos', 'tipoprecios', 'tipoenvases'));
@@ -76,8 +76,10 @@ class ArticuloController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ArticuloStoreRequest $request)
+    public function store(Request $request)
     {
+        dd($request->input("status"));
+
         $articulo = Articulo::create($request->all());
 
         //auditoria
