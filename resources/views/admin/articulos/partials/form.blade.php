@@ -76,17 +76,22 @@
 			    </div>
 			    <!-- /.box-header -->
 			    <div class="box-body">
+			    	<div class="form-group" style="display: none">
+						{{ form::text('clasificacion', null, ['class' => 'form-control', 'id' => 'clasificacion']) }}
+						
+						
+				  	</div>
 			      	<div class="form-group">
 						<label>
 							<label>
-								@if(isset($cuenta))
-									@if($cuenta == 1)
-										{{ Form::checkbox('cuentasi','1', true)}} Si
+								@if(isset($articulo))
+									@if($articulo->clasificacion == 0)
+										{{ Form::checkbox('venta','1', true)}} Venta
 									@else 
-										{{ Form::checkbox('cuentasi','1')}} Si	
+										{{ Form::checkbox('venta','1')}} Venta	
 									@endif
 								@else 
-									{{ Form::checkbox('cuentasi','1')}} Si
+									{{ Form::checkbox('venta','1')}} Venta
 								@endif
 								
 							</label>
@@ -94,14 +99,14 @@
 						&nbsp;&nbsp;&nbsp;&nbsp;
 						<label class="pull-right">
 							<label >
-								@if(isset($cuenta))
-									@if($cuenta == 0)
-										{{ Form::checkbox('cuentano','1', true)}} No
+								@if(isset($articulo))
+									@if($articulo->clasificacion == 1)
+										{{ Form::checkbox('sincargo','1', true)}} Sin Cargo
 									@else 
-										{{ Form::checkbox('cuentano','1')}} No	
+										{{ Form::checkbox('sincargo','1')}} Sin Cargo	
 									@endif
 								@else 
-									{{ Form::checkbox('cuentano','1')}} No
+									{{ Form::checkbox('sincargo','1')}} Sin Cargo
 								@endif
 							</label>
 						</label>
@@ -112,10 +117,13 @@
 					@if(! empty($articulo->file))
 						<div class="form-group">
 							<p> <strong>Seleccione una imagen:</strong></p>
-						    <img src="{{ asset($articulo->file) }}" height="250" width="250" class="profile_img">
+						    <img id="imagen" src="{{ asset($articulo->file) }}" height="250" width="250" class="profile_img">
 						</div>
+						<div class="form-group" style="display: none">
+							{{ form::text('deleteimage', null, ['class' => 'form-control', 'id' => 'deleteimage']) }}
+					  	</div>
 						<div class="form-group">
-							{{ form::label('eliminarimagen', 'Eliminar Logo') }}	
+							{{ form::label('eliminarimagen', 'Eliminar Imagen') }}	
 							<label>
 								{{ Form::checkbox('eliminarimagen','on')}} 
 							</label>
@@ -123,7 +131,7 @@
 					@else
 						<div class="form-group" >
 							<p> <strong>Seleccione una imagen:</strong></p>
-						    <img src="{{ asset('imagedefeult/bidon_default.png') }}" height="230" width="250" class="profile_img">						    
+						    <img id="imagen" src="{{ asset('imagedefeult/bidon_default.png') }}" height="230" width="250" class="profile_img">						    
 						</div>
 
 					@endif
@@ -200,7 +208,19 @@
 										</tr>
 									</thead>
 									<tbody>
-										
+										@isset($articulo)
+											@if($articulo->tipoarticulo_id == 1)
+												@foreach($detalleprecios as $detalleprecio)
+												<tr>
+													<td style="display:none;">{{ $detalleprecio['tipoprecio_id'] }}</td>
+													<td>{{$detalleprecio['tipoprecio'] }}</td>
+													<td>{{ $detalleprecio['precio'] }}</td>
+													<td><a class='delete btn btn-sm btn-danger' onclick ='deleteprecio_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>
+													</td>
+												</tr>
+												@endforeach
+											@endif
+										@endif
 									</tbody>
 								</table>
 								<div id="table_preciosspan" class="form-group has-error" style="display: none">
@@ -240,7 +260,7 @@
 				  	</div>
 				  	<div class="form-group">
 					  	{{ form::label('condicioniva', 'Con. IVA') }}
-						{{ form::number('condicioniva', null, ['class' => 'form-control', 'id' => 'condicioniva']) }}
+						{{ form::text('condicioniva', null, ['class' => 'form-control', 'id' => 'condicioniva', 'maxlength' =>'100']) }}
 				  	</div>
 			      
 			    </div>
@@ -321,7 +341,19 @@
 											</tr>
 										</thead>
 										<tbody>
-											
+											@isset($articulo)
+											@if($articulo->tipoarticulo_id == 2)
+												@foreach($detalleplanes as $detalleplan)
+												<tr>
+													<td style="display:none;">{{ $detalleplan['articulo_id'] }}</td>
+													<td>{{$detalleplan['articulo'] }}</td>
+													<td>{{ $detalleplan['cantidad'] }}</td>
+													<td><a class='delete btn btn-sm btn-danger' onclick ='deleteprecio_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>
+													</td>
+												</tr>
+												@endforeach
+											@endif
+										@endif
 										</tbody>
 									</table>
 									<div id="table_planarticulosspan" class="form-group has-error" style="display: none">
@@ -375,7 +407,7 @@
 			}
 
 		}
-		precio_plan
+
 
 		habilitar_Planarticulos();
 
@@ -386,24 +418,61 @@
 
 
 		
-		//para usar en ves del input radio
-		if(!$('input[name=cuentasi]:checkbox:checked').val() == '1' && !$('input[name=cuentano]:checkbox:checked').val() == '1') 	$('input[name=cuentano]').iCheck('check');
+		//////para usar en ves del input radio
+		if(!$('input[name=venta]:checkbox:checked').val() == '1' && !$('input[name=sincargo]:checkbox:checked').val() == '1') {
+			$('input[name=venta]').iCheck('check');
+			//alert($('#clasificacion').val());
+		}
 
-		$('input[name=cuentano]').on('ifChecked', function(event){
+		$('input[name=venta]').on('ifChecked', function(event){
 
-			$('input[name=cuentasi]').iCheck('uncheck');
+			$('input[name=sincargo]').iCheck('uncheck');
+			$('#clasificacion').val(0);
+
+		});
+
+		$('input[name=sincargo]').on('ifChecked', function(event){
+
+			$('input[name=venta]').iCheck('uncheck');
+			$('#clasificacion').val(1);
 
 		});
 
-		$('input[name=cuentasi]').on('ifChecked', function(event){
 
-			$('input[name=cuentano]').iCheck('uncheck');
-						
-			$("#limite").removeAttr("disabled");
-			$("#limite").focus();
-			
+		if($('input[name=venta]:checkbox:checked').val() == '1')
+		{
+			$('#clasificacion').val(0);
+		} else{
+			$('#clasificacion').val(1);
+		}
+
+
+		//imagen
+		$('input[name=eliminarimagen]').on('ifChecked', function(event){
+
+			$('#deleteimage').val(1);
 
 		});
+
+		//imagen
+		$('input[name=eliminarimagen]').on('ifUnchecked', function(event){
+
+			$('#deleteimage').val(0);
+
+		});
+
+		if($('input[name=eliminarimagen]:checkbox:checked').val() == 'on')
+		{
+			$('#clasificacion').val(1);
+		} else{
+			$('#clasificacion').val(0);
+		}
+		//
+		//
+		////////
+
+
+
 
 		var APP_RL = "{{ url('/') }}";
 
@@ -617,8 +686,35 @@
 		  	toastr.info('Precio eliminado de la lista');
 		}
 
+
+		/*//Previsulizar imagen
+		$('input[name=image]').change(function(){
+		 	
+		 	var image = new Image();
+
+		    var src = $(this).val(); //Esta es la variable que contiene la url de una imagen ejemplo, luego puedes poner la que quieras
+
+		    alert(src);
+			$('#imagen').attr('src', src);
+		});
+		//*/
+
+		function readURL(input) {
+	        if (input.files && input.files[0]) {
+	            var reader = new FileReader();
+	            
+	            reader.onload = function (e) {
+	                $('#imagen').attr('src', e.target.result);
+	            }
+	            reader.readAsDataURL(input.files[0]);
+	        }
+	    }
+	    $("input[name=image]").change(function(){
+	        readURL(this);
+	    });
+
 		
-		$( "#guardar" ).click(function() {
+		$("#guardar").click(function() {
 
 			estadocampos = 0;
 			//alert($('#tipoarticulo_id').val());
@@ -663,7 +759,7 @@
 					$('#table_preciosspan ').hide();
 				}
 			} else if (tipoa == 2){
-				if ($('#precioplan').val() == ''){
+				if ($('#precioplan').val() == '' || $('#precioplan').val() == '0.00'){
 	      			estadocampos = 1;
 				   	$('#precioplanspan').show();
 	      		} else {

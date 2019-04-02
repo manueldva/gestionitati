@@ -1,50 +1,58 @@
 @extends('adminlte::page')
 
-@section('title', 'Gestión - Productos')
+@section('title', 'Gestión - Articulos')
+
+@section('css')
+  <link rel="stylesheet" href="{{ asset('css/resources/bootstrap-clockpicker.min.css') }}">
+@endsection
 
 @section('content_header')
-  <h1>
-    Gestionar Productos
-    <!--<small>Listado</small>-->
-  </h1>
-  <ol class="breadcrumb">
-    <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li><a href="{{ route('articulos.index')}}">Productos</a></li>
-    <li class="active">Ver</li>
-  </ol>
-
+    <h1>
+      Gestionar Articulos
+      <!--<small>Listado</small>-->
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li><a href="{{ route('articulos.index')}}">Articulos</a></li>
+      <li class="active">Nuevo</li>
+    </ol>
 
 @stop
+
+
 @section('content')
 
 <div class="box box-primary">
-	<div class="box-header with-border box-default">
-	   <strong> Ver Producto </strong>
-	</div>
-		
-	<div class="panel-body">
-    	<div class="row">
-			<div class="col-md-12">
-				<div class="row col-md-12">
-					<div class="form-group pull-right">
-								<a href="{{ route('articulos.index') }}" type="button" class="btn btn btn-default">
-									<span class="fa fa-list">
-									</span>
-										Listado
-								</a>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6">
+  <div class="box-header with-border box-default">
+    <strong>Ver Articulo</strong>
+  </div>
+    
+  <div class="panel-body">
+    <div class="row">
 
-				<p> <strong>Codigo:</strong> {{ $articulo->id }}</p>
+    {!! Form::model($articulo, ['route' => ['articulos.show', $articulo->id], 'method' => 'GET']) !!}
+  
+        <div class="col-md-12" >
+          <div class="row col-md-12">
+            <div class="form-group" style="text-align: center">
 
-				<p> <strong>Producto:</strong> {{ $articulo->descripcion }}</p>
-
-				<p> <strong>Fecha Alta:</strong> {{ $articulo->fecha_alta }}</p>
-			</div>
-		</div>
-	</div>
+                <a href="{{ route('articulos.index') }}" type="button" class="btn btn btn-default">
+                    <span class="fa fa-list">
+                    </span>
+                      Listado
+                </a>
+            </div>
+          </div>
+        </div>
+      
+    </div>
+  </div>
 </div>
 
+@include('admin.articulos.partials.form')
+
+{!! Form::close() !!}
+
+
 @endsection
+
