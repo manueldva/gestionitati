@@ -21,6 +21,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/detalleinformecontratos', 'HomeController@detalleinformecontratos')->name('detalleinformecontratos');
 route::get('/detalleinformecontratoprint/{barrio}',		'Admin\InformeController@detalleinformecontratoprint')->name('detalleinformecontratoprint');
 route::get('/detalleclienteprint/{barrio}',		'Admin\InformeController@detalleclienteprint')->name('detalleclienteprint');
+
+Route::get('/informecontratosbarriosarticulos', 'HomeController@informecontratosbarriosarticulos')->name('informecontratosbarriosarticulos');
+route::get('/informecontratosbarriosarticulosprint/{barrio}/{articulo}',		'Admin\InformeController@informecontratosbarriosarticulosprint')->name('informecontratosbarriosarticulosprint');
+
 /*Route::get('/detallemistareasabiertas', 'HomeController@detallemistareasabiertas')->name('detallemistareasabiertas');
 Route::get('/detalleotrastareasabiertas', 'HomeController@detalleotrastareasabiertas')->name('detalleotrastareasabiertas');*/
 

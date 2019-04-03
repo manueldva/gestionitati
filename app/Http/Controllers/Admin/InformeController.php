@@ -271,4 +271,127 @@ class InformeController extends Controller
     }
 
 
+    public function informecontratosbarriosarticulosprint($barrio, $articulo)
+    {       
+       $barriotemp = Barrio::find($barrio);
+        $barriodesc = $barriotemp->descripcion;
+
+        //$cantidad = DB::table('clientedirecciones')->where('barrio_id', $barrio)->count();
+
+
+        $clientes = Clientedireccion::where('barrio_id', $barrio)->get();
+
+
+        foreach ($clientes as $key => $value) {
+            $temp = '';
+            $temp2 = '';
+            //$direcciones =  array();
+         
+            /*if($value->barrio_id) {
+                $temp = 'Bº ' . $value->barrio->descripcion;
+            } */
+
+            if($value->calle_id) {
+                $temp = ' Calle ' . $value->calle->descripcion;
+            } 
+
+            if($value->numero) {
+                $temp = $temp . ' Nro. ' . $value->numero;
+            }
+
+            if($value->manzana) {
+                $temp = $temp . ' Mz. ' . $value->manzana;
+            } 
+
+
+            if($value->casa) {
+                $temp = $temp . ' C. ' . $value->casa;
+            } 
+
+            if($value->seccion) {
+                $temp = $temp . ' Seccion ' . $value->seccion;
+            }
+
+            if($value->lote) {
+                $temp = $temp . ' Lote ' . $value->lote;
+            }
+
+            if($value->edificiotorre) {
+                $temp = $temp . ' Edificio ' . $value->edificiotorre;
+            } 
+
+            if($value->piso) {
+                $temp = $temp . ' Piso/Dpto ' . $value->piso;
+            } 
+
+            $value->usuario_modi = $temp;
+
+           
+            // articulos
+
+            $contrato = Contrato::where('Clientedireccion_id', $value->id)->where('cliente_id', $value->cliente_id)->orderBy('fechacontrato', 'desc')->first();
+            
+            if($contrato) {
+                
+
+                $contratoarticulos  = Contratoarticulo::where('contrato_id', $contrato->id)->get();
+
+                foreach ($contratoarticulos as $key1 => $value1) {
+                    
+                    if($temp2 == ''){
+                        $temp2 =  $value1->articulo->descripcion . ' (' . $value1->cantidad . ' u.) <br>';
+                    } else {
+                        $temp2 = $temp2  .  $value1->articulo->descripcion . ' (' . $value1->cantidad . ' u.) <br>';
+                    }
+                   
+                }
+                //para filtrar por articulo
+                if($articulo !== '0') {
+                    $existe = 0;
+                    $art_temp = (int) $articulo;
+                    foreach ($contratoarticulos as $key2 => $value2) {
+                        if($value2->articulo_id == $art_temp){
+                            
+                            $existe = 1;
+                            break;
+                        }
+                    }
+                    
+                    if($existe == 0) {
+
+                        $temp2 = '';
+                    }
+                }
+                //
+
+                $value->usuario_alta = $temp2;
+            } else {
+                $value->usuario_alta = '';
+            }
+            
+            //
+
+        }
+
+        if($articulo !== '0') {
+            $cantidad = 0;
+            foreach ($clientes as $key3 => $value3) {
+                if($value3->usuario_alta !== ''){
+                    $cantidad += 1; 
+                }
+            }
+        } else {
+            $cantidad = DB::table('clientedirecciones')->where('barrio_id', $barrio)->count();
+        }
+
+        $pdf = PDF::loadView('admin.informes.detallecontratosbarriosarticulosprint', compact('barriodesc', 'clientes', 'cantidad'));
+        //$pdf->setPaper('Legal', 'landscape');
+
+        return $pdf->setPaper('Legal', 'landscape')->stream('informe.pdf');
+        //return $pdf->stream('informe.pdf');
+        //$dompdf->set_paper ('a4','landscape'); 
+
+    }
+
+
 }

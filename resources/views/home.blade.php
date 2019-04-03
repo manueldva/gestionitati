@@ -45,6 +45,22 @@
             <a   href="{{ route('detalleinformecontratos') }}"  class="small-box-footer">Ver Detalle de Articulos <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+    
+          <div class="small-box  bg-primary"> 
+            <!--<div class="small-box bg-green">-->
+            <div class="inner">
+              <h3> &nbsp; </h3>
+
+              <p>Informe Por Barrio</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-print"></i>
+            </div>
+            <a   href="{{ route('informecontratosbarriosarticulos') }}"  class="small-box-footer">Ver Detalle <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
     </div>
   </div>
 </div>

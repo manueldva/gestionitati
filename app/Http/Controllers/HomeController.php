@@ -11,9 +11,12 @@ use Illuminate\Support\Facades\Input;
 use App\Helpers\FechaHelper;
 
 use App\Models\Articulo;
+use App\Models\Cliente;
+use App\Models\Clientedireccion;
 use App\Models\Contrato;
 use App\Models\Contratoarticulo;
 use App\Models\Barrio;
+use App\Models\Tipocliente;
 
 class HomeController extends Controller
 {
@@ -49,23 +52,6 @@ class HomeController extends Controller
 
     public function detalleinformecontratos(Request $request)
     { 
-            /*$data = DB::select(DB::raw('CALL InformeHomeArticuloGeneraldetalle()'));
-
-            // parametros para la paginacion
-            $page = Input::get('page', 1);
-            $paginate = 15;
-            //
-            $offSet = ($page * $paginate) - $paginate; //calcula la cantidad de paginas
-            $itemsForCurrentPage = array_slice($data, $offSet, $paginate, true); //calcula que pagina es la actual
-            $articulos = new \Illuminate\Pagination\LengthAwarePaginator($itemsForCurrentPage, count($data), $paginate, $page);//genera el paginador personalizado
-
-            $articulos->setPath('detallegeneralfaltantehome'); //general arl personalizada
-
-            return view('admin.home.informearticulogeneralfaltante',compact('articulos'));
-
-            //return view('admin.home.informearticulogondolafaltante', compact('articulos'));*/
-
-
 
         $barrios  = Barrio::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
         
@@ -114,5 +100,16 @@ class HomeController extends Controller
         }
 
         return view('admin.home.detalleinformecontratos', compact('data', 'barrios', 'contratos'));
+    }
+
+
+    public function informecontratosbarriosarticulos()
+    { 
+
+        $barrios  = Barrio::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+        $articulos  = Articulo::orderBy('descripcion', 'ASC')->where('tipoarticulo_id', '<>', 3)->pluck('descripcion' , 'id');
+        
+        
+       return view('admin.home.informecontratosbarriosarticulos', compact('barrios', 'articulos'));
     }
 }
