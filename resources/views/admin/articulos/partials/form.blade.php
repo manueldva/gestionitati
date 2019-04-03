@@ -752,7 +752,7 @@
 	      		} else {
 	      			$('#tipoenvasespan').hide();
 	      		}
-	      		if($('#id_lista_precios').val() == ''){
+	      		if($('#id_lista_precios').val() == '' && $('#clasificacion').val() == '0'){
 	      			estadocampos = 1;
 				   	$('#table_preciosspan').show();
 				} else {
@@ -760,8 +760,13 @@
 				}
 			} else if (tipoa == 2){
 				if ($('#precioplan').val() == '' || $('#precioplan').val() == '0.00'){
-	      			estadocampos = 1;
-				   	$('#precioplanspan').show();
+	      			if(	$('#clasificacion').val() == '0'){
+	      				estadocampos = 1;
+				   		$('#precioplanspan').show();
+	      			} else {
+	      				$('#precioplanspan').hide();
+	      			}
+	      			
 	      		} else {
 	      			$('#precioplanspan').hide();
 	      		}

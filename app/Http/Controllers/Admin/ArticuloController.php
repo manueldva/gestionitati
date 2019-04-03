@@ -119,7 +119,7 @@ class ArticuloController extends Controller
 
         } else if($request->get('tipoarticulo_id') == '2'){ // 2 = plan
 
-            $art_plan = Articuloplandetalle::where('plan_id', $id)->delete();
+            //$art_plan = Articuloplandetalle::where('plan_id', $id)->delete();
 
             $listado_planarticulos_text = $request->input("listado_planarticulos");
         
@@ -131,7 +131,7 @@ class ArticuloController extends Controller
                 list($articulo_id, $cantidad) = explode('|', $planarticulo_text);
                 
                 $planarticulo = new Articuloplandetalle();
-                    $planarticulo->plan_id = $id;
+                    $planarticulo->plan_id = $articulo->id;
                     $planarticulo->planarticulo_id = $articulo_id;
                     $planarticulo->cantidad = $cantidad;
                     $planarticulo->usuario_alta = Auth::user()->username;
