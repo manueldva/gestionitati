@@ -279,8 +279,16 @@ class InformeController extends Controller
         //$cantidad = DB::table('clientedirecciones')->where('barrio_id', $barrio)->count();
 
 
-        $clientes = Clientedireccion::where('barrio_id', $barrio)->get();
+        //$clientes = Clientedireccion::where('barrio_id', $barrio)->get();
 
+        $clientes = Clientedireccion::whereHas('cliente', function($query) {
+              $query->where('estado',1)->orderBy('apellido');
+          })
+          ->where('barrio_id', $barrio)
+          //->select('clientedirecciones')
+          ->get();
+
+         
 
         foreach ($clientes as $key => $value) {
             $temp = '';
@@ -326,6 +334,11 @@ class InformeController extends Controller
 
             $value->usuario_modi = $temp;
 
+            if($value->cliente->tipocliente_id == 1){
+                $value->referenciadomicilio = $value->cliente->apellido . ' ' .  $value->calle = $value->cliente->nombre;
+            } else {
+                $value->referenciadomicilio = $value->cliente->cliente;
+            }
            
             // articulos
 
@@ -381,10 +394,15 @@ class InformeController extends Controller
                 }
             }
         } else {
-            $cantidad = DB::table('clientedirecciones')->where('barrio_id', $barrio)->count();
+            //$cantidad = DB::table('clientedirecciones')->where('barrio_id', $barrio)->count();
+            $cantidad = $clientes->count();
         }
 
-        $pdf = PDF::loadView('admin.informes.detallecontratosbarriosarticulosprint', compact('barriodesc', 'clientes', 'cantidad'));
+        $data = $clientes->sortBy('referenciadomicilio'); //$clientes->sortBy('referenciadomicilio');
+
+        //dd($cantidad);
+
+        $pdf = PDF::loadView('admin.informes.detallecontratosbarriosarticulosprint', compact('barriodesc', 'data', 'cantidad'));
         //$pdf->setPaper('Legal', 'landscape');
 
         return $pdf->setPaper('Legal', 'landscape')->stream('informe.pdf');

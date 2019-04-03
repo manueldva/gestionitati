@@ -49,7 +49,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<?php foreach($clientes as $cliente){ ?>
+			<?php foreach($data as $cliente){ ?>
                	@if($cliente->usuario_alta !== '')  
 	                <tr>
 	                    <td class="col-md-4"><center>

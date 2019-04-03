@@ -32,11 +32,13 @@
           <div class="row col-md-12">
             <div class="form-group" style="text-align: center">
 
-                <button id="guardar" type="button"  class="btn btn btn-primary">
-                    <span class="glyphicon glyphicon-floppy-disk">
-                    </span>
-                      Guardar
-                </button>
+                @if($cliente->estado == 1)
+                  <button id="guardar" type="button"  class="btn btn btn-primary">
+                      <span class="glyphicon glyphicon-floppy-disk">
+                      </span>
+                        Guardar
+                  </button>
+                @endif
                
                 <!-- 
                 &nbsp;&nbsp;&nbsp;
