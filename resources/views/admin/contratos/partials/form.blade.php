@@ -187,7 +187,7 @@
 									<th style="display:none;">modeloID</th>
 									<th> <center>Modelo Contrato</center></th>
 									<th> <center>Articulos</center></th>
-									 <th colspan="2">&nbsp;</th>
+									 <th colspan="3">&nbsp;</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -220,6 +220,13 @@
 						                   	<a  href="{{ asset('printcontrato/') . '/' . $contrato->id }}" target="blank_" class='btn btn-sm btn-success' title="Imprimir Contrato">
 						                   		<span class='glyphicon glyphicon-print'></span>
 						                   	</a>
+						                   	<td width="10px">
+						                   	@if($edit !== 0)
+							                   	<a class='delete btn btn-sm btn-danger' onclick ='deletecontrato_row($(this))'>
+								                   		<span class='glyphicon glyphicon-trash'></span>
+								                </a>
+								            @endif
+							            	</td>
 					               	    </td>
 					               	
 					                  </tr>
@@ -369,7 +376,7 @@
 		}
 
 
-		/*
+		
 		function deletecontrato_row(row) {
 
 		  	 var contrato_id = row.parents("tr").find('td').eq(0).html();
@@ -389,7 +396,7 @@
 				}
 				
 			});
-		}*/
+		}
 
 
 		function editcontrato_row(row) {
