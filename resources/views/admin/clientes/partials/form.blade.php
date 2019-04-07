@@ -1140,6 +1140,7 @@
 		   	if($('#provincia_id').val() == ''){
 		   		$('#provincia_idspan').show();
 		   		estadovalidacion = 1;
+		   		//alert(1);
 		   	} else{
 		   		//estadocampos = 0;
 		   		$('#provincia_idspan').hide();
@@ -1147,6 +1148,7 @@
 		   	if($('#departamento_id').val() == ''){
 		   		$('#departamento_idspan').show();
 		   		estadovalidacion = 2;
+		   		//alert(2);
 		   	} else{
 		   		//estadocampos = 0;
 		   		$('#departamento_idspan').hide();
@@ -1154,6 +1156,7 @@
 		   	if($('#localidad_id').val() == ''){
 		   		$('#localidad_idspan').show();
 		   		estadovalidacion = 3;
+		   		//alert(3);
 		   	} else{
 		   		//estadocampos = 0;
 		   		$('#localidad_idspan').hide();
@@ -1166,6 +1169,7 @@
 		   	if(sinbarrio == 0 && barrio_id == ''){
 			   	$('#barrio_idspan').show();
 			   	estadovalidacion = 4;
+			   //	alert(4);
 		   	}else{
 		   		$('#barrio_idspan').hide();
 		   	}
@@ -1177,6 +1181,7 @@
 		   	if(sincalle == 0 && calle_id == ''){
 			   	$('#calle_idspan').show();
 			   	estadovalidacion = 5;
+			   	//alert(5);
 		   	}else{
 		   		$('#calle_idspan').hide();
 		   	}
@@ -1186,6 +1191,7 @@
 		   	if(obs == 1 && $.trim($('#observaciondomicilio').val()) == ''){
 			   	$('#cargarobservacionpan').show();
 			   estadovalidacion = 6;
+			   //alert(6);
 		   	}else{
 		   		$('#cargarobservacionpan').hide();
 		   	}
@@ -1195,6 +1201,7 @@
 		   		$('#empleado_idspan').show();
 		   		$('#empleadospan').show();
 		   		 estadovalidacion = 7;
+		   		// alert(7);
 		   	} else{
 		   		//estadocampos = 0;
 		   		$('#empleado_idspan').hide();
@@ -1208,6 +1215,7 @@
 				
 				//toastr.error('No se pueden guardar los datos. Existen campos vacios o mal cargados');
 		   		estadovalidacion = 8;
+		   		//alert(8);
 		   	}
 
 
@@ -1337,7 +1345,7 @@
 
 								$('#provincia_id').val('');
 								$('#provincia_id').change();
-								$('#empleado').val('');
+								$('#empleado').val('0');
 								$('#empleado').change();
 
 								$('#numero').val('');
@@ -1430,7 +1438,7 @@
 
 					$('#provincia_id').val('');
 					$('#provincia_id').change();
-					$('#empleado').val('');
+					$('#empleado').val('0');
 					$('#empleado').change();
 					if ($('#empleado').val() !== '') {
 						$('#empleado').val('');
@@ -1456,6 +1464,7 @@
 					$('#horahasta').val('');
 					$('#cargarobservacionspan').hide();
 					$("#observaciondomicilio").prop("disabled", true);
+
 					toastr.success('Direccion agregada a la lista');
 
 
@@ -1464,7 +1473,7 @@
 			});
 		
 			
-
+		$('#cargarobservacion').val(0);
 		});
 
 
@@ -1607,7 +1616,7 @@
 		    {
 		    	$('#provincia_id').val('');
 				$('#provincia_id').change();
-				$('#empleado').val('');
+				$('#empleado').val('0');
 				$('#empleado').change();
 
 				$('#numero').val('');
@@ -1625,7 +1634,10 @@
 				$('#horahasta').val('');
 				$('#cargarobservacionspan').hide();
 				$("#observaciondomicilio").prop("disabled", true);
+				$('#direccion_id').val('0');
 		    }
+
+
 
 		});
 		$('#direcciones1').on('ifUnchecked', function (event) {

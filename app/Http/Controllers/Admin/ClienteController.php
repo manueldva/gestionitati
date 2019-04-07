@@ -514,6 +514,12 @@ class ClienteController extends Controller
     public function update(Request $request, $id)
     {
 
+        /*$listado_direcciones_text = $request->input("listado_direcciones");
+        
+        $listado_direcciones_array = explode('&&&', $listado_direcciones_text);
+        dd( $listado_direcciones_array);*/
+       
+
         $existe = Cliente::where('numerodocumento', $request->get('numerodocumento'))->where('tipodocumento_id', $request->get('tipodocumento_id'))->where('id', '<>', $id)->first();
         if($existe){
             Alert::error('El numero de documento que quiere utilizar ya se encuentra en la base de datos')->persistent("Cerrar");

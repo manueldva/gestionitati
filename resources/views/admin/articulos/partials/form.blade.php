@@ -781,7 +781,7 @@
 
 			if(estadocampos == 1) 
       		{
-      			toastr.error('No se puede guardar el contrato. Faltan datos');
+      			toastr.error('No se puede guardar el articulo. Faltan datos');
       			return false;
       		} else {
       			$('#form').submit();
