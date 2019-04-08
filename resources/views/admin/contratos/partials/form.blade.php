@@ -55,6 +55,11 @@
 						<span class="help-block">Campo Obligatorio</span>
 					</div>
 				  </div>
+
+				   <div class="form-group">
+					{{ form::label('estado', 'Estado *') }}
+					{{ form::select('estado', $estados, null, ['class' => 'form-control'] ) }} 
+				  </div>
 			      
 			    </div>
 			    <!-- /.box-body -->
@@ -187,6 +192,8 @@
 									<th style="display:none;">modeloID</th>
 									<th> <center>Modelo Contrato</center></th>
 									<th> <center>Articulos</center></th>
+									<th style="display:none;">EstadoID</th>
+									<th> <center>Estado</center></th>
 									 <th colspan="3">&nbsp;</th>
 								</tr>
 							</thead>
@@ -204,7 +211,16 @@
 										<td style="display:none;"><center>{{ $contrato->modelocontrato_id }}</center></td>
 										<td><center>{{ $contrato->modelocontrato->modelo }}</center></td>
 										<td><center>{!! $contrato->usuario_modi !!}</center></td>
-				                   
+										<td style="display:none;">{!! $contrato->estado !!}</td>
+										<td>
+											<center> 
+												@if($contrato->estado == 1)
+													Activo
+												@else
+													Inactivo
+												@endif
+											</center>
+										</td>
 					                    <td width="10px">
 					                    	@if($edit !== 0)
 							                   	<!--<a class='delete btn btn-sm btn-danger' onclick ='deletecontrato_row($(this))'>
@@ -405,6 +421,10 @@
 		  	var direccion_id = row.parents("tr").find('td').eq(1).html();
 		  	var fecha = row.parents("tr").find('td').eq(3).html();
 		  	var modelocontrato_id = row.parents("tr").find('td').eq(5).html();	
+		  	var estado = row.parents("tr").find('td').eq(8).html();	
+		 
+		  	//alert(temp);
+		  	
 		  	//
 		  	fecha = fecha.replace('<center>', '');
 		  	fecha = fecha.replace('</center>', '');
@@ -423,6 +443,8 @@
  			$('#clientedireccion_id').val(direccion_id);
  			$('#fechacontrato').val(fecha);
  			$('#modelocontrato_id').val(modelocontrato_id);
+ 			$('#estado').val(estado);
+ 		
 
  			//buscar articulos
  			$("#table_articulos tr").remove();

@@ -194,7 +194,10 @@ class ContratoController extends Controller
 
         $edit = 0;
 
-        return view('admin.contratos.show', compact('edit', 'cliente', 'articulos', 'direcciones', 'modelocontratos', 'contratos'));
+        $estados    = [ 0 => 'Inactivo', 1 => 'Activo'];
+
+
+        return view('admin.contratos.show', compact('edit', 'cliente', 'articulos', 'direcciones', 'modelocontratos', 'contratos', 'estados'));
 
     }
 
@@ -436,7 +439,9 @@ class ContratoController extends Controller
 
         $edit = 1;
 
-        return view('admin.contratos.edit', compact('edit', 'cliente', 'articulos', 'direcciones', 'modelocontratos', 'contratos'));
+       $estados    = [ 0 => 'Inactivo', 1 => 'Activo'];
+
+        return view('admin.contratos.edit', compact('edit', 'cliente', 'articulos', 'direcciones', 'modelocontratos', 'contratos', 'estados'));
 
     }
 

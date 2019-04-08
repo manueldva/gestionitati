@@ -9,7 +9,7 @@ class Contrato extends Model
      //protected $table = 'localidades';
 
 	protected $fillable = [
-    	'modelocontrato_id','cliente_id', 'clientedireccion_id', 'fechacontrato', 'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
+    	'modelocontrato_id','cliente_id', 'clientedireccion_id', 'fechacontrato', 'estado' ,'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
 	];
 
 

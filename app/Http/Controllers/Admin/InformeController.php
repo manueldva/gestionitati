@@ -332,6 +332,10 @@ class InformeController extends Controller
                 $temp = $temp . ' Piso/Dpto ' . $value->piso;
             } 
 
+            if($value->referenciadomicilio) {
+                $temp = $temp . ' (' . $value->referenciadomicilio .  ')';
+            } 
+
             $value->usuario_modi = $temp;
 
             if($value->cliente->tipocliente_id == 1){
@@ -342,7 +346,7 @@ class InformeController extends Controller
            
             // articulos
 
-            $contrato = Contrato::where('Clientedireccion_id', $value->id)->where('cliente_id', $value->cliente_id)->orderBy('fechacontrato', 'desc')->first();
+            $contrato = Contrato::where('Clientedireccion_id', $value->id)->where('estado', 1)->where('cliente_id', $value->cliente_id)->orderBy('fechacontrato', 'desc')->first();
             
             if($contrato) {
                 
