@@ -390,7 +390,7 @@ class InformeController extends Controller
 
         }
 
-        if($articulo !== '0') {
+        /*if($articulo !== '0') {
             $cantidad = 0;
             foreach ($clientes as $key3 => $value3) {
                 if($value3->usuario_alta !== ''){
@@ -400,7 +400,14 @@ class InformeController extends Controller
         } else {
             //$cantidad = DB::table('clientedirecciones')->where('barrio_id', $barrio)->count();
             $cantidad = $clientes->count();
-        }
+        }*/
+
+        $cantidad = 0;
+            foreach ($clientes as $key3 => $value3) {
+                if($value3->usuario_alta !== ''){
+                    $cantidad += 1; 
+                }
+            }
 
         $data = $clientes->sortBy('referenciadomicilio'); //$clientes->sortBy('referenciadomicilio');
 
