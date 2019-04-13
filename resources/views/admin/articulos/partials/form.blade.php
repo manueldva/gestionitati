@@ -77,8 +77,7 @@
 			    <!-- /.box-header -->
 			    <div class="box-body">
 			    	<div class="form-group" style="display: none">
-						{{ form::text('clasificacion', null, ['class' => 'form-control', 'id' => 'clasificacion']) }}
-						
+						{{ form::text('clasificacion', null, ['class' => 'form-control', 'id' => 'clasificacion']) }}	
 						
 				  	</div>
 			      	<div class="form-group">
@@ -715,6 +714,16 @@
 
 		
 		$("#guardar").click(function() {
+
+			if($('input[name=venta]:checkbox:checked').val() == '1') {
+				$('#clasificacion').val(0);
+				//alert($('#clasificacion').val());
+			}
+
+			if($('input[name=sincargo]:checkbox:checked').val() == '1') {
+				$('#clasificacion').val(1);
+				//alert($('#clasificacion').val());
+			}
 
 			estadocampos = 0;
 			//alert($('#tipoarticulo_id').val());
