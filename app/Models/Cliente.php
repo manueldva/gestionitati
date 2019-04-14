@@ -42,11 +42,15 @@ class Cliente extends Model
         return $this->HasMany(Clientedireccion::class);
     }
 
+     public function contratos(){
+        return $this->HasMany(Contrato::class);
+    }
+
 
     
     
 
-	public function scopeType($query, $type, $valor, $valor2, $barrios, $tipoclientes) 
+	public function scopeType($query, $type, $valor, $valor2, $barrios, $tipoclientes, $estados) 
     {
 		
 		if ($type == 'nrodocumento')
@@ -79,7 +83,13 @@ class Cliente extends Model
             $query->where('tipocliente_id', '=', $tipoclientes)->orderBy('apellido');
             //$query->client()->where('name', 'like', '%' . $valor . '%')->orderBy('id', 'ASC');
 
-
+        }
+        else if ($type == 'estado') 
+        {
+            //$query->where('id', $valor)->orderBy('id', 'ASC');
+            $query->where('estado', '=', $estados)->orderBy('apellido');
+            //$query->client()->where('name', 'like', '%' . $valor . '%')->orderBy('id', 'ASC');
+        
         } else
         {
             $query->orderBy('apellido');

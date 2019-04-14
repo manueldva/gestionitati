@@ -119,13 +119,19 @@ class InformeController extends Controller
         $articulos = Articulo::where('tipoarticulo_id', '<>', 3)->orderBy('descripcion')->get();
 
         if($barrio == null   || $barrio == '0') {
-            $contratos = DB::table('contratos')->count();
+            $contratos = DB::table('contratos')
+                    ->join('clientes', 'contratos.cliente_id', '=', 'clientes.id')
+                    ->where('contratos.estado', '=', 1)
+                    ->where('clientes.estado', '=', 1)
+                    ->count();
 
             $barriodesc = 'Todos';
         } else {
             $contratos = DB::table('contratos')
                     ->join('clientedirecciones', 'contratos.clientedireccion_id', '=', 'clientedirecciones.id')
                     ->where('clientedirecciones.barrio_id', '=', $barrio)
+                    ->where('contratos.estado', '=', 1)
+                    ->where('clientes.estado', '=', 1)
                     ->count();
 
 

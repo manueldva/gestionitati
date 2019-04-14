@@ -30,31 +30,32 @@
 		</thead>
 		<tbody>
 			<?php foreach($data as $dt){ ?>
-                 
-                <tr>
-                    <td><center>
-                    <?php 
-						if (isset($dt['codigo'])) {
-							echo $dt['codigo'];
-						} 
-					?></center>
-					</td>	
-                    <td><center>
-                    <?php 
-						if (isset($dt['articulo'])) {
-							echo $dt['articulo'];
-						} 
-					?></center>
-					</td>	
-					<td><center>
-                    <?php 
-						if (isset($dt['cantidad'])) {
-							echo $dt['cantidad'];
-						} 
-					?></center>
-					</td>				
-					
-                 </tr>
+               @if($dt['cantidad'] !== 0)
+	                <tr>
+	                    <td><center>
+	                    <?php 
+							if (isset($dt['codigo'])) {
+								echo $dt['codigo'];
+							} 
+						?></center>
+						</td>	
+	                    <td><center>
+	                    <?php 
+							if (isset($dt['articulo'])) {
+								echo $dt['articulo'];
+							} 
+						?></center>
+						</td>	
+						<td><center>
+	                    <?php 
+							if (isset($dt['cantidad'])) {
+								echo $dt['cantidad'];
+							} 
+						?></center>
+						</td>				
+						
+	                </tr>
+	           @endif
                     
             <?php  } ?>
 		</tbody>

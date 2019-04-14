@@ -60,6 +60,7 @@ class ClienteController extends Controller
     public function index(Request $request)
     {
        
+       //dd($request->get('estado'));
         $perfil = Perfil::find(Auth::user()->perfil_id);
         $modulo_actual = Modulo::where('valor', '=', 'CLIENTE')->get();
         $modulos = $perfil->modulos()->where('modulo_id', '=', $modulo_actual[0]->id)->get();
@@ -121,7 +122,7 @@ class ClienteController extends Controller
 
         } else 
         {
-            $clientes = Cliente::type($request->get('type'), $request->get('val'), $request->get('val2'), $request->get('barrios'), $request->get('tipoclientes'))->paginate(15);
+            $clientes = Cliente::type($request->get('type'), $request->get('val'), $request->get('val2'), $request->get('barrios'), $request->get('tipoclientes'), $request->get('estados'))->paginate(15);
 
             foreach ($clientes as $key => $value) {
                 $clientedireccion = Clientedireccion::where('cliente_id', $value->id)->first();

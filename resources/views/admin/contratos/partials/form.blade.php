@@ -238,9 +238,11 @@
 						                   	</a>
 						                   	<td width="10px">
 						                   	@if($edit !== 0)
-							                   	<a class='delete btn btn-sm btn-danger' onclick ='deletecontrato_row($(this))'>
-								                   		<span class='glyphicon glyphicon-trash'></span>
-								                </a>
+							                   	@if($contrato->cliente->estado == 1)
+								                   	<a class='delete btn btn-sm btn-danger' onclick ='deletecontrato_row($(this))'>
+									                   		<span class='glyphicon glyphicon-trash'></span>
+									                </a>
+									            @endif
 								            @endif
 							            	</td>
 					               	    </td>

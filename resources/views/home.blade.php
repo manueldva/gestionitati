@@ -37,7 +37,7 @@
             <div class="inner">
               <h3>{{ $contratos }} </h3>
 
-              <p>Contratos Registrados</p>
+              <p>Contratos Activos</p>
             </div>
             <div class="icon">
               <i class="fa fa-file"></i>

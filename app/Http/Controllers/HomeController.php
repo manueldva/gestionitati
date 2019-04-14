@@ -44,7 +44,11 @@ class HomeController extends Controller
         $permiso = $modulos[0]->pivot->permiso;
 
 
-        $contratos = DB::table('contratos')->count();
+       $contratos = DB::table('contratos')
+                    ->join('clientes', 'contratos.cliente_id', '=', 'clientes.id')
+                    ->where('contratos.estado', '=', 1)
+                    ->where('clientes.estado', '=', 1)
+                    ->count();
 
         return view('home', compact('contratos', 'permiso'));
     }
@@ -60,10 +64,17 @@ class HomeController extends Controller
         $articulos = Articulo::where('tipoarticulo_id', '<>', 3)->orderBy('descripcion')->get();
 
         if($request->get('barrios') == null) {
-            $contratos = DB::table('contratos')->count();
+            $contratos = DB::table('contratos')
+                    ->join('clientes', 'contratos.cliente_id', '=', 'clientes.id')
+                    ->where('contratos.estado', '=', 1)
+                    ->where('clientes.estado', '=', 1)
+                    ->count();
         } else {
             $contratos = DB::table('contratos')
                     ->join('clientedirecciones', 'contratos.clientedireccion_id', '=', 'clientedirecciones.id')
+                    ->join('clientes', 'contratos.cliente_id', '=', 'clientes.id')
+                    ->where('contratos.estado', '=', 1)
+                    ->where('clientes.estado', '=', 1)
                     ->where('clientedirecciones.barrio_id', '=', $request->get('barrios'))
                     ->count();
         }

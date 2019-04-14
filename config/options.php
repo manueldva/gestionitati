@@ -11,7 +11,8 @@ return array(
 		'apellidonombre'  => 'Apellido y Nombre',
 		'nrodocumento'		=> 'Nro Documento',
 		'barrio'	=> 'Barrio',
-		'tipocliente' => 'Tipo de Cliente'
+		'tipocliente' => 'Tipo de Cliente',
+		'estado' => 'Estado'
 	] ,
 
 

@@ -19,6 +19,10 @@ class Contrato extends Model
         return $this->belongsTo(Modelocontrato::class);
     }
 
+    public function cliente(){
+        
+        return $this->belongsTo(Cliente::class);
+    }
 
     
 	/*public function scopeType($query, $type, $valor) 
