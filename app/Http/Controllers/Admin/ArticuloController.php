@@ -53,9 +53,9 @@ class ArticuloController extends Controller
 
         $articulos = Articulo::type($request->get('type'), $request->get('val'))->paginate(15);
 
-        foreach($articulos as $articulo){
+        /*foreach($articulos as $articulo){
             $articulo->fecha_alta = FechaHelper::getFechaImpresion($articulo->fecha_alta); 
-        }
+        }*/
 
         $articulos->setPath('articulos');
 
@@ -409,6 +409,14 @@ class ArticuloController extends Controller
     {
 
         $existe = Contratoarticulo::where('articulo_id', $id)->count();
+
+        if($existe > 0) 
+        {
+            Alert::error('No se puede eliminar el registro')->persistent("Cerrar");
+            return back();
+        }
+
+        $existe = Articuloplandetalle::where('planarticulo_id', $id)->count();
 
         if($existe > 0) 
         {

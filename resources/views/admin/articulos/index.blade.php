@@ -55,7 +55,7 @@
 	                  <!--<th width="10px"> ID</th>-->
 	                  <th> Codigo</th>
 	                  <th> descripción</th>
-					  <th> Fecha Alta</th>
+					  <th> Tipo Producto</th>
 	                  <th colspan="3">&nbsp;</th>
 	                </tr>
 	              </thead>
@@ -64,7 +64,7 @@
 	                  <tr>
 	                    <td>{{ $articulo->id }}</td>
 	                    <td>{{ $articulo->descripcion }}</td>
-						<td>{{ $articulo->fecha_alta }}</td>
+						<td>{{ $articulo->tipoarticulo->descripcion }}</td>
 	                    <td width="10px">
 	                      <a href="{{ route('articulos.show', $articulo->id) }}" class="btn btn-sm btn-default">
 	                        Ver
