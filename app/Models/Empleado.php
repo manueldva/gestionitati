@@ -9,7 +9,7 @@ class Empleado extends Model
     //protected $table = 'barrios';
 
 	protected $fillable = [
-    	'tipoempleado_id', 'empleado', 'apellido', 'nombre' , 'movil', 'patente',  'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
+    	'tipoempleado_id', 'sucursal_id',  'empleado', 'apellido', 'nombre' , 'movil', 'patente',  'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
 	];
 
 
@@ -23,6 +23,18 @@ class Empleado extends Model
     public function tipoempleado(){
         
         return $this->belongsTo(Tipoempleado::class);
+    }
+
+
+
+    public function user(){
+        return $this->hasOne(User::class , 'empleado_id');
+    }
+
+
+    public function sucursal(){
+        
+        return $this->belongsTo(Sucursal::class);
     }
 
 

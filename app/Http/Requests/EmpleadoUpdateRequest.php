@@ -28,7 +28,8 @@ class EmpleadoUpdateRequest extends FormRequest
             //'codigo' => 'required|max:50|unique:articulos,codigo',
             'apellido' => 'required|max:100',
             'nombre' => 'required|max:100',
-            'tipoempleado_id' => 'required'
+            'tipoempleado_id' => 'required',
+            'sucursal_id' => 'required'
             //'estado'    => 'required|in:Activo,Inactivo'
         ];
     }

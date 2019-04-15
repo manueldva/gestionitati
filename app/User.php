@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'perfil_id','username', 'file'
+        'name', 'email', 'password', 'perfil_id', 'empleado_id' ,'username', 'file'
     ];
 
     /**
@@ -30,8 +30,14 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-        public function perfil(){
+    public function perfil(){
         
         return $this->belongsTo(Models\Perfil::class);
+    }
+
+
+    public function empleado(){
+        
+        return $this->belongsTo(Models\Empleado::class);
     }
 }

@@ -187,6 +187,10 @@ return [
                             [
                                 'text' => 'Tipo Empleado',
                                 'url'  => 'tipoempleados',
+                            ],
+                            [
+                                'text' => 'Sucursal',
+                                'url'  => 'sucursales',
                             ]
                         ],
                     ],

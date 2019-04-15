@@ -22,7 +22,11 @@
  	<div class="form-group">
 		{{ form::label('tipoempleado_id', 'Tipo de Empleado *') }}
 		{{ form::select('tipoempleado_id', isset($tipoempleados) ? $tipoempleados : [], null, ['class' => 'form-control'] ) }} 
-  </div>
+  	</div>
+  	<div class="form-group">
+		{{ form::label('sucursal_id', 'Sucursal *') }}
+		{{ form::select('sucursal_id', isset($sucursales) ? $sucursales : [], null, ['class' => 'form-control'] ) }} 
+  	</div>
 	<div class="form-group">
 		{{ form::label('apellido', 'Apellido *') }}
 		{{ form::text('apellido', null, ['class' => 'form-control', 'id' => 'apellido']) }}

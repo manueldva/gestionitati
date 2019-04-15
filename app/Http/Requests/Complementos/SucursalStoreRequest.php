@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Complementos;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EmpleadoStoreRequest extends FormRequest
+class SucursalStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,12 +25,7 @@ class EmpleadoStoreRequest extends FormRequest
     {
 
         return [
-            //'codigo' => 'required|max:50|unique:articulos,codigo',
-            'apellido' => 'required|max:100',
-            'nombre' => 'required|max:100',
-            'tipoempleado_id' => 'required',
-            'sucursal_id' => 'required'
-            //'estado'    => 'required|in:Activo,Inactivo'
+            'descripcion' => 'required|max:300|unique:sucursales,descripcion'
         ];
     }
 }

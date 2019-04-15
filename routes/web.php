@@ -81,6 +81,7 @@ route::resource('tipoivas', 		'Admin\Complementos\TipoivaController');
 route::resource('tipoempleados', 		'Admin\Complementos\TipoempleadoController');
 route::resource('tipofamiliares', 		'Admin\Complementos\TipofamiliarController');
 route::resource('companiatelefonicas', 		'Admin\Complementos\CompaniatelefonicaController');
+route::resource('sucursales', 		'Admin\Complementos\SucursalController');
 
 
 // servicios

@@ -10,6 +10,7 @@ use App\Http\Requests\EmpleadoUpdateRequest;
 use Alert;
 
 use App\Models\Empleado;
+use App\Models\Sucursal;
 use App\Models\Cliente;
 use App\Models\Tipoempleado;
 use App\Models\Modulo;
@@ -62,7 +63,8 @@ class EmpleadoController extends Controller
     {
 
         $tipoempleados  = Tipoempleado::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
-        return view('admin.empleados.create', compact('tipoempleados'));
+        $sucursales  = Sucursal::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+        return view('admin.empleados.create', compact('tipoempleados', 'sucursales'));
     }
 
     /**
@@ -108,8 +110,9 @@ class EmpleadoController extends Controller
     {
         $empleado = Empleado::find($id);
         $tipoempleados  = Tipoempleado::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+        $sucursales  = Sucursal::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
-        return view('admin.empleados.edit', compact('empleado', 'tipoempleados'));
+        return view('admin.empleados.edit', compact('empleado', 'tipoempleados', 'sucursales'));
     }
 
     /**
