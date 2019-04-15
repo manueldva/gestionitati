@@ -49,9 +49,9 @@ class ArticuloController extends Controller
         $modulo_actual = Modulo::where('valor', '=', 'ARTICULO')->get();
         $modulos = $perfil->modulos()->where('modulo_id', '=', $modulo_actual[0]->id)->get();
         $permiso = $modulos[0]->pivot->permiso;
- 
+    
 
-        $articulos = Articulo::type($request->get('type'), $request->get('val'))->paginate(15);
+        $articulos = Articulo::type($request->get('type'), $request->get('val'), $request->get('tipoarticulo'))->paginate(15);
 
         /*foreach($articulos as $articulo){
             $articulo->fecha_alta = FechaHelper::getFechaImpresion($articulo->fecha_alta); 
@@ -60,8 +60,9 @@ class ArticuloController extends Controller
         $articulos->setPath('articulos');
 
          //dd($motivos);
+        $tipoarticulos  = Tipoarticulo::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
-       return view('admin.articulos.index', compact('articulos', 'permiso'));
+        return view('admin.articulos.index', compact('articulos', 'permiso', 'tipoarticulos'));
     }
 
     /**

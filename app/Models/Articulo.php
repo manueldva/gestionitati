@@ -23,7 +23,7 @@ class Articulo extends Model
 
 
 
-    public function scopeType($query, $type, $valor) 
+    public function scopeType($query, $type, $valor, $tipoarticulo) 
     {
 		
 		if($type == 'codigo')
@@ -33,6 +33,11 @@ class Articulo extends Model
 		} elseif ($type == 'descripcion')
         {
             $query->where('descripcion', 'like', '%' . $valor . '%')->orderBy('descripcion', 'ASC');
+
+        } elseif ($type == 'tipoarticulo')
+        {
+            $query->where('tipoarticulo_id', '=', $tipoarticulo)->orderBy('descripcion', 'ASC');
+
         } else
         {
             $query->orderBy('descripcion', 'ASC');

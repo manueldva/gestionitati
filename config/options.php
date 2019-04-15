@@ -42,7 +42,8 @@ return array(
  	'articulotypes' => [
 		''    		=> 'Seleccionar',
 		'codigo'  => 'Codigo',
-		'descripcion'	=> 'Descripción'
+		'descripcion'	=> 'Descripción',
+		'tipoarticulo' => 'Tipo Producto'
 	], 
 
 

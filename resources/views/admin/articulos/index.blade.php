@@ -26,13 +26,17 @@
 	<div class="box-header with-border box-default">
 	   <strong> Listado Productos </strong>
 	   <form class="navbar-form navbar-right" role="search">
-	       {{ Form::model(Request::only('type', 'val'), array('route' => 'articulos.index', 'method' => 'GET'), array('role' => 'form', 'class' => 'navbar-form pull-right')) }}
+	       {{ Form::model(Request::only('type', 'val', 'tipoarticulo'), array('route' => 'articulos.index', 'method' => 'GET'), array('role' => 'form', 'class' => 'navbar-form pull-right')) }}
 			    <div class="form-group">
 			      {{ form::label('buscar', 'Tipo Busqueda:') }}
-			      {{ form::select('type', config('options.complementotypes'), null, ['class' => 'form-control', 'id' => 'type'] ) }}
+			      {{ form::select('type', config('options.articulotypes'), null, ['class' => 'form-control', 'id' => 'type'] ) }}
 						&nbsp;
 			      {{ form::text('val', null, ['class' => 'form-control', 'id' => 'val']) }}
 						&nbsp;
+				   <span id="tipoarticulos" class="form-group">
+						{{ Form::select('tipoarticulo', $tipoarticulos, null, ['class'=>'form-control', 'id' => 'tipoarticulo','placeholder' => 'Seleccionar...']) }}
+				  </span>
+				  &nbsp;
 			      <button type="submit" class="form-control btn btn-sm btn-success"><span class="glyphicon glyphicon-search"></span> Buscar</button>
 						&nbsp;
 			      @if($permiso == 2)
@@ -90,7 +94,7 @@
 	            </table>
 	          </div>  
 						<div> <?php echo  'Mostrando ' . $articulos->firstItem() . ' a ' . $articulos->lastItem() . ' de ' . $articulos->total() . ' registros'; ?>	</div>
-	          {{ $articulos->appends(Request::only(['type', 'val']))->render() }}
+	          {{ $articulos->appends(Request::only(['type', 'val', 'tipoarticulo']))->render() }}
 	        </div>
 	    </div>
     </div>
@@ -109,13 +113,46 @@
 
 	<script type="text/javascript">
 
+		$('#tipoarticulo').select2();
 
-	$('#type').change(function(e) {
+		function searchType(){ 
+		  var type = $('#type').val();
+			
+			if (type == 'codigo'){
+				$('#val').show();
+				$('#tipoarticulos').hide();
+				$('#val').attr('type','number');
+			} else if (type == 'descripcion')
+			{
+				$('#val').show();
+				$('#tipoarticulos').hide();
+				$('#val').attr('type','text');
+			} else if (type == 'tipoarticulo')
+			{
+				$('#val').hide();
+				$('#tipoarticulos').show();
+				$('#val').attr('type','number');
+			} else
+			{
+				$('#val').show();
+				$('#tipoarticulos').hide();
+				$('#val').attr('type','number');
+			}
+		}
 
-		$('#val').val('');
-		$('#val').focus();
 
-	});
+		searchType(); 
+		
+
+		$('#type').change(function(e) {
+			searchType(); 
+			$('#val').val('');
+			$('#val').focus();
+			$('#tipoarticulo').val('').select2();
+			//$('#cajas').val($('#cajas option:first').val());
+			
+
+		});
 		
 	</script>
 @endpush

@@ -42,6 +42,9 @@
 				<p> <strong>Empleado:</strong> {{ $empleado->empleado }}</p>
 
 				<p> <strong>Tipo Empleado:</strong> {{ $empleado->tipoempleado->descripcion }}</p>
+				@if($empleado->sucursal_id)
+					<p> <strong>Sucursal:</strong> {{ $empleado->sucursal->descripcion }}</p>
+				@endif
 			</div>
 		</div>
 	</div>
