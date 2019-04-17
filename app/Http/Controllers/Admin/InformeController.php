@@ -352,7 +352,7 @@ class InformeController extends Controller
            
             // articulos
 
-            $contrato = Contrato::where('Clientedireccion_id', $value->id)->where('estado', 1)->where('cliente_id', $value->cliente_id)->orderBy('fechacontrato', 'desc')->first();
+            /*$contrato = Contrato::where('Clientedireccion_id', $value->id)->where('estado', 1)->where('cliente_id', $value->cliente_id)->orderBy('fechacontrato', 'desc')->first();
             
             if($contrato) {
                 
@@ -390,9 +390,49 @@ class InformeController extends Controller
                 $value->usuario_alta = $temp2;
             } else {
                 $value->usuario_alta = '';
-            }
+            }*/
             
             //
+
+            //desde aca se hace con procedimientos por ahora
+            $contratos = DB::select("CALL INF_SUM_articuloscontratos_SP(?,?)" ,  [$value->cliente_id,$value->id]);
+
+            //dd($contratos['0']['cantidad'] );
+            if($contratos)
+            {
+                foreach ($contratos as $key1 => $value1) {
+
+                    //dd($value1->cantidad);
+                    if($temp2 == ''){
+                        $temp2 =  $value1->articulo . ' (' . $value1->cantidad . ' u.) <br>';
+                    } else {
+                        $temp2 = $temp2  .  $value1->articulo . ' (' . $value1->cantidad . ' u.) <br>';
+                    }
+                }
+
+
+                if($articulo !== '0') {
+                    $existe = 0;
+                    $art_temp = (int) $articulo;
+                    foreach ($contratos as $key2 => $value2) {
+                        if($value2->articulo_id == $art_temp){
+                            
+                            $existe = 1;
+                            break;
+                        }
+                    }
+                    
+                    if($existe == 0) {
+
+                        $temp2 = '';
+                    }
+                }
+                $value->usuario_alta = $temp2;
+
+            } else {
+                $value->usuario_alta = '';
+            }
+            //hasta aca
 
         }
 
