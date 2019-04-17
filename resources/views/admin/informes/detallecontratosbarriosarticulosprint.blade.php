@@ -67,11 +67,23 @@
 									echo $cliente->cliente->apellido . ' ' . $cliente->cliente->nombre ;
 								}else{
 
-									echo $cliente->cliente->cliente ;
+									echo $cliente->cliente->cliente ; 
 								}
 								
 							} 
-						?></center>
+						?>	
+						<br>
+						 <?php 
+							if (isset($cliente->cliente->id )) {
+								if($cliente->cliente->tipocliente_id == 2)
+								{
+
+									echo '(' . $cliente->cliente->referente . ')';
+								}
+								
+							} 
+						?> 	
+						</center>
 						</td>	
 						
 						<td><center>
