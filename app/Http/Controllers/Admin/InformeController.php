@@ -395,7 +395,14 @@ class InformeController extends Controller
             //
 
             //desde aca se hace con procedimientos por ahora
-            $contratos = DB::select("CALL INF_SUM_articuloscontratos_SP(?,?)" ,  [$value->cliente_id,$value->id]);
+            //$contratos = DB::select("CALL INF_SUM_articuloscontratos_SP(?,?)" ,  [$value->cliente_id,$value->id]);
+            // se sustituyo el store por que se puede poner aca directamente la consulta
+            $contratos = DB::Select('select sum(ca.cantidad) cantidad, a.descripcion articulo, a.id articulo_id  from contratos c
+                inner join contratoarticulos ca on c.id = ca.contrato_id
+                inner join clientes cli on c.cliente_id = cli.id
+                inner join articulos a on ca.articulo_id = a.id
+                where c.cliente_id = ? and c.clientedireccion_id = ? and c.estado = 1 and cli.estado = 1
+                group by a.descripcion, a.id',  [$value->cliente_id,$value->id]);
 
             //dd($contratos['0']['cantidad'] );
             if($contratos)
