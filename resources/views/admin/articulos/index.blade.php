@@ -58,7 +58,8 @@
 	                <tr>
 	                  <!--<th width="10px"> ID</th>-->
 	                  <th> Codigo</th>
-	                  <th> descripción</th>
+	                  <th> Descripción</th>
+	                  
 					  <th> Tipo Producto</th>
 	                  <th colspan="2">&nbsp;</th>
 	                </tr>
