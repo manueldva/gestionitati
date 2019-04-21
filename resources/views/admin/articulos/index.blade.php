@@ -60,20 +60,28 @@
 	                  <th> Codigo</th>
 	                  <th> descripción</th>
 					  <th> Tipo Producto</th>
-	                  <th colspan="3">&nbsp;</th>
+	                  <th colspan="2">&nbsp;</th>
 	                </tr>
 	              </thead>
 	              <tbody>
 	                @foreach ($articulos as $articulo)
 	                  <tr>
-	                    <td>{{ $articulo->id }}</td>
-	                    <td>{{ $articulo->descripcion }}</td>
-						<td>{{ $articulo->tipoarticulo->descripcion }}</td>
-	                    <td width="10px">
-	                      <a href="{{ route('articulos.show', $articulo->id) }}" class="btn btn-sm btn-default">
-	                        Ver
-	                      </a>
+	                    <td>
+	                    	<a href="{{ route('articulos.show', $articulo->id) }}" style="color:#000000;">
+								{{ $articulo->id }}
+							</a>
 	                    </td>
+	                    <td>
+	                    	<a href="{{ route('articulos.show', $articulo->id) }}" style="color:#000000;">
+								{{ $articulo->descripcion }}
+							</a>
+	                    </td>
+						<td>
+							<a href="{{ route('articulos.show', $articulo->id) }}" style="color:#000000;">
+								{{ $articulo->tipoarticulo->descripcion }}
+							</a>
+						</td>
+	                    
 	                    @if($permiso == 2) 
 	                    <td width="10px">
 	                      <a href="{{ route('articulos.edit', $articulo->id) }}" class="btn btn-sm btn-default">
