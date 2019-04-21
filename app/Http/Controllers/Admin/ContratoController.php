@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ArticuloStoreRequest;
 use App\Http\Requests\ArticuloUpdateRequest;
 use Alert;
-
+use DB;
 use App\Models\Contrato;
 use App\Models\Contratoarticulo;
 use App\Models\Clientedireccion;
@@ -196,8 +196,16 @@ class ContratoController extends Controller
 
         $estados    = [ 0 => 'Inactivo', 1 => 'Activo'];
 
+        $c_activos = DB::Select('select sum(ca.cantidad) cantidad, a.descripcion articulo from contratos c
+                inner join contratoarticulos ca on c.id = ca.contrato_id
+                inner join clientes cli on c.cliente_id = cli.id
+                inner join articulos a on ca.articulo_id = a.id
+                where c.cliente_id = ?  and c.estado = 1 and cli.estado = 1
+                group by a.descripcion',  [$id]);
 
-        return view('admin.contratos.show', compact('edit', 'cliente', 'articulos', 'direcciones', 'modelocontratos', 'contratos', 'estados'));
+
+
+        return view('admin.contratos.show', compact('edit', 'cliente', 'articulos', 'direcciones', 'modelocontratos', 'contratos', 'estados', 'c_activos'));
 
     }
 
@@ -441,7 +449,14 @@ class ContratoController extends Controller
 
        $estados    = [ 0 => 'Inactivo', 1 => 'Activo'];
 
-        return view('admin.contratos.edit', compact('edit', 'cliente', 'articulos', 'direcciones', 'modelocontratos', 'contratos', 'estados'));
+       $c_activos = DB::Select('select sum(ca.cantidad) cantidad, a.descripcion articulo from contratos c
+        inner join contratoarticulos ca on c.id = ca.contrato_id
+        inner join clientes cli on c.cliente_id = cli.id
+        inner join articulos a on ca.articulo_id = a.id
+        where c.cliente_id = ?  and c.estado = 1 and cli.estado = 1
+        group by a.descripcion',  [$id]);
+
+        return view('admin.contratos.edit', compact('edit', 'cliente', 'articulos', 'direcciones', 'modelocontratos', 'contratos', 'estados', 'c_activos'));
 
     }
 

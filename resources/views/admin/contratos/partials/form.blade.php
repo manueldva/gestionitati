@@ -162,6 +162,49 @@
 	  <!-- /.box -->
 	</div>
 	<!-- /.col -->
+<!--      segundo div general                              -->
+
+	<div class="col-md-12">
+	  <div class="box box-default">
+	  	<div class="box-header with-border">
+	      <i class="fa fa-file"></i>
+
+	      <h3 class="box-title">Cantidad de articulos en posesión del cliente</h3>
+	    </div>
+
+	    <!-- /.box-header -->
+	    <div class="box-body">
+
+			<div class="form-group">
+				
+				<div class="table-responsive">
+					<table  class="table table-striped table-hover" data-form="Form">
+						<thead>
+							<tr>
+							<!--<th width="10px"> ID</th>-->
+								<th> Articulo</th>
+								<th> Cantidad</th>
+							</tr>
+						</thead>
+						<tbody>
+							@isset($c_activos)
+								@foreach ($c_activos as $c_activo)
+				                  <tr>
+				                    <td>{{ $c_activo->articulo }}</td>
+									<td>{{ $c_activo->cantidad }}</td>	
+				                  </tr>
+				                @endforeach
+							@endif
+						</tbody>
+					</table>
+				</div>
+			</div>
+				
+		</div>
+	  </div>
+	</div>
+	
+
 
 <!--      segundo div general                              -->
 
