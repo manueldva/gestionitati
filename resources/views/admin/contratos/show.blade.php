@@ -21,7 +21,7 @@
 
 <div class="box box-primary">
   <div class="box-header with-border box-default">
-    <strong>Nuevo Cliente</strong>
+    <strong>Contrato</strong>
   </div>
     
   <div class="panel-body">
