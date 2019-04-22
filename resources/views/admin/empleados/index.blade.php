@@ -65,15 +65,35 @@
 	              <tbody>
 	                @foreach ($empleados as $empleado)
 	                  <tr>
-	                    <td>{{ $empleado->id }}</td>
-	                    <td>{{ $empleado->apellido }}</td>
-						<td>{{ $empleado->nombre }}</td>
-						<td>{{ $empleado->tipoempleado->descripcion}}</td>
-	                    <td width="10px">
-	                      <a href="{{ route('empleados.show', $empleado->id) }}" class="btn btn-sm btn-default">
-	                        Ver
-	                      </a>
+	                    <td>
+	                    	<a href="{{ route('empleados.show', $empleado->id) }}" style="color:#000000;">
+								{{ $empleado->id }}
+							</a>
 	                    </td>
+	                    </td>
+	                    <td>
+	                    	<a href="{{ route('empleados.show', $empleado->id) }}" style="color:#000000;">
+								{{ $empleado->apellido }}
+							</a>
+	                    </td>
+						<td>
+							<a href="{{ route('empleados.show', $empleado->id) }}" style="color:#000000;">
+								{{ $empleado->nombre }}
+							</a>
+						</td>
+						<td>
+							
+							<a href="{{ route('empleados.show', $empleado->id) }}" style="color:#000000;">
+								{{ $empleado->tipoempleado->descripcion}}
+							</a>
+						</td>
+						 @if($permiso_user == 2) 
+	                    <td width="10px">
+	                      <a href="{{ route('manageusers.edit', $empleado->user->id) }}" class="btn btn-sm btn-default">
+							Usuario
+							</a>
+	                    </td>
+	                    @endif
 	                    @if($permiso == 2) 
 	                    <td width="10px">
 	                      <a href="{{ route('empleados.edit', $empleado->id) }}" class="btn btn-sm btn-default">

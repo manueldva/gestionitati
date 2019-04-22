@@ -187,7 +187,8 @@ class ManageuserController extends Controller
             Alert::success('Usuario actualizado con exito')->persistent("Cerrar");
         } 
 
-        return redirect()->route('manageusers.index');
+        //return redirect()->route('manageusers.index');
+        return redirect()->route('empleados.index');
     }
 
     /**

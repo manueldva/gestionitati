@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'MC_V2 - Perfiles')
+@section('title', 'Gestion - Perfiles')
 
 @section('content_header')
     <h1>

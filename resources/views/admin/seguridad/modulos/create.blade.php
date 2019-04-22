@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'MC_V2 - Modulos')
+@section('title', 'Gestion - Modulos')
 
 @section('content_header')
     <h1>

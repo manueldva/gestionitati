@@ -15,6 +15,7 @@ use App\Models\Cliente;
 use App\Models\Tipoempleado;
 use App\Models\Modulo;
 use App\Models\Perfil;
+use App\User;
 use Auth;
 
 
@@ -39,19 +40,27 @@ class EmpleadoController extends Controller
         $modulo_actual = Modulo::where('valor', '=', 'EMPLEADO')->get();
         $modulos = $perfil->modulos()->where('modulo_id', '=', $modulo_actual[0]->id)->get();
         $permiso = $modulos[0]->pivot->permiso;
- 
+
+        //
+        $modulo_actual_user = Modulo::where('valor', '=', 'SEGURIDAD')->get();
+        $modulos_user = $perfil->modulos()->where('modulo_id', '=', $modulo_actual_user[0]->id)->get();
+        $permiso_user = $modulos_user[0]->pivot->permiso;
+
 
         $empleados = Empleado::type($request->get('type'), $request->get('val'), $request->get('val2'))->paginate(15);
 
-        /*foreach($articulos as $articulo){
-            $articulo->fecha_alta = FechaHelper::getFechaImpresion($articulo->fecha_alta); 
+        /*foreach($empleados as $empleado){
+            $temp = User::where('empleado_id', $empleado->id)->first();
+            $empleado->usuario_alta = $temp->id;
         }*/
+
+        
 
         $empleados->setPath('empleados');
 
          //dd($motivos);
 
-       return view('admin.empleados.index', compact('empleados', 'permiso'));
+       return view('admin.empleados.index', compact('empleados', 'permiso', 'permiso_user'));
     }
 
     /**
@@ -79,6 +88,14 @@ class EmpleadoController extends Controller
 
         //auditoria
         $empleado->fill(['empleado'=> $empleado->apellido . ' ' . $empleado->nombre,  'usuario_alta' => Auth::user()->username , 'fecha_alta' => date('Y-m-d H:i:s')])->save();
+        //
+
+        //para crear usuario
+        $user = new User;
+            $user->name = $empleado->empleado;
+            $user->password = bcrypt('123456');
+            $user->empleado_id = $empleado->id;
+        $user->save();
         //
         Alert::success('Empleado creado con exito')->persistent("Cerrar");
         //return redirect()->route('empleados.index');
@@ -133,6 +150,12 @@ class EmpleadoController extends Controller
         //auditoria
         $empleado->fill(['empleado'=> $empleado->apellido . ' ' . $empleado->nombre, 'usuario_modi' => Auth::user()->username , 'fecha_modi' => date('Y-m-d H:i:s')])->save();
         //
+
+        //para usuario
+        $usuario = User::find($empleado->user->id);
+        $usuario->fill(['name'=> $empleado->empleado])->save();
+       // 
+
 
         Alert::success('Empleado actualizado con exito')->persistent("Cerrar");
         //return redirect()->route('empleados.index');

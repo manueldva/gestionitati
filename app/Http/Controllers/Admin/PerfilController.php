@@ -41,7 +41,7 @@ class PerfilController extends Controller
 
         if ($permiso == 0 ) return back();
 
-       return view('admin..seguridad.perfiles.index', compact('perfiles', 'permiso'));
+       return view('admin.seguridad.perfiles.index', compact('perfiles', 'permiso'));
     }
 
     /**

@@ -205,10 +205,10 @@ return [
             'text'    => 'Seguridad',
             'icon'    => 'key',
             'submenu' => [
-                [
+                /*[
                     'text' => 'Usuarios',
                     'url'  => 'manageusers',
-                ],
+                ],*/
                  [
                     'text' => 'Modulos',
                     'url'  => 'modulos',

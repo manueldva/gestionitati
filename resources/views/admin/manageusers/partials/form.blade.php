@@ -7,7 +7,7 @@
 		      		Guardar
 		      </button>
 
-		      <a href="{{ route('manageusers.index') }}" type="button" class="btn btn btn-default">
+		      <a href="{{ route('empleados.index') }}" type="button" class="btn btn btn-default">
 		      	<span class="fa fa-list">
 		      	</span>
 		      		Listado
@@ -21,7 +21,7 @@
 	
 	<div class="form-group">
 		{{ form::label('name', 'Nombre *') }}
-		{{ form::text('name', null, ['class' => 'form-control', 'id' => 'name']) }}
+		{{ form::text('name', null, ['class' => 'form-control', 'id' => 'name', 'readonly']) }}
 	</div>
 
 	<div class="form-group">
