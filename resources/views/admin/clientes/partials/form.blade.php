@@ -12,7 +12,11 @@
 			    <div class="box-header with-border">
 			      <i class="fa fa-user"></i>
 
-			      <h3 class="box-title">Datos Personales</h3>
+			      <h3 class="box-title">
+			      	Datos Personales
+			      	
+			  	  </h3>
+			     
 			    </div>
 			    <!-- /.box-header -->
 			    <div class="box-body">

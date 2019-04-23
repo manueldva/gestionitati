@@ -186,14 +186,26 @@
 	                    
 	                    @if($permiso == 2) 
 	                    <td width="10px">
-	                    	@if ($typetemp == 'barrio')
-			                    <a href="{{ route('clientes.edit', $cliente->cliente->id) }}" class="btn btn-sm btn-default">
-			                      Editar
-			                    </a>
-			                @else
-								<a href="{{ route('clientes.edit', $cliente->id) }}" class="btn btn-sm btn-default">
-			                      Editar
-			                    </a>
+	                    	@if(!Auth::user()->empleado_id)
+		                    	@if ($typetemp == 'barrio')
+				                    <a href="{{ route('clientes.edit', $cliente->cliente->id) }}" class="btn btn-sm btn-default">
+				                      Editar
+				                    </a>
+				                @else
+									<a href="{{ route('clientes.edit', $cliente->id) }}" class="btn btn-sm btn-default">
+				                      Editar
+				                    </a>
+								@endif
+							@elseif($cliente->sucursal_id == Auth::user()->empleado->sucursal_id)
+								@if ($typetemp == 'barrio')
+				                    <a href="{{ route('clientes.edit', $cliente->cliente->id) }}" class="btn btn-sm btn-default">
+				                      Editar
+				                    </a>
+				                @else
+									<a href="{{ route('clientes.edit', $cliente->id) }}" class="btn btn-sm btn-default">
+				                      Editar
+				                    </a>
+								@endif
 							@endif
 	                    </td>
 	                   

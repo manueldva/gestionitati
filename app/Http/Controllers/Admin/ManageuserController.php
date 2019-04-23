@@ -165,6 +165,11 @@ class ManageuserController extends Controller
             return back()->with('danger', 'Este email ya esta en uso')->withInput();
         }*/
 
+         if (!$request->input('perfil_id')) 
+        {
+            return back()->with('danger', 'Debe seleccionar un perfil')->withInput();
+        }
+
 
         $user = User::find($id);
 
@@ -175,6 +180,7 @@ class ManageuserController extends Controller
             Alert::error('No se puede modificar el nombre de usuario de este registro')->persistent("Cerrar");
             return back();
         }*/
+
 
         $user->fill($request->all())->save();
         

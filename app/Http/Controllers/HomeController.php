@@ -39,6 +39,8 @@ class HomeController extends Controller
     {
 
         $perfil = Perfil::find(Auth::user()->perfil_id);
+
+        //dd(Auth::user()->username);
         $modulo_actual = Modulo::where('valor', '=', 'TABLERO')->get();
         $modulos = $perfil->modulos()->where('modulo_id', '=', $modulo_actual[0]->id)->get();
         $permiso = $modulos[0]->pivot->permiso;

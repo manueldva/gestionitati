@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Cliente extends Model
 {
     protected $fillable = [
-        'tipocliente_id', 'cliente', 'apellido', 'nombre', 'referente', 'tipodocumento_id', 'numerodocumento', 'tipoiva_id','telefonoparticular','celular', 'direcciones','companiatelefonica_id','email', 'estado','motivoestado','usuario_alta','fecha_alta','usuario_modi','fecha_modi',
+        'tipocliente_id', 'cliente', 'apellido', 'nombre', 'referente', 'tipodocumento_id', 'numerodocumento', 'tipoiva_id','telefonoparticular','celular', 'direcciones','companiatelefonica_id','email', 'estado','motivoestado','usuario_alta','fecha_alta','usuario_modi','fecha_modi', 'sucursal_id',
 	];
 
 
@@ -46,6 +46,11 @@ class Cliente extends Model
         return $this->HasMany(Contrato::class);
     }
 
+
+    public function sucursal(){
+        
+        return $this->belongsTo(Sucursal::class);
+    }
 
     
     

@@ -21,6 +21,9 @@
 <div class="box box-primary">
   <div class="box-header with-border box-default">
     <strong>Editar Cliente</strong>
+    <div class="pull-right p-3 mb-2 bg-info text-white">
+        <strong> &nbsp;Usuario Carga: {{ $cliente->usuario_alta }} &nbsp;</strong> 
+      </div>
   </div>
     
   <div class="panel-body">

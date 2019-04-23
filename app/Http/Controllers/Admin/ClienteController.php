@@ -243,7 +243,7 @@ class ClienteController extends Controller
         $cliente = Cliente::create($request->all());
 
         //auditoria
-        $cliente->fill( ['estado'=> 1, 'usuario_alta' => Auth::user()->username , 'fecha_alta' => date('Y-m-d H:i:s')])->save();
+        $cliente->fill( ['estado'=> 1, 'usuario_alta' => Auth::user()->username , 'fecha_alta' => date('Y-m-d H:i:s'), 'sucursal_id' => Auth::user()->empleado->sucursal_id])->save();
         //
         
 

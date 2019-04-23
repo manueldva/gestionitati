@@ -22,6 +22,11 @@ class Sucursal extends Model
     }
 
 
+    public function clientes(){
+        return $this->HasMany(Cliente::class);
+    }
+
+
 
     public function scopeType($query, $type, $valor) 
     {
