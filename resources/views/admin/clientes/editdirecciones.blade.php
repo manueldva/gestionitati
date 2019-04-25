@@ -26,7 +26,7 @@
   <div class="panel-body">
     <div class="row">
 
-       {!! Form::model($direccion, ['route' => ['updatedireccion', $direccion->id], 'method' => 'PUT', 'files' => true]) !!}
+       {!! Form::model($direccion, ['route' => ['updatedireccion', $direccion->id], 'method' => 'PUT', 'files' => true, 'id' => 'form']) !!}
   
         <div class="col-md-12" >
           <div class="row col-md-12">
@@ -420,6 +420,18 @@
       //alert($('#sincalle').val());    
       
     });
+
+
+    $( "#guardar" ).click(function() {
+
+
+       
+          $('#form').submit();
+
+
+
+    });
+
     
 
   

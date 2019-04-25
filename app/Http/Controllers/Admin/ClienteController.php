@@ -665,6 +665,66 @@ class ClienteController extends Controller
 
     }
 
+
+    public function updatedireccion(Request $request, $id)
+    {
+
+        if(!$request->get('provincia_id')  || !$request->get('departamento_id')  || !$request->get('localidad_id')){
+
+            Alert::error('Los combos Provincia, Departamento y Localidad son obligatorios')->persistent("Cerrar");
+            //return redirect()->route('clientes.index');
+            return redirect()->route('editdireccion', $id);
+        } 
+
+        if(!$request->get('barrio_id')) {
+
+            $existe = Localidad::find($request->get('localidad_id'));
+
+            if($existe->sinbarrio == 0) {
+                Alert::error('El Combo barrio es obligatorio.')->persistent("Cerrar");
+                return redirect()->route('editdireccion', $id);
+            }
+            
+        } 
+
+        if(!$request->get('calle_id')) {
+
+            $existe = Barrio::find($request->get('barrio_id'));
+
+            if($existe->sincalle == 0) {
+                Alert::error('El Combo calle es obligatorio.')->persistent("Cerrar");
+                return redirect()->route('editdireccion', $id);
+            }
+
+        } 
+
+        if(!$request->get('numero') && !$request->get('manzana') && !$request->get('casa') && !$request->get('edificiotorre') && !$request->get('piso') && !$request->get('seccion') && !$request->get('lote') && !$request->get('referenciadomicilio')) {
+
+            Alert::error('Faltan datos del domicilio')->persistent("Cerrar");
+            return redirect()->route('editdireccion', $id);
+          
+        } 
+
+
+        if(!$request->get('empleado_id')) {
+
+            Alert::error('Debe seleccionar un vendedor.')->persistent("Cerrar");
+            return redirect()->route('editdireccion', $id);
+
+        }
+
+        //dd($request->get('empleado_id'));
+        $direccion = Clientedireccion::find($id);
+
+        $direccion->fill($request->all())->save();
+
+        Alert::success('Dirección Actualizada con exito.')->persistent("Cerrar");
+        return redirect()->route('editdireccion', $id);
+
+        
+    }
+
+
     /**
      * Remove the specified resource from storage.
      *

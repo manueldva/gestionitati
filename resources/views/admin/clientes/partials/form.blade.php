@@ -704,7 +704,7 @@
 						               	    </td>
 					                    @endif
 
-					                    @if($editshow == 3) 
+					                    @if($editshow == 1) 
 						                    <td width="10px">
 						                      <a target="_blank" href="{{ route('editdireccion', $clientedireccion->id) }}"class='delete btn btn-sm btn-primary'>
 						                        <span class='glyphicon glyphicon-edit'></span>
