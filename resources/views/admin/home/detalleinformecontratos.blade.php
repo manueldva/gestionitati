@@ -31,7 +31,7 @@
 			      <button type="submit" class="form-control btn btn-sm btn-success"><span class="glyphicon glyphicon-search"></span> Buscar</button>
 			      &nbsp;
 			      <a target="_blank" href="#" id="imprimir"> 
-                        <button  type="button" class="btn btn btn-primary"><span class="glyphicon glyphicon-print"></span> Imprimir</button>
+                        <button  type="button" class="form-control btn btn btn-primary"><span class="glyphicon glyphicon-print"></span> Imprimir</button>
                     </a>
 			    </div>
 		    {{ Form::close() }}
