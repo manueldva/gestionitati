@@ -1,6 +1,10 @@
 @extends('adminlte::page')
 
 @section('title', 'Gestión - Empleados')
+  
+@section('css')
+ 
+@endsection
 
 @section('content_header')
     <h1>
@@ -18,22 +22,52 @@
 
 @section('content')
 
-<div id="create" class="box box-primary">
+<div class="box box-primary">
   <div class="box-header with-border box-default">
-    <strong>Nuevo empleado</strong>
+    <strong>Nuevo Empleado</strong>
   </div>
     
   <div class="panel-body">
     <div class="row">
 
-			{!! Form::open(['route' => 'empleados.store']) !!}
+  {!! Form::open(['route' => 'empleados.store','files' => true, 'id' => 'form']) !!}
+  
+        <div class="col-md-12" >
+          <div class="row col-md-12">
+            <div class="form-group" style="text-align: center">
 
-				@include('admin.empleados.partials.form')
+                <button id="guardar" type="button" class="btn btn btn-primary">
+                    <span class="glyphicon glyphicon-floppy-disk">
+                    </span>
+                      Guardar
+                </button>
+                
 
-			{!! Form::close() !!}
-		</div>
-	</div>
+                <a href="{{ route('empleados.index') }}" type="button" class="btn btn btn-default">
+                <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
+                    <span class="fa fa-list">
+                    </span>
+                      Listado
+                </a>
+            </div>
+          </div>
+        </div>
+      
+    </div>
+  </div>
 </div>
+
+@include('admin.empleados.partials.form')
+
+{!! Form::close() !!}
 
 
 @endsection
+
+
+@push('js')
+
+  <script type="text/javascript">
+    
+  </script>
+@endpush

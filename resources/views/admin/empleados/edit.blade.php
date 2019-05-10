@@ -3,7 +3,6 @@
 @section('title', 'Gestión - Empleados')
 
 @section('content_header')
-
     <h1>
       Gestionar Empleados
       <!--<small>Listado</small>-->
@@ -16,6 +15,7 @@
 
 @stop
 
+
 @section('content')
 
 <div class="box box-primary">
@@ -26,15 +26,36 @@
   <div class="panel-body">
     <div class="row">
 
-			{!! Form::model($empleado, ['route' => ['empleados.update', $empleado->id], 'method' => 'PUT']) !!}
-                    
-        @include('admin.empleados.partials.form')
+      {!! Form::model($empleado, ['route' => ['empleados.update', $empleado->id], 'method' => 'PUT', 'files' => true, 'id' => 'form']) !!}
+  
+        <div class="col-md-12" >
+          <div class="row col-md-12">
+            <div class="form-group" style="text-align: center">
 
-      {!! Form::close() !!}
-
-		</div>
-	</div>
+                <button id="guardar" type="button"  class="btn btn btn-primary">
+                    <span class="glyphicon glyphicon-floppy-disk">
+                    </span>
+                      Guardar
+                </button>
+                &nbsp;&nbsp;&nbsp;
+                <a href="{{ route('empleados.index') }}" type="button" class="btn btn btn-default">
+                <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
+                    <span class="fa fa-list">
+                    </span>
+                      Listado
+                  </a>
+            </div>
+          </div>
+        </div>
+      
+    </div>
+  </div>
 </div>
+
+@include('admin.empleados.partials.form')
+
+{!! Form::close() !!}
 
 
 @endsection
+
