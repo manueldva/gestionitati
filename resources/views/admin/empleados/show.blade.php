@@ -2,52 +2,57 @@
 
 @section('title', 'Gestión - Empleados')
 
-@section('content_header')
-  <h1>
-    Gestionar Empleados
-    <!--<small>Listado</small>-->
-  </h1>
-  <ol class="breadcrumb">
-    <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li><a href="{{ route('empleados.index')}}">Empleados</a></li>
-    <li class="active">Ver</li>
-  </ol>
+@section('css')
+  <link rel="stylesheet" href="{{ asset('css/resources/bootstrap-clockpicker.min.css') }}">
+@endsection
 
+@section('content_header')
+    <h1>
+      Gestionar Empleados
+      <!--<small>Listado</small>-->
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li><a href="{{ route('empleados.index')}}">Empleados</a></li>
+      <li class="active">Ver</li>
+    </ol>
 
 @stop
+
+
 @section('content')
 
 <div class="box box-primary">
-	<div class="box-header with-border box-default">
-	   <strong> Ver Empleado </strong>
-	</div>
-		
-	<div class="panel-body">
-    	<div class="row">
-			<div class="col-md-12">
-				<div class="row col-md-12">
-					<div class="form-group pull-right">
-								<a href="{{ route('empleados.index') }}" type="button" class="btn btn btn-default">
-									<span class="fa fa-list">
-									</span>
-										Listado
-								</a>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6">
+  <div class="box-header with-border box-default">
+    <strong>Ver Empleado</strong>
+  </div>
+    
+  <div class="panel-body">
+    <div class="row">
 
-				<p> <strong>Codigo:</strong> {{ $empleado->id }}</p>
+    {!! Form::model($empleado, ['route' => ['empleados.show', $empleado->id], 'method' => 'GET']) !!}
+  
+        <div class="col-md-12" >
+          <div class="row col-md-12">
+            <div class="form-group" style="text-align: center">
 
-				<p> <strong>Empleado:</strong> {{ $empleado->empleado }}</p>
-
-				<p> <strong>Tipo Empleado:</strong> {{ $empleado->tipoempleado->descripcion }}</p>
-				@if($empleado->sucursal_id)
-					<p> <strong>Sucursal:</strong> {{ $empleado->sucursal->descripcion }}</p>
-				@endif
-			</div>
-		</div>
-	</div>
+                <a href="{{ route('empleados.index') }}" type="button" class="btn btn btn-default">
+                    <span class="fa fa-list">
+                    </span>
+                      Listado
+                </a>
+            </div>
+          </div>
+        </div>
+      
+    </div>
+  </div>
 </div>
 
+@include('admin.empleados.partials.form')
+
+{!! Form::close() !!}
+
+
 @endsection
+

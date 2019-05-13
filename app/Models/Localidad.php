@@ -27,6 +27,10 @@ class Localidad extends Model
         return $this->belongsTo(Departamento::class);
     }
 
+    public function empleados(){
+        return $this->HasMany(Empleado::class);
+    }
+
 
     
 	public function scopeType($query, $type, $valor) 

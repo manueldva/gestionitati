@@ -13,6 +13,9 @@ use App\Models\Empleado;
 use App\Models\Sucursal;
 use App\Models\Cliente;
 use App\Models\Tipoempleado;
+use App\Models\Tipodocumento;
+use App\Models\Companiatelefonica;
+use App\Models\Localidad;
 use App\Models\Modulo;
 use App\Models\Perfil;
 use App\User;
@@ -73,7 +76,10 @@ class EmpleadoController extends Controller
 
         $tipoempleados  = Tipoempleado::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
         $sucursales  = Sucursal::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
-        return view('admin.empleados.create', compact('tipoempleados', 'sucursales'));
+        $tipodocumentos  = Tipodocumento::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+        $companiatelefonicas  = Companiatelefonica::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+        $localidades  = Localidad::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+        return view('admin.empleados.create', compact('tipoempleados', 'sucursales', 'tipodocumentos', 'companiatelefonicas','localidades'));
     }
 
     /**
@@ -128,8 +134,17 @@ class EmpleadoController extends Controller
         $empleado = Empleado::find($id);
         $tipoempleados  = Tipoempleado::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
         $sucursales  = Sucursal::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+        $tipodocumentos  = Tipodocumento::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+        $companiatelefonicas  = Companiatelefonica::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+        $localidades  = Localidad::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+        
+        $empleado->fechanacimiento = FechaHelper::getFechaInputDate($empleado->fechanacimiento); 
 
-        return view('admin.empleados.edit', compact('empleado', 'tipoempleados', 'sucursales'));
+        $empleado->fechaingreso = FechaHelper::getFechaInputDate($empleado->fechaingreso); 
+        
+        $empleado->fechaegreso = FechaHelper::getFechaInputDate($empleado->fechaegreso); 
+
+        return view('admin.empleados.edit', compact('empleado', 'tipoempleados', 'sucursales', 'tipodocumentos', 'companiatelefonicas', 'localidades'));
     }
 
     /**
@@ -179,11 +194,27 @@ class EmpleadoController extends Controller
             return back();
         }
 
+
+        $existe = User::where('empleado_id', $id)->count();
+
+        if($existe > 0) 
+        {
+            Alert::error('No se puede eliminar el registro')->persistent("Cerrar");
+            return back();
+        }
+
+
         
         Empleado::find($id)->delete();
 
         Alert::success('Eliminado correctamente')->persistent("Cerrar");
         return back();
+    }
+
+
+    public function empleadoscambiar()
+    {
+        echo "string";
     }
 
 }

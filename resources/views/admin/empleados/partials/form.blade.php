@@ -58,13 +58,23 @@
 									<tr>
 										<td> 
 											{{ form::label('estadocivil', 'Estado Civil') }}
-											{{ form::select('estadocivil', isset($tipodocumentos) ? $tipodocumentos : [], null, ['class' => 'form-control' ,'placeholder' => 'Seleccionar...'] ) }} 
+											{{ form::select('estadocivil', isset($estadociviles) ? $estadociviles : [], null, ['class' => 'form-control' ,'placeholder' => 'Seleccionar...'] ) }} 
 										</td>
 										<td> 
 											{{ form::label('sexo', 'Sexo') }}
 											{{ form::select('sexo', ['m'=>'Masculino', 'f'=> 'Femenino', 'o'=>'Otros'], null, ['class' => 'form-control' ,'placeholder' => 'Seleccionar...'] ) }} 
 										</td>
-									</tr>		
+									</tr>
+									<tr>
+										<td> 
+											{{ form::label('fechaingreso', 'Fecha Ingreso') }}
+											{{ form::date('fechanacimiento', null, ['class' => 'form-control', 'id' => 'fechaingreso']) }}
+										</td>
+										<td> 
+											{{ form::label('fechaegreso', 'Fecha Egreso') }}
+											{{ form::date('fechaegreso', null, ['class' => 'form-control', 'id' => 'fechaegreso']) }}
+										</td>
+									</tr>			
 								</thead>
 							</table>
 						</div>
@@ -204,19 +214,13 @@
 	<!-- todo lo que tenga que realizar un ajax -->
 	<script type="text/javascript">
 
-		
-		
-		$("#guardar").click(function() {
 
-			
-      		$('#form').submit();
-
-		
-		});
+		function Edad() {
 
 
+			var FechaNacimiento = document.getElementById('fechanacimiento').value;
 
-		function Edad(FechaNacimiento) {
+			if(FechaNacimiento == '') return false;
 
 		    var fechaNace = new Date(FechaNacimiento);
 		    var fechaActual = new Date()
@@ -231,23 +235,45 @@
 		    fechaActual.setFullYear(año);
 		    edad = Math.floor(((fechaActual - fechaNace) / (1000 * 60 * 60 * 24) / 365));
 
-		    return edad;
+		    //return edad;
 
-		}
-
-
-		$('#fechanacimiento').on('change', function(e){
-
-			var fecha = document.getElementById('fechanacimiento').value;
-			var edad = Edad(fecha);
 
 			if(edad == 'NaN'){
 				$('#edad').val('');
 			} else {
 				$('#edad').val(edad);
 			}
+
+		}
+
+		Edad();
+
+
+		$('#fechanacimiento').on('change', function(e){
+
+			Edad();
+			/*var fecha = document.getElementById('fechanacimiento').value;
+			var edad = Edad(fecha);
+
+			if(edad == 'NaN'){
+				$('#edad').val('');
+			} else {
+				$('#edad').val(edad);
+			}*/
 			
 		});
+
+		$("#guardar").click(function() {
+
+			
+      		$('#form').submit();
+
+		
+		});
+
+
+
+		
 
 
 

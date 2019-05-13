@@ -14,7 +14,7 @@
     <ol class="breadcrumb">
       <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
       <li><a href="{{ route('clientes.index')}}">Clientes</a></li>
-      <li class="active">Nuevo</li>
+      <li class="active">Ver</li>
     </ol>
 
 @stop

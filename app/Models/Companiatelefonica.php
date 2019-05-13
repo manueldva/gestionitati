@@ -13,8 +13,12 @@ class Companiatelefonica extends Model
 	];
 
 
-	public function clientes(){
+	  public function clientes(){
     	return $this->HasMany(Cliente::class);
+    }
+
+    public function empleados(){
+      return $this->HasMany(Empleado::class);
     }
 
     public function scopeType($query, $type, $valor) 

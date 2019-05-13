@@ -29,7 +29,12 @@ class EmpleadoStoreRequest extends FormRequest
             'apellido' => 'required|max:100',
             'nombre' => 'required|max:100',
             'tipoempleado_id' => 'required',
-            'sucursal_id' => 'required'
+            'sucursal_id' => 'required',
+            'direccion' => 'max:250',
+            'numerodocumento' => 'max:20',
+            'telefonoparticular' => 'max:20',
+            'celular' => 'max:20',
+            'email' => 'max:128',
             //'estado'    => 'required|in:Activo,Inactivo'
         ];
     }

@@ -10,8 +10,7 @@ class Empleado extends Model
     //protected $table = 'barrios';
 
 	protected $fillable = [
-    	'tipoempleado_id', 'sucursal_id',  'empleado', 'apellido', 'nombre' , 'movil', 'patente',  'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
-	];
+    	'tipoempleado_id', 'sucursal_id',  'empleado', 'apellido', 'nombre' , 'movil', 'patente',  'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi', 'tipodocumento_id', 'numerodocumento','fechanacimiento','fechaingreso','fechaegreso', 'estadocivil_id','sexo','telefonoparticular','celular','companiatelefonica_id','email','localidad_id', 'direccion'];
 
 
 
@@ -38,6 +37,28 @@ class Empleado extends Model
         
         return $this->belongsTo(Sucursal::class);
     }
+
+
+    public function estadocivil(){
+        
+        return $this->belongsTo(Estadocivil::class);
+    }
+
+    public function tipodocumento(){
+        
+        return $this->belongsTo(Tipodocumento::class);
+    }
+
+    public function companiatelefonica(){
+        
+        return $this->belongsTo(Companiatelefonica::class);
+    }
+
+    public function localidad(){
+        
+        return $this->belongsTo(Localidad::class);
+    }
+
 
 
 

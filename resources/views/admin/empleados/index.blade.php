@@ -41,6 +41,12 @@
 			      <a href="{{ route('empleados.create')}}" class="form-control btn btn-sm btn-primary">
 			        <span class="glyphicon glyphicon-plus"></span> Crear
 			      </a>  
+			      <!--
+			      &nbsp;
+			      <a href="{{ route('empleadoscambiar')}}" id="cambiar" class="form-control btn btn-sm btn-primary pull-right"> 
+			      	<span class="fa fa-refresh"></span> Cambiar
+	                
+	              </a>-->
 			      @endif
 			    </div>
 		    {{ Form::close() }}
@@ -56,9 +62,10 @@
 	                <tr>
 	                  <!--<th width="10px"> ID</th>-->
 	                  <th> Codigo</th>
-	                  <th> Apellido</th>
-	                  <th> Nombre</th>
+	                  <th> Apellido y Nombre</th>
+	                  <th> Sucursal</th>
 	                  <th> Tipo Empleado</th>
+	                  <th> Estado</th>
 	                  <th colspan="3">&nbsp;</th>
 	                </tr>
 	              </thead>
@@ -73,13 +80,15 @@
 	                    </td>
 	                    <td>
 	                    	<a href="{{ route('empleados.show', $empleado->id) }}" style="color:#000000;">
-								{{ $empleado->apellido }}
+								{{ $empleado->apellido }} {{ $empleado->nombre }}
 							</a>
 	                    </td>
 						<td>
-							<a href="{{ route('empleados.show', $empleado->id) }}" style="color:#000000;">
-								{{ $empleado->nombre }}
-							</a>
+							@if($empleado->sucursal)
+								<a href="{{ route('empleados.show', $empleado->id) }}" style="color:#000000;">
+									{{ $empleado->sucursal->descripcion }}
+								</a>
+							@endif
 						</td>
 						<td>
 							
@@ -87,6 +96,17 @@
 								{{ $empleado->tipoempleado->descripcion}}
 							</a>
 						</td>
+						<td>
+							
+							<a href="{{ route('empleados.show', $empleado->id) }}" style="color:#000000;">
+								@if($empleado->fechaegreso)
+									Inactivo
+								@else
+									Activo
+								@endif
+							</a>
+						</td>
+
 						 @if($permiso_user == 2) 
 	                    <td width="10px">
 	                      <a href="{{ route('manageusers.edit', $empleado->user->id) }}" class="btn btn-sm btn-default">
