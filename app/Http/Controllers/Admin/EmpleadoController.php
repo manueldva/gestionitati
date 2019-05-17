@@ -15,6 +15,7 @@ use App\Models\Cliente;
 use App\Models\Tipoempleado;
 use App\Models\Tipodocumento;
 use App\Models\Companiatelefonica;
+use App\Models\Estadocivil;
 use App\Models\Localidad;
 use App\Models\Modulo;
 use App\Models\Perfil;
@@ -79,7 +80,9 @@ class EmpleadoController extends Controller
         $tipodocumentos  = Tipodocumento::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
         $companiatelefonicas  = Companiatelefonica::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
         $localidades  = Localidad::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
-        return view('admin.empleados.create', compact('tipoempleados', 'sucursales', 'tipodocumentos', 'companiatelefonicas','localidades'));
+        $estadociviles  = Estadocivil::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+        return view('admin.empleados.create', compact('tipoempleados', 'sucursales', 'tipodocumentos', 'companiatelefonicas','localidades', 'estadociviles'));
     }
 
     /**
@@ -137,6 +140,7 @@ class EmpleadoController extends Controller
         $tipodocumentos  = Tipodocumento::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
         $companiatelefonicas  = Companiatelefonica::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
         $localidades  = Localidad::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+        $estadociviles  = Estadocivil::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
         
         $empleado->fechanacimiento = FechaHelper::getFechaInputDate($empleado->fechanacimiento); 
 
@@ -144,7 +148,9 @@ class EmpleadoController extends Controller
         
         $empleado->fechaegreso = FechaHelper::getFechaInputDate($empleado->fechaegreso); 
 
-        return view('admin.empleados.edit', compact('empleado', 'tipoempleados', 'sucursales', 'tipodocumentos', 'companiatelefonicas', 'localidades'));
+
+
+        return view('admin.empleados.edit', compact('empleado', 'tipoempleados', 'sucursales', 'tipodocumentos', 'companiatelefonicas', 'localidades', 'estadociviles'));
     }
 
     /**
