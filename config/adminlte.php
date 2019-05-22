@@ -131,6 +131,11 @@ return [
             'text' => 'Modelo_Contratos',
             'url'  => 'modelocontratos',
             'icon' => 'file',
+        ],
+        [
+            'text' => 'Stock',
+            'url'  => 'stocks',
+            'icon' => 'list-alt',
         ],     
         [
             'text'    => 'Complementos',
