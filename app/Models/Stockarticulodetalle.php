@@ -6,5 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Stockarticulodetalle extends Model
 {
-    //
+    //protected $table = 'perfiles';
+
+	protected $fillable = [
+    	'stockarticulo_id', 'articulo_id', 'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
+	];
+
+
 }
