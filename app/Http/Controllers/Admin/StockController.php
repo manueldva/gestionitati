@@ -11,11 +11,24 @@ use Alert;
 
 use App\Models\Modulo;
 use App\Models\Perfil;
+
+use App\Models\Sucursal;
+use App\Models\Tipotiempo;
+use App\Models\Tipoajuste;
+use App\Models\Proveesdorajuste;
+use App\Models\Stockarticulo;
+use App\Models\Stockarticulodetalle;
+
 use Auth;
 
 
 class StockController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -23,7 +36,25 @@ class StockController extends Controller
      */
     public function index()
     {
-        echo "string";
+       $perfil = Perfil::find(Auth::user()->perfil_id);
+        $modulo_actual = Modulo::where('valor', '=', 'STOCK')->get();
+        $modulos = $perfil->modulos()->where('modulo_id', '=', $modulo_actual[0]->id)->get();
+        $permiso = $modulos[0]->pivot->permiso;
+ 
+
+
+        //$stocks =  Stockarticulo::type($request->get('type'), $request->get('val'))->paginate(15);
+        $stocks =  Stockarticulo::paginate(15);
+
+        /*foreach($barrios as $barrio){
+            $barrio->fecha_alta = FechaHelper::getFechaImpresion($barrio->fecha_alta); 
+        }*/
+
+        $stocks->setPath('stocks');
+
+         //dd($motivos);
+
+       return view('admin.stocks.index', compact('stocks', 'permiso'));
     }
 
     /**

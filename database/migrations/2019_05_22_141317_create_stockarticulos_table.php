@@ -22,6 +22,8 @@ class CreateStockarticulosTable extends Migration
             $table->integer('tiemporeposicion')->nullable();
             $table->integer('tipotiempo_id')->unsigned()->nullable();
             $table->foreign('tipotiempo_id')->references('id')->on('tipotiempos');
+            $table->integer('sucursal_id')->unsigned()->nullable();
+            $table->foreign('sucursal_id')->references('id')->on('sucursales');
             $table->string('usuario_alta',50)->nullable();
             $table->dateTime('fecha_alta')->nullable();
             $table->string('usuario_modi',50)->nullable();
