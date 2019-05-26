@@ -42,7 +42,7 @@ class StockController extends Controller
         $permiso = $modulos[0]->pivot->permiso;
  
 
-
+        $sucursales  = Sucursal::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
         //$stocks =  Stockarticulo::type($request->get('type'), $request->get('val'))->paginate(15);
         $stocks =  Stockarticulo::paginate(15);
 
@@ -54,7 +54,7 @@ class StockController extends Controller
 
          //dd($motivos);
 
-       return view('admin.stocks.index', compact('stocks', 'permiso'));
+       return view('admin.stocks.index', compact('stocks','sucursales','permiso'));
     }
 
     /**

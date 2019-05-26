@@ -27,28 +27,60 @@
 	   <strong> Listado Productos </strong>
 	   <form class="navbar-form navbar-right" role="search">
 	       {{ Form::model(Request::only('type', 'val', 'val2'), array('route' => 'empleados.index', 'method' => 'GET'), array('role' => 'form', 'class' => 'navbar-form pull-right')) }}
-			    <div class="form-group">
-			      {{ form::label('buscar', 'Tipo Busqueda:') }}
-			      {{ form::select('type', config('options.empleadotypes'), null, ['class' => 'form-control', 'id' => 'type'] ) }}
-						&nbsp;
-			      {{ form::text('val', null, ['class' => 'form-control', 'id' => 'val']) }}
-						&nbsp;
-				  {{ form::text('val2', null, ['class' => 'form-control', 'id' => 'val2']) }}
-						&nbsp;
-			      <button type="submit" class="form-control btn btn-sm btn-success"><span class="glyphicon glyphicon-search"></span> Buscar</button>
-						&nbsp;
-			      @if($permiso == 2)
-			      <a href="{{ route('stocks.create')}}" class="form-control btn btn-sm btn-primary">
-			        <span class="glyphicon glyphicon-plus"></span> Crear
-			      </a>  
-			      <!--
-			      &nbsp;
-			      <a href="{{ route('empleadoscambiar')}}" id="cambiar" class="form-control btn btn-sm btn-primary pull-right"> 
-			      	<span class="fa fa-refresh"></span> Cambiar
-	                
-	              </a>-->
-			      @endif
-			    </div>
+	       		<div class="form-group">
+					<div class="table-responsive">
+						<table class="table table-striped table-hover" data-form="Form">
+							<thead>
+								<tr>	
+									<td> 
+									{{ form::label('tipoproducto', 'Tipo Producto:') }}
+									<br>
+			    					{{ form::select('tipoproducto', ['1'=>'Articulos', '3'=>'Insumos'], null, ['class' => 'form-control', 'id' => 'tipoproducto'] ) }}
+									</td>
+									<td>
+										{{ form::label('sucursal_id', 'Sucursal:') }}
+										<br>
+			    						{{ form::select('sucursal_id', $sucursales, null, ['class' => 'form-control', 'id' => 'sucursal_id'] ) }}
+									</td>
+									<td>
+										&nbsp;
+									</td>
+									<td>
+										&nbsp;
+									</td>
+								</tr>
+
+								<tr>	
+									<td> 
+										{{ form::label('buscar', 'Tipo Busqueda:') }}
+									    <br>
+									    {{ form::select('type', config('options.empleadotypes'), null, ['class' => 'form-control', 'id' => 'type'] ) }}
+									</td>
+									<td>
+										{{ form::label('val', '&nbsp;') }}
+										<br>
+			    						{{ form::text('val', null, ['class' => 'form-control', 'id' => 'val']) }}
+									</td>
+									<td>
+										{{ form::label('val', '&nbsp;') }}
+										<br>
+										<button type="submit" class="form-control btn btn-sm btn-success"><span class="glyphicon glyphicon-search"></span> Buscar</button>
+									</td>
+									<td>
+										@if($permiso == 2)
+											{{ form::label('val', '&nbsp;') }}
+											<br>
+										    <a href="{{ route('stocks.create')}}" class="form-control btn btn-sm btn-primary">
+										        <span class="glyphicon glyphicon-plus"></span> Crear
+										    </a>  
+									    @endif
+									</td>
+								</tr>
+								
+							</thead>
+						</table>
+					</div>
+				</div>
 		    {{ Form::close() }}
       </form>
 	</div>
@@ -79,7 +111,7 @@
 	                    </td>
 	                    <td>
 	                    	<a href="{{ route('stocks.show', $stock->id) }}" style="color:#000000;">
-								{{ $stock->descricion }}
+								{{ $stock->descripcion }}
 							</a>
 	                    </td>
 						<td>
