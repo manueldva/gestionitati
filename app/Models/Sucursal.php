@@ -22,6 +22,11 @@ class Sucursal extends Model
     }
 
 
+    public function stockarticulos(){
+        return $this->HasMany(Stockarticulo::class);
+    }
+
+
     public function clientes(){
         return $this->HasMany(Cliente::class);
     }

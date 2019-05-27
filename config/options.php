@@ -77,5 +77,14 @@ return array(
 	],
 
 
+
+	'stocktypes' => [
+		''    		=> 'Seleccionar',
+		'descripcion'  => 'Descripcion Producto',
+		/*'name'		=> 'Nombre',
+		'status'	=> 'Estado'*/
+	] ,
+
+
 );
 

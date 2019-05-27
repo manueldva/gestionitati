@@ -46,7 +46,7 @@
 										</td>
 										<td>
 											{{ form::label('tipotiempo_id', 'Tipo Tiempo') }}
-											{{ form::select('tipotiempo_id',  [], null, ['class' => 'form-control' ,'placeholder' => 'Seleccionar...'] ) }} 
+											{{ form::select('tipotiempo_id',  $tipotiempos, null, ['class' => 'form-control' ,'placeholder' => 'Seleccionar...'] ) }} 
 										</td>
 									</tr>
 								</thead>
@@ -120,7 +120,20 @@
 										</tr>
 									</thead>
 									<tbody>
-										
+										@isset($stockdetalles)
+											@foreach ($stockdetalles as $stockdetalle)
+							                  <tr>
+							                    <td style="display:none;">{{ $stockdetalle->articulo_id }}</td>
+							                    <td>{{ $stockdetalle->articulo->descripcion }}</td>
+								                    <td>
+									                   <a class='delete btn btn-sm btn-danger' onclick ='deletearticulo_row($(this))'>
+									                   	<span class='glyphicon glyphicon-trash'></span>
+									                   </a>
+								               	    </td>
+							                   
+							                  </tr>
+							                @endforeach
+										@endif
 									</tbody>
 								</table>
 								<div id="table_articulosspan" class="form-group has-error" style="display: none">
@@ -225,7 +238,14 @@
 		/*para agregar articulos al listado*/
 		$( "#agregararticulo" ).click(function() {
 
-			
+			if($('#sucursal_id').val() == '') {
+
+
+				toastr.error('Debe seleccionar una sucursal para dar de alta los articulos');
+				return false;
+			}
+
+
 			if($('#articulo_id').val() == '') {
 
 
@@ -233,29 +253,48 @@
 				return false;
 			}
 
+			if ($('#articulo_id').val() !== '') {
+				$.ajax({
+					dataType: 'json',
+					url: APP_URL + '/api/stockarticulodetalles',
+					async: false,
+					//url: '../api/validardocumento',
+					data: {q: $('#articulo_id').val(), s: $('#sucursal_id').val()}
+				}).done(function(data) {
+					//var $empleado = $('#empleado'); 
+					if(data !== 0) {
+						
+						toastr.error('Este articulo ya existe en otro stock');
+						return false;
+					} else {
+									//variables para guardar en la grilla
+						var codigo = $('#articulo_id').val();
+						//var descripcion = $("#descripcionarticulo").val();
+						var descripcion =$('select[name="articulo"] option:selected').text();
 
-			//variables para guardar en la grilla
-			var codigo = $('#articulo_id').val();
-			//var descripcion = $("#descripcionarticulo").val();
-			var descripcion =$('select[name="articulo"] option:selected').text();
 
+						//cargo la grilla
+						$('#table_articulos tbody').prepend(
+							'<tr>' + 
+							'<td style="display:none;">' + codigo + '</td>' +
+							'<td>' + descripcion + '</td>' +
+							"<td><a class='delete btn btn-sm btn-danger' onclick ='deletearticulo_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
+							'</td>' +
+							'</tr>');
 
-			//cargo la grilla
-			$('#table_articulos tbody').prepend(
-				'<tr>' + 
-				'<td style="display:none;">' + codigo + '</td>' +
-				'<td>' + descripcion + '</td>' +
-				"<td><a class='delete btn btn-sm btn-danger' onclick ='deletearticulo_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
-				'</td>' +
-				'</tr>');
+							/*$("#articulo_id").val('');
+							$("#articulo").val('');
+							$("#cantidadarticulo").val('');*/
+						
+						buscarArticulos(0);
 
-				/*$("#articulo_id").val('');
-				$("#articulo").val('');
-				$("#cantidadarticulo").val('');*/
+						toastr.success('Articulo agregado a la lista');
+					}
+					
+				});
+			}
+
 			
-			buscarArticulos(0);
-
-			toastr.success('Articulo agregado a la lista');
 			
 
 		});

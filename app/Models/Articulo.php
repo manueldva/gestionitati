@@ -16,6 +16,11 @@ class Articulo extends Model
         return $this->HasMany(Contratoarticulo::class);
     }
 
+
+    public function stockarticulodetalles(){
+        return $this->HasMany(Stockarticulodetalle::class);
+    }
+
     public function tipoarticulo(){
         
         return $this->belongsTo(Tipoarticulo::class);

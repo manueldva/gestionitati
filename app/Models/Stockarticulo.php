@@ -12,4 +12,17 @@ class Stockarticulo extends Model
     	'descripcion','stockactual',  'stockminimo', 'stockmaximo' , 'tiemporeposicion', 'tipotiempo_id','sucursal_id' , 'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
 	];
 
+
+
+    public function sucursal(){
+        
+        return $this->belongsTo(Sucursal::class);
+    }
+
+
+    public function tipotiempo(){
+        
+        return $this->belongsTo(Tipotiempo::class);
+    }
+
 }

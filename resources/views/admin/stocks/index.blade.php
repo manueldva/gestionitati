@@ -35,7 +35,7 @@
 									<td> 
 									{{ form::label('tipoproducto', 'Tipo Producto:') }}
 									<br>
-			    					{{ form::select('tipoproducto', ['1'=>'Articulos', '3'=>'Insumos'], null, ['class' => 'form-control', 'id' => 'tipoproducto'] ) }}
+			    					{{ form::select('tipoproducto', ['0'=>'Todos'], null, ['class' => 'form-control', 'id' => 'tipoproducto'] ) }}
 									</td>
 									<td>
 										{{ form::label('sucursal_id', 'Sucursal:') }}
@@ -54,7 +54,7 @@
 									<td> 
 										{{ form::label('buscar', 'Tipo Busqueda:') }}
 									    <br>
-									    {{ form::select('type', config('options.empleadotypes'), null, ['class' => 'form-control', 'id' => 'type'] ) }}
+									    {{ form::select('type', config('options.stocktypes'), null, ['class' => 'form-control', 'id' => 'type'] ) }}
 									</td>
 									<td>
 										{{ form::label('val', '&nbsp;') }}
@@ -95,6 +95,7 @@
 	                  <!--<th width="10px"> ID</th>-->
 	                  <th> Codigo</th>
 	                  <th> Descripcion</th>
+	                  <th> Sucursal</th>
 	                  <th> Stock Actual</th>
 	                  <th> Stock Minimo</th>
 	                  <th colspan="3">&nbsp;</th>
@@ -112,6 +113,11 @@
 	                    <td>
 	                    	<a href="{{ route('stocks.show', $stock->id) }}" style="color:#000000;">
 								{{ $stock->descripcion }}
+							</a>
+	                    </td>
+	                     <td>
+	                    	<a href="{{ route('stocks.show', $stock->id) }}" style="color:#000000;">
+								{{ $stock->sucursal }}
 							</a>
 	                    </td>
 						<td>
@@ -171,29 +177,12 @@
 	function searchType(){ 
 		  var type = $('#type').val();
 			
-			if (type == 'codigo'){
+			if (type == 'descripcion'){
 				$('#val').show();
-				$('#val2').hide();
-				$('#val').attr('type','number');
-			} else if (type == 'apellido')
-			{
-				$('#val').show();
-				$('#val2').hide();
-				$('#val').attr('type','text');
-			}else if (type == 'nombre')
-			{
-				$('#val').show();
-				$('#val2').hide();
-				$('#val').attr('type','text');
-			}else if (type == 'apellidonombre')
-			{
-				$('#val').show();
-				$('#val2').show();
 				$('#val').attr('type','text');
 			} else
 			{
 				$('#val').show();
-				$('#val2').hide();
 				$('#val').attr('type','text');
 			}
 		}
@@ -206,7 +195,6 @@
 			searchType(); 
 			$('#val').val('');
 			$('#val').focus();
-			$('#val2').val('');
 			//$('#cajas').val($('#cajas option:first').val());
 			
 

@@ -11,6 +11,7 @@ use Alert;
 
 use App\Models\Sucursal;
 use App\Models\Empleado;
+use App\Models\Stockarticulo;
 use App\Models\Cliente;
 use App\Models\Modulo;
 use App\Models\Perfil;
@@ -155,6 +156,15 @@ class SucursalController extends Controller
 
 
         $existe = Cliente::where('sucursal_id', $id)->count();
+
+        if($existe > 0) 
+        {
+            Alert::error('No se puede eliminar el registro')->persistent("Cerrar");
+            return back();
+        }
+
+
+        $existe = Stockarticulo::where('sucursal_id', $id)->count();
 
         if($existe > 0) 
         {

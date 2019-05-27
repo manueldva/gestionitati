@@ -197,6 +197,29 @@ Route::get('validardomicilioidentico', function() {
     return $id;
 });
 
+
+
+Route::get('stockarticulodetalles', function() {
+
+    $data = 0;
+    $articulos = App\Models\Stockarticulodetalle::where('articulo_id', '=', request('q'))->get();
+    if($articulos){
+        $data = 1;
+    }
+
+    if($data == 1){
+        $data = 0;
+        foreach ($articulos as $value) {
+           $stock = App\Models\Stockarticulo::where('id', '=', $value->stockarticulo_id)->first();         
+
+           if($stock->sucursal_id == request('s')){
+            $data = 1;
+           }
+        }
+    }
+    return $data;
+});
+
 /*    $cliente = App\Models\Cliente::where('provincia_id', '=', request('provincia'))->where('departamento_id', '=', request('departamento')->where('localidad_id', '=', request('localidad'))->where('barrio_id', '=', request('barrio'))->where('calle_id', '=', request('calle'))->where('manzana', '=', request('manzana'))->where('casa', '=', request('casa'))->where('numero', '=', request('numero'))->where('edificiotorre', '=', request('edificiotorre'))->where('piso', '=', request('piso'))->where('seccion', '=', request('seccion'))->where('lote', '=', request('lote'))->where('codigopostal', '=', request('codigopostal'))->first();*/
 
 
