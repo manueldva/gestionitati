@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Gestión - Empleados')
+@section('title', 'Gestión - Ajuste de Stock')
   
 @section('css')
  
@@ -8,13 +8,13 @@
 
 @section('content_header')
     <h1>
-      Gestionar Empleados
+      Ajuste de Stock
       <!--<small>Listado</small>-->
     </h1>
     <ol class="breadcrumb">
       <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="{{ route('empleados.index')}}">Empleados</a></li>
-      <li class="active">Nuevo</li>
+      <li><a href="{{ route('stocks.index')}}">Ajuste de Stock</a></li>
+      <li class="active">Nuevo Stock</li>
     </ol>
 
 @stop
@@ -24,13 +24,13 @@
 
 <div class="box box-primary">
   <div class="box-header with-border box-default">
-    <strong>Nuevo Empleado</strong>
+    <strong>Nuevo Ajuste de Stock</strong>
   </div>
     
   <div class="panel-body">
     <div class="row">
 
-  {!! Form::open(['route' => 'empleados.store','files' => true, 'id' => 'form']) !!}
+  {!! Form::open(['route' => 'stocks.store', 'files' => true, 'id' => 'form']) !!}
   
         <div class="col-md-12" >
           <div class="row col-md-12">
@@ -43,7 +43,7 @@
                 </button>
                 
 
-                <a href="{{ route('empleados.index') }}" type="button" class="btn btn btn-default">
+                <a href="{{ route('stocks.index') }}" type="button" class="btn btn btn-default">
                 <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
                     <span class="fa fa-list">
                     </span>
@@ -57,7 +57,7 @@
   </div>
 </div>
 
-@include('admin.empleados.partials.form')
+@include('admin.stocks.partials.form')
 
 {!! Form::close() !!}
 

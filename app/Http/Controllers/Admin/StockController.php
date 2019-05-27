@@ -13,6 +13,7 @@ use App\Models\Modulo;
 use App\Models\Perfil;
 
 use App\Models\Sucursal;
+use App\Models\Articulo;
 use App\Models\Tipotiempo;
 use App\Models\Tipoajuste;
 use App\Models\Proveesdorajuste;
@@ -64,7 +65,12 @@ class StockController extends Controller
      */
     public function create()
     {
-        //
+        $articulos  = Articulo::where('tipoarticulo_id', '<>', 2)->orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+        $sucursales  = Sucursal::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+
+        return view('admin.stocks.create', compact('articulos', 'sucursales'));
     }
 
     /**
@@ -75,7 +81,49 @@ class StockController extends Controller
      */
     public function store(Request $request)
     {
+        $stock = Stockarticulo::create($request->all());
+
+        $descripciontemp = '';
+
+        $listado_articulos_text = $request->input("listado_articulos");
+
+        if($listado_articulos_text) {
+
+
+            $listado_articulos_array = explode('&&&', $listado_articulos_text);
+            array_pop($listado_articulos_array);
+
+
+
+            foreach ($listado_articulos_array as $articulo_text)
+            {
+                list($articulo_id, $descripcion) = explode('|', $articulo_text);
+
+                $stockdetalle = new Stockarticulodetalle();
+                    $stockdetalle->stockarticulo_id = $stock->id;
+                    $stockdetalle->articulo_id = $articulo_id;
+                    $stockdetalle->usuario_alta = Auth::user()->username;
+                    $stockdetalle->fecha_alta = date('Y-m-d H:i:s');
+
+                $stockdetalle->save();
+
+                if($descripciontemp == '')
+                {
+                    $descripciontemp = $descripcion;
+                } else 
+                {
+                    $descripciontemp = $descripciontemp . ' - ' . $descripcion;
+                }
+            }
+        }
+
+        //auditoria
+        $stock->fill(['descripcion' => $descripciontemp, 'usuario_alta' => Auth::user()->username , 'fecha_alta' => date('Y-m-d H:i:s')])->save();
         //
+
+
+        Alert::success('Stock creado con exito')->persistent("Cerrar");
+        return redirect()->route('stocks.edit', $stock->id);
     }
 
     /**
@@ -97,7 +145,13 @@ class StockController extends Controller
      */
     public function edit($id)
     {
-        //
+        $articulos  = Articulo::where('tipoarticulo_id', '<>', 2)->orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+        $sucursales  = Sucursal::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+        $stock = Stockarticulo::find($id);
+
+        return view('admin.stocks.create', compact('articulos', 'sucursales', 'stock'));
     }
 
     /**
