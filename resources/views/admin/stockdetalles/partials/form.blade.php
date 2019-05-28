@@ -1,24 +1,24 @@
 
 <input type="hidden" name="listado_articulos" id="id_lista_articulos">
 <div class="row">
+	
 	<div class="col-md-12">	
 
 	  <div class="box box-default">
 	  	<div class="box-header with-border">
-
-
+	      
 	      <h3 class="box-title">
 	      	
 	      </h3>
 	    </div>
 	    <!-- /.box-header -->
 	    <div class="box-body">
-			<div class="col-md-4">
+			<div class="col-md-6">
 			  <!--<div class="box box-default">-->
 			    <div class="box-header with-border">
 			     
 
-			      <h3 class="box-title">Ingresar los datos del Stock:</h3>
+			      <h3 class="box-title">Datos del Stock:</h3>
 			    </div>
 			    <!-- /.box-header -->
 			    <div class="box-body">
@@ -27,41 +27,20 @@
 							<table class="table table-striped table-hover" data-form="Form">
 								<thead>
 									<tr>	
+										<td>
+											{{ form::label('stockactual', 'Stock Actual') }}
+											{{ form::number('stockactual', null, ['class' => 'form-control', 'id' => 'stockactual', 'readonly']) }}
+										</td>
 										<td> 
 											{{ form::label('stockminimo', 'Stock Minimo *') }}
-											{{ form::number('stockminimo', null, ['class' => 'form-control', 'id' => 'stockminimo']) }}
-											<div id="stockminimospan" class="form-group has-error" style="display: none">
-												<span class="help-block">Campo Obligatorio</span>
-											</div>
-										</td>
-										<td>
-											{{ form::label('stockmaximo', 'Stock Maximo') }}
-											{{ form::number('stockmaximo', null, ['class' => 'form-control', 'id' => 'stockmaximo']) }}
-										</td>
-									</tr>
-									<tr>	
-										<td> 
-											{{ form::label('tiemporeposicion', 'Tiempo de Reposición') }}
-											{{ form::number('tiemporeposicion', null, ['class' => 'form-control', 'id' => 'tiemporeposicion']) }}
-										</td>
-										<td>
-											{{ form::label('tipotiempo_id', 'Tipo Tiempo') }}
-											{{ form::select('tipotiempo_id',  $tipotiempos, null, ['class' => 'form-control' ,'placeholder' => 'Seleccionar...'] ) }} 
+											{{ form::number('stockminimo', null, ['class' => 'form-control', 'id' => 'stockminimo', 'readonly']) }}
+											
 										</td>
 									</tr>
 								</thead>
 							</table>
 						</div>
 					</div>
-
-				   	<div class="form-group">
-						{{ form::label('sucursal_id', 'Sucursal *') }}
-						{{ form::select('sucursal_id', $sucursales, null, ['class' => 'form-control','placeholder' => 'Seleccionar...'] ) }} 
-						<div id="sucursal_idspan" class="form-group has-error" style="display: none">
-							<span class="help-block">Campo Obligatorio</span>
-						</div>
-					</div>
-			      
 			    </div>
 			    <!-- /.box-body -->
 			  <!--</div>-->
@@ -81,68 +60,36 @@
 			    <div class="box-body">
 					
 					<div class="form-group">
-					<div class="table-responsive">
-						<table class="table table-striped table-hover" data-form="Form">
-							<thead>
-								<tr>	
-									<td class="col-md-3"> 
-										{{ form::label('articulo_id', 'Cod.') }}
-										{{ form::number('articulo_id', null, ['class' => 'form-control', 'id' => 'articulo_id']) }}
-									</td>
-									<td>
-										{{ form::label('articulo', 'Articulo') }}
-										<br>
-										{{ form::select('articulo', $articulos,  null, ['class' => 'form-control inline-search', 'id' => 'articulo','placeholder' => 'Seleccionar...'] ) }}
-									</td>
-									<td> 
-										<br>
-										<a type="button" id="agregararticulo" name="agregararticulo" class="btn btn btn-success">
-						                <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
-						                    <span class="fa fa-plus-circle">
-						                    </span>
-						                      AGREGAR
-						                  </a>
-									</td>
-								</tr>
-
-								
-							</thead>
-						</table>
-						<div class="form-group">
-							<div class="table-responsive">
-								<table   id="table_articulos" class="table table-striped table-hover" data-form="Form">
-									<thead>
-										<tr>
-										<!--<th width="10px"> ID</th>-->
-											<th style="display:none;"> Codigo</th>
-											<th> Articulo</th>
-											<th> </th>
-										</tr>
-									</thead>
-									<tbody>
-										@isset($stockdetalles)
-											@foreach ($stockdetalles as $stockdetalle)
-							                  <tr>
-							                    <td style="display:none;">{{ $stockdetalle->articulo_id }}</td>
-							                    <td>{{ $stockdetalle->articulo->descripcion }}</td>
-								                    <td>
-									                   <a class='delete btn btn-sm btn-danger' onclick ='deletearticulo_row($(this))'>
-									                   	<span class='glyphicon glyphicon-trash'></span>
-									                   </a>
-								               	    </td>
-							                   
-							                  </tr>
-							                @endforeach
-										@endif
-									</tbody>
-								</table>
-								<div id="table_articulosspan" class="form-group has-error" style="display: none">
-									<span class="help-block">Debe haber al menos un registro en la lista</span>
+						<div class="table-responsive">
+							
+							<div class="form-group">
+								<div class="table-responsive">
+									<table   id="table_articulos" class="table table-striped table-hover" data-form="Form">
+										<thead>
+											<tr>
+											<!--<th width="10px"> ID</th>-->
+												<th><center> Codigo</center></th>
+												<th> <center>Articulo</center></th>
+												
+											</tr>
+										</thead>
+										<tbody>
+											@isset($stockdetalles)
+												@foreach ($stockdetalles as $stockdetalle)
+								                  <tr>
+								                    <td><center>{{ $stockdetalle->articulo_id }}</center></td>
+								                    <td><center>{{ $stockdetalle->articulo->descripcion }}</center></td>
+									                    
+								                  </tr>
+								                @endforeach
+											@endif
+										</tbody>
+									</table>
+									
 								</div>
 							</div>
 						</div>
 					</div>
-				  </div>
 
 			    </div>
 			    <!-- /.box-body -->
@@ -152,12 +99,88 @@
 	    <!-- /.box-body -->
 	  </div>
 	  <!-- /.box -->
+
+
 	</div>
 	<!-- /.col -->
 <!--      segundo div general                              -->
 
 	
-	
+	<div class="col-md-12">	
+
+	  <div class="box box-default">
+	  	<div class="box-header with-border">
+	      
+	      <h3 class="box-title">
+	      	Ajuste
+	      </h3>
+	    </div>
+	    <!-- /.box-header -->
+	    <div class="box-body">
+
+			<div class="col-md-6">
+			  <!--<div class="box box-default">-->
+			    <div class="box-header with-border">
+			     
+
+			      <h3 class="box-title"></h3>
+			    </div>
+			    <!-- /.box-header -->
+			    <div class="box-body">
+			    	<div class="form-group">
+						{{ form::label('tipoajuste_id', 'Tipo Ajuste *') }}
+						{{ form::select('tipoajuste_id',  [], null, ['class' => 'form-control' ,'placeholder' => 'Seleccionar...'] ) }} 
+					</div>
+					<div class="form-group">
+						{{ form::label('cantidad', 'Cantidad *') }}
+						{{ form::number('cantidad', null, ['class' => 'form-control', 'id' => 'cantidad']) }}
+					</div>
+					<div class="form-group">
+						{{ form::label('motivoajuste_id', 'Motivo Ajuste *') }}
+						{{ form::select('motivoajuste_id',  [], null, ['class' => 'form-control' ,'placeholder' => 'Seleccionar...'] ) }} 
+					</div>
+			    </div>
+			    <!-- /.box-body -->
+			  <!--</div>-->
+			  <!-- /.box -->
+			</div>
+			<!-- /.col -->
+
+			<div class="col-md-6">
+			  <!--<div class="box box-default">-->
+			    <div class="box-header with-border">
+			     
+
+			      <h3 class="box-title"></h3>
+			    </div>
+			    <!-- /.box-header -->
+			    <div class="box-body">
+			    	<div class="form-group">
+			    		{{ form::label('proveedorajuste_id', 'Proveedor') }}
+						{{ form::select('proveedorajuste_id',  [], null, ['class' => 'form-control' ,'placeholder' => 'Seleccionar...'] ) }} 
+						
+					</div>
+					<div class="form-group">
+						{{ form::label('lote', 'Lote') }}
+						{{ form::number('lote', null, ['class' => 'form-control', 'id' => 'lote']) }}
+					</div>
+					<div class="form-group">
+						{{ form::label('fechavencimiento', 'Vencimiento') }}
+						{{ form::number('fechavencimiento', null, ['class' => 'form-control', 'id' => 'fechavencimiento']) }}
+					</div>
+			    </div>
+			    <!-- /.box-body -->
+			  <!--</div>-->
+			  <!-- /.box -->
+			</div>
+			<div class="form-group">
+				{{ form::label('observacion', 'Observacion') }}
+				{{ form::textarea('observacion', null, ['class' => 'form-control', 'id' => 'observacion']) }}
+			</div>
+	 	</div>
+	    <!-- /.box-body -->
+	  </div>
+	  <!-- /.box -->
 
 
 <!--      segundo div general                              -->

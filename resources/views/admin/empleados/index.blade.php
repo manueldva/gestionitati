@@ -107,7 +107,7 @@
 							</a>
 						</td>
 
-						 @if($permiso_user == 2) 
+						@if($permiso_user == 2) 
 	                    <td width="10px">
 	                      <a href="{{ route('manageusers.edit', $empleado->user->id) }}" class="btn btn-sm btn-default">
 							Usuario
