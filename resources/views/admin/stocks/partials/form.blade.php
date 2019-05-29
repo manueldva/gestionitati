@@ -96,12 +96,14 @@
 									</td>
 									<td> 
 										<br>
-										<a type="button" id="agregararticulo" name="agregararticulo" class="btn btn btn-success">
-						                <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
-						                    <span class="fa fa-plus-circle">
-						                    </span>
-						                      AGREGAR
-						                  </a>
+										@if($show == 1)
+											<a type="button" id="agregararticulo" name="agregararticulo" class="btn btn btn-success">
+							                <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
+							                    <span class="fa fa-plus-circle">
+							                    </span>
+							                      AGREGAR
+							                </a>
+							            @endif
 									</td>
 								</tr>
 
@@ -126,9 +128,11 @@
 							                    <td style="display:none;">{{ $stockdetalle->articulo_id }}</td>
 							                    <td>{{ $stockdetalle->articulo->descripcion }}</td>
 								                    <td>
-									                   <a class='delete btn btn-sm btn-danger' onclick ='deletearticulo_row($(this))'>
-									                   	<span class='glyphicon glyphicon-trash'></span>
-									                   </a>
+								                    	@if($show == 1)
+										                   <a class='delete btn btn-sm btn-danger' onclick ='deletearticulo_row($(this))'>
+										                   	<span class='glyphicon glyphicon-trash'></span>
+										                   </a>
+										                @endif
 								               	    </td>
 							                   
 							                  </tr>

@@ -8,7 +8,7 @@
 
 @section('content_header')
     <h1>
-      Ajuste de Stock
+      Gestionar Ajuste de Stock
       <!--<small>Listado</small>-->
     </h1>
     <ol class="breadcrumb">

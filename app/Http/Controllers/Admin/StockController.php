@@ -99,10 +99,11 @@ class StockController extends Controller
 
         $sucursales  = Sucursal::orderBy('id')->pluck('descripcion' , 'id');
 
-         $tipotiempos  = Tipotiempo::orderBy('id')->pluck('descripcion' , 'id');
+        $tipotiempos  = Tipotiempo::orderBy('id')->pluck('descripcion' , 'id');
 
+        $show = 1;
 
-        return view('admin.stocks.create', compact('articulos', 'sucursales', 'tipotiempos'));
+        return view('admin.stocks.create', compact('articulos', 'sucursales', 'tipotiempos', 'show'));
     }
 
     /**
@@ -177,9 +178,10 @@ class StockController extends Controller
 
         $stockdetalles = Stockarticulodetalle::where('stockarticulo_id', $id)->get();
 
+        $show = 0;
         //dd($stock);
 
-        return view('admin.stocks.show', compact('articulos', 'sucursales', 'tipotiempos', 'stock', 'stockdetalles'));
+        return view('admin.stocks.show', compact('articulos', 'sucursales', 'tipotiempos', 'stock', 'stockdetalles', 'show'));
     }
 
     /**
@@ -203,7 +205,9 @@ class StockController extends Controller
 
         //dd($stock);
 
-        return view('admin.stocks.edit', compact('articulos', 'sucursales', 'tipotiempos', 'stock', 'stockdetalles'));
+        $show = 1;
+
+        return view('admin.stocks.edit', compact('articulos', 'sucursales', 'tipotiempos', 'stock', 'stockdetalles', 'show'));
     }
 
     /**
