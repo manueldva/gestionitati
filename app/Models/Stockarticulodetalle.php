@@ -18,4 +18,11 @@ class Stockarticulodetalle extends Model
         return $this->belongsTo(Articulo::class);
     }
 
+
+    public function stockarticulo(){
+        
+        return $this->belongsTo(Stockarticulo::class);
+    }
+
+
 }

@@ -26,7 +26,7 @@
   <div class="panel-body">
     <div class="row">
 
-      {!! Form::model($stock, ['route' => ['stockdetalles.update', $stock->id], 'method' => 'PUT', 'files' => true, 'id' => 'form']) !!}
+      {!! Form::model($stock, ['route' => ['stockajustes.update', $stock->id], 'method' => 'PUT', 'files' => true, 'id' => 'form']) !!}
   
         <div class="col-md-12" >
           <div class="row col-md-12">
@@ -44,13 +44,13 @@
                     <span class="fa fa-list">
                     </span>
                       Movimientos del cliente
-                </a>
-                &nbsp;&nbsp;&nbsp;
-                <a href="#" type="button" id="movimiento" class="btn btn btn-danger">
-                    <span class="fa fa-trash-o">
-                    </span>
-                     Baja definitiva
                 </a>-->
+                &nbsp;&nbsp;&nbsp;
+                <a href="#" type="button" id="movimiento" class="btn btn btn-default">
+                    <span class="fa fa-info">
+                    </span>
+                     Movimientos
+                </a>
                 &nbsp;&nbsp;&nbsp;
                 <a href="{{ route('stocks.index') }}" type="button" class="btn btn btn-default">
                 <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
@@ -68,7 +68,7 @@
   </div>
 </div>
 
-@include('admin.stockdetalles.partials.form')
+@include('admin.stockajustes.partials.form')
 
 {!! Form::close() !!}
 

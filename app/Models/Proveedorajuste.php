@@ -14,8 +14,9 @@ class Proveedorajuste extends Model
 
 
 
-    /*public function articulos(){
-        return $this->HasMany(Articulo::class);
-    }*/
+
+    public function stockajustes(){
+        return $this->HasMany(Stockajuste::class);
+    }
 
 }

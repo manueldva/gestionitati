@@ -13,7 +13,7 @@ class CreateProveedorajustesTable extends Migration
      */
     public function up()
     {
-        Schema::create('proveedorajuestes', function (Blueprint $table) {
+        Schema::create('proveedorajustes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('descripcion',300)->nullable();
             $table->string('usuario_alta',50)->nullable();
@@ -31,6 +31,6 @@ class CreateProveedorajustesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('proveedorajuestes');
+        Schema::dropIfExists('proveedorajustes');
     }
 }

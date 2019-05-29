@@ -25,4 +25,12 @@ class Stockarticulo extends Model
         return $this->belongsTo(Tipotiempo::class);
     }
 
+
+
+
+    public function stockdetalles(){
+        return $this->HasMany(Stockdetalle::class);
+    }
+
+
 }

@@ -16,7 +16,7 @@ use App\Models\Sucursal;
 use App\Models\Articulo;
 use App\Models\Tipotiempo;
 use App\Models\Tipoajuste;
-use App\Models\Proveesdorajuste;
+use App\Models\Proveedorajuste;
 use App\Models\Stockarticulo;
 use App\Models\Stockarticulodetalle;
 

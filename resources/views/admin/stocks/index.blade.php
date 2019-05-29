@@ -136,7 +136,7 @@
 						
 	                    @if($permiso == 2) 
 	                    <td width="10px">
-	                      <a href="{{ route('stockdetalles.edit', $stock->id) }}" class="btn btn-sm btn-default">
+	                      <a href="{{ route('stockajustes.edit', $stock->id) }}" class="btn btn-sm btn-default">
 							Ajuste
 							</a>
 	                    </td>

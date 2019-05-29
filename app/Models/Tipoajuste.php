@@ -18,4 +18,10 @@ class Tipoajuste extends Model
         return $this->HasMany(Articulo::class);
     }*/
 
+
+
+    public function stockajustes(){
+        return $this->HasMany(Stockajuste::class);
+    }
+
 }

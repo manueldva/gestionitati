@@ -48,7 +48,7 @@
 			</div>
 			<!-- /.col -->
 
-			<div class="col-md-6 pull-right">
+			<div class="col-md-6">
 			  <!--<div class="box box-default">-->
 			    
 			    <div class="box-header with-border">
@@ -129,15 +129,15 @@
 			    <div class="box-body">
 			    	<div class="form-group">
 						{{ form::label('tipoajuste_id', 'Tipo Ajuste *') }}
-						{{ form::select('tipoajuste_id',  [], null, ['class' => 'form-control' ,'placeholder' => 'Seleccionar...'] ) }} 
+						{{ form::select('tipoajuste_id',  $tipoajustes, null, ['class' => 'form-control' ,'placeholder' => 'Seleccionar...'] ) }} 
 					</div>
 					<div class="form-group">
 						{{ form::label('cantidad', 'Cantidad *') }}
 						{{ form::number('cantidad', null, ['class' => 'form-control', 'id' => 'cantidad']) }}
 					</div>
 					<div class="form-group">
-						{{ form::label('motivoajuste_id', 'Motivo Ajuste *') }}
-						{{ form::select('motivoajuste_id',  [], null, ['class' => 'form-control' ,'placeholder' => 'Seleccionar...'] ) }} 
+						{{ form::label('motivoajuste_id', 'Motivo Ajuste') }}
+						{{ form::select('motivoajuste_id',  $motivoajustes, null, ['class' => 'form-control' ,'placeholder' => 'Seleccionar...'] ) }} 
 					</div>
 			    </div>
 			    <!-- /.box-body -->
@@ -157,7 +157,7 @@
 			    <div class="box-body">
 			    	<div class="form-group">
 			    		{{ form::label('proveedorajuste_id', 'Proveedor') }}
-						{{ form::select('proveedorajuste_id',  [], null, ['class' => 'form-control' ,'placeholder' => 'Seleccionar...'] ) }} 
+						{{ form::select('proveedorajuste_id',  $proveedorajustes, null, ['class' => 'form-control' ,'placeholder' => 'Seleccionar...'] ) }} 
 						
 					</div>
 					<div class="form-group">
@@ -175,7 +175,18 @@
 			</div>
 			<div class="form-group">
 				{{ form::label('observacion', 'Observacion') }}
-				{{ form::textarea('observacion', null, ['class' => 'form-control', 'id' => 'observacion']) }}
+				{{ form::textarea('observacion', null, ['class' => 'form-control', 'id' => 'observacion', 'rows' => 3, 'cols' => 40, 'maxlength' =>'500']) }}
+			</div>
+			<br>
+			<div class="form-group">
+
+					<a type="label" class="form-control btn-primary" style="font-size:18px">
+							<label id="total">
+								Stock Total: {{ $stock->stockactual }}
+							</label>
+							
+					</a>
+				
 			</div>
 	 	</div>
 	    <!-- /.box-body -->
@@ -199,167 +210,43 @@
 		var APP_RL = "{{ url('/') }}";
 
 
-		//buscador articulos
-		function buscarArticulos(articulo_id) {
+		$( "#cantidad" ).keyup(function() {
 
-			//alert(articulo_id);
+		  	if(parseInt($('#cantidad').val()) < 1 || $('#cantidad').val() == "")
+      		{
+				cantidad = 0;
+      		} else {
+      			cantidad = parseInt($('#cantidad').val());
+      		}
 
-			if (articulo_id !== '') {
-			$.ajax({
-				dataType: 'json',
-				url: APP_URL + '/api/articulos',
-				//url: '../api/validardocumento',
-				data: {q: articulo_id}
-			}).done(function(data) {
-				//var $empleado = $('#empleado'); 
-				if(data !== 0) {
-					$("#articulo_id").val(data.id);
-					$("#articulo").val(data.id);
-
-
-					//$("#empleado").html('').select2({data: [ {id: data.id, text: data.empleado}]}); 
-					//toastr.info('Codigo de vendedor correcto');
-				} else{
-					$("#articulo_id").val('');
-					$("#articulo").val('');
-					
-				}
-				
-			});
-			} else {
-				$("#articulo_id").val('');
-				$("#articulo").val('');
-			}
-		}
-
-
-		$('#articulo_id').focusout(function(e) {
-
-			buscarArticulos($('#articulo_id').val());
-
-		});
-
-		$(document).ready(function(){
-			$("#articulo_id").keypress(function(e) {
-			//no recuerdo la fuente pero lo recomiendan para
-			//mayor compatibilidad entre navegadores.
-			var code = (e.keyCode ? e.keyCode : e.which);
-				if(code==13){
-					if ($('#articulo_id').val() == '') $('#articulo').val(''); 
-					buscarArticulos($('#articulo_id').val());
-
-				}
-			});
-		});
-
-		$('#articulo').on('change', function(e){
-			if ($('#articulo').val() == '') $('#articulo_id').val(''); 
-			buscarArticulos($('#articulo').val());
+      		//$('#total').text(cantidad + parseInt($('#stockactual').val()));
+      		if($('#tipoajuste_id').val() == 1)
+      		{
+      			$("#total").html('Stock Total: ' + (cantidad + parseInt($('#stockactual').val())));
+      		} else if($('#tipoajuste_id').val() == 2)
+      		{	
+      			if(parseInt(($('#stockactual').val()) - cantidad) < 0 ){
+      				toastr.error('No puede realizar este ajuste negativo');
+      				$('#cantidad').val("");
+      			} else {
+      				$("#total").html('Stock Total: ' + (parseInt($('#stockactual').val()) - cantidad));
+      			}
+      			
+      		} 
 		});
 
 
-		/*para agregar articulos al listado*/
-		$( "#agregararticulo" ).click(function() {
-
-			if($('#sucursal_id').val() == '') {
-
-
-				toastr.error('Debe seleccionar una sucursal para dar de alta los articulos');
-				return false;
-			}
-
-
-			if($('#articulo_id').val() == '') {
-
-
-				toastr.error('No se puede agregar este articulo. Faltan datos');
-				return false;
-			}
-
-			if ($('#articulo_id').val() !== '') {
-				$.ajax({
-					dataType: 'json',
-					url: APP_URL + '/api/stockarticulodetalles',
-					async: false,
-					//url: '../api/validardocumento',
-					data: {q: $('#articulo_id').val(), s: $('#sucursal_id').val()}
-				}).done(function(data) {
-					//var $empleado = $('#empleado'); 
-					if(data !== 0) {
-						
-						toastr.error('Este articulo ya existe en otro stock');
-						return false;
-					} else {
-									//variables para guardar en la grilla
-						var codigo = $('#articulo_id').val();
-						//var descripcion = $("#descripcionarticulo").val();
-						var descripcion =$('select[name="articulo"] option:selected').text();
-
-
-						//cargo la grilla
-						$('#table_articulos tbody').prepend(
-							'<tr>' + 
-							'<td style="display:none;">' + codigo + '</td>' +
-							'<td>' + descripcion + '</td>' +
-							"<td><a class='delete btn btn-sm btn-danger' onclick ='deletearticulo_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
-							'</td>' +
-							'</tr>');
-
-							/*$("#articulo_id").val('');
-							$("#articulo").val('');
-							$("#cantidadarticulo").val('');*/
-						
-						buscarArticulos(0);
-
-						toastr.success('Articulo agregado a la lista');
-					}
-					
-				});
-			}
-
-			
-			
-
+		$('#tipoajuste_id').on('change', function(e){
+			$( "#cantidad" ).val('');
+			$( "#cantidad" ).focus();
+			$("#total").html('Stock Total: ' + $('#stockactual').val());
 		});
-
-
-		/*borrar filas del listado de articulos*/
-		function deletearticulo_row(row) {
-
-		  	row.closest('tr').remove();
-		  	toastr.info('Articulo eliminado de la lista');
-		}
-
-
-		
-		function deletecontrato_row(row) {
-
-		  	 var contrato_id = row.parents("tr").find('td').eq(0).html();
- 			// aqui va codigo para la eliminacion
- 			
-            $.ajax({
-				dataType: 'json',
-				url: APP_URL + '/eliminarcontrato/' + contrato_id
-				//url: '../api/validardocumento',
-				//data: {id: contrato_id}
-			}).done(function(data) {
-				//var $empleado = $('#empleado'); 
-				if(data == 0) {
-					row.closest('tr').remove();
-		  			toastr.info('Articulo eliminado de la lista');
-					
-				}
-				
-			});
-		}
-
-
 
 
 		$( "#guardar" ).click(function() {
 
 
-			estadocampos = 0;
+			/*estadocampos = 0;
 
 			if ($('#stockminimo').val() == ''){
       			estadocampos = 1;
@@ -394,28 +281,27 @@
       			return false;
       		} else {
       			$('#form').submit();
+      		}*/
+
+      		if($('#tipoajuste_id').val() == "") 
+      		{
+      			toastr.error('Debe seleccionar un tipo de ajuste.');
+      			return false;
       		}
 
 
-		   	//$('#form').submit();
+      		if(parseInt($('#cantidad').val()) < 1 || $('#cantidad').val() == "")
+      		{
+				toastr.error('La cantidad ingresada debe ser mayor a 0.');
+      			return false;
+      		}
+
+      		
+
+		   	$('#form').submit();
 
 		});
 
-		function crear_listado_articulos() {
-		    var listado = '';
-		    
-
-		    $("#id_lista_articulos").val('');
-
-		    $('#table_articulos tbody tr').each(function () {	 
-		    articulo_id = $(this).find("td").eq(0).html();
-		    descripcion = $(this).find("td").eq(1).html();
-
-		    listado += articulo_id + "|" + descripcion + "&&&";
-		    });
-
-		      return listado;
-	    }
 
 
 	</script>
