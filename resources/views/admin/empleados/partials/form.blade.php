@@ -172,7 +172,17 @@
 		      		
 		      		<div class="form-group">
 						{{ form::label('tipoempleado_id', 'Tipo de Empleado *') }}
-						{{ form::select('tipoempleado_id', isset($tipoempleados) ? $tipoempleados : [], null, ['class' => 'form-control' ,'placeholder' => 'Seleccionar...'] ) }} 
+						{{ form::select('tipoempleado_id', isset($tipoempleados) ? $tipoempleados : [], null, ['class' => 'form-control', 'placeholder' => 'Seleccionar...'] ) }} 
+				  	</div>
+
+				  	<div class="form-group">
+						{{ form::label('movil', 'Tipo de Movil ') }}
+						{{ form::text('movil', null, ['class' => 'form-control', 'id' => 'movil']) }}
+				  	</div>
+
+				  	<div class="form-group">
+						{{ form::label('patente', 'Patente') }}
+						{{ form::text('patente', null, ['class' => 'form-control', 'id' => 'patente']) }}
 				  	</div>
 
 					
@@ -214,6 +224,24 @@
 	<!-- todo lo que tenga que realizar un ajax -->
 	<script type="text/javascript">
 
+		function movil() {
+			if($('#tipoempleado_id').val() == '1'){
+				
+				$("#patente").prop("disabled", false);
+				$("#movil").prop("disabled", false);
+			} else {
+				$("#patente").prop("disabled", true);
+				$("#movil").prop("disabled", true);
+			}
+			$("#movil").val("");
+			$("#patente").val("");
+		}
+
+		movil();
+
+		$('#tipoempleado_id').on('change', function(e){
+			movil();
+		});
 
 		function Edad() {
 
