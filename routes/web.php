@@ -47,7 +47,8 @@ route::get('/editdireccion/{id}',		'Admin\ClienteController@editdireccion')->nam
 route::put('/updatedireccion/{id}',		'Admin\ClienteController@updatedireccion')->name('updatedireccion');
 route::resource('articulos', 		'Admin\ArticuloController');
 route::resource('empleados', 		'Admin\EmpleadoController');
-route::get('empleadoscambiar',		'Admin\EmpleadoController@empleadoscambiar')->name('empleadoscambiar');
+route::get('/empleadotransferir/{id}',		'Admin\EmpleadoController@empleadotransferir')->name('empleadotransferir');
+route::post('/empleadotransferirstore',		'Admin\EmpleadoController@empleadotransferirstore')->name('empleadotransferirstore');
 route::resource('modelocontratos', 	'Admin\ModelocontratoController');
 route::resource('contratos', 		'Admin\ContratoController');
 route::get('/eliminarcontrato/{id}',		'Admin\ContratoController@eliminar')->name('eliminarcontrato');

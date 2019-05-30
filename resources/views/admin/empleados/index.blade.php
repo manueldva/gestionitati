@@ -41,12 +41,7 @@
 			      <a href="{{ route('empleados.create')}}" class="form-control btn btn-sm btn-primary">
 			        <span class="glyphicon glyphicon-plus"></span> Crear
 			      </a>  
-			      <!--
-			      &nbsp;
-			      <a href="{{ route('empleadoscambiar')}}" id="cambiar" class="form-control btn btn-sm btn-primary pull-right"> 
-			      	<span class="fa fa-refresh"></span> Cambiar
-	                
-	              </a>-->
+			      
 			      @endif
 			    </div>
 		    {{ Form::close() }}
@@ -66,7 +61,7 @@
 	                  <th> Sucursal</th>
 	                  <th> Tipo Empleado</th>
 	                  <th> Estado</th>
-	                  <th colspan="3">&nbsp;</th>
+	                  <th colspan="4">&nbsp;</th>
 	                </tr>
 	              </thead>
 	              <tbody>
@@ -106,27 +101,35 @@
 								@endif
 							</a>
 						</td>
-
+						@if($permiso == 2) 
+							<td width="10px">
+		                      @if($empleado->tipoempleado_id == 1)
+			                      <a href="{{ route('empleadotransferir', $empleado->id) }}" class="btn btn-sm btn-default">
+			                        Transferir C.
+			                      </a>
+			                    @endif
+		                    </td>
+		                @endif
 						@if($permiso_user == 2) 
-	                    <td width="10px">
-	                      <a href="{{ route('manageusers.edit', $empleado->user->id) }}" class="btn btn-sm btn-default">
-							Usuario
-							</a>
-	                    </td>
+	                    	<td width="10px">
+		                      <a href="{{ route('manageusers.edit', $empleado->user->id) }}" class="btn btn-sm btn-default">
+								Usuario
+								</a>
+		                    </td>
 	                    @endif
 	                    @if($permiso == 2) 
-	                    <td width="10px">
-	                      <a href="{{ route('empleados.edit', $empleado->id) }}" class="btn btn-sm btn-default">
-	                        Editar
-	                      </a>
-	                    </td>
-	                    <td width="10px">
-							{!! Form::model($empleado, ['method' => 'delete', 'route' => ['empleados.destroy', $empleado->id], 'class' =>'form-inline form-delete']) !!}
-							{!! Form::hidden('id', $empleado->id) !!}
-							{!! Form::submit('Eliminar', ['class' => 'btn btn-sm btn-danger delete', 'name' => 'delete_modal']) !!}
-							{!! Form::close() !!}
+		                    <td width="10px">
+		                      <a href="{{ route('empleados.edit', $empleado->id) }}" class="btn btn-sm btn-default">
+		                        Editar
+		                      </a>
+		                    </td>
+		                    <td width="10px">
+								{!! Form::model($empleado, ['method' => 'delete', 'route' => ['empleados.destroy', $empleado->id], 'class' =>'form-inline form-delete']) !!}
+								{!! Form::hidden('id', $empleado->id) !!}
+								{!! Form::submit('Eliminar', ['class' => 'btn btn-sm btn-danger delete', 'name' => 'delete_modal']) !!}
+								{!! Form::close() !!}
 
-	                    </td>
+		                    </td>
 	                    @endif
 	                  </tr>
 	                @endforeach

@@ -17,6 +17,8 @@ use App\Models\Tipodocumento;
 use App\Models\Companiatelefonica;
 use App\Models\Estadocivil;
 use App\Models\Localidad;
+
+use App\Models\Clientedireccion;
 use App\Models\Modulo;
 use App\Models\Perfil;
 use App\User;
@@ -218,9 +220,46 @@ class EmpleadoController extends Controller
     }
 
 
-    public function empleadoscambiar()
+    public function empleadotransferir($id)
     {
-        echo "string";
+        
+        $empleadodesde  = Empleado::orderBy('empleado', 'ASC')->where('tipoempleado_id', 1)->where('id', '<>', $id)->pluck('empleado' , 'id');
+
+        
+        $empleadoatransferir  = Empleado::orderBy('empleado', 'ASC')->where('tipoempleado_id', 1)->where('id', $id)->pluck('empleado' , 'id');
+
+
+        return view('admin.empleados.transferir', compact('empleadodesde', 'empleadoatransferir'));
+    }
+
+    public function empleadotransferirstore(Request $request)
+    {   
+        
+        $cantidad = Clientedireccion::where('empleado_id',$request->get('empleadodesde_id'))->count();
+
+        if($cantidad > 0) {
+
+            $contratosdesde = Clientedireccion::where('empleado_id',$request->get('empleadodesde_id'))->get();
+            foreach ($contratosdesde as $key => $value) {
+               
+
+                    $value->empleado_id = $request->get('empleadoatransferir_id');
+                    $value->usuario_modi = Auth::user()->username;
+                    $value->fecha_modi = date('Y-m-d H:i:s');
+
+                $value->save();
+            }
+
+            Alert::success('Se transfirieron '. $cantidad . ' Contratos a un nuevo empleado de reparto')->persistent("Cerrar");
+        } else {
+            Alert::info('El empleado seleccionado no posee contratos para transferir')->persistent("Cerrar");
+        }
+        
+
+        //dd($contratosdesde);
+
+       
+        return redirect()->route('empleados.index');
     }
 
 }

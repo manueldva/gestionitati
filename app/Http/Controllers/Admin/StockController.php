@@ -85,7 +85,7 @@ class StockController extends Controller
 
          //dd($motivos);
 
-       return view('admin.stocks.index', compact('stocks','sucursales','permiso'));
+        return view('admin.stocks.index', compact('stocks','sucursales','permiso'));
     }
 
     /**
