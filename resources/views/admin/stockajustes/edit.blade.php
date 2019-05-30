@@ -46,7 +46,7 @@
                       Movimientos del cliente
                 </a>-->
                 &nbsp;&nbsp;&nbsp;
-                <a href="#" type="button" id="movimiento" class="btn btn btn-default">
+                <a href="{{ route('stockajustes.show', $stock->id) }}" type="button" id="movimiento" class="btn btn btn-default">
                     <span class="fa fa-info">
                     </span>
                      Movimientos

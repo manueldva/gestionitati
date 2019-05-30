@@ -66,9 +66,12 @@ class StockajusteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        //
+        $stockajustes = Stockajuste::orderBy('fecha_alta','DESC')->where('stockarticulo_id', $id)->paginate(15);
+
+        $stock = Stockarticulo::find($id);
+        return view('admin.stockajustes.show', compact('stockajustes', 'stock'));
     }
 
     /**
