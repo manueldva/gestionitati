@@ -24,6 +24,7 @@ use App\Models\Perfil;
 use App\User;
 use Auth;
 
+use DB;
 
 use App\Helpers\FechaHelper;
 
@@ -239,7 +240,7 @@ class EmpleadoController extends Controller
 
         if($cantidad > 0) {
 
-            $contratosdesde = Clientedireccion::where('empleado_id',$request->get('empleadodesde_id'))->get();
+            /*$contratosdesde = Clientedireccion::where('empleado_id',$request->get('empleadodesde_id'))->get();
             foreach ($contratosdesde as $key => $value) {
                
 
@@ -247,8 +248,15 @@ class EmpleadoController extends Controller
                     $value->usuario_modi = Auth::user()->username;
                     $value->fecha_modi = date('Y-m-d H:i:s');
 
-                $value->save();
-            }
+                $value->save();*/
+
+            $query="update clientedirecciones set
+                    empleado_id = " . $request->get('empleadoatransferir_id') ." 
+                    where empleado_id  = " . $request->get('empleadodesde_id');
+
+            DB::select($query);
+
+            
 
             Alert::success('Se transfirieron '. $cantidad . ' Contratos a un nuevo empleado de reparto')->persistent("Cerrar");
         } else {
