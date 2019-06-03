@@ -115,6 +115,15 @@ class ArticuloController extends Controller
                 {
                     $articulo->precioreparto = $precio;
                     $articulo->save();
+                } else if ($tipoprecio_id == 3) // precio sucursal
+                {
+                    $articulo->preciosucursal = $precio;
+                    $articulo->save();
+                
+                } else if ($tipoprecio_id == 4) // precio herradura
+                {
+                    $articulo->precioherradura = $precio;
+                    $articulo->save();
                 }
             }
 
@@ -263,6 +272,16 @@ class ArticuloController extends Controller
             {
                 $detalleprecios[] = ['tipoprecio_id' => '2', 'tipoprecio'=> 'Precio con Reparto', 'precio' => $articulo->precioreparto ];
             }
+
+            if($articulo->preciosucursal  !== '' && $articulo->preciosucursal !== null && $articulo->preciosucursal !== '0.00') 
+            {
+                $detalleprecios[] = ['tipoprecio_id' => '3', 'tipoprecio'=> 'Precio Sucursal', 'precio' => $articulo->preciosucursal ];
+            }
+            if($articulo->precioherradura  !== '' && $articulo->precioherradura !== null && $articulo->precioherradura !== '0.00') 
+            {
+                $detalleprecios[] = ['tipoprecio_id' => '4', 'tipoprecio'=> 'Precio Herradura', 'precio' => $articulo->precioherradura ];
+            }
+
             
         } if($articulo->tipoarticulo_id == 2){  // 2 = plan
 
@@ -319,6 +338,12 @@ class ArticuloController extends Controller
             $listado_precios_array = explode('&&&', $listado_precios_text);
             array_pop($listado_precios_array);
 
+            $articulo->precioventa = null;
+            $articulo->precioreparto = null;
+            $articulo->preciosucursal = null;
+            $articulo->precioherradura   = null;
+            $articulo->save();
+            
             foreach ($listado_precios_array as $precio_text)
             {
                 list($tipoprecio_id, $precio) = explode('|', $precio_text);
@@ -331,6 +356,15 @@ class ArticuloController extends Controller
                 } else if ($tipoprecio_id == 2) // precio con reparto
                 {
                     $articulo->precioreparto = $precio;
+                    $articulo->save();
+                } else if ($tipoprecio_id == 3) // precio sucursal
+                {
+                    $articulo->preciosucursal = $precio;
+                    $articulo->save();
+                
+                } else if ($tipoprecio_id == 4) // precio herradura
+                {
+                    $articulo->precioherradura = $precio;
                     $articulo->save();
                 }
             }
