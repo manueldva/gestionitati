@@ -228,6 +228,7 @@
     <script type="text/javascript">
 
         $('.Modelo_Contratos').text('Modelo Contratos');
+        $('.Hoja_Ruta').text('Hoja de Ruta');
         /*$('.Remitos_Internos').text('Remitos Internos');
         $('.Manual_de_usuario').text('Manual de Usuario');*/
 
@@ -298,10 +299,10 @@
                         if(resultado[i]['descripcion'] == 'Modelo Contratos')
                         {
                             $('#Modelo_Contratos').hide();
-                        /*}if(resultado[i]['descripcion'] == 'Remitos Internos')
+                        }if(resultado[i]['descripcion'] == 'Hoja de Ruta')
                         {
-                            $('#Remitos_Internos').hide();
-
+                            $('#Hoja_Ruta').hide();
+                        /*
                         }if(resultado[i]['descripcion'] == 'Manual de usuario')
                         {
                             $('#Manual_de_usuario').hide();*/

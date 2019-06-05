@@ -16,6 +16,7 @@ class AddPreciosToArticulosTable extends Migration
         Schema::table('articulos', function (Blueprint $table) {
             $table->decimal('preciosucursal',12,2)->default(0)->nullable();
             $table->decimal('precioherradura',12,2)->default(0)->nullable();
+            $table->boolean('estado')->default(1);
 
         });
     }

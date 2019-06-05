@@ -59,10 +59,6 @@
 						<div id="precioplanspan" class="form-group has-error" style="display: none">
 							<span class="help-block">Campo Obligatorio</span>
 						</div>
-				  	</div>
-				  	<div class="form-group" id="envase">
-					  	{{ form::label('estado', 'Estado *') }}
-						{{ form::select('estado', ['1'=>'Activo', '0'=>'Inactivo'], null, ['class' => 'form-control'] ) }} 
 				  	</div>	
 			    </div>
 			    <!-- /.box-body -->

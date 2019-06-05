@@ -136,6 +136,11 @@ return [
             'text' => 'Stock',
             'url'  => 'stocks',
             'icon' => 'list-alt',
+        ],  
+        [
+            'text' => 'Hoja_Ruta',
+            'url'  => 'hojarutas',
+            'icon' => 'list-alt',
         ],     
         [
             'text'    => 'Complementos',
