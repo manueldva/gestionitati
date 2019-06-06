@@ -61,6 +61,10 @@ class Empleado extends Model
 
 
 
+    public function hojarutas(){ //vendedor
+        return $this->HasMany(Hojaruta::class);
+    }
+
 
     
 	 public function scopeType($query, $type, $valor, $valor2) 
