@@ -85,6 +85,14 @@ return array(
 		'status'	=> 'Estado'*/
 	] ,
 
+	'hojarutatypes' => [
+		''    		=> 'Seleccionar',
+		'fecha'  	=> 'Fecha',
+		'empleado' 	=> 'Empleado'
+		/*'name'		=> 'Nombre',
+		'status'	=> 'Estado'*/
+	] ,
+
 
 );
 

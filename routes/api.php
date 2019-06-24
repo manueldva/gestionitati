@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -235,3 +235,26 @@ Route::get('autocompleteempleadodesc', function() {
 });
 
 */
+
+
+
+Route::get('buscarruta', function() {
+
+    $news = request('b');
+    $barrios = implode(',', $news);
+   
+    $query="select co.id, DATE_FORMAT(co.fechacontrato, '%d/%m/%Y') fechacontrato, c.id cliente_id, c.apellido, c.nombre, ba.descripcion as barrio, ca.descripcion as calle, cd.numero, cd.manzana, cd.casa, cd.seccion, cd.lote, cd.edificiotorre, cd.piso, cd.observaciondomicilio, cd.referenciadomicilio, a.descripcion articulo, coart.cantidad  
+    from clientes c
+    inner join clientedirecciones cd on c.id = cd.cliente_id
+    inner join contratos co on cd.id = co.clientedireccion_id
+    inner join contratoarticulos coart on co.id = coart.contrato_id
+    inner join articulos a on coart.articulo_id = a.id
+    left join calles ca on ca.id = cd.calle_id
+    left join barrios ba on ba.id = cd.barrio_id
+    where cd.empleado_id = " . request('e') . " and c.estado = 1 and co.estado = 1 and barrio_id in(" . $barrios . ")
+    order by c.apellido Desc, co.fechacontrato";
+
+    $data = DB::select($query);
+
+    return $data;
+});

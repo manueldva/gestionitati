@@ -40,7 +40,7 @@ class StockController extends Controller
      */
     public function index(Request $request)
     {
-       $perfil = Perfil::find(Auth::user()->perfil_id);
+        $perfil = Perfil::find(Auth::user()->perfil_id);
         $modulo_actual = Modulo::where('valor', '=', 'STOCK')->get();
         $modulos = $perfil->modulos()->where('modulo_id', '=', $modulo_actual[0]->id)->get();
         $permiso = $modulos[0]->pivot->permiso;

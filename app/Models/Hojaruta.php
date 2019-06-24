@@ -21,4 +21,24 @@ class Hojaruta extends Model
     }
 
 
+    public function scopeType($query, $type, $valor, $empleado) 
+    {
+        
+        if ($type == 'fecha') 
+        {
+            $query->where('fecha', '=',  $valor)->orderBy('fecha');
+          
+        }else if ($type == 'empleado') 
+        {
+            $query->where('empleado_id', '=', $empleado)->orderBy('fecha');
+
+        } else
+        {
+              $query->orderBy('fecha');
+          
+        }
+    }
+
+
+
 }

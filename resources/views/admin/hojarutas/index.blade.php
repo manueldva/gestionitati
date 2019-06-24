@@ -1,15 +1,15 @@
 @extends('adminlte::page')
 
-@section('title', 'Gestión - Productos')
+@section('title', 'Gestión - Hoja de Ruta')
 
 @section('content_header')
   <h1>
-    Gestionar Productos
+    Gestionar Hoja de Ruta
     <!--<small>Listado</small>-->
   </h1>
   <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li><a href="{{ route('articulos.index')}}">Productos</a></li>
+    <li><a href="{{ route('hojarutas.index')}}">Hoja de Ruta</a></li>
     <li class="active">Listado</li>
   </ol>
 
@@ -24,86 +24,92 @@
 
 <div class="box box-primary">
 	<div class="box-header with-border box-default">
-	   <strong> Listado Productos </strong>
+	   <strong> Listado Hojas de Ruta  </strong>
 	   <form class="navbar-form navbar-right" role="search">
-	       {{ Form::model(Request::only('type', 'val', 'tipoarticulo'), array('route' => 'articulos.index', 'method' => 'GET'), array('role' => 'form', 'class' => 'navbar-form pull-right')) }}
+	       {{ Form::model(Request::only('type', 'val', 'empleados'), array('route' => 'hojarutas.index', 'method' => 'GET'), array('role' => 'form', 'class' => 'navbar-form pull-right')) }}
 			    <div class="form-group">
 			      {{ form::label('buscar', 'Tipo Busqueda:') }}
-			      {{ form::select('type', config('options.articulotypes'), null, ['class' => 'form-control', 'id' => 'type'] ) }}
-						&nbsp;
+			      {{ form::select('type', config('options.hojarutatypes'), null, ['class' => 'form-control', 'id' => 'type'] ) }}
+					&nbsp;
 			      {{ form::text('val', null, ['class' => 'form-control', 'id' => 'val']) }}
-						&nbsp;
-				   <span id="tipoarticulos" class="form-group">
-						{{ Form::select('tipoarticulo', $tipoarticulos, null, ['class'=>'form-control', 'id' => 'tipoarticulo','placeholder' => 'Seleccionar...']) }}
+				   <span id="empleado" class="form-group">
+						{{ Form::select('empleados', $empleados, null, ['class'=>'form-control', 'id' => 'empleados','placeholder' => 'Seleccionar...']) }}
 				  </span>
-				  &nbsp;
+			      &nbsp;
 			      <button type="submit" class="form-control btn btn-sm btn-success"><span class="glyphicon glyphicon-search"></span> Buscar</button>
-						&nbsp;
+					&nbsp;
 			      @if($permiso == 2)
-			      <a href="{{ route('articulos.create')}}" class="form-control btn btn-sm btn-primary">
+			      <a href="{{ route('hojarutas.create')}}" class="form-control btn btn-sm btn-primary">
 			        <span class="glyphicon glyphicon-plus"></span> Crear
 			      </a>  
 			      @endif
+			      
 			    </div>
 		    {{ Form::close() }}
       </form>
 	</div>
-		
+	
 	<div class="panel-body">
+		
 	    <div class="panel-body">
+
 	        <div class="row">
 	          <div class="table-responsive">
 	            <table class="table table-striped table-hover" data-form="Form">
 	              <thead>
 	                <tr>
 	                  <!--<th width="10px"> ID</th>-->
-	                  <th> Codigo</th>
-	                  <th> Descripción</th>
-	                  
-					  <th> Tipo Producto</th>
-	                  <th colspan="2">&nbsp;</th>
+	                  <th> Empleado</th>
+					  <th> Fecha</th>
+	                  <th> Estado</th>
+	                  <th colspan="1">&nbsp;</th>
 	                </tr>
 	              </thead>
 	              <tbody>
-	                @foreach ($articulos as $articulo)
+
+	                @foreach ($hojarutas as $hojaruta)
 	                  <tr>
-	                    <td>
-	                    	<a href="{{ route('articulos.show', $articulo->id) }}" style="color:#000000;">
-								{{ $articulo->id }}
-							</a>
-	                    </td>
-	                    <td>
-	                    	<a href="{{ route('articulos.show', $articulo->id) }}" style="color:#000000;">
-								{{ $articulo->descripcion }}
-							</a>
-	                    </td>
 						<td>
-							<a href="{{ route('articulos.show', $articulo->id) }}" style="color:#000000;">
-								{{ $articulo->tipoarticulo->descripcion }}
+							<a href="{{ route('hojarutas.show', $hojaruta->id) }}" style="color:#000000;">
+								{{ $hojaruta->empleado->empleado }}
+							</a>
+						</td>
+						<td>
+							<a href="{{ route('hojarutas.show', $hojaruta->id) }}" style="color:#000000;">
+								{{ $hojaruta->fecha }}
+							</a>
+						</td>
+						<td>
+							<a href="{{ route('hojarutas.show', $hojaruta->id) }}" style="color:#000000;">
+								{{ $hojaruta->estado }}
 							</a>
 						</td>
 	                    
+	                    
 	                    @if($permiso == 2) 
-	                    <td width="10px">
-	                      <a href="{{ route('articulos.edit', $articulo->id) }}" class="btn btn-sm btn-default">
-	                        Editar
-	                      </a>
-	                    </td>
-	                    <td width="10px">
-							{!! Form::model($articulo, ['method' => 'delete', 'route' => ['articulos.destroy', $articulo->id], 'class' =>'form-inline form-delete']) !!}
-							{!! Form::hidden('id', $articulo->id) !!}
-							{!! Form::submit('Eliminar', ['class' => 'btn btn-sm btn-danger delete', 'name' => 'delete_modal']) !!}
-							{!! Form::close() !!}
+		                    <td width="10px">
+		                      <a href="{{ route('hojarutas.edit', $hojaruta->id) }}" class="btn btn-sm btn-default">
+		                        Editar
+		                      </a>
+		                    </td>
+		                    <td width="10px">
+								{!! Form::model($hojaruta, ['method' => 'delete', 'route' => ['hojarutas.destroy', $hojaruta->id], 'class' =>'form-inline form-delete']) !!}
+								{!! Form::hidden('id', $hojaruta->id) !!}
+								{!! Form::submit('Eliminar', ['class' => 'btn btn-sm btn-danger delete', 'name' => 'delete_modal']) !!}
+								{!! Form::close() !!}
 
-	                    </td>
+		                    </td>
 	                    @endif
 	                  </tr>
 	                @endforeach
 	              </tbody>
 	            </table>
-	          </div>  
-						<div> <?php echo  'Mostrando ' . $articulos->firstItem() . ' a ' . $articulos->lastItem() . ' de ' . $articulos->total() . ' registros'; ?>	</div>
-	          {{ $articulos->appends(Request::only(['type', 'val', 'tipoarticulo']))->render() }}
+	          </div> 
+
+			  <div>
+			  	<strong> <?php echo  'Mostrando ' . $hojarutas->firstItem() . ' a ' . $hojarutas->lastItem() . ' de ' . $hojarutas->total() . ' registros'; ?>	</div>
+	          			{{ $hojarutas->appends(Request::only(['type', 'val' ,'empleados']))->render() }}
+	      		</strong>
 	        </div>
 	    </div>
     </div>
@@ -122,30 +128,26 @@
 
 	<script type="text/javascript">
 
-		$('#tipoarticulo').select2();
 
+		$('#empleados').select2();
+ 
 		function searchType(){ 
 		  var type = $('#type').val();
 			
-			if (type == 'codigo'){
+			if (type == 'fecha'){
 				$('#val').show();
-				$('#tipoarticulos').hide();
-				$('#val').attr('type','number');
-			} else if (type == 'descripcion')
-			{
-				$('#val').show();
-				$('#tipoarticulos').hide();
-				$('#val').attr('type','text');
-			} else if (type == 'tipoarticulo')
+				$('#empleado').hide();
+				$('#val').attr('type','date');
+			} else if (type == 'empleado')
 			{
 				$('#val').hide();
-				$('#tipoarticulos').show();
-				$('#val').attr('type','number');
+				$('#empleado').show();
+				$('#val').attr('type','date');
 			} else
 			{
 				$('#val').show();
-				$('#tipoarticulos').hide();
-				$('#val').attr('type','number');
+				$('#empleado').hide();
+				$('#val').attr('type','date');
 			}
 		}
 
@@ -157,11 +159,28 @@
 			searchType(); 
 			$('#val').val('');
 			$('#val').focus();
-			$('#tipoarticulo').val('').select2();
+			$('#empleados').val('').select2();
 			//$('#cajas').val($('#cajas option:first').val());
 			
 
 		});
+
+
+		/*$('#imprimir').on('click', function(e){
+            
+            var barrio = $("#barrios option:selected").attr("value")
+            //alert(barrio);
+            if (barrio !== '')
+            {
+                e.preventDefault();
+            	window.open("{{url('detalleclienteprint')}}/"+ barrio);
+            } else {
+            	return false;
+            }
+
+
+        });*/
+
 		
 	</script>
 @endpush
