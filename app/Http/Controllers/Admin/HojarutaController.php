@@ -14,17 +14,20 @@ use App\Models\Perfil;
 use App\Models\Tipoempleado;
 use App\Models\Empleado;
 use App\Models\Hojaruta;
+use App\Models\Hojarutadetalle;
+use App\Models\Hojarutaarticuloextra;
 use App\Models\Distrito;
 use App\Models\Barrio;
 use App\Models\Articulo;
-use App\Models\Tipotiempo;
-use App\Models\Tipoajuste;
-use App\Models\Proveedorajuste;
 use App\Models\Stockarticulo;
 use App\Models\Stockarticulodetalle;
 
 use DB;
 use Illuminate\Support\Facades\Input;
+
+use App\Helpers\FechaHelper;
+use Barryvdh\DomPDF\Facade as PDF;
+
 
 use Auth;
 
@@ -57,6 +60,12 @@ class HojarutaController extends Controller
             $articulo->fecha_alta = FechaHelper::getFechaImpresion($articulo->fecha_alta); 
         }*/
 
+         foreach($hojarutas as $hojaruta){
+            $hojaruta->fecha = FechaHelper::getFechaImpresion($hojaruta->fecha); 
+        }
+
+
+
         $hojarutas->setPath('hojarutas');
 
         $tipoempleado = Tipoempleado::where('descripcion', '=', 'Vendedor')->first();
@@ -79,6 +88,9 @@ class HojarutaController extends Controller
     public function create()
     {
         
+        $articulos  = Articulo::where('tipoarticulo_id', '=', 1)->orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+
         $tipoempleado = Tipoempleado::where('descripcion', '=', 'Vendedor')->first();
         if($tipoempleado) {
             $empleados  = Empleado::orderBy('empleado', 'ASC')->where('tipoempleado_id', $tipoempleado->id)->where('Sucursal_id', 1)->pluck('empleado' , 'id');
@@ -92,7 +104,7 @@ class HojarutaController extends Controller
 
         $barrios  = Barrio::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
-        return view('admin.hojarutas.create', compact('empleados', 'distritos', 'barrios'));
+        return view('admin.hojarutas.create', compact('empleados', 'distritos', 'barrios', 'articulos'));
 
     }
 
@@ -104,7 +116,79 @@ class HojarutaController extends Controller
      */
     public function store(Request $request)
     {
+        
+
+        //dd($request->all());
+
+        $hojaruta = Hojaruta::create($request->all());
+
+        //auditoria
+        $hojaruta->fill(['estado'=> 1, 'fecha' => date('Y-m-d H:i:s'), 'usuario_alta' => Auth::user()->username , 'fecha_alta' => date('Y-m-d H:i:s')])->save();
         //
+
+
+        $listado_articulos_text = $request->input("listado_articulos");
+
+        if($listado_articulos_text) {
+
+
+            $listado_articulos_array = explode('&&&', $listado_articulos_text);
+            array_pop($listado_articulos_array);
+
+
+
+            foreach ($listado_articulos_array as $articulo_text)
+            {
+                list($articulo_id, $cantidad) = explode('|', $articulo_text);
+
+                $hojaextra = new Hojarutaarticuloextra();
+                    $hojaextra->hojaruta_id = $hojaruta->id;
+                    $hojaextra->cantidad = $cantidad;
+                    $hojaextra->articulo_id = $articulo_id;
+                    $hojaextra->fecha = date('Y-m-d H:i:s');
+                    $hojaextra->estado = 1;
+                    $hojaextra->usuario_alta = Auth::user()->username;
+                    $hojaextra->fecha_alta = date('Y-m-d H:i:s');
+                $hojaextra->save();
+               
+            }
+        }
+
+
+        $listado_hojaruta_text = $request->input("listado_hojaruta");
+
+        if($listado_hojaruta_text) {
+
+
+            $listado_hojaruta_array = explode('&&&', $listado_hojaruta_text);
+            array_pop($listado_hojaruta_array);
+
+
+
+            foreach ($listado_hojaruta_array as $hojaruta_text)
+            {
+                list($clientedireccion_id,$cliente_id, $cantidad, $articulo_id, $contrato_id) = explode('|', $hojaruta_text);
+
+                $hojadetalle = new Hojarutadetalle();
+                    $hojadetalle->hojaruta_id = $hojaruta->id;
+                    $hojadetalle->cliente_id = $cliente_id;
+                    $hojadetalle->clientedireccion_id = $clientedireccion_id;
+                    $hojadetalle->contrato_id = $contrato_id;
+                    $hojadetalle->cantidad = $cantidad;
+                    $hojadetalle->articulo_id = $articulo_id;
+                    $hojadetalle->fecha = date('Y-m-d H:i:s');
+                    $hojadetalle->estado = 1;
+                    $hojadetalle->usuario_alta = Auth::user()->username;
+                    $hojadetalle->fecha_alta = date('Y-m-d H:i:s');
+                $hojadetalle->save();
+               
+            }
+        }
+
+
+
+        Alert::success('Hoja de ruta creada con exito')->persistent("Cerrar");
+        return redirect()->route('hojarutas.index');
     }
 
     /**
@@ -126,7 +210,8 @@ class HojarutaController extends Controller
      */
     public function edit($id)
     {
-        //
+        
+
     }
 
     /**
@@ -149,6 +234,62 @@ class HojarutaController extends Controller
      */
     public function destroy($id)
     {
-        //
+         
+        Hojarutadetalle::where('hojaruta_id', $id)->delete();    
+
+        Hojarutaarticuloextra::where('hojaruta_id', $id)->delete();    
+
+        Hojaruta::find($id)->delete();
+
+        Alert::success('Eliminado correctamente')->persistent('Cerrar');
+        return back();
     }
+
+
+
+    public function printhojaruta($id)
+    {
+
+        $hojaruta = Hojaruta::find($id);
+        
+        $query="select hrd.cliente_id, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END cliente,
+        DATE_FORMAT(co.fechacontrato, '%d/%m/%Y') fechacontrato,
+        ba.descripcion as barrio, c.tipocliente_id, ca.descripcion as calle, cd.numero, cd.manzana, cd.casa, cd.seccion, cd.lote, cd.edificiotorre, cd.piso, cd.observaciondomicilio, cd.referenciadomicilio,
+        a.descripcion articulo, hrd.cantidad
+        from hojarutas hr
+        inner join hojarutadetalles hrd on hr.id = hrd.hojaruta_id
+        inner join clientes c on hrd.cliente_id = c.id
+        inner join contratos co on hrd.contrato_id = co.id
+        inner join clientedirecciones cd on hrd.clientedireccion_id = cd.id
+        left join calles ca on ca.id = cd.calle_id
+        left join barrios ba on ba.id = cd.barrio_id
+        inner join articulos a on hrd.articulo_id = a.id
+        where hr.id = " . $id . "
+        order by c.apellido";
+
+        $hojarutas = DB::select($query);
+
+
+   
+        $query2="select count(distinct(clientedireccion_id)) cantidad from  hojarutadetalles
+        where hojaruta_id = " .$id ;
+
+        $data2 = DB::select($query2);
+
+        foreach ($data2 as $key => $value) {
+           $cantidad = $value->cantidad;
+        }
+
+
+        $extras = Hojarutaarticuloextra::where('hojaruta_id', $id)->get();
+        //dd($data2);
+
+        $pdf = PDF::loadView('admin.hojarutas.printhojaruta', compact('hojarutas', 'hojaruta', 'cantidad', 'extras'));
+        //$pdf->setPaper('Legal', 'landscape');
+
+        return $pdf->setPaper('Legal', 'landscape')->stream('hojaruta.pdf');
+
+        
+    }
+
 }

@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Gestión - Ajuste de Stock')
+@section('title', 'Gestión - Hoja de Ruta')
 
 @section('content_header')
     <h1>
@@ -9,8 +9,8 @@
     </h1>
     <ol class="breadcrumb">
       <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="{{ route('stocks.index')}}">Ajuste de Stock</a></li>
-      <li class="active">editar Stock</li>
+      <li><a href="{{ route('hojarutas.index')}}">Hoja de Ruta</a></li>
+      <li class="active">Cerrar Hoja</li>
     </ol>
 
 @stop
@@ -20,13 +20,13 @@
 
 <div class="box box-primary">
   <div class="box-header with-border box-default">
-    <strong>Editar Ajuste de Stock</strong>
+    <strong>Cerrar Hoja de Ruta</strong>
   </div>
     
   <div class="panel-body">
     <div class="row">
 
-      {!! Form::model($stock, ['route' => ['stocks.update', $stock->id], 'method' => 'PUT', 'files' => true, 'id' => 'form']) !!}
+      {!! Form::model($stock, ['route' => ['hojarutas.update', $hojaruta->id], 'method' => 'PUT', 'files' => true, 'id' => 'form']) !!}
   
         <div class="col-md-12" >
           <div class="row col-md-12">
@@ -52,7 +52,7 @@
                      Baja definitiva
                 </a>-->
                 &nbsp;&nbsp;&nbsp;
-                <a href="{{ route('stocks.index') }}" type="button" class="btn btn btn-default">
+                <a href="{{ route('hojarutas.index') }}" type="button" class="btn btn btn-default">
                 <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
                     <span class="fa fa-list">
                     </span>
@@ -68,7 +68,7 @@
   </div>
 </div>
 
-@include('admin.stocks.partials.form')
+@include('admin.hojarutas.partials.form')
 
 {!! Form::close() !!}
 

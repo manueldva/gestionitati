@@ -56,6 +56,7 @@ Route::get('/printcontrato/{id}', 'Admin\ContratoController@printcontrato');
 route::resource('stocks', 		'Admin\StockController');
 route::resource('stockajustes', 		'Admin\StockajusteController');
 route::resource('hojarutas', 		'Admin\HojarutaController');
+Route::get('/printhojaruta/{id}', 'Admin\HojarutaController@printhojaruta');
 
 /*route::resource('tareas', 		'Admin\TareaController');
 route::get('/TA_obtenerbases/{id}',		'Admin\TareaController@TA_obtenerbases')->name('TA_obtenerbases');

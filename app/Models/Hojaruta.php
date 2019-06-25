@@ -21,6 +21,18 @@ class Hojaruta extends Model
     }
 
 
+
+    public function hojarutaarticuloextras(){ //vendedor
+        return $this->HasMany(Hojarutaarticuloextra::class);
+    }
+
+
+    public function hojarutadetalles(){ //vendedor
+        return $this->HasMany(Hojarutadetalle::class);
+    }
+
+
+
     public function scopeType($query, $type, $valor, $empleado) 
     {
         

@@ -53,6 +53,11 @@ class Clientedireccion extends Model
         
         return $this->belongsTo(Departamento::class);
     }
+
+    public function hojarutadetalles(){ //vendedor
+        return $this->HasMany(Hojarutadetalle::class);
+    }
+
    
 
     public function scopeType($query, $type, $barrios) 

@@ -53,7 +53,11 @@ class Cliente extends Model
     }
 
     
-    
+    public function hojarutadetalles(){ //vendedor
+        return $this->HasMany(Hojarutadetalle::class);
+    }
+
+
 
 	public function scopeType($query, $type, $valor, $valor2, $barrios, $tipoclientes, $estados) 
     {

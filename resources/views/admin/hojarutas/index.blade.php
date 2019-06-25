@@ -59,16 +59,22 @@
 	              <thead>
 	                <tr>
 	                  <!--<th width="10px"> ID</th>-->
+	                  <th> Codigo Hoja Ruta</th>
 	                  <th> Empleado</th>
 					  <th> Fecha</th>
 	                  <th> Estado</th>
-	                  <th colspan="1">&nbsp;</th>
+	                  <th colspan="3">&nbsp;</th>
 	                </tr>
 	              </thead>
 	              <tbody>
 
 	                @foreach ($hojarutas as $hojaruta)
 	                  <tr>
+	                  	<td>
+							<a href="{{ route('hojarutas.show', $hojaruta->id) }}" style="color:#000000;">
+								{{ $hojaruta->id }}
+							</a>
+						</td>
 						<td>
 							<a href="{{ route('hojarutas.show', $hojaruta->id) }}" style="color:#000000;">
 								{{ $hojaruta->empleado->empleado }}
@@ -81,24 +87,33 @@
 						</td>
 						<td>
 							<a href="{{ route('hojarutas.show', $hojaruta->id) }}" style="color:#000000;">
-								{{ $hojaruta->estado }}
+								@if($hojaruta->estado == 1)
+									En Repartición
+								@else
+									Cerrada
+								@endif
 							</a>
 						</td>
-	                    
-	                    
+	                    <td width="10px">
+	                    	<a  href="{{ asset('printhojaruta/') . '/' . $hojaruta->id }}" target="blank_" class='btn btn-sm btn-success' title="Imprimir Hoja de Ruta">
+						                   		<span class='glyphicon glyphicon-print'></span>
+						                   	</a>
+						</td>
 	                    @if($permiso == 2) 
-		                    <td width="10px">
-		                      <a href="{{ route('hojarutas.edit', $hojaruta->id) }}" class="btn btn-sm btn-default">
-		                        Editar
-		                      </a>
-		                    </td>
-		                    <td width="10px">
-								{!! Form::model($hojaruta, ['method' => 'delete', 'route' => ['hojarutas.destroy', $hojaruta->id], 'class' =>'form-inline form-delete']) !!}
-								{!! Form::hidden('id', $hojaruta->id) !!}
-								{!! Form::submit('Eliminar', ['class' => 'btn btn-sm btn-danger delete', 'name' => 'delete_modal']) !!}
-								{!! Form::close() !!}
-
-		                    </td>
+	                    	@if($hojaruta->estado == 1)
+			                    <td width="10px">
+			                      <a href="{{ route('hojarutas.edit', $hojaruta->id) }}" class="btn btn-sm btn-default">
+			                        Cerrar Hoja
+			                      </a>
+			                    </td>
+			                    <td width="10px">
+			                    	
+										{!! Form::model($hojaruta, ['method' => 'delete', 'route' => ['hojarutas.destroy', $hojaruta->id], 'class' =>'form-inline form-delete']) !!}
+										{!! Form::hidden('id', $hojaruta->id) !!}
+										{!! Form::submit('Eliminar', ['class' => 'btn btn-sm btn-danger delete', 'name' => 'delete_modal']) !!}
+										{!! Form::close() !!}
+			                    </td>
+		                    @endif
 	                    @endif
 	                  </tr>
 	                @endforeach

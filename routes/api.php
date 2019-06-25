@@ -236,6 +236,22 @@ Route::get('autocompleteempleadodesc', function() {
 
 */
 
+/*Hoja de ruta*/
+Route::get('hojaruta_barrios', function() {
+
+    $query="select b.id, b.descripcion  from clientes c
+        inner join clientedirecciones cd on c.id = cd.cliente_id
+        inner join barrios b on b.id = cd.barrio_id
+        inner join contratos co on cd.id = co.clientedireccion_id
+        where cd.empleado_id = " . request('empleado_id') . "  and c.estado = 1 and co.estado = 1
+        group by  b.id, b.descripcion
+        order By b.descripcion; ";
+
+    $data = DB::select($query);
+
+    return $data;
+
+});
 
 
 Route::get('buscarruta', function() {
@@ -243,7 +259,7 @@ Route::get('buscarruta', function() {
     $news = request('b');
     $barrios = implode(',', $news);
    
-    $query="select co.id, DATE_FORMAT(co.fechacontrato, '%d/%m/%Y') fechacontrato, c.id cliente_id, c.apellido, c.nombre, ba.descripcion as barrio, ca.descripcion as calle, cd.numero, cd.manzana, cd.casa, cd.seccion, cd.lote, cd.edificiotorre, cd.piso, cd.observaciondomicilio, cd.referenciadomicilio, a.descripcion articulo, coart.cantidad  
+    $query="select co.id contrato_id, DATE_FORMAT(co.fechacontrato, '%d/%m/%Y') fechacontrato, c.id cliente_id, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END cliente, ba.descripcion as barrio, c.tipocliente_id, ca.descripcion as calle, cd.numero, cd.manzana, cd.casa, cd.seccion, cd.lote, cd.edificiotorre, cd.piso, cd.observaciondomicilio, cd.referenciadomicilio, cd.id clientedireccion_id, a.id as articulo_id, a.descripcion articulo, coart.cantidad  
     from clientes c
     inner join clientedirecciones cd on c.id = cd.cliente_id
     inner join contratos co on cd.id = co.clientedireccion_id
@@ -258,3 +274,27 @@ Route::get('buscarruta', function() {
 
     return $data;
 });
+
+
+Route::get('hojaruta_cant_docimicilios', function() {
+
+    $news = request('b');
+    $barrios = implode(',', $news);
+   
+    $query="select count(cd.id) cantidad from clientes c
+        inner join clientedirecciones cd on c.id = cd.cliente_id
+         inner join (
+            select distinct(clientedireccion_id)  from contratos where  estado = 1 
+            order by clientedireccion_id, fechacontrato desc
+        ) as last_cotrato on cd.id = last_cotrato.clientedireccion_id
+        where cd.empleado_id = " . request('e') . " and c.estado = 1 and barrio_id in(" . $barrios . ")";
+
+    $data = DB::select($query);
+
+    foreach ($data as $key => $value) {
+       $cantidad = $value->cantidad;
+    }
+    return $cantidad;
+});
+
+/*--------------------*/

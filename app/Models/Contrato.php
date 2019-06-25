@@ -24,6 +24,12 @@ class Contrato extends Model
         return $this->belongsTo(Cliente::class);
     }
 
+
+    public function hojarutadetalles(){ //vendedor
+        return $this->HasMany(Hojarutadetalle::class);
+    }
+
+
     
 	/*public function scopeType($query, $type, $valor) 
     {
