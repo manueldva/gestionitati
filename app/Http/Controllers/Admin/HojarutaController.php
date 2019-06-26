@@ -102,6 +102,7 @@ class HojarutaController extends Controller
 
         $distritos  = Distrito::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
+        
         $barrios  = Barrio::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
         return view('admin.hojarutas.create', compact('empleados', 'distritos', 'barrios', 'articulos'));
@@ -265,7 +266,7 @@ class HojarutaController extends Controller
         left join barrios ba on ba.id = cd.barrio_id
         inner join articulos a on hrd.articulo_id = a.id
         where hr.id = " . $id . "
-        order by c.apellido";
+        order by hrd.id";
 
         $hojarutas = DB::select($query);
 
@@ -282,12 +283,26 @@ class HojarutaController extends Controller
 
 
         $extras = Hojarutaarticuloextra::where('hojaruta_id', $id)->get();
-        //dd($data2);
+        
 
-        $pdf = PDF::loadView('admin.hojarutas.printhojaruta', compact('hojarutas', 'hojaruta', 'cantidad', 'extras'));
+        //dd(count($hojarutas));
+        if(count($hojarutas) > 200)
+        {
+            return view('admin.hojarutas.printhojaruta', compact('hojarutas', 'hojaruta', 'cantidad', 'extras'));
+        } else
+        {
+            $pdf = PDF::loadView('admin.hojarutas.printhojaruta', compact('hojarutas', 'hojaruta', 'cantidad', 'extras'));
+            //$pdf->setPaper('Legal', 'landscape');
+
+            return $pdf->setPaper('Legal', 'landscape')->stream('hojaruta.pdf');
+
+        }
+
+
+        /*$pdf = PDF::loadView('admin.hojarutas.printhojaruta', compact('hojarutas', 'hojaruta', 'cantidad', 'extras'));
         //$pdf->setPaper('Legal', 'landscape');
 
-        return $pdf->setPaper('Legal', 'landscape')->stream('hojaruta.pdf');
+        return $pdf->setPaper('Legal', 'landscape')->stream('hojaruta.pdf');*/
 
         
     }

@@ -35,7 +35,6 @@
 						{{ form::label('barrio_id', 'Barrio') }}					
 						{{ form::select('barrio_id',  [], null, ['class' => 'form-control', 'multiple'=> 'multiple'] ) }} 
 					</div>
-
 					<div class="form-group">
 						<a type="button" id="buscarruta" name="buscarruta" class="btn btn btn-success">
 							<span class="glyphicon glyphicon-search">
@@ -250,7 +249,12 @@
 			 
 		      $.each(data, function(fetch, barrio){
 		        console.log(data);
-		        $('#barrio_id').append('<option value="'+ barrio.id +'">'+ barrio.descripcion +'</option>');
+		        if(barrio.localidad_id !== 1) {
+		        	$('#barrio_id').append('<option value="'+ barrio.id +'">'+ barrio.descripcion +' - ' + barrio.localidad + '</option>');
+		        } else {
+		        	$('#barrio_id').append('<option value="'+ barrio.id +'">'+ barrio.descripcion +'</option>');
+		        }
+		        
 		      })
 		    });
 
@@ -418,7 +422,7 @@
 				url: APP_URL + '/api/buscarruta',
 				//async: false,
 				//url: '../api/validardocumento',
-				data: {e: $('#empleado_id').val(), b: $('#barrio_id').val()}
+				data: {e: $('#empleado_id').val(), b: $('#barrio_id').val(), o: $('#orden').val()}
 			}).done(function(data) {
 				//var $empleado = $('#empleado'); 
 
@@ -429,7 +433,7 @@
 						direccion = 'B° ' + value.barrio;
 
 						if(value.calle){
-							direccion = direccion + ' Calle ' + value.barrio;
+							direccion = direccion + ' Calle ' + value.calle;
 						}
 
 						if(value.numero){

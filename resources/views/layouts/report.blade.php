@@ -37,7 +37,9 @@
 	    th,td {
 	      padding: 3pt;
 	      border-bottom: 1px solid #A3A3A3;
-	    }           
+	      border: 1px solid black;
+	    }
+
 	    table{
 	      border-collapse: collapse;
 	      border-bottom: 1px solid #A3A3A3;

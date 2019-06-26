@@ -239,12 +239,13 @@ Route::get('autocompleteempleadodesc', function() {
 /*Hoja de ruta*/
 Route::get('hojaruta_barrios', function() {
 
-    $query="select b.id, b.descripcion  from clientes c
+    $query="select b.id, b.descripcion, b.localidad_id, l.descripcion localidad  from clientes c
         inner join clientedirecciones cd on c.id = cd.cliente_id
         inner join barrios b on b.id = cd.barrio_id
         inner join contratos co on cd.id = co.clientedireccion_id
+        inner join localidades l on l.id = b.localidad_id
         where cd.empleado_id = " . request('empleado_id') . "  and c.estado = 1 and co.estado = 1
-        group by  b.id, b.descripcion
+        group by  b.id, b.descripcion, b.localidad_id, l.descripcion
         order By b.descripcion; ";
 
     $data = DB::select($query);
@@ -256,8 +257,10 @@ Route::get('hojaruta_barrios', function() {
 
 Route::get('buscarruta', function() {
 
-    $news = request('b');
-    $barrios = implode(',', $news);
+    $select_barrio = request('b');
+    $barrios = implode(',', $select_barrio);
+
+
    
     $query="select co.id contrato_id, DATE_FORMAT(co.fechacontrato, '%d/%m/%Y') fechacontrato, c.id cliente_id, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END cliente, ba.descripcion as barrio, c.tipocliente_id, ca.descripcion as calle, cd.numero, cd.manzana, cd.casa, cd.seccion, cd.lote, cd.edificiotorre, cd.piso, cd.observaciondomicilio, cd.referenciadomicilio, cd.id clientedireccion_id, a.id as articulo_id, a.descripcion articulo, coart.cantidad  
     from clientes c
@@ -268,7 +271,7 @@ Route::get('buscarruta', function() {
     left join calles ca on ca.id = cd.calle_id
     left join barrios ba on ba.id = cd.barrio_id
     where cd.empleado_id = " . request('e') . " and c.estado = 1 and co.estado = 1 and barrio_id in(" . $barrios . ")
-    order by c.apellido Desc, co.fechacontrato";
+    order by ca.descripcion DESC , ba.descripcion DESC , CAST(cd.numero AS INTEGER) DESC, cd.seccion DESC, CAST(cd.manzana AS INTEGER) DESC, CAST(cd.casa AS INTEGER) DESC, cd.edificiotorre DESC, cd.piso, cd.lote, cd.referenciadomicilio  DESC, co.fechacontrato";
 
     $data = DB::select($query);
 
@@ -278,9 +281,9 @@ Route::get('buscarruta', function() {
 
 Route::get('hojaruta_cant_docimicilios', function() {
 
-    $news = request('b');
-    $barrios = implode(',', $news);
-   
+    $select_barrio = request('b');
+    $barrios = implode(',', $select_barrio);
+
     $query="select count(cd.id) cantidad from clientes c
         inner join clientedirecciones cd on c.id = cd.cliente_id
          inner join (

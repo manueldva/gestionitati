@@ -1,6 +1,11 @@
 @extends('layouts.report')
 
 @section('cuerpo')
+@if(count($hojarutas) > 200)
+	<style type="text/css" media="print">
+	 @page {size: Oficio landscape}
+	</style>
+@endif
 
  <h3><center>Vendedor:  {{ $hojaruta->empleado->empleado }}</h3>
 <h3><center> Cantidad de domicilios a visitar:  {{ $cantidad}}</h3>
@@ -47,93 +52,146 @@
 		</thead>
 		<tbody>
 			@foreach ($hojarutas as $hojaruta)
+		
+                <tr>
+                  	<td >
+                  		<center>
+						{{ $hojaruta->cliente_id }}
+						</center>
+					</td>
+					<td >
+						<center>
+						{{ $hojaruta->cliente }}
+						</center>
+					</td>
+					<td >
+						<center>
+						B° {{ $hojaruta->barrio }}
+						@if($hojaruta->calle)
+							Calle {{ $hojaruta->calle }}
+						@endif
+						@if($hojaruta->numero)
+							Nro. {{ $hojaruta->numero }}
+						@endif
+						@if($hojaruta->manzana)
+							Mz. {{ $hojaruta->manzana }}
+						@endif
+						@if($hojaruta->casa)
+							C. {{ $hojaruta->casa }}
+						@endif
+						@if($hojaruta->seccion)
+							Seccion {{ $hojaruta->seccion }}
+						@endif
+						@if($hojaruta->lote)
+							Lote {{ $hojaruta->lote }}
+						@endif
+						@if($hojaruta->edificiotorre)
+							Edificio {{ $hojaruta->edificiotorre }}
+						@endif
+						@if($hojaruta->piso)
+							Piso/Dpto {{ $hojaruta->piso }}
+						@endif
+						@if($hojaruta->referenciadomicilio)
+							Ref. {{ $hojaruta->referenciadomicilio }}
+						@endif
+
+						</center>
+					</td>
+					<td >
+						<center>
+						{{ $hojaruta->articulo }}
+						</center>
+					</td>
+					<td>
+						<center>
+						{{ $hojaruta->cantidad }}
+						</center>
+					</td>
+                    <td>
+						
+					</td>
+                </tr>
+            @endforeach
+		</tbody>
+	</table>				
+</div>
+
+<br>
+<br>
+
+@if(count($extras) > 0)
+
+	<h3><center> Articulos Extras</h3>
+
+	<div class="portlet-body">
+		<table id="extras" class="table table-striped table-bordered table-advance table-hover table-responsive tablesorter">
+												
+			<thead>
+				<tr>
+		            <th>
+						<center>
+							<i></i>  Codigo
+						</center>	
+					</th>
+					<th>
+						<center>
+							<i></i> Articulo
+						</center>	
+					</th>
+					<th>
+						<center>
+							<i></i> Cantidad
+						</center>
+					</th>
+					
+				</tr>
+			</thead>
+			<tbody>
+				@foreach ($extras as $extra)
 	                  <tr>
 	                  	<td>
 	                  		<center>
-							{{ $hojaruta->cliente_id }}
+							{{ $extra->articulo->codigo }}
 							</center>
 						</td>
 						<td>
 							<center>
-							{{ $hojaruta->cliente }}
+							{{ $extra->articulo->descripcion }}
 							</center>
 						</td>
 						<td>
 							<center>
-							{{ $hojaruta->barrio }}
+							{{ $extra->cantidad }}
 							</center>
-						</td>
-						<td>
-							<center>
-							{{ $hojaruta->articulo }}
-							</center>
-						</td>
-						<td>
-							<center>
-							{{ $hojaruta->cantidad }}
-							</center>
-						</td>
-	                    <td>
-							
 						</td>
 	                  </tr>
 	                @endforeach
-		</tbody>
-	</table>				
-</div>
+			</tbody>
+		</table>				
+	</div>
 
-<br>
-<br>
+@endif
+<script>
+
+  	var cantidad = {!! count($hojarutas) !!};
+
+	 if(cantidad > 200) {
+		window. onload = function () {
+		    window.print();
+		    setTimeout(function () { window.close(); }, 100);
+		}
+
+	}
+  /*window. onload = function () {
+    window.print();
+    setTimeout(function () { window.close(); }, 100);
+  }*/
 
 
-<h3><center> Articulos Extras</h3>
 
-<div class="portlet-body">
-	<table id="extras" class="table table-striped table-bordered table-advance table-hover table-responsive tablesorter">
-											
-		<thead>
-			<tr>
-	            <th>
-					<center>
-						<i></i>  Codigo
-					</center>	
-				</th>
-				<th>
-					<center>
-						<i></i> Articulo
-					</center>	
-				</th>
-				<th>
-					<center>
-						<i></i> Cantidad
-					</center>
-				</th>
-				
-			</tr>
-		</thead>
-		<tbody>
-			@foreach ($extras as $extra)
-                  <tr>
-                  	<td>
-                  		<center>
-						{{ $extra->articulo->codigo }}
-						</center>
-					</td>
-					<td>
-						<center>
-						{{ $extra->articulo->descripcion }}
-						</center>
-					</td>
-					<td>
-						<center>
-						{{ $extra->cantidad }}
-						</center>
-					</td>
-                  </tr>
-                @endforeach
-		</tbody>
-	</table>				
-</div>
+
+</script>
+
 
 @endsection
 
