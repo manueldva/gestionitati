@@ -5,6 +5,32 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use App\Http\Requests\ModuloStoreRequest;
+use App\Http\Requests\ModuloUpdateRequest;
+use Alert;
+
+use App\Models\Modulo;
+use App\Models\Perfil;
+use App\Models\Tipoempleado;
+use App\Models\Empleado;
+use App\Models\Hojaruta;
+use App\Models\Hojarutadetalle;
+use App\Models\Hojarutaarticuloextra;
+use App\Models\Distrito;
+use App\Models\Barrio;
+use App\Models\Articulo;
+use App\Models\Stockarticulo;
+use App\Models\Stockarticulodetalle;
+
+use DB;
+use Illuminate\Support\Facades\Input;
+
+use App\Helpers\FechaHelper;
+use Barryvdh\DomPDF\Facade as PDF;
+
+
+use Auth;
+
 class AsignarStockController extends Controller
 {
     /**
@@ -14,7 +40,7 @@ class AsignarStockController extends Controller
      */
     public function index()
     {
-        //
+        echo "string";
     }
 
     /**
