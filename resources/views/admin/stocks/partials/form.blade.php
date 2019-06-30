@@ -78,8 +78,14 @@
 			      <h3 class="box-title">Articulos del Stock:</h3>
 			    </div>
 			    <!-- /.box-header -->
-			    <div class="box-body">
-					
+				    <div class="box-body">
+						<div class="form-group">
+						{{ form::label('descripcion', 'Descripcion *') }}
+						{{ form::text('descripcion', null, ['class' => 'form-control', 'id' => 'descripcion']) }}
+						<div id="descripcionspan" class="form-group has-error" style="display: none">
+							<span class="help-block">Campo Obligatorio</span>
+						</div>
+					</div>
 					<div class="form-group">
 					<div class="table-responsive">
 						<table class="table table-striped table-hover" data-form="Form">
@@ -242,9 +248,11 @@
 		/*para agregar articulos al listado*/
 		$( "#agregararticulo" ).click(function() {
 
+			//$("#agregararticulo").attr("disabled", true);
+			//$('#agregararticulo').hide();
 			if($('#sucursal_id').val() == '') {
 
-
+				$('#agregararticulo').show();
 				toastr.error('Debe seleccionar una sucursal para dar de alta los articulos');
 				return false;
 			}
@@ -252,7 +260,7 @@
 
 			if($('#articulo_id').val() == '') {
 
-
+				$('#agregararticulo').show();
 				toastr.error('No se puede agregar este articulo. Faltan datos');
 				return false;
 			}
@@ -353,6 +361,13 @@
 			   	$('#sucursal_idspan').show();
       		} else {
       			$('#sucursal_idspan').hide();
+      		}
+
+      		if ($('#descripcion').val() == ''){
+      			estadocampos = 1;
+			   	$('#descripcionspan').show();
+      		} else {
+      			$('#descripcionspan').hide();
       		}
 
 

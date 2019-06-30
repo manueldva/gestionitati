@@ -13,7 +13,7 @@
 	    </div>
 	    <!-- /.box-header -->
 	    <div class="box-body">
-			<div class="col-md-6">
+			<div class="col-md-12">
 			  <!--<div class="box box-default">-->
 			    <div class="box-header with-border">
 			     
@@ -32,8 +32,15 @@
 											{{ form::number('stockactual', null, ['class' => 'form-control', 'id' => 'stockactual', 'readonly']) }}
 										</td>
 										<td> 
-											{{ form::label('stockminimo', 'Stock Minimo *') }}
+											{{ form::label('stockminimo', 'Stock Minimo') }}
 											{{ form::number('stockminimo', null, ['class' => 'form-control', 'id' => 'stockminimo', 'readonly']) }}
+											
+										</td>
+									</tr>
+									<tr>
+										<td> 
+											{{ form::label('descripcion', 'Descripcion') }}
+											{{ form::text('descripcion', null, ['class' => 'form-control', 'id' => 'descripcion', 'readonly']) }}
 											
 										</td>
 									</tr>
@@ -48,52 +55,7 @@
 			</div>
 			<!-- /.col -->
 
-			<div class="col-md-6">
-			  <!--<div class="box box-default">-->
-			    
-			    <div class="box-header with-border">
-			      
-
-			      <h3 class="box-title">Articulos del Stock:</h3>
-			    </div>
-			    <!-- /.box-header -->
-			    <div class="box-body">
-					
-					<div class="form-group">
-						<div class="table-responsive">
-							
-							<div class="form-group">
-								<div class="table-responsive">
-									<table   id="table_articulos" class="table table-striped table-hover" data-form="Form">
-										<thead>
-											<tr>
-											<!--<th width="10px"> ID</th>-->
-												<th><center> Codigo</center></th>
-												<th> <center>Articulo</center></th>
-												
-											</tr>
-										</thead>
-										<tbody>
-											@isset($stockdetalles)
-												@foreach ($stockdetalles as $stockdetalle)
-								                  <tr>
-								                    <td><center>{{ $stockdetalle->articulo_id }}</center></td>
-								                    <td><center>{{ $stockdetalle->articulo->descripcion }}</center></td>
-									                    
-								                  </tr>
-								                @endforeach
-											@endif
-										</tbody>
-									</table>
-									
-								</div>
-							</div>
-						</div>
-					</div>
-
-			    </div>
-			    <!-- /.box-body -->
-			</div>
+			
 
 	 	</div>
 	    <!-- /.box-body -->

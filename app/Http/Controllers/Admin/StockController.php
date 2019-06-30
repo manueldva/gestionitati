@@ -116,7 +116,7 @@ class StockController extends Controller
     {
         $stock = Stockarticulo::create($request->all());
 
-        $descripciontemp = '';
+        //$descripciontemp = '';
 
         $listado_articulos_text = $request->input("listado_articulos");
 
@@ -140,18 +140,18 @@ class StockController extends Controller
 
                 $stockdetalle->save();
 
-                if($descripciontemp == '')
+                /*if($descripciontemp == '')
                 {
                     $descripciontemp = $descripcion;
                 } else 
                 {
                     $descripciontemp = $descripciontemp . ' - ' . $descripcion;
-                }
+                }*/
             }
         }
 
         //auditoria
-        $stock->fill(['descripcion' => $descripciontemp, 'usuario_alta' => Auth::user()->username , 'fecha_alta' => date('Y-m-d H:i:s')])->save();
+        $stock->fill(['usuario_alta' => Auth::user()->username , 'fecha_alta' => date('Y-m-d H:i:s')])->save();
         //
 
 
@@ -225,7 +225,7 @@ class StockController extends Controller
 
         //$stock = Stockarticulo::create($request->all());
 
-        $descripciontemp = '';
+        //$descripciontemp = '';
 
         $listado_articulos_text = $request->input("listado_articulos");
 
@@ -250,18 +250,18 @@ class StockController extends Controller
 
                 $stockdetalle->save();
 
-                if($descripciontemp == '')
+                /*if($descripciontemp == '')
                 {
                     $descripciontemp = $descripcion;
                 } else 
                 {
                     $descripciontemp = $descripciontemp . ' - ' . $descripcion;
-                }
+                }*/
             }
         }
 
         //auditoria
-        $stock->fill(['descripcion' => $descripciontemp, 'usuario_modi' => Auth::user()->username , 'fecha_modi' => date('Y-m-d H:i:s')])->save();
+        $stock->fill(['usuario_modi' => Auth::user()->username , 'fecha_modi' => date('Y-m-d H:i:s')])->save();
         //
 
 

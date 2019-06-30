@@ -133,9 +133,22 @@ return [
             'icon' => 'file',
         ],
         [
-            'text' => 'Stock',
-            'url'  => 'stocks',
-            'icon' => 'list-alt',
+            'text'    => 'Stock',
+            'icon'    => 'list-alt',
+            'submenu' => [
+                /*[
+                    'text' => 'Usuarios',
+                    'url'  => 'manageusers',
+                ],*/
+                 [
+                    'text' => 'Stock y Ajustes',
+                    'url'  => 'stocks',
+                ],
+                [
+                    'text' => 'Asignar Stock',
+                    'url'  => 'asignaciones',
+                ]
+            ]
         ],  
         [
             'text' => 'Hoja_Ruta',
