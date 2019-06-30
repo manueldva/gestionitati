@@ -38,9 +38,13 @@ class AsignarStockController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        echo "string";
+        $perfil = Perfil::find(Auth::user()->perfil_id);
+        $modulo_actual = Modulo::where('valor', '=', 'STOCK')->get();
+        $modulos = $perfil->modulos()->where('modulo_id', '=', $modulo_actual[0]->id)->get();
+        $permiso = $modulos[0]->pivot->permiso;
+ 
     }
 
     /**
