@@ -262,7 +262,7 @@ Route::get('buscarruta', function() {
 
 
    
-    $query="select co.id contrato_id, DATE_FORMAT(co.fechacontrato, '%d/%m/%Y') fechacontrato, c.id cliente_id, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END cliente, ba.descripcion as barrio, c.tipocliente_id, ca.descripcion as calle, cd.numero, cd.manzana, cd.casa, cd.seccion, cd.lote, cd.edificiotorre, cd.piso, cd.observaciondomicilio, cd.referenciadomicilio, cd.id clientedireccion_id, a.id as articulo_id, a.descripcion articulo, coart.cantidad  
+   /* $query="select c.id cliente_id, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END cliente, ba.descripcion as barrio, c.tipocliente_id, ca.descripcion as calle, cd.numero, cd.manzana, cd.casa, cd.seccion, cd.lote, cd.edificiotorre, cd.piso, cd.observaciondomicilio, cd.referenciadomicilio, cd.id clientedireccion_id, a.id as articulo_id, a.descripcion articulo, coart.cantidad  
     from clientes c
     inner join clientedirecciones cd on c.id = cd.cliente_id
     inner join contratos co on cd.id = co.clientedireccion_id
@@ -271,7 +271,24 @@ Route::get('buscarruta', function() {
     left join calles ca on ca.id = cd.calle_id
     left join barrios ba on ba.id = cd.barrio_id
     where cd.empleado_id = " . request('e') . " and c.estado = 1 and co.estado = 1 and barrio_id in(" . $barrios . ")
-    order by ca.descripcion DESC , ba.descripcion DESC , CAST(cd.numero AS INTEGER) DESC, cd.seccion DESC, CAST(cd.manzana AS INTEGER) DESC, CAST(cd.casa AS INTEGER) DESC, cd.edificiotorre DESC, cd.piso, cd.lote, cd.referenciadomicilio  DESC, co.fechacontrato";
+    order by ca.descripcion DESC , ba.descripcion DESC , CAST(cd.numero AS INTEGER) DESC, cd.seccion DESC, CAST(cd.manzana AS INTEGER) DESC, CAST(cd.casa AS INTEGER) DESC, cd.edificiotorre DESC, cd.piso, cd.lote, cd.referenciadomicilio  DESC
+
+    ";*/
+
+     $query="select cliente_id, cliente, barrio, tipocliente_id, calle, numero, manzana, casa, seccion, lote, edificiotorre, piso, observaciondomicilio, referenciadomicilio, clientedireccion_id, articulo_id, articulo, sum(cantidad) cantidad   
+        from (select c.id cliente_id, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END cliente, ba.descripcion as barrio, c.tipocliente_id, ca.descripcion as calle, cd.numero, cd.manzana, cd.casa, cd.seccion, cd.lote, cd.edificiotorre, cd.piso, cd.observaciondomicilio, cd.referenciadomicilio, cd.id clientedireccion_id, a.id as articulo_id, a.descripcion articulo, coart.cantidad  
+    from clientes c
+    inner join clientedirecciones cd on c.id = cd.cliente_id
+    inner join contratos co on cd.id = co.clientedireccion_id
+    inner join contratoarticulos coart on co.id = coart.contrato_id
+    inner join articulos a on coart.articulo_id = a.id
+    left join calles ca on ca.id = cd.calle_id
+    left join barrios ba on ba.id = cd.barrio_id
+    where cd.empleado_id = " . request('e') . " and c.estado = 1 and co.estado = 1 and barrio_id in(" . $barrios . ")
+   ) as subconsulta
+    group by cliente_id, cliente, barrio, tipocliente_id, calle, numero, manzana, casa, seccion, lote, edificiotorre, piso, observaciondomicilio, referenciadomicilio, clientedireccion_id, articulo_id, articulo
+    order by calle DESC , barrio DESC , CAST(numero AS INTEGER) DESC, seccion DESC, CAST(manzana AS INTEGER) DESC, CAST(casa AS INTEGER) DESC, edificiotorre DESC, piso, lote, referenciadomicilio  DESC";
+
 
     $data = DB::select($query);
 
@@ -300,4 +317,51 @@ Route::get('hojaruta_cant_docimicilios', function() {
     return $cantidad;
 });
 
+
+
+Route::get('detalleclientehojaruta', function() {
+
+   $query="select hrd.id, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END cliente,
+        ba.descripcion as barrio, c.tipocliente_id, ca.descripcion as calle, cd.numero, cd.manzana, cd.casa, cd.seccion, cd.lote, cd.edificiotorre, cd.piso, cd.observaciondomicilio, cd.referenciadomicilio,
+        a.descripcion articulo, hrd.cantidad
+        from hojarutas hr
+        inner join hojarutadetalles hrd on hr.id = hrd.hojaruta_id
+        inner join clientes c on hrd.cliente_id = c.id
+        inner join clientedirecciones cd on hrd.clientedireccion_id = cd.id
+        left join calles ca on ca.id = cd.calle_id
+        left join barrios ba on ba.id = cd.barrio_id
+        inner join articulos a on hrd.articulo_id = a.id
+        where hr.id = " . request('hoj') . " and hrd.estado = 1 and c.id = " . request('cli') . "
+        order by hrd.id";
+
+    $data = DB::select($query);
+    
+    if(!$data){
+        $data = 0;
+    }
+
+
+    return $data;
+});
+
+
 /*--------------------*/
+
+/*stock*/
+Route::get('stockarticulos', function() {
+
+    return App\Models\Stockarticulo::where('sucursal_id', '=', request('sucursal_id'))->orderBy('descripcion')->get();
+});
+
+Route::get('stockarticulo', function() {
+
+    $stockarticulo = App\Models\Stockarticulo::where('id', '=', request('q'))->first();
+    if(!$stockarticulo){
+        $stockarticulo = 0;
+    }
+    return $stockarticulo;
+});
+
+
+
+/*----------*/

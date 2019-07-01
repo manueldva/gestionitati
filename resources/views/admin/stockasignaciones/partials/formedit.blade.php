@@ -18,29 +18,26 @@
 			    <div class="box-header with-border">
 			     
 
-			      <h3 class="box-title">Ingresar los datos de la asignacion:</h3>
+			      <h3 class="box-title">datos de la asignacion:</h3>
 			    </div>
 			    <!-- /.box-header -->
 			    <div class="box-body">
+			    	<div class="form-group">
+						{{ form::label('codigo', 'Codigo Asignacion') }}
+						{{ form::text('id', null, ['class' => 'form-control', 'id' => 'id', 'readonly']) }}
+					</div>
 
 			    	<div class="form-group">
-						{{ form::label('empleado_id', 'Vendedor *') }}
-						{{ form::select('empleado_id',  $empleados, null, ['class' => 'form-control' ,'placeholder' => 'Seleccionar...']) }} 
-						<div id="empleado_idspan" class="form-group has-error" style="display: none">
-							<span class="help-block">Campo Obligatorio</span>
-						</div>
+						{{ form::label('empleado_id', 'Vendedor') }}
+						{{ form::text('empleado_id', $stockasignacion->empleado->empleado, ['class' => 'form-control', 'id' => 'empleado_id', 'readonly']) }}
 					</div>
 					<div class="form-group">
-						{{ form::label('fecha', 'Fecha *') }}
-						{{ form::date('fecha', null, ['class' => 'form-control', 'id' => 'fecha']) }}
-						<div id="fechaspan" class="form-group has-error" style="display: none">
-							<span class="help-block">Campo Obligatorio</span>
-						</div>
+						{{ form::label('fecha', 'Fecha') }}
+						{{ form::date('fecha', null, ['class' => 'form-control', 'id' => 'fecha', 'readonly']) }}
 					</div>
-			      	
 			      	<div class="form-group">
 			      		{{ form::label('observacion', 'Observacion') }}
-						{{ form::textarea('observacion', null, ['class' => 'form-control', 'id'=>'observacion', 'rows' => 5, 'cols' => 40, 'maxlength' =>'100']) }}
+						{{ form::textarea('observacion', null, ['class' => 'form-control', 'id'=>'observacion', 'rows' => 5, 'cols' => 40, 'maxlength' =>'100', 'readonly']) }}
 			      	</div>
 			    </div>
 			    <!-- /.box-body -->
@@ -55,58 +52,18 @@
 			    <div class="box-header with-border">
 			      
 
-			      <h3 class="box-title">Asignar Stock:</h3>
+			      <h3 class="box-title">Stock Asignado:</h3>
 			    </div>
 			    <!-- /.box-header -->
 				    <div class="box-body">
 						<div class="form-group">
-							{{ form::label('sucursal_id', 'Sucursal *') }}
-							{{ form::select('sucursal_id',  $sucursales, null, ['class' => 'form-control' ,'placeholder' => 'Seleccionar...']) }} 
-							<div id="sucursal_idspan" class="form-group has-error" style="display: none">
-								<span class="help-block">Campo Obligatorio</span>
-							</div>
+							{{ form::label('sucursal_id', 'Sucursal') }}
+							{{ form::text('sucursal_id', $stockasignacion->empleado->sucursal->descripcion, ['class' => 'form-control', 'id' => 'sucursal_id', 'readonly']) }}
 						</div>
 					</div>
+					<hr>
 					<div class="form-group">
-					<div class="table-responsive">
-						<table class="table table-striped table-hover" data-form="Form">
-							<thead>
-								<tr>	
-									<td class="col-md-3"> 
-										{{ form::label('stock_id', 'Cod.') }}
-										{{ form::number('stock_id', null, ['class' => 'form-control', 'id' => 'stock_id']) }}
-									</td>
-									<td>
-										{{ form::label('stock', 'Stock Articulo') }}
-										<br>
-										{{ form::select('stock', [],  null, ['class' => 'form-control inline-search', 'id' => 'stock','placeholder' => 'Seleccionar...'] ) }}
-									</td>
-								</tr>
-								<tr>
-									<td > 
-										{{ form::label('stockactual', 'Stock Actual') }}
-										{{ form::number('stockactual', null, ['class' => 'form-control', 'id' => 'stockactual', 'readonly']) }}
-									</td>
-									<td> 
-										{{ form::label('cantidadstock', 'Cantidad') }}
-										{{ form::number('cantidadstock', null, ['class' => 'form-control', 'id' => 'cantidadstock']) }}
-									</td>
-									<td> 
-										<br>
-										<a type="button" id="agregarstock" name="agregarstock" class="btn btn btn-success">
-						                <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
-						                    <span class="fa fa-plus-circle">
-						                    </span>
-						                      AGREGAR
-						                  </a>
-									</td>
-								</tr>
-								<tr>
-
-								</tr>
-								
-							</thead>
-						</table>
+					
 						<div class="form-group">
 							<div class="table-responsive">
 								<table   id="table_stocks" class="table table-striped table-hover" data-form="Form">
@@ -116,21 +73,31 @@
 											<th style="display:none;"> Codigo</th>
 											<th> Stock</th>
 											<th> Cantidad</th>
-											<th> </th>
+											<th> Devuelve</th>
 										</tr>
 									</thead>
 									<tbody>
+										@isset($stockasignaciondetalles)
+											@foreach ($stockasignaciondetalles as $stockasignaciondetalle)
+							                  <tr>
+							                    <td style="display:none;">{{ $stockasignaciondetalle->id }}</td>
+							                    <td>{{ $stockasignaciondetalle->stockarticulo->descripcion }}</td>
+							                    <td>{{ $stockasignaciondetalle->cantidad }}</td>
+							                    @if($show == 1)
+							                     	<td>{{ $stockasignaciondetalle->devuelve }}</td>
+							                     @else
+							                    	<td><div class="number-field" contenteditable="true"><font color="black">0</font></div></td>
+							                    @endif
+							                  </tr>
+							                @endforeach
+										@endif
 									</tbody>
 								</table>
-								<div id="table_stockspan" class="form-group has-error" style="display: none">
-									<span class="help-block">Debe haber al menos un registro en la lista</span>
-								</div>
 							</div>
 						</div>
 					</div>
 				  </div>
 
-			    </div>
 			    <!-- /.box-body -->
 			</div>
 
@@ -328,67 +295,22 @@
 		$( "#guardar" ).click(function() {
 
 
-			estadocampos = 0;
-
-			if ($('#empleado_id').val() == ''){
-      			estadocampos = 1;
-			   	$('#empleado_idspan').show();
-      		} else {
-      			$('#empleado_idspan').hide();
-      		}
-      		if ($('#sucursal_id').val() == ''){
-      			estadocampos = 1;
-			   	$('#sucursal_idspan').show();
-      		} else {
-      			$('#sucursal_idspan').hide();
-      		}
-
-      		if ($('#fecha').val() == ''){
-      			estadocampos = 1;
-			   	$('#fechaspan').show();
-      		} else {
-      			$('#fechaspan').hide();
-      		}
-
-
+			
 
 		   // listado de articulos
 		    var listado = crear_listado_stocks();
       		$('#id_lista_stocks').val(listado);
 
-      		if ($('#id_lista_stocks').val() == ''){
-      			estadocampos = 1;
-			   	$('#table_stockspan').show();
-      		} else {
-      			$('#table_stockspan').hide();
-      		}
-
-      		
-      		if(estadocampos == 1) 
-      		{
-      			toastr.error('No se puede guardar el stock. Faltan datos');
+      		if($('#id_lista_stocks').val() == ''){
+      			toastr.error('Ocurrio un error, verifique los campos del listado');
       			return false;
       		} else {
-      			swal({ 
-					title: "Una vez generada esta asignacion no podra modificar los movimientos de stock",
-					text: "¿Desea Guardarlo?",
-					type: "info",
-					showCancelButton: true,
-					//confirmButtonColor: "#DD6B55",
-					confirmButtonText: "Guardar",
-					cancelButtonText: "Cancelar", 
-					closeOnConfirm: false,
-					closeOnCancel: false },
-
-					function(isConfirm){ 
-					if (isConfirm) {
-						$('#form').submit();
-					} else { 
-						swal.close()
-					} 
-				});
-      			
+      			//alert($('#id_lista_stocks').val());
+      			$('#form').submit();
       		}
+      		
+      		
+      	
 
 
 		   	//$('#form').submit();
@@ -401,14 +323,25 @@
 
 		    $("#id_lista_stocks").val('');
 
+		    var temp = 0;
 		    $('#table_stocks tbody tr').each(function () {	 
-		    codigo = $(this).find("td").eq(0).html();
-		    cantidad = $(this).find("td").eq(2).html();
+			    codigo = $(this).find("td").eq(0).html();
+			    cantidad = $(this).find("td").eq(2).html();
+			    devuelve =  $(this).find("td").eq(3).text();
 
-		    listado += codigo + "|" + cantidad + "&&&";
+			    if(!$.isNumeric(devuelve)) {
+			    	temp = 1;
+			    } else if(devuelve < 0) {
+			    	temp = 1;
+			    }
+			    listado += codigo + "|" + cantidad + "|" + devuelve + "&&&";
 		    });
 
-		      return listado;
+			if(temp == 1){
+				listado = '';
+			}
+
+		    return listado;
 	    }
 
 

@@ -189,13 +189,13 @@ class HojarutaController extends Controller
 
             foreach ($listado_hojaruta_array as $hojaruta_text)
             {
-                list($clientedireccion_id,$cliente_id, $cantidad, $articulo_id, $contrato_id) = explode('|', $hojaruta_text);
+                list($clientedireccion_id,$cliente_id, $cantidad, $articulo_id) = explode('|', $hojaruta_text);
 
                 $hojadetalle = new Hojarutadetalle();
                     $hojadetalle->hojaruta_id = $hojaruta->id;
                     $hojadetalle->cliente_id = $cliente_id;
                     $hojadetalle->clientedireccion_id = $clientedireccion_id;
-                    $hojadetalle->contrato_id = $contrato_id;
+                    //$hojadetalle->contrato_id = $contrato_id;
                     $hojadetalle->cantidad = $cantidad;
                     $hojadetalle->articulo_id = $articulo_id;
                     $hojadetalle->fecha = date('Y-m-d H:i:s');
@@ -233,7 +233,11 @@ class HojarutaController extends Controller
     public function edit($id)
     {
         
+         $hojaruta = Hojaruta::find($id);
 
+        $hojaruta->fecha = FechaHelper::getFechaInputDate($hojaruta->fecha); 
+
+         return view('admin.hojarutas.edit', compact('hojaruta'));
     }
 
     /**
@@ -275,13 +279,11 @@ class HojarutaController extends Controller
         $hojaruta = Hojaruta::find($id);
         
         $query="select hrd.cliente_id, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END cliente,
-        DATE_FORMAT(co.fechacontrato, '%d/%m/%Y') fechacontrato,
         ba.descripcion as barrio, c.tipocliente_id, ca.descripcion as calle, cd.numero, cd.manzana, cd.casa, cd.seccion, cd.lote, cd.edificiotorre, cd.piso, cd.observaciondomicilio, cd.referenciadomicilio,
         a.descripcion articulo, hrd.cantidad
         from hojarutas hr
         inner join hojarutadetalles hrd on hr.id = hrd.hojaruta_id
         inner join clientes c on hrd.cliente_id = c.id
-        inner join contratos co on hrd.contrato_id = co.id
         inner join clientedirecciones cd on hrd.clientedireccion_id = cd.id
         left join calles ca on ca.id = cd.calle_id
         left join barrios ba on ba.id = cd.barrio_id

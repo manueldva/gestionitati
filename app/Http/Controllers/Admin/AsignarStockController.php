@@ -13,6 +13,7 @@ use App\Models\Modulo;
 use App\Models\Perfil;
 use App\Models\Tipoempleado;
 use App\Models\Empleado;
+use App\Models\Sucursal;
 /*use App\Models\Hojaruta;
 use App\Models\Hojarutadetalle;
 use App\Models\Hojarutaarticuloextra;*/
@@ -48,7 +49,7 @@ class AsignarStockController extends Controller
         $permiso = $modulos[0]->pivot->permiso;
 
         //$stockasignaciones = Stockasignacion::type($request->get('type'), $request->get('val'))->paginate(15);
-        $stockasignaciones = Stockasignacion::paginate(15);
+        $stockasignaciones = Stockasignacion::orderBy('id','DESC')->paginate(15);
         foreach($stockasignaciones as $stockasignacion){
             $stockasignacion->fecha = FechaHelper::getFechaImpresion($stockasignacion->fecha); 
         }
@@ -72,6 +73,7 @@ class AsignarStockController extends Controller
     public function create()
     {
         $articulos  = Articulo::where('tipoarticulo_id', '=', 1)->orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+        $sucursales  = Sucursal::where('id',1)->orderBy('id')->pluck('descripcion' , 'id');
 
 
         $tipoempleado = Tipoempleado::where('descripcion', '=', 'Vendedor')->first();
@@ -88,7 +90,7 @@ class AsignarStockController extends Controller
         
         //$barrios  = Barrio::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
-        return view('admin.stockasignaciones.create', compact('empleados', 'articulos'));
+        return view('admin.stockasignaciones.create', compact('empleados', 'articulos', 'sucursales'));
 
     }
 
@@ -100,7 +102,56 @@ class AsignarStockController extends Controller
      */
     public function store(Request $request)
     {
+        $stockasignacion = Stockasignacion::create($request->all());
+
+        //$descripciontemp = '';
+
+        $listado_stocks_text = $request->input("listado_stocks");
+
+        if($listado_stocks_text) {
+
+
+            $listado_stocks_array = explode('&&&', $listado_stocks_text);
+            array_pop($listado_stocks_array);
+
+
+
+            foreach ($listado_stocks_array as $stock_text)
+            {
+                list($codigo, $cantidad) = explode('|', $stock_text);
+
+                $stockasignaciondetalle = new Stockasignaciondetalle();
+                    $stockasignaciondetalle->stockasignacion_id = $stockasignacion->id;
+                    $stockasignaciondetalle->stockarticulo_id = $codigo;
+                    $stockasignaciondetalle->cantidad = $cantidad;
+                    $stockasignaciondetalle->usuario_alta = Auth::user()->username;
+                    $stockasignaciondetalle->fecha_alta = date('Y-m-d H:i:s');
+
+                $stockasignaciondetalle->save();
+
+                $stockarticulo = Stockarticulo::find($codigo);
+                    $stockarticulo->stockactual = intval($stockarticulo->stockactual) - intval($cantidad);
+                    $stockarticulo->usuario_modi = Auth::user()->username;
+                    $stockarticulo->fecha_modi = date('Y-m-d H:i:s');
+                $stockarticulo->save();
+
+                /*if($descripciontemp == '')
+                {
+                    $descripciontemp = $descripcion;
+                } else 
+                {
+                    $descripciontemp = $descripciontemp . ' - ' . $descripcion;
+                }*/
+            }
+        }
+
+        //auditoria
+        $stockasignacion->fill(['estado'=> 1, 'usuario_alta' => Auth::user()->username , 'fecha_alta' => date('Y-m-d H:i:s')])->save();
         //
+
+
+        Alert::success('Asiganción creada con exito')->persistent("Cerrar");
+        return redirect()->route('stockasignaciones.index');
     }
 
     /**
@@ -111,7 +162,21 @@ class AsignarStockController extends Controller
      */
     public function show($id)
     {
-        //
+        $show = 1;
+
+        $stockasignacion = Stockasignacion::find($id);
+
+        $stockasignaciondetalles = Stockasignaciondetalle::where('stockasignacion_id',$id)->get();
+
+        //dd( $stockasignaciondetalles);
+        $stockasignacion->fecha = FechaHelper::getFechaInputDate($stockasignacion->fecha); 
+
+        //$distritos  = Distrito::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+        
+        //$barrios  = Barrio::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+        return view('admin.stockasignaciones.show', compact('stockasignacion' , 'stockasignaciondetalles', 'show'));
     }
 
     /**
@@ -122,7 +187,20 @@ class AsignarStockController extends Controller
      */
     public function edit($id)
     {
-        //
+        $show = 0;
+        $stockasignacion = Stockasignacion::find($id);
+
+        $stockasignaciondetalles = Stockasignaciondetalle::where('stockasignacion_id',$id)->get();
+
+        //dd( $stockasignaciondetalles);
+        $stockasignacion->fecha = FechaHelper::getFechaInputDate($stockasignacion->fecha); 
+
+        //$distritos  = Distrito::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+        
+        //$barrios  = Barrio::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+        return view('admin.stockasignaciones.edit', compact('stockasignacion' , 'stockasignaciondetalles', 'show'));
     }
 
     /**
@@ -134,7 +212,60 @@ class AsignarStockController extends Controller
      */
     public function update(Request $request, $id)
     {
+        
+        $stockasignacion = Stockasignacion::find($id);
+
+
+        //auditoria
+        $stockasignacion->fill(['estado'=> 2, 'usuario_modi' => Auth::user()->username , 'fecha_modi' => date('Y-m-d H:i:s')])->save();
         //
+
+
+        //$descripciontemp = '';
+
+        $listado_stocks_text = $request->input("listado_stocks");
+
+        if($listado_stocks_text) {
+
+
+            $listado_stocks_array = explode('&&&', $listado_stocks_text);
+            array_pop($listado_stocks_array);
+
+
+
+            foreach ($listado_stocks_array as $stock_text)
+            {
+                list($codigo, $cantidad, $devuelve) = explode('|', $stock_text);
+
+                    $stockasignaciondetalle = Stockasignaciondetalle::find($id);
+                        $stockasignaciondetalle->devuelve = $devuelve;
+                        $stockasignaciondetalle->usuario_alta = Auth::user()->username;
+                        $stockasignaciondetalle->fecha_alta = date('Y-m-d H:i:s');
+
+                    $stockasignaciondetalle->save();
+
+                    if($devuelve > 0){
+                        $stockarticulo = Stockarticulo::find($stockasignaciondetalle->stockarticulo_id);
+                            $stockarticulo->stockactual = intval($stockarticulo->stockactual) + intval($devuelve);
+                            $stockarticulo->usuario_modi = Auth::user()->username;
+                            $stockarticulo->fecha_modi = date('Y-m-d H:i:s');
+                        $stockarticulo->save();
+                    }
+
+                /*if($descripciontemp == '')
+                {
+                    $descripciontemp = $descripcion;
+                } else 
+                {
+                    $descripciontemp = $descripciontemp . ' - ' . $descripcion;
+                }*/
+            }
+        }
+
+
+
+        Alert::success('Asiganción creada con exito')->persistent("Cerrar");
+        return redirect()->route('stockasignaciones.index');
     }
 
     /**
@@ -145,6 +276,12 @@ class AsignarStockController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
+        Stockasignaciondetalle::where('stockasignacion_id', $id)->delete();    
+
+        Stockasignacion::find($id)->delete();
+
+        Alert::success('Eliminado correctamente')->persistent('Cerrar');
+        return back();
     }
 }

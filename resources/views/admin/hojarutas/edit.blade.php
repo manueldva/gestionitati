@@ -26,7 +26,7 @@
   <div class="panel-body">
     <div class="row">
 
-      {!! Form::model($stock, ['route' => ['hojarutas.update', $hojaruta->id], 'method' => 'PUT', 'files' => true, 'id' => 'form']) !!}
+      {!! Form::model($hojaruta, ['route' => ['hojarutas.update', $hojaruta->id], 'method' => 'PUT', 'files' => true, 'id' => 'form']) !!}
   
         <div class="col-md-12" >
           <div class="row col-md-12">
@@ -68,7 +68,7 @@
   </div>
 </div>
 
-@include('admin.hojarutas.partials.form')
+@include('admin.hojarutas.partials.formedit')
 
 {!! Form::close() !!}
 

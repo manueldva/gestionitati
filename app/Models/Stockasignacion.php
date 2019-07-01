@@ -9,7 +9,7 @@ class Stockasignacion extends Model
     protected $table = 'stockasignaciones';
 
 	protected $fillable = [
-    	'empleado_id', 'fecha', 'estado' , 'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
+    	'empleado_id', 'fecha', 'estado' , 'observacion', 'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
 	];
 
 

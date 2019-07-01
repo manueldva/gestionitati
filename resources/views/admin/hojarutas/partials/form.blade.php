@@ -169,11 +169,7 @@
 											<i></i> Cliente
 										</center>	
 									</th>
-									<th>
-										<center>
-											<i></i>  Fecha Contrato
-										</center>	
-									</th>
+									
 									<th>
 										<center>
 											<i></i> Dirección
@@ -194,11 +190,7 @@
 											<i></i> Articulo_id
 										</center>
 									</th>
-									<th style="display: none;">
-										<center>
-											<i></i> contrato_id
-										</center>
-									</th>
+									
 
 								</tr>
 								<th> </th>
@@ -477,12 +469,10 @@
 						'<td style="display: none;"><center>' + value.clientedireccion_id + '</center></td>' +
 						'<td><center>' + value.cliente_id + '</center></td>' +
 						'<td><center>' + value.cliente +'</center></td>' +
-						'<td><center>' + value.fechacontrato + '</center></td>' +
 						'<td><center>' + direccion + '</center></td>' +
 						'<td><center>' + value.articulo + '</center></td>' +
  						'<td><center><div contenteditable="true"><font color="green">'+value.cantidad+'</font></div></td>' +
  						'<td style="display: none;"><center>' + value.articulo_id + '</center></td>' +
- 						'<td style="display: none;"><center>' + value.contrato_id + '</center></td>' +
 						"<td><center><a class='delete btn btn-sm btn-danger' onclick ='deletearticulohoja_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
 						'</tr>');
 			    	})
@@ -592,14 +582,14 @@
 		    direccion_id = $(this).find("center").eq(0).html();
 		    cliente_id = $(this).find("center").eq(1).html();
 		    //articulo = $(this).find("center").eq(5).html();
-		    cantidad =  $(this).find("center").eq(6).text();
-		    articulo_id =  $(this).find("center").eq(7).html();
-		    contrato_id =  $(this).find("center").eq(8).html();
+		    cantidad =  $(this).find("center").eq(5).text();
+		    articulo_id =  $(this).find("center").eq(6).html();
+		    //contrato_id =  $(this).find("center").eq(8).html();
 
 		    //cantidad = cantidad.textContent();
 		   
 
-		    listado += direccion_id + "|" + cliente_id  + "|" + cantidad + "|" + articulo_id + "|" + contrato_id + "&&&";
+		    listado += direccion_id + "|" + cliente_id  + "|" + cantidad + "|" + articulo_id + "&&&";
 		    });
 
 		      return listado;

@@ -66,7 +66,13 @@
 	                    <td>{{ $stockasignacion->id }}</td>
 	                    <td>{{ $stockasignacion->empleado->empleado }}</td>
 						<td>{{ $stockasignacion->fecha }}</td>
-						<td>{{ $stockasignacion->estado }}</td>
+						<td>
+							@if($stockasignacion->estado == 1) 
+								En Repartición
+							@else
+								Procesado
+							@endif
+						</td>
 	                    <td width="10px">
 	                      <a href="{{ route('stockasignaciones.show', $stockasignacion->id) }}" class="btn btn-sm btn-default">
 	                        Ver
@@ -74,21 +80,13 @@
 	                    </td>
 	                    @if($permiso == 2) 
 		                   
-			                    <td width="10px">
-			                      <a href="{{ route('stockasignaciones.edit', $stockasignacion->id) }}" class="btn btn-sm btn-default">
-			                        Editar
-			                      </a>
-			                    </td>
-			               
-			                    <td width="10px">
-			                    @if($sucursal->id !== 1)
-									{!! Form::model($stockasignacion, ['method' => 'delete', 'route' => ['stockasignaciones.destroy', $stockasignacion->id], 'class' =>'form-inline form-delete']) !!}
-									{!! Form::hidden('id', $sucursal->id) !!}
-									{!! Form::submit('Eliminar', ['class' => 'btn btn-sm btn-danger delete', 'name' => 'delete_modal']) !!}
-									{!! Form::close() !!}
-								@endif
-			                    </td>
-			                
+		                    <td width="10px">
+		                      	@if($stockasignacion->estado == 1)
+				                    <a href="{{ route('stockasignaciones.edit', $stockasignacion->id) }}" class="btn btn-sm btn-default">
+				                        Procesar
+				                    </a>
+		                      	@endif
+		                    </td>
 	                    @endif
 	                  </tr>
 	                @endforeach

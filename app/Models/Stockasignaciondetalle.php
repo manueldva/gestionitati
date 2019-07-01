@@ -9,7 +9,7 @@ class Stockasignaciondetalle extends Model
     protected $table = 'stockasignaciondetalles';
 
 	protected $fillable = [
-    	'stockasignacion_id', 'cantidad' ,'fecha', 'estado' , 'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
+    	'stockasignacion_id','stockarticulo_id', 'cantidad', 'devuelve' ,'fecha', 'estado' , 'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
 	];
 
 
@@ -17,5 +17,11 @@ class Stockasignaciondetalle extends Model
         
         return $this->belongsTo(Stockasignacion::class);
     }
+
+    public function stockarticulo(){
+        
+        return $this->belongsTo(Stockarticulo::class);
+    }
+
 
 }

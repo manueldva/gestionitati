@@ -109,7 +109,7 @@
 	                    	@if($hojaruta->estado == 1)
 			                    <td width="10px">
 			                      <a href="{{ route('hojarutas.edit', $hojaruta->id) }}" class="btn btn-sm btn-default">
-			                        Cerrar Hoja
+			                        Porcesar
 			                      </a>
 			                    </td>
 			                    <td width="10px">

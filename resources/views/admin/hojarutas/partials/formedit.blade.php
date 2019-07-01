@@ -1,5 +1,5 @@
 
-<input type="hidden" name="listado_stocks" id="id_lista_stocks">
+<input type="hidden" name="listado_stocks" id="id_lista_hojarutas">
 <div class="row">
 	<div class="col-md-12">	
 
@@ -18,30 +18,31 @@
 			    <div class="box-header with-border">
 			     
 
-			      <h3 class="box-title">Ingresar los datos de la asignacion:</h3>
+			      <h3 class="box-title">Datos de la Hoja:</h3>
 			    </div>
 			    <!-- /.box-header -->
 			    <div class="box-body">
+			    	<div class="form-group">
+						{{ form::label('codigo', 'Codigo Hoja Ruta') }}
+						{{ form::text('id', null, ['class' => 'form-control', 'id' => 'id', 'readonly']) }}
+					</div>
 
 			    	<div class="form-group">
-						{{ form::label('empleado_id', 'Vendedor *') }}
-						{{ form::select('empleado_id',  $empleados, null, ['class' => 'form-control' ,'placeholder' => 'Seleccionar...']) }} 
-						<div id="empleado_idspan" class="form-group has-error" style="display: none">
-							<span class="help-block">Campo Obligatorio</span>
-						</div>
+						{{ form::label('empleado_id', 'Vendedor') }}
+						{{ form::text('empleado_id', $hojaruta->empleado->empleado, ['class' => 'form-control', 'id' => 'empleado_id', 'readonly']) }}
 					</div>
 					<div class="form-group">
-						{{ form::label('fecha', 'Fecha *') }}
-						{{ form::date('fecha', null, ['class' => 'form-control', 'id' => 'fecha']) }}
-						<div id="fechaspan" class="form-group has-error" style="display: none">
-							<span class="help-block">Campo Obligatorio</span>
-						</div>
+						{{ form::label('fecha', 'Fecha') }}
+						{{ form::date('fecha', null, ['class' => 'form-control', 'id' => 'fecha', 'readonly']) }}
 					</div>
-			      	
 			      	<div class="form-group">
-			      		{{ form::label('observacion', 'Observacion') }}
-						{{ form::textarea('observacion', null, ['class' => 'form-control', 'id'=>'observacion', 'rows' => 5, 'cols' => 40, 'maxlength' =>'100']) }}
+			      		{{ form::label('estado', 'Estado') }}
+						{{ form::select('estado', ['1' => 'En Reparticion', '2' => 'Procesado'], null, ['class' => 'form-control'] ) }}
 			      	</div>
+			      	<div class="form-group">
+						{{ form::label('cliente_id', 'Nro Socio *') }}
+						{{ form::number('cliente_id',null, ['class' => 'form-control', 'id' => 'cliente_id']) }}
+					</div>
 			    </div>
 			    <!-- /.box-body -->
 			  <!--</div>-->
@@ -55,82 +56,43 @@
 			    <div class="box-header with-border">
 			      
 
-			      <h3 class="box-title">Asignar Stock:</h3>
+			      <h3 class="box-title">Detalle Cliente:</h3>
 			    </div>
 			    <!-- /.box-header -->
 				    <div class="box-body">
+				    	<div class="form-group">
+							{{ form::label('cliente', 'Cliente') }}
+							{{ form::text('cliente',null, ['class' => 'form-control', 'id' => 'cliente', 'readonly']) }}
+						</div>
 						<div class="form-group">
-							{{ form::label('sucursal_id', 'Sucursal *') }}
-							{{ form::select('sucursal_id',  $sucursales, null, ['class' => 'form-control' ,'placeholder' => 'Seleccionar...']) }} 
-							<div id="sucursal_idspan" class="form-group has-error" style="display: none">
-								<span class="help-block">Campo Obligatorio</span>
-							</div>
+							{{ form::label('direccion', 'Direccion') }}
+							{{ form::text('direccion',null, ['class' => 'form-control', 'id' => 'direccion', 'readonly']) }}
 						</div>
 					</div>
+					<hr>
 					<div class="form-group">
-					<div class="table-responsive">
-						<table class="table table-striped table-hover" data-form="Form">
-							<thead>
-								<tr>	
-									<td class="col-md-3"> 
-										{{ form::label('stock_id', 'Cod.') }}
-										{{ form::number('stock_id', null, ['class' => 'form-control', 'id' => 'stock_id']) }}
-									</td>
-									<td>
-										{{ form::label('stock', 'Stock Articulo') }}
-										<br>
-										{{ form::select('stock', [],  null, ['class' => 'form-control inline-search', 'id' => 'stock','placeholder' => 'Seleccionar...'] ) }}
-									</td>
-								</tr>
-								<tr>
-									<td > 
-										{{ form::label('stockactual', 'Stock Actual') }}
-										{{ form::number('stockactual', null, ['class' => 'form-control', 'id' => 'stockactual', 'readonly']) }}
-									</td>
-									<td> 
-										{{ form::label('cantidadstock', 'Cantidad') }}
-										{{ form::number('cantidadstock', null, ['class' => 'form-control', 'id' => 'cantidadstock']) }}
-									</td>
-									<td> 
-										<br>
-										<a type="button" id="agregarstock" name="agregarstock" class="btn btn btn-success">
-						                <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
-						                    <span class="fa fa-plus-circle">
-						                    </span>
-						                      AGREGAR
-						                  </a>
-									</td>
-								</tr>
-								<tr>
-
-								</tr>
-								
-							</thead>
-						</table>
+					
 						<div class="form-group">
 							<div class="table-responsive">
-								<table   id="table_stocks" class="table table-striped table-hover" data-form="Form">
+								<table   id="table_clientes" class="table table-striped table-hover" data-form="Form">
 									<thead>
 										<tr>
 										<!--<th width="10px"> ID</th>-->
 											<th style="display:none;"> Codigo</th>
-											<th> Stock</th>
+											<th> Articulo</th>
 											<th> Cantidad</th>
-											<th> </th>
+											<th> Tipo Pago</th>
 										</tr>
 									</thead>
 									<tbody>
+										
 									</tbody>
 								</table>
-								<div id="table_stockspan" class="form-group has-error" style="display: none">
-									<span class="help-block">Debe haber al menos un registro en la lista</span>
-								</div>
 							</div>
 						</div>
 					</div>
 				  </div>
 
-			    </div>
 			    <!-- /.box-body -->
 			</div>
 
@@ -160,6 +122,92 @@
 
 		
 		var APP_RL = "{{ url('/') }}";
+
+
+
+
+
+		$(document).ready(function(){
+			$("#cliente_id").keypress(function(e) {
+			//no recuerdo la fuente pero lo recomiendan para
+			//mayor compatibilidad entre navegadores.
+			var code = (e.keyCode ? e.keyCode : e.which);
+				if(code==13){
+					if ($('#cliente_id').val() !== '') {
+						$.ajax({
+							dataType: 'json',
+							url: APP_URL + '/api/detalleclientehojaruta',
+							//async: false,
+							//url: '../api/validardocumento',
+							data: {cli: $('#cliente_id').val(), hoj: $('#id').val()}
+						}).done(function(data) {
+							//var $empleado = $('#empleado'); 
+							if(data == 0) {
+								
+								toastr.error('Este Cliente ya no posee articulos que registrar');
+								return false;
+							} else {
+											//variables para guardar en la grilla
+								$.each(data, function(key, value){
+									$('#cliente').val(value.cliente);
+
+									var direccion = '';
+
+									direccion = 'B° ' + value.barrio;
+
+									if(value.calle){
+										direccion = direccion + ' Calle ' + value.calle;
+									}
+
+									if(value.numero){
+										direccion = direccion + ' Nro. ' + value.numero;
+									}
+
+									if(value.manzana){
+										direccion = direccion + ' Mz. ' + value.manzana;
+									}
+
+									if(value.casa){
+										direccion = direccion + ' C. ' + value.casa;
+									}
+
+									if(value.seccion){
+										direccion = direccion + ' Seccion ' + value.seccion;
+									}
+
+
+									if(value.lote){
+										direccion = direccion + ' Lote ' + value.lote;
+									}
+
+									if(value.edificiotorre){
+										direccion = direccion + ' Edificio ' + value.edificiotorre;
+									}
+
+									if(value.piso){
+										direccion = direccion + ' Piso/Dpto ' + value.piso;
+									}
+
+									if(value.referenciadomicilio){
+										direccion = direccion + ' Ref. ' + value.referenciadomicilio;
+									}
+
+									$("#direccion").val(direccion);
+									$('#table_clientes tbody').prepend(
+									'<tr>' + 
+									'<td style="display: none;"><center>' + value.id + '</center></td>' +
+									'<td><center>' + value.articulo + '</center></td>' +
+			 						'<td><center><div contenteditable="true"><font color="green">'+value.cantidad+'</font></div></td>' +
+			 						'<td><center>0</center></td>' +
+									'</tr>');
+						    	})							}
+							
+						});
+					}
+
+				}
+			});
+		});
 
 
 		$('#sucursal_id').on('change', function(e){
@@ -328,67 +376,22 @@
 		$( "#guardar" ).click(function() {
 
 
-			estadocampos = 0;
-
-			if ($('#empleado_id').val() == ''){
-      			estadocampos = 1;
-			   	$('#empleado_idspan').show();
-      		} else {
-      			$('#empleado_idspan').hide();
-      		}
-      		if ($('#sucursal_id').val() == ''){
-      			estadocampos = 1;
-			   	$('#sucursal_idspan').show();
-      		} else {
-      			$('#sucursal_idspan').hide();
-      		}
-
-      		if ($('#fecha').val() == ''){
-      			estadocampos = 1;
-			   	$('#fechaspan').show();
-      		} else {
-      			$('#fechaspan').hide();
-      		}
-
-
+			
 
 		   // listado de articulos
 		    var listado = crear_listado_stocks();
       		$('#id_lista_stocks').val(listado);
 
-      		if ($('#id_lista_stocks').val() == ''){
-      			estadocampos = 1;
-			   	$('#table_stockspan').show();
-      		} else {
-      			$('#table_stockspan').hide();
-      		}
-
-      		
-      		if(estadocampos == 1) 
-      		{
-      			toastr.error('No se puede guardar el stock. Faltan datos');
+      		if($('#id_lista_stocks').val() == ''){
+      			toastr.error('Ocurrio un error, verifique los campos del listado');
       			return false;
       		} else {
-      			swal({ 
-					title: "Una vez generada esta asignacion no podra modificar los movimientos de stock",
-					text: "¿Desea Guardarlo?",
-					type: "info",
-					showCancelButton: true,
-					//confirmButtonColor: "#DD6B55",
-					confirmButtonText: "Guardar",
-					cancelButtonText: "Cancelar", 
-					closeOnConfirm: false,
-					closeOnCancel: false },
-
-					function(isConfirm){ 
-					if (isConfirm) {
-						$('#form').submit();
-					} else { 
-						swal.close()
-					} 
-				});
-      			
+      			//alert($('#id_lista_stocks').val());
+      			$('#form').submit();
       		}
+      		
+      		
+      	
 
 
 		   	//$('#form').submit();
@@ -401,14 +404,25 @@
 
 		    $("#id_lista_stocks").val('');
 
+		    var temp = 0;
 		    $('#table_stocks tbody tr').each(function () {	 
-		    codigo = $(this).find("td").eq(0).html();
-		    cantidad = $(this).find("td").eq(2).html();
+			    codigo = $(this).find("td").eq(0).html();
+			    cantidad = $(this).find("td").eq(2).html();
+			    devuelve =  $(this).find("td").eq(3).text();
 
-		    listado += codigo + "|" + cantidad + "&&&";
+			    if(!$.isNumeric(devuelve)) {
+			    	temp = 1;
+			    } else if(devuelve < 0) {
+			    	temp = 1;
+			    }
+			    listado += codigo + "|" + cantidad + "|" + devuelve + "&&&";
 		    });
 
-		      return listado;
+			if(temp == 1){
+				listado = '';
+			}
+
+		    return listado;
 	    }
 
 

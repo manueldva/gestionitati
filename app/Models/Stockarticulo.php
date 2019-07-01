@@ -33,4 +33,10 @@ class Stockarticulo extends Model
     }
 
 
+
+    public function stockasignaciondetalles(){
+        return $this->HasMany(Stockasignaciondetalle::class);
+    }
+
+
 }

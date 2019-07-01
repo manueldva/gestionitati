@@ -17,7 +17,10 @@ class CreateStockasignaciondetallesTable extends Migration
             $table->increments('id');
             $table->integer('stockasignacion_id')->unsigned()->nullable();
             $table->foreign('stockasignacion_id')->references('id')->on('stockasignaciones');
+            $table->integer('stockarticulo_id')->unsigned()->nullable();
+            $table->foreign('stockarticulo_id')->references('id')->on('stockarticulos');
             $table->integer('cantidad')->nullable()->default(0);
+            $table->integer('devuelve')->nullable()->default(0);
             $table->dateTime('fecha')->nullable();
             $table->integer('estado')->default(0);
             $table->string('usuario_alta',50)->nullable();

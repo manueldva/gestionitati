@@ -19,6 +19,7 @@ class CreateStockasignacionesTable extends Migration
             $table->foreign('empleado_id')->references('id')->on('empleados');
             $table->dateTime('fecha')->nullable();
             $table->integer('estado')->default(0);
+            $table->string('observacion', 100)->nullable();
             $table->string('usuario_alta',50)->nullable();
             $table->dateTime('fecha_alta')->nullable();
             $table->string('usuario_modi',50)->nullable();
