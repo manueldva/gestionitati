@@ -91,6 +91,13 @@
 							</div>
 						</div>
 					</div>
+										<br>
+					<a type="button" id="agregarstock" name="agregarstock" class="btn btn btn-success">
+	                <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
+	                    <span class="fa fa-plus-circle">
+	                    </span>
+	                      AGREGAR
+	                </a>
 				  </div>
 
 			    <!-- /.box-body -->
