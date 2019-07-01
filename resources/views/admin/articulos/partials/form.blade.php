@@ -250,7 +250,7 @@
 			    <!-- /.box-header -->
 			    <div class="box-body">
 			      	<div class="form-group">
-					  	{{ form::label('costo', 'Consto') }}
+					  	{{ form::label('costo', 'Costo') }}
 						{{ form::number('costo', null, ['class' => 'form-control', 'id' => 'costo']) }}
 				  	</div>
 				  	<div class="form-group">
