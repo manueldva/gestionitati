@@ -199,15 +199,25 @@
 										direccion = direccion + ' Ref. ' + value.referenciadomicilio;
 									}
 
+									if(value.clasificacion == 0){
+										var clasificacion = '<center><select class="form-control">'+
+							            '<option value="" selected>Efectivo</option>' +
+							            '<option value="Malay">Cuenta C.</option>' +
+							          	'</select></center>';
+									} else {
+										var clasificacion = 'Sin Cargo';
+									}
+
 									$("#direccion").val(direccion);
 									$('#table_clientes tbody').prepend(
 									'<tr>' + 
 									'<td style="display: none;"><center>' + value.id + '</center></td>' +
 									'<td><center>' + value.articulo + '</center></td>' +
 			 						'<td><center><div contenteditable="true"><font color="green">'+value.cantidad+'</font></div></td>' +
-			 						'<td><center>0</center></td>' +
+			 						'<td>' + clasificacion + '</td>' +
 									'</tr>');
-						    	})							}
+						    	})							
+							}
 							
 						});
 					}
