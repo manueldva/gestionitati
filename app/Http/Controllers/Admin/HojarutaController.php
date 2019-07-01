@@ -62,6 +62,27 @@ class HojarutaController extends Controller
 
          foreach($hojarutas as $hojaruta){
             $hojaruta->fecha = FechaHelper::getFechaImpresion($hojaruta->fecha); 
+
+            $query="select ba.descripcion from hojarutas hr
+                inner join hojarutadetalles hrd on hr.id = hrd.hojaruta_id
+                inner join clientedirecciones cd on hrd.clientedireccion_id = cd.id
+                left join barrios ba on ba.id = cd.barrio_id
+                where  hr.id = " . $hojaruta->id . "
+                group by ba.descripcion
+                order by ba.descripcion";
+
+            $data = DB::select($query);
+            $temp = '';
+            foreach ($data as $key => $value) {
+               if($temp == ''){
+                    $temp = $value->descripcion;
+               } else {
+                    $temp = $temp .' - '. $value->descripcion;
+               }
+               
+            }
+
+            $hojaruta->usuario_alta = $temp;
         }
 
 

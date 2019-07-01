@@ -146,7 +146,7 @@ return [
                 ],
                 [
                     'text' => 'Asignar Stock',
-                    'url'  => 'asignaciones',
+                    'url'  => 'stockasignaciones',
                 ]
             ]
         ],  

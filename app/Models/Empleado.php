@@ -65,6 +65,11 @@ class Empleado extends Model
         return $this->HasMany(Hojaruta::class);
     }
 
+    public function stockasiganciones(){ //vendedor
+        return $this->HasMany(Stockasignacion::class);
+    }
+
+
 
     
 	 public function scopeType($query, $type, $valor, $valor2) 

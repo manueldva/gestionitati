@@ -13,14 +13,16 @@ use App\Models\Modulo;
 use App\Models\Perfil;
 use App\Models\Tipoempleado;
 use App\Models\Empleado;
-use App\Models\Hojaruta;
+/*use App\Models\Hojaruta;
 use App\Models\Hojarutadetalle;
-use App\Models\Hojarutaarticuloextra;
+use App\Models\Hojarutaarticuloextra;*/
 use App\Models\Distrito;
 use App\Models\Barrio;
 use App\Models\Articulo;
 use App\Models\Stockarticulo;
 use App\Models\Stockarticulodetalle;
+use App\Models\Stockasignacion;
+use App\Models\Stockasignaciondetalle;
 
 use DB;
 use Illuminate\Support\Facades\Input;
@@ -44,6 +46,21 @@ class AsignarStockController extends Controller
         $modulo_actual = Modulo::where('valor', '=', 'STOCK')->get();
         $modulos = $perfil->modulos()->where('modulo_id', '=', $modulo_actual[0]->id)->get();
         $permiso = $modulos[0]->pivot->permiso;
+
+        //$stockasignaciones = Stockasignacion::type($request->get('type'), $request->get('val'))->paginate(15);
+        $stockasignaciones = Stockasignacion::paginate(15);
+        foreach($stockasignaciones as $stockasignacion){
+            $stockasignacion->fecha = FechaHelper::getFechaImpresion($stockasignacion->fecha); 
+        }
+
+
+
+        $stockasignaciones->setPath('stockasignaciones');
+
+       
+        return view('admin.stockasignaciones.index', compact('stockasignaciones', 'permiso'));
+
+       
  
     }
 
@@ -54,7 +71,25 @@ class AsignarStockController extends Controller
      */
     public function create()
     {
-        //
+        $articulos  = Articulo::where('tipoarticulo_id', '=', 1)->orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+
+        $tipoempleado = Tipoempleado::where('descripcion', '=', 'Vendedor')->first();
+        if($tipoempleado) {
+            $empleados  = Empleado::orderBy('empleado', 'ASC')->where('tipoempleado_id', $tipoempleado->id)->where('Sucursal_id', 1)->pluck('empleado' , 'id');
+                
+            if(!$empleados) $empleados = [];
+        } else {
+            $empleados = [];
+        }
+
+        //$distritos  = Distrito::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+        
+        //$barrios  = Barrio::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+        return view('admin.stockasignaciones.create', compact('empleados', 'articulos'));
+
     }
 
     /**

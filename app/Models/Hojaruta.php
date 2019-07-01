@@ -38,15 +38,15 @@ class Hojaruta extends Model
         
         if ($type == 'fecha') 
         {
-            $query->where('fecha', '=',  $valor)->orderBy('fecha');
+            $query->where('fecha', '=',  $valor)->orderBy('fecha', 'DESC');
           
         }else if ($type == 'empleado') 
         {
-            $query->where('empleado_id', '=', $empleado)->orderBy('fecha');
+            $query->where('empleado_id', '=', $empleado)->orderBy('fecha', 'DESC');
 
         } else
         {
-              $query->orderBy('fecha');
+              $query->orderBy('fecha', 'DESC');
           
         }
     }
