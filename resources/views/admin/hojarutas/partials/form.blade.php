@@ -50,78 +50,7 @@
 			</div>
 			<!-- /.col -->
 
-			<div class="col-md-6 pull-right">
-			  <!--<div class="box box-default">-->
-			    
-			    <div class="box-header with-border">
-			      
-
-			      <h3 class="box-title">Articulos Extras:</h3>
-			    </div>
-			    <!-- /.box-header -->
-			    <div class="box-body">
-					
-					<div class="form-group">
-						<div class="table-responsive">
-							<table class="table table-striped table-hover" data-form="Form">
-								<thead>
-									<tr>	
-										<td class="col-md-3"> 
-											{{ form::label('articulo_id', 'Cod.') }}
-											{{ form::number('articulo_id', null, ['class' => 'form-control', 'id' => 'articulo_id']) }}
-										</td>
-										<td>
-											{{ form::label('articulo', 'Articulo') }}
-											<br>
-											{{ form::select('articulo', $articulos,  null, ['class' => 'form-control inline-search', 'id' => 'articulo','placeholder' => 'Seleccionar...'] ) }}
-										</td>
-									</tr>
-									<tr>
-										<td> 
-											{{ form::label('cantidadarticulo', 'Cantidad') }}
-											{{ form::number('cantidadarticulo', null, ['class' => 'form-control', 'id' => 'cantidadarticulo']) }}
-										</td>
-										<td> 
-											<br>
-											<a type="button" id="agregararticulo" name="agregararticulo" class="btn btn btn-success">
-							                <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
-							                    <span class="fa fa-plus-circle">
-							                    </span>
-							                      AGREGAR
-							                  </a>
-										</td>
-									</tr>	
-									
-								</thead>
-							</table>
-							<div class="form-group">
-								<div class="table-responsive">
-									<table   id="table_articulos" class="table table-striped table-hover" data-form="Form">
-										<thead>
-											<tr>
-											<!--<th width="10px"> ID</th>-->
-												<th style="display:none;"> Codigo</th>
-												<th> Articulo</th>
-												<th> Cantidad</th>
-												<th> </th>
-											</tr>
-										</thead>
-										<tbody>
-											
-										</tbody>
-									</table>
-									<div id="table_planarticulosspan" class="form-group has-error" style="display: none">
-										<span class="help-block">Debe haber al menos un registro en la lista</span>
-									</div>
-								</div>
-							</div>
-						</div>
-			    	</div>
-				  </div>
-
-			    </div>
-			    <!-- /.box-body -->
-			</div>
+			<!-- aca agregar el div col-6 -->
 
 	 	</div>
 	    <!-- /.box-body -->

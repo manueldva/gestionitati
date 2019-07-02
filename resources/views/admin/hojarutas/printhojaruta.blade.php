@@ -6,13 +6,12 @@
 	 @page {size: Oficio landscape}
 	</style>
 @endif
-
- <h3><center>Vendedor:  {{ $hojaruta->empleado->empleado }}</h3>
+<h3><center> Cod. Hoja Ruta: {{ $hojaruta->id }}  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Fecha:  {{ $hojaruta->fecha }}</h3>
+<h3><center>Vendedor:  {{ $hojaruta->empleado->empleado }}</h3>
 <h3><center> Cantidad de domicilios a visitar:  {{ $cantidad}}</h3>
-
-<br>
-
-<h3><center> Detalle:</h3>
+@if(count($cantidad_b) == 1)
+<h3><center> Barrio:  {{ $barrio}}</h3>
+@endif
 <div class="portlet-body">
 	<table id="clientes" class="table table-striped table-bordered table-advance table-hover table-responsive tablesorter">
 											
@@ -66,7 +65,9 @@
 					</td>
 					<td >
 						<center>
-						B° {{ $hojaruta->barrio }}
+						@if(count($cantidad_b) > 1)
+							B° {{ $hojaruta->barrio }}
+						@endif
 						@if($hojaruta->calle)
 							Calle {{ $hojaruta->calle }}
 						@endif

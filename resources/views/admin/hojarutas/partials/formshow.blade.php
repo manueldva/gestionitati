@@ -50,7 +50,8 @@
 			  <!-- /.box -->
 			</div>
 			<!-- /.col -->
-
+			
+			<!-- aca agregar el div col-6 -->
 			
 
 	 	</div>

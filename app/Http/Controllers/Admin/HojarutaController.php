@@ -249,16 +249,16 @@ class HojarutaController extends Controller
                 group by ba.descripcion
                 order by ba.descripcion";
 
-            $data = DB::select($query);
-            $barrio = '';
-            foreach ($data as $key => $value) {
-               if($barrio == ''){
-                    $barrio = $value->descripcion;
-               } else {
-                    $barrio = $barrio .' - '. $value->descripcion;
-               }
-               
-            }
+        $data = DB::select($query);
+        $barrio = '';
+        foreach ($data as $key => $value) {
+           if($barrio == ''){
+                $barrio = $value->descripcion;
+           } else {
+                $barrio = $barrio .' - '. $value->descripcion;
+           }
+           
+        }
 
 
         return view('admin.hojarutas.show', compact('hojaruta', 'barrio', 'detalles'));
@@ -359,7 +359,8 @@ class HojarutaController extends Controller
     {
 
         $hojaruta = Hojaruta::find($id);
-        
+        $hojaruta->fecha = FechaHelper::getFechaInputDate($hojaruta->fecha); 
+
         $query="select hrd.cliente_id, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END cliente,
         ba.descripcion as barrio, c.tipocliente_id, ca.descripcion as calle, cd.numero, cd.manzana, cd.casa, cd.seccion, cd.lote, cd.edificiotorre, cd.piso, cd.observaciondomicilio, cd.referenciadomicilio,
         a.descripcion articulo, hrd.cantidad
@@ -387,16 +388,38 @@ class HojarutaController extends Controller
         }
 
 
+
+        $query_b="select ba.descripcion from hojarutas hr
+                inner join hojarutadetalles hrd on hr.id = hrd.hojaruta_id
+                inner join clientedirecciones cd on hrd.clientedireccion_id = cd.id
+                left join barrios ba on ba.id = cd.barrio_id
+                where  hr.id = " . $id . "
+                group by ba.descripcion
+                order by ba.descripcion";
+
+        $cantidad_b = DB::select($query_b);
+        $barrio = '';
+        foreach ($cantidad_b as $key => $value) {
+           if($barrio == ''){
+                $barrio = $value->descripcion;
+           } else {
+                $barrio = $barrio .' - '. $value->descripcion;
+           }
+           
+        }
+
+
+
         $extras = Hojarutaarticuloextra::where('hojaruta_id', $id)->get();
         
 
         //dd(count($hojarutas));
         if(count($hojarutas) > 200)
         {
-            return view('admin.hojarutas.printhojaruta', compact('hojarutas', 'hojaruta', 'cantidad', 'extras'));
+            return view('admin.hojarutas.printhojaruta', compact('hojarutas', 'hojaruta', 'cantidad', 'extras', 'cantidad_b', 'barrio'));
         } else
         {
-            $pdf = PDF::loadView('admin.hojarutas.printhojaruta', compact('hojarutas', 'hojaruta', 'cantidad', 'extras'));
+            $pdf = PDF::loadView('admin.hojarutas.printhojaruta', compact('hojarutas', 'hojaruta', 'cantidad', 'extras', 'cantidad_b', 'barrio'));
             //$pdf->setPaper('Legal', 'landscape');
 
             return $pdf->setPaper('Legal', 'landscape')->stream('hojaruta.pdf');
