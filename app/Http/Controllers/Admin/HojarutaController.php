@@ -221,7 +221,47 @@ class HojarutaController extends Controller
      */
     public function show($id)
     {
-        //
+        $hojaruta = Hojaruta::find($id);
+
+        $query1="select hrd.cliente_id, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END cliente,
+        ba.descripcion as barrio, c.tipocliente_id, ca.descripcion as calle, cd.numero, cd.manzana, cd.casa, cd.seccion, cd.lote, cd.edificiotorre, cd.piso, cd.observaciondomicilio, cd.referenciadomicilio,
+        a.descripcion articulo, hrd.cantidad, hrd.estado, hrd.tipopago
+        from hojarutas hr
+        inner join hojarutadetalles hrd on hr.id = hrd.hojaruta_id
+        inner join clientes c on hrd.cliente_id = c.id
+        inner join clientedirecciones cd on hrd.clientedireccion_id = cd.id
+        left join calles ca on ca.id = cd.calle_id
+        left join barrios ba on ba.id = cd.barrio_id
+        inner join articulos a on hrd.articulo_id = a.id
+        where hr.id = " . $id . "
+        order by hrd.id";
+
+        $detalles = DB::select($query1);
+
+        $hojaruta->fecha = FechaHelper::getFechaInputDate($hojaruta->fecha); 
+
+
+        $query="select ba.descripcion from hojarutas hr
+                inner join hojarutadetalles hrd on hr.id = hrd.hojaruta_id
+                inner join clientedirecciones cd on hrd.clientedireccion_id = cd.id
+                left join barrios ba on ba.id = cd.barrio_id
+                where  hr.id = " . $id . "
+                group by ba.descripcion
+                order by ba.descripcion";
+
+            $data = DB::select($query);
+            $barrio = '';
+            foreach ($data as $key => $value) {
+               if($barrio == ''){
+                    $barrio = $value->descripcion;
+               } else {
+                    $barrio = $barrio .' - '. $value->descripcion;
+               }
+               
+            }
+
+
+        return view('admin.hojarutas.show', compact('hojaruta', 'barrio', 'detalles'));
     }
 
     /**
@@ -237,7 +277,7 @@ class HojarutaController extends Controller
 
         $hojaruta->fecha = FechaHelper::getFechaInputDate($hojaruta->fecha); 
 
-         return view('admin.hojarutas.edit', compact('hojaruta'));
+        return view('admin.hojarutas.edit', compact('hojaruta'));
     }
 
     /**
@@ -249,7 +289,49 @@ class HojarutaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+       
+        $listado_hoja_text = $request->input("listado_hoja");
+
+        if($listado_hoja_text) {
+
+
+            $listado_hoja_array = explode('&&&', $listado_hoja_text);
+            array_pop($listado_hoja_array);
+
+
+
+            foreach ($listado_hoja_array as $hoja_text)
+            {
+                list($codigo, $tipopago ,$cantidad) = explode('|', $hoja_text);
+
+
+                $detalle = Hojarutadetalle::find($codigo);
+                    $precio = Articulo::where('id', $detalle->articulo_id)->select('precioreparto')->first();
+                
+                    $detalle->cantidadfinal = $cantidad;
+                    $detalle->precio = $precio->precioreparto;
+                    $detalle->tipopago = $tipopago;
+                    $detalle->fecha = $request->input("fecha");
+                    $detalle->estado = 2;
+                    $detalle->usuario_modi = Auth::user()->username;
+                    $detalle->fecha_modi = date('Y-m-d H:i:s');
+                $detalle->save();
+               
+            }
+
+        }
+
+
+        if($request->input("estado") == "2"){
+            $hoja = Hojaruta::find($id);
+                $hoja->estado = 2;
+                $hoja->usuario_modi = Auth::user()->username;
+                $hoja->fecha_modi = date('Y-m-d H:i:s');
+            $hoja->save();
+        }
+
+        Alert::success('Hoja de ruta procesada con exito')->persistent("Cerrar");
+        return redirect()->route('hojarutas.index');
     }
 
     /**
