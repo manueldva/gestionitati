@@ -34,6 +34,11 @@
 				</th>
 				<th>
 					<center>
+						<i></i> Celular
+					</center>
+				</th>
+				<th>
+					<center>
 						<i></i> Articulos
 					</center>
 				</th>
@@ -101,6 +106,11 @@
 							Ref. {{ $hojaruta->referenciadomicilio }}
 						@endif
 
+						</center>
+					</td>
+					<td >
+						<center>
+						{{ $hojaruta->celular }}
 						</center>
 					</td>
 					<td >
