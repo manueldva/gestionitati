@@ -115,6 +115,12 @@
 						</label>
 						
 					</div>
+					
+					<div class="form-group" id="hojarutas">
+					  	{{ form::label('hojaruta', 'Incluir en la hoja de ruta') }}
+						{{ form::select('hojaruta', ['1'=>'Si', '0'=>'No'], null, ['class' => 'form-control'] ) }} 
+				  	</div>	
+			      
 					<hr>
 
 					@if(! empty($articulo->file))
@@ -143,8 +149,6 @@
 					<div class="form-group">
 						{{ Form::file('image') }}
 					</div>
-
-			      
 			    </div>
 			</div>
 

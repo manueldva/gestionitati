@@ -126,7 +126,11 @@
 						</thead>
 						<tbody>
 							@foreach ($detalles as $hojaruta)
-				                <tr>
+								@if($hojaruta->estado == 1)
+				                	<tr  style="color:red">
+				               	@else
+				               		<tr>
+				               	@endif
 				                  	<td >
 				                  		<center>
 										{{ $hojaruta->cliente_id }}
@@ -139,7 +143,9 @@
 									</td>
 									<td >
 										<center>
-										B° {{ $hojaruta->barrio }}
+										@if($cant_barrio > 1)
+											B° {{ $hojaruta->barrio }}
+										@endif
 										@if($hojaruta->calle)
 											Calle {{ $hojaruta->calle }}
 										@endif
@@ -182,12 +188,14 @@
 									</td>
 									<td>
 										<center>
-										@if($hojaruta->tipopago == 0)
-											Sin Cargo
-										@elseif($hojaruta->tipopago == 1)
-											Efectivo
-										@else
-											Cuenta Corriente
+										@if($hojaruta->estado == 2)
+											@if($hojaruta->tipopago == 0)
+												Sin Cargo
+											@elseif($hojaruta->tipopago == 1)
+												Efectivo
+											@else
+												Cuenta Corriente
+											@endif
 										@endif
 										</center>
 									</td>

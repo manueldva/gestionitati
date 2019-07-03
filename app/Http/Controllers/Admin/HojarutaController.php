@@ -145,7 +145,7 @@ class HojarutaController extends Controller
         $hojaruta = Hojaruta::create($request->all());
 
         //auditoria
-        $hojaruta->fill(['estado'=> 1, 'fecha' => date('Y-m-d H:i:s'), 'usuario_alta' => Auth::user()->username , 'fecha_alta' => date('Y-m-d H:i:s')])->save();
+        $hojaruta->fill(['estado'=> 1, 'usuario_alta' => Auth::user()->username , 'fecha_alta' => date('Y-m-d H:i:s')])->save();
         //
 
 
@@ -250,6 +250,7 @@ class HojarutaController extends Controller
                 order by ba.descripcion";
 
         $data = DB::select($query);
+        $cant_barrio = count($data);
         $barrio = '';
         foreach ($data as $key => $value) {
            if($barrio == ''){
@@ -261,7 +262,7 @@ class HojarutaController extends Controller
         }
 
 
-        return view('admin.hojarutas.show', compact('hojaruta', 'barrio', 'detalles'));
+        return view('admin.hojarutas.show', compact('hojaruta', 'barrio','cant_barrio', 'detalles'));
     }
 
     /**

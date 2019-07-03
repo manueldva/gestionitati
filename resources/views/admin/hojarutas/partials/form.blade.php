@@ -25,6 +25,10 @@
 			    </div>
 			    <!-- /.box-header -->
 			    <div class="box-body">
+			    	<div class="form-group">
+						{{ form::label('fecha', 'Fecha') }}
+						{{ form::date('fecha', \Carbon\Carbon::now(), ['class' => 'form-control', 'id' => 'fecha']) }}
+					</div>
 
 			    	<div class="form-group">
 						{{ form::label('empleado_id', 'Vendedor *') }}
@@ -322,6 +326,11 @@
 		$( "#buscarruta" ).click(function() {
 			
 
+				var barrio_uldiv = $('#barrio_id').siblings('span.select2').find('ul')
+				var barrio_count = barrio_uldiv.find('li').length - 1;
+				//alert(count);
+				//uldiv.html("<li>"+count+" items selected</li>")
+
 			if($('#empleado_id').val() == '') {
 
 
@@ -351,7 +360,10 @@
 						//$("#rubro_caja").append('<option value="'+value.id+'">'+value.numero+' '+value.letra+'</option>');
 						var direccion = '';
 
-						direccion = 'B° ' + value.barrio;
+						if(barrio_count > 1){
+							direccion = 'B° ' + value.barrio;
+						}
+
 
 						if(value.calle){
 							direccion = direccion + ' Calle ' + value.calle;

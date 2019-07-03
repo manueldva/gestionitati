@@ -44,6 +44,11 @@
 				</th>
 				<th>
 					<center>
+						<i></i> Venta
+					</center>
+				</th>
+				<th>
+					<center>
 						<i></i> Observación
 					</center>
 				</th>
@@ -107,6 +112,9 @@
 						<center>
 						{{ $hojaruta->cantidad }}
 						</center>
+					</td>
+					 <td>
+						
 					</td>
                     <td>
 						
