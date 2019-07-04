@@ -3,7 +3,7 @@
 @section('cuerpo')
 @if(count($hojarutas) > 200)
 	<style type="text/css" media="print">
-	 @page {size: Oficio landscape}
+	 @page {size: Legal landscape}
 	</style>
 @endif
 <h3><center> Cod. Hoja Ruta: {{ $hojaruta->id }}  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Fecha:  {{ $hojaruta->fecha }}</h3>

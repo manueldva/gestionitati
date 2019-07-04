@@ -275,8 +275,8 @@ Route::get('buscarruta', function() {
 
     ";*/
 
-     $query="select orden1,orden2, orden3,orden4,  cliente_id, cliente, barrio, tipocliente_id, calle, numero, manzana, casa, seccion, lote, edificiotorre, piso, observaciondomicilio, referenciadomicilio, clientedireccion_id, articulo_id, articulo, sum(cantidad) cantidad   
-        from (select  CASE WHEN ca.descripcion IS NULL THEN 2 ELSE 1 END orden1, CASE WHEN cd.numero IS NULL THEN 2 ELSE 1 END orden2,CASE WHEN cd.seccion IS NULL THEN 2 ELSE 1 END orden3,CASE WHEN cd.manzana IS NULL THEN 2 ELSE 1 END orden4, c.id cliente_id, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END cliente, ba.descripcion as barrio, c.tipocliente_id, ca.descripcion as calle, cd.numero, cd.manzana, cd.casa, cd.seccion, cd.lote, cd.edificiotorre, cd.piso, cd.observaciondomicilio, cd.referenciadomicilio, cd.id clientedireccion_id, a.id as articulo_id, a.descripcion articulo, coart.cantidad  
+     $query="select orden1,orden2, orden3,orden4, orden5, orden6, orden7, orden8 ,cliente_id, cliente, barrio, tipocliente_id, calle, numero, manzana, casa, seccion, lote, edificiotorre, piso, observaciondomicilio, referenciadomicilio, clientedireccion_id, articulo_id, articulo, sum(cantidad) cantidad   
+        from (select  CASE WHEN ca.descripcion IS NULL THEN 2 ELSE 1 END orden1, CASE WHEN cd.numero IS NULL THEN 2 ELSE 1 END orden2,CASE WHEN cd.seccion IS NULL THEN 2 ELSE 1 END orden3,CASE WHEN cd.manzana IS NULL THEN 2 ELSE 1 END orden4, CASE WHEN cd.casa IS NULL THEN 2 ELSE 1 END orden5, CASE WHEN cd.edificiotorre IS NULL THEN 2 ELSE 1 END orden6, CASE WHEN cd.piso IS NULL THEN 2 ELSE 1 END orden7, CASE WHEN cd.lote IS NULL THEN 2 ELSE 1 END orden8,c.id cliente_id, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END cliente, ba.descripcion as barrio, c.tipocliente_id, ca.descripcion as calle, cd.numero, cd.manzana, cd.casa, cd.seccion, cd.lote, cd.edificiotorre, cd.piso, cd.observaciondomicilio, cd.referenciadomicilio, cd.id clientedireccion_id, a.id as articulo_id, a.descripcion articulo, coart.cantidad  
     from clientes c
     inner join clientedirecciones cd on c.id = cd.cliente_id
     inner join contratos co on cd.id = co.clientedireccion_id
@@ -286,7 +286,7 @@ Route::get('buscarruta', function() {
     left join barrios ba on ba.id = cd.barrio_id
     where cd.empleado_id = " . request('e') . " and c.estado = 1 and a.hojaruta = 1 and co.estado = 1 and barrio_id in(" . $barrios . ")
     union all
-    select  CASE WHEN ca.descripcion IS NULL THEN 2 ELSE 1 END orden1,CASE WHEN cd.numero IS NULL THEN 2 ELSE 1 END orden2,CASE WHEN cd.seccion IS NULL THEN 2 ELSE 1 END orden3,CASE WHEN cd.manzana IS NULL THEN 2 ELSE 1 END orden4, c.id cliente_id, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END cliente, ba.descripcion as barrio, c.tipocliente_id, ca.descripcion as calle, cd.numero, cd.manzana, cd.casa, cd.seccion, cd.lote, cd.edificiotorre, cd.piso, cd.observaciondomicilio, cd.referenciadomicilio, cd.id clientedireccion_id, a.id as articulo_id, a.descripcion articulo, coart.cantidad  
+    select  CASE WHEN ca.descripcion IS NULL THEN 2 ELSE 1 END orden1,CASE WHEN cd.numero IS NULL THEN 2 ELSE 1 END orden2,CASE WHEN cd.seccion IS NULL THEN 2 ELSE 1 END orden3,CASE WHEN cd.manzana IS NULL THEN 2 ELSE 1 END orden4, CASE WHEN cd.casa IS NULL THEN 2 ELSE 1 END orden5,CASE WHEN cd.edificiotorre IS NULL THEN 2 ELSE 1 END orden6,CASE WHEN cd.piso IS NULL THEN 2 ELSE 1 END orden7 , CASE WHEN cd.lote IS NULL THEN 2 ELSE 1 END orden8 ,c.id cliente_id, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END cliente, ba.descripcion as barrio, c.tipocliente_id, ca.descripcion as calle, cd.numero, cd.manzana, cd.casa, cd.seccion, cd.lote, cd.edificiotorre, cd.piso, cd.observaciondomicilio, cd.referenciadomicilio, cd.id clientedireccion_id, a.id as articulo_id, a.descripcion articulo, coart.cantidad  
     from clientes c
     inner join clientedirecciones cd on c.id = cd.cliente_id
     inner join contratos co on cd.id = co.clientedireccion_id
@@ -297,8 +297,8 @@ Route::get('buscarruta', function() {
     left join barrios ba on ba.id = cd.barrio_id
     where cd.empleado_id = " . request('e') . " and c.estado = 1 and a.hojaruta = 1 and co.estado = 1 and barrio_id in(" . $barrios . ")
    ) as subconsulta
-    group by orden1,orden2,orden3, orden4,cliente_id, cliente, barrio, tipocliente_id, calle, numero, manzana, casa, seccion, lote, edificiotorre, piso, observaciondomicilio, referenciadomicilio, clientedireccion_id, articulo_id, articulo
-    order by orden1 DESC, calle DESC, barrio DESC, orden2 DESC , CAST(numero AS INTEGER) DESC, orden3 DESC, seccion DESC, orden4 DESC, CAST(manzana AS INTEGER) DESC, CAST(casa AS INTEGER) DESC, edificiotorre DESC, piso, lote, referenciadomicilio  DESC";
+    group by orden1,orden2,orden3, orden4, orden5,orden6, orden7, orden8 ,cliente_id, cliente, barrio, tipocliente_id, calle, numero, manzana, casa, seccion, lote, edificiotorre, piso, observaciondomicilio, referenciadomicilio, clientedireccion_id, articulo_id, articulo
+    order by  barrio DESC, orden1 DESC, calle DESC, orden2 DESC , CAST(numero AS INTEGER) DESC, orden3 DESC, seccion DESC, orden4 DESC, CAST(manzana AS INTEGER) DESC, orden5 DESC ,CAST(casa AS INTEGER) DESC, orden6 DESC,edificiotorre DESC, orden7 DESC, piso DESC, orden8 DESC, lote DESC, referenciadomicilio  DESC";
 
 
     $data = DB::select($query);

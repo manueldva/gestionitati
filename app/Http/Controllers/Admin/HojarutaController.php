@@ -413,14 +413,14 @@ class HojarutaController extends Controller
 
         $extras = Hojarutaarticuloextra::where('hojaruta_id', $id)->get();
         
-
+        $tempid = 0;
         //dd(count($hojarutas));
         if(count($hojarutas) > 200)
         {
-            return view('admin.hojarutas.printhojaruta', compact('hojarutas', 'hojaruta', 'cantidad', 'extras', 'cantidad_b', 'barrio'));
+            return view('admin.hojarutas.printhojaruta', compact('hojarutas', 'hojaruta', 'cantidad', 'extras', 'cantidad_b', 'barrio', 'tempid'));
         } else
         {
-            $pdf = PDF::loadView('admin.hojarutas.printhojaruta', compact('hojarutas', 'hojaruta', 'cantidad', 'extras', 'cantidad_b', 'barrio'));
+            $pdf = PDF::loadView('admin.hojarutas.printhojaruta', compact('hojarutas', 'hojaruta', 'cantidad', 'extras', 'cantidad_b', 'barrio', 'tempid'));
             //$pdf->setPaper('Legal', 'landscape');
 
             return $pdf->setPaper('Legal', 'landscape')->stream('hojaruta.pdf');
