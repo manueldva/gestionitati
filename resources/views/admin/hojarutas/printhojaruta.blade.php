@@ -1,7 +1,7 @@
 @extends('layouts.report')
 
 @section('cuerpo')
-@if(count($hojarutas) > 200)
+@if(count($hojarutas) > 2000)
 	<style type="text/css" media="print">
 	 @page {size: Legal landscape}
 	</style>
@@ -194,7 +194,7 @@
 
   	var cantidad = {!! count($hojarutas) !!};
 
-	 if(cantidad > 200) {
+	 if(cantidad > 2000) {
 		window. onload = function () {
 		    window.print();
 		    setTimeout(function () { window.close(); }, 100);

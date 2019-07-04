@@ -415,7 +415,7 @@ class HojarutaController extends Controller
         
         $tempid = 0;
         //dd(count($hojarutas));
-        if(count($hojarutas) > 200)
+        if(count($hojarutas) > 2000)
         {
             return view('admin.hojarutas.printhojaruta', compact('hojarutas', 'hojaruta', 'cantidad', 'extras', 'cantidad_b', 'barrio', 'tempid'));
         } else
