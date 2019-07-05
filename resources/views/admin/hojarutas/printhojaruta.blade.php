@@ -63,12 +63,12 @@
 			@foreach ($hojarutas as $hojaruta)
 		
                 <tr>
-                  	<td >
+                	<td >
                   		<center>
 						{{ $hojaruta->cliente_id }}
 						</center>
 					</td>
-					<td >
+                	<td>
 						<center>
 						{{ $hojaruta->cliente }}
 						</center>
@@ -130,6 +130,7 @@
 						
 					</td>
                 </tr>
+
             @endforeach
 		</tbody>
 	</table>				
@@ -138,58 +139,6 @@
 <br>
 <br>
 
-@if(count($extras) > 0)
-
-	<h3><center> Articulos Extras</h3>
-
-	<div class="portlet-body">
-		<table id="extras" class="table table-striped table-bordered table-advance table-hover table-responsive tablesorter">
-												
-			<thead>
-				<tr>
-		            <th>
-						<center>
-							<i></i>  Codigo
-						</center>	
-					</th>
-					<th>
-						<center>
-							<i></i> Articulo
-						</center>	
-					</th>
-					<th>
-						<center>
-							<i></i> Cantidad
-						</center>
-					</th>
-					
-				</tr>
-			</thead>
-			<tbody>
-				@foreach ($extras as $extra)
-	                  <tr>
-	                  	<td>
-	                  		<center>
-							{{ $extra->articulo->codigo }}
-							</center>
-						</td>
-						<td>
-							<center>
-							{{ $extra->articulo->descripcion }}
-							</center>
-						</td>
-						<td>
-							<center>
-							{{ $extra->cantidad }}
-							</center>
-						</td>
-	                  </tr>
-	                @endforeach
-			</tbody>
-		</table>				
-	</div>
-
-@endif
 <script>
 
   	var cantidad = {!! count($hojarutas) !!};

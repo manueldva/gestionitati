@@ -262,12 +262,8 @@
 						{{ form::number('costovendedor', null, ['class' => 'form-control', 'id' => 'costovendedor']) }} 
 				  	</div>
 				  	<div class="form-group">
-					  	{{ form::label('costorepartidor', 'C. Repartidor') }}
-						{{ form::number('costorepartidor', null, ['class' => 'form-control', 'id' => 'costorepartidor']) }}
-				  	</div>
-				  	<div class="form-group">
 					  	{{ form::label('condicioniva', 'Con. IVA') }}
-						{{ form::text('condicioniva', null, ['class' => 'form-control', 'id' => 'condicioniva', 'maxlength' =>'100']) }}
+						{{ form::number('condicioniva', null, ['class' => 'form-control', 'id' => 'condicioniva', 'maxlength' =>'100']) }}
 				  	</div>
 			      
 			    </div>
