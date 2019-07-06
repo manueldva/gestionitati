@@ -129,6 +129,7 @@ class InformeController extends Controller
         } else {
             $contratos = DB::table('contratos')
                     ->join('clientedirecciones', 'contratos.clientedireccion_id', '=', 'clientedirecciones.id')
+                    ->join('clientes', 'contratos.cliente_id', '=', 'clientes.id')
                     ->where('clientedirecciones.barrio_id', '=', $barrio)
                     ->where('contratos.estado', '=', 1)
                     ->where('clientes.estado', '=', 1)
