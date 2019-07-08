@@ -11,7 +11,7 @@ class Hojarutadetalle extends Model
 
 
     protected $fillable = [
-        'hojaruta_id','cliente_id', 'clientedireccion_id', 'contrato_id', 'articulo_id' , 'cantidad', 'fecha', 'estado' , 'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi', 'cantidadfinal', 'precio', 'tipopago'
+        'hojaruta_id','cliente_id', 'clientedireccion_id', 'contrato_id', 'articulo_id' , 'cantidad', 'fecha', 'estado' , 'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi', 'cantidadfinal', 'precio', 'tipopago', 'fechacarga'
     ];
 
 

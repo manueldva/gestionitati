@@ -305,8 +305,25 @@
       			toastr.error('Ocurrio un error, verifique los campos del listado');
       			return false;
       		} else {
-      			//alert($('#id_lista_stocks').val());
-      			$('#form').submit();
+      			swal({ 
+					title: "Una vez procesada esta asignacion no podra modificarla",
+					text: "¿Desea Guardarla?",
+					type: "info",
+					showCancelButton: true,
+					//confirmButtonColor: "#DD6B55",
+					confirmButtonText: "Guardar",
+					cancelButtonText: "Cancelar", 
+					closeOnConfirm: false,
+					closeOnCancel: false },
+
+					function(isConfirm){ 
+					if (isConfirm) {
+						$('#form').submit();
+					} else { 
+						swal.close()
+					} 
+				});
+      			
       		}
       		
       		

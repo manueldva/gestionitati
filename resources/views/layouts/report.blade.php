@@ -11,16 +11,21 @@
 	    body { font-family: Arial, Helvetica;}
 
 	    section{ margin-top: 0.7em} 
-	    footer {
-	       position:fixed;
-	       left:0;
-	       bottom:0;
-	       height:20px;
-	       width:100%;
-	       font-size:12px;
-	       padding-top: 0.4em;
-	       border-top: 1px solid #DADADA;
-	    }
+	    .header,
+		.footer {
+		    width: 100%;
+		    text-align: center;
+		    position: fixed;
+		}
+		.header {
+		    top: 0px;
+		}
+		.footer {
+		    bottom: 0px;
+		}
+		.pagenum:before {
+		    content: counter(page);
+		}
 	    table {
 	      width: 100%;
 	      color:black;
@@ -49,9 +54,12 @@
 	    }   
 	  </style>
 	<body>
-    	<header>
-    		<!--<img src="<?php echo $_SERVER["DOCUMENT_ROOT"].'/assets/img/encabezado.png'; ?>" alt="encabezado">-->
-    	</header>		
+		<div class="header" style="display:none">
+		    Page <span class="pagenum"></span>
+		</div>
+		<div class="footer">
+		    Pagina <span class="pagenum"></span>
+		</div>
 
 		<section>
 			@yield('cuerpo')
@@ -60,5 +68,6 @@
 		<!--footer>
 			<center>Instituto Superior de Sanidad "Prof. Ramón Carrillo" - Formosa</center>
 		</footer -->
+
 	</body>
 </html>
