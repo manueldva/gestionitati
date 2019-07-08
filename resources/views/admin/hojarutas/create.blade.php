@@ -41,7 +41,7 @@
                     </span>
                       Guardar
                 </button>
-                
+                 &nbsp;&nbsp;&nbsp;
 
                 <a href="{{ route('hojarutas.index') }}" type="button" class="btn btn btn-default">
                 <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
