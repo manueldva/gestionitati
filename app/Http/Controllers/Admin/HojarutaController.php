@@ -49,10 +49,9 @@ class HojarutaController extends Controller
     public function index(Request $request)
     {
         $perfil = Perfil::find(Auth::user()->perfil_id);
-        $modulo_actual = Modulo::where('valor', '=', 'STOCK')->get();
+        $modulo_actual = Modulo::where('valor', '=', 'HOJA_RUTA')->get();
         $modulos = $perfil->modulos()->where('modulo_id', '=', $modulo_actual[0]->id)->get();
         $permiso = $modulos[0]->pivot->permiso;
-    
 
         $hojarutas = Hojaruta::type($request->get('type'), $request->get('val'), $request->get('empleados'))->paginate(15);
 
