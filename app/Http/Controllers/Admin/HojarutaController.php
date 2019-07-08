@@ -261,7 +261,31 @@ class HojarutaController extends Controller
         }
 
 
-        return view('admin.hojarutas.show', compact('hojaruta', 'barrio','cant_barrio', 'detalles'));
+        /* Para cierre*/
+
+        $query2="select hrd.articulo_id, a.descripcion articulo, sum(hrd.cantidad) cantidad, hrd.precio ,  sum((hrd.precio * hrd.cantidad)) monto from hojarutadetalles hrd
+            inner join articulos a on hrd.articulo_id = a.id
+            where hrd.hojaruta_id = " . $id . " and hrd.estado = 2
+            group by articulo_id, a.descripcion, hrd.precio
+            order by a.descripcion";
+
+        $t_por_articulo = DB::select($query2);
+
+
+        //totales generates
+         $query3="select sum(hrd.cantidad) cantidad,  sum((hrd.precio * hrd.cantidad)) monto from hojarutadetalles hrd
+            where hrd.hojaruta_id = " . $id . " and hrd.estado = 2";
+
+        $t_general = DB::select($query3);
+
+        $totalgeneral = 0;
+        foreach ($t_general as $key => $value) {
+           $totalgeneral  = $value->monto;
+        }
+        /**/
+        //dd($t_por_articulo);
+
+        return view('admin.hojarutas.show', compact('hojaruta', 'barrio','cant_barrio', 'detalles','t_por_articulo', 'totalgeneral'));
     }
 
     /**

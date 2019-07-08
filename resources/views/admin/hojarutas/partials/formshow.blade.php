@@ -50,7 +50,73 @@
 			  <!-- /.box -->
 			</div>
 			<!-- /.col -->
-			
+			<div class="col-md-6 pull-right">
+			  <!--<div class="box box-default">-->
+			    
+			    <div class="box-header with-border">
+			      
+
+			      <h3 class="box-title">Datos procesados hasta el momento:</h3>
+			    </div>
+			    <!-- /.box-header -->
+			    <div class="box-body">
+			    	<div class="form-group">
+						{{ form::label('fechacobro', 'Fecha Cobro *') }}
+						{{ form::date('fechacobro',null, ['class' => 'form-control', 'id' => 'fechacobro']) }}
+					</div>
+					<hr>
+					<div class="form-group">
+					
+						<div class="form-group">
+							<div class="table-responsive">
+								<table id="table_clientes" class="table table-striped table-hover" data-form="Form">
+									<thead>
+										<tr>
+										<!--<th width="10px"> ID</th>-->
+											<th> Articulo</th>
+											<th> Cantidad</th>
+											<th> Precio U.</th>
+											<th> Subtotal</th>
+										</tr>
+									</thead>
+									<tbody>
+										@foreach($t_por_articulo as $total)
+											<tr>
+											 	<td>
+											 		{{ $total->articulo }}
+											 	</td>
+											 	<td>
+											 		{{ $total->cantidad }}
+											 	</td>
+											 	<td>
+											 		{{ $total->precio }}
+											 	</td>
+											 	<td>
+											 		{{ $total->monto }}
+											 	</td>
+
+											</tr>
+										@endforeach
+										<tr>
+											<td>
+												Totales
+											</td>
+											<td>
+												
+											</td>
+											<td>
+												
+											</td>
+											<td>
+												{{ $totalgeneral }}
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
 			<!-- aca agregar el div col-6 -->
 			
 
