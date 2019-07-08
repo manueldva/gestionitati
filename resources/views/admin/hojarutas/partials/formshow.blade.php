@@ -118,6 +118,11 @@
 									</th>
 									<th>
 										<center>
+											Fecha de Carga
+										</center>
+									</th>
+									<th>
+										<center>
 											Estado
 										</center>
 									</th>
@@ -197,6 +202,11 @@
 												Cuenta Corriente
 											@endif
 										@endif
+										</center>
+									</td>
+									<td >
+										<center>
+										{{ $hojaruta->fechacarga }}
 										</center>
 									</td>
 				                    <td>

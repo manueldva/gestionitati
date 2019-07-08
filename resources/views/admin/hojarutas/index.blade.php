@@ -107,22 +107,21 @@
 						</td>
 	                    @if($permiso == 2) 
 	                    	
-			                    <td width="10px">
-			                    	@if($hojaruta->estado == 1)
-			                      <a href="{{ route('hojarutas.edit', $hojaruta->id) }}" class="btn btn-sm btn-default">
-			                        Porcesar
-			                      </a>
-			                    </td>
-			                   	@endif
-			                    <td width="10px">
-			                    	@if($hojaruta->estado == 1)
-										{!! Form::model($hojaruta, ['method' => 'delete', 'route' => ['hojarutas.destroy', $hojaruta->id], 'class' =>'form-inline form-delete']) !!}
-										{!! Form::hidden('id', $hojaruta->id) !!}
-										{!! Form::submit('Eliminar', ['class' => 'btn btn-sm btn-danger delete', 'name' => 'delete_modal']) !!}
-										{!! Form::close() !!}
-									@endif
-			                    </td>
-		                   
+		                    <td width="10px">
+		                    	@if($hojaruta->estado == 1)
+		                      <a href="{{ route('hojarutas.edit', $hojaruta->id) }}" class="btn btn-sm btn-default">
+		                        Porcesar
+		                      </a>
+		                       	@endif
+		                    </td>
+		                  	<td width="10px">
+		                    	@if($hojaruta->estado == 1)
+		                      <a href="{{ route('cobranza', $hojaruta->id) }}" class="btn btn-sm btn-default">
+		                        Cobranzas
+		                      </a>
+		                       	@endif
+		                    </td>
+			                    
 	                    @endif
 	                  </tr>
 	                @endforeach

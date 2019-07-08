@@ -21,7 +21,7 @@ use App\Models\Barrio;
 use App\Models\Articulo;
 use App\Models\Stockarticulo;
 use App\Models\Stockarticulodetalle;
-
+use App\Models\Hojarutacobranza;
 use DB;
 use Illuminate\Support\Facades\Input;
 
@@ -223,9 +223,9 @@ class HojarutaController extends Controller
     {
         $hojaruta = Hojaruta::find($id);
 
-        $query1="select hrd.cliente_id, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END cliente,
+        $query1='select hrd.cliente_id, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, " ",  c.nombre) WHEN 2 THEN c.cliente ELSE "-" END cliente,
         ba.descripcion as barrio, c.tipocliente_id, ca.descripcion as calle, cd.numero, cd.manzana, cd.casa, cd.seccion, cd.lote, cd.edificiotorre, cd.piso, cd.observaciondomicilio, cd.referenciadomicilio,
-        a.descripcion articulo, hrd.cantidad, hrd.estado, hrd.tipopago
+        a.descripcion articulo, hrd.cantidad, hrd.estado, hrd.tipopago, DATE_FORMAT(hrd.fechacarga, "%d/%m/%Y") as fechacarga
         from hojarutas hr
         inner join hojarutadetalles hrd on hr.id = hrd.hojaruta_id
         inner join clientes c on hrd.cliente_id = c.id
@@ -233,8 +233,8 @@ class HojarutaController extends Controller
         left join calles ca on ca.id = cd.calle_id
         left join barrios ba on ba.id = cd.barrio_id
         inner join articulos a on hrd.articulo_id = a.id
-        where hr.id = " . $id . "
-        order by hrd.id";
+        where hr.id = ' . $id . '
+        order by hrd.id';
 
         $detalles = DB::select($query1);
 
@@ -274,7 +274,7 @@ class HojarutaController extends Controller
     public function edit($id)
     {
         
-         $hojaruta = Hojaruta::find($id);
+        $hojaruta = Hojaruta::find($id);
 
         $hojaruta->fecha = FechaHelper::getFechaInputDate($hojaruta->fecha); 
 
@@ -312,7 +312,7 @@ class HojarutaController extends Controller
                     $detalle->cantidadfinal = $cantidad;
                     $detalle->precio = $precio->precioreparto;
                     $detalle->tipopago = $tipopago;
-                    $detalle->fecha = $request->input("fecha");
+                    $detalle->fechacarga = $request->input("fechacarga");
                     $detalle->estado = 2;
                     $detalle->usuario_modi = Auth::user()->username;
                     $detalle->fecha_modi = date('Y-m-d H:i:s');
@@ -334,6 +334,65 @@ class HojarutaController extends Controller
         Alert::success('Hoja de ruta procesada con exito')->persistent("Cerrar");
         return redirect()->route('hojarutas.index');
     }
+
+
+    public function cobranza($id)
+    {
+        
+       
+        $hojaruta = Hojaruta::find($id);
+
+        $cobranzas = Hojarutacobranza::where('hojaruta_id', $id)->get();
+
+        foreach ($cobranzas as $cobranza) {
+            $cobranza->fechacobranza = FechaHelper::getFechaImpresion($cobranza->fechacobranza); 
+        }
+        
+        $hojaruta->fecha = FechaHelper::getFechaInputDate($hojaruta->fecha); 
+
+         $query="select ba.descripcion from hojarutas hr
+                inner join hojarutadetalles hrd on hr.id = hrd.hojaruta_id
+                inner join clientedirecciones cd on hrd.clientedireccion_id = cd.id
+                left join barrios ba on ba.id = cd.barrio_id
+                where  hr.id = " . $id . "
+                group by ba.descripcion
+                order by ba.descripcion";
+
+        $data = DB::select($query);
+        $barrio = '';
+        foreach ($data as $key => $value) {
+           if($barrio == ''){
+                $barrio = $value->descripcion;
+           } else {
+                $barrio = $barrio .' - '. $value->descripcion;
+           }
+           
+        }
+
+        return view('admin.hojarutas.cobranza', compact('hojaruta', 'barrio', 'cobranzas'));
+
+    }
+
+
+    public function updatecobranza(Request $request, $id)
+    {
+
+        //dd($request->all());
+
+        $cobranza = Hojarutacobranza::create($request->all());
+
+        //auditoria
+        $cobranza->fill(['hojaruta_id'=> $id, 'usuario_alta' => Auth::user()->username , 'fecha_alta' => date('Y-m-d H:i:s')])->save();
+        //
+
+
+        Alert::success('Cobranza guardada correctamente')->persistent("Cerrar");
+        return redirect()->route('cobranza', $id);
+
+        
+    }
+
+
 
     /**
      * Remove the specified resource from storage.
