@@ -357,7 +357,7 @@ class HojarutaController extends Controller
         }
 
         Alert::success('Hoja de ruta procesada con exito')->persistent("Cerrar");
-        return redirect()->route('hojarutas.index');
+        return redirect()->route('hojarutas.edit', $id);
     }
 
 
