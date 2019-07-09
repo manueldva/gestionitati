@@ -492,6 +492,7 @@
       			estadocampos = 1;
 			   	$('#table_hojarutaspan').show();
       		} else {
+      			estadocampos = 0;
       			$('#table_hojarutaspan').hide();
       		}
 
@@ -499,17 +500,18 @@
       		$('#id_lista_articulos').val(listado2);
       		//alert($('#id_lista_hojaruta').val());
 
-      		/*
+      		
       		if(estadocampos == 1) 
       		{
-      			toastr.error('No se puede guardar el stock. Faltan datos');
+      			toastr.error('No se puede guardar la hoja. Faltan datos');
       			return false;
       		} else {
       			$('#form').submit();
       		}
-			*/
-
-		   	$('#form').submit();
+			
+			/*if ($('#id_lista_hojaruta').val() !== ''){
+		   		$('#form').submit();
+		   	}*/
 
 		});
 

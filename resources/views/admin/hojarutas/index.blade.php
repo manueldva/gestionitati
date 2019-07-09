@@ -64,7 +64,7 @@
 	                  <th> Barrio/s</th>
 					  <th> Fecha</th>
 	                  <th> Estado</th>
-	                  <th colspan="3">&nbsp;</th>
+	                  <th colspan="4">&nbsp;</th>
 	                </tr>
 	              </thead>
 	              <tbody>
@@ -121,7 +121,13 @@
 		                      </a>
 		                       	@endif
 		                    </td>
-			                    
+			                <td width="10px">
+								{!! Form::model($hojaruta, ['method' => 'delete', 'route' => ['hojarutas.destroy', $hojaruta->id], 'class' =>'form-inline form-delete']) !!}
+								{!! Form::hidden('id', $hojaruta->id) !!}
+								{!! Form::submit('Eliminar', ['class' => 'btn btn-sm btn-danger delete', 'name' => 'delete_modal']) !!}
+								{!! Form::close() !!}
+
+		                    </td>
 	                    @endif
 	                  </tr>
 	                @endforeach
