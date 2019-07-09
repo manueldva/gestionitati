@@ -65,6 +65,7 @@
 						{{ form::date('fechacobro',null, ['class' => 'form-control', 'id' => 'fechacobro']) }}
 					</div>
 					<hr>
+					{{ form::label('fechacobro', 'Articulos cargados hasta el momento:') }}
 					<div class="form-group">
 					
 						<div class="form-group">
@@ -124,10 +125,53 @@
 							</div>
 						</div>
 					</div>
+					<hr>
+					{{ form::label('fechacobro', 'Discriminado por tipo de pago:') }}
+					<div class="form-group">
+					
+						<div class="form-group">
+							<div class="table-responsive">
+								<table id="table_clientes" class="table table-striped table-hover" data-form="Form">
+									<thead>
+										<tr>
+										<!--<th width="10px"> ID</th>-->
+											<th> Tipo Pago</th>
+											<th> Monto</th>
+										</tr>
+									</thead>
+									<tbody>
+										@foreach($t_tipopago as $total)
+											<tr>
+											 	<td>
+											 		
+											 		{{ $total->tipo }}
+											 	</td>
+											 	<td>
+											 		<b>
+											 		{{ $total->monto }}
+											 		</b>
+											 	</td>
+											</tr>
+										@endforeach
+										
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<hr>
+					<div class="form-group">
+						{{ form::label('cobranza', 'Cobranzas extras:') }}
+						{{ form::text('cobranza',$totalcobranza, ['class' => 'form-control', 'id' => 'cobranza', 'readonly','style' =>'font-weight: bold;' ]) }}
+					</div>
+					<div class="form-group">
+						{{ form::label('cobranza', 'Efectivo total a recibir:') }}
+						{{ form::text('cobranza',$totalgeneralefectivo, ['class' => 'form-control', 'id' => 'cobranza', 'readonly', 'style' =>'font-weight: bold;  font-size:20px;']) }}
+					</div>
 				</div>
 			<!-- aca agregar el div col-6 -->
 			
-
+</div>
 	 	</div>
 	    <!-- /.box-body -->
 	  </div>

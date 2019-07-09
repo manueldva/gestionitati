@@ -33,7 +33,12 @@ use Auth;
 
 class HojarutaController extends Controller
 {
+/* tipos de pagos
+0 = sin cargo
+1 = efectivo
+2 = cuenta corriente
 
+*/
 
     public function __construct()
     {
@@ -220,6 +225,12 @@ class HojarutaController extends Controller
      */
     public function show($id)
     {
+        /* tipos de pagos
+        0 = sin cargo
+        1 = efectivo
+        2 = cuenta corriente
+
+        */
         $hojaruta = Hojaruta::find($id);
 
         $query1='select hrd.cliente_id, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, " ",  c.nombre) WHEN 2 THEN c.cliente ELSE "-" END cliente,
@@ -287,7 +298,42 @@ class HojarutaController extends Controller
         /**/
         //dd($t_por_articulo);
 
-        return view('admin.hojarutas.show', compact('hojaruta', 'barrio','cant_barrio', 'detalles','t_por_articulo', 'totalgeneral', 'cantidadgeneral'));
+        //totales cobranzas
+         $query4="select ifnull(sum(monto), 0) as monto from hojarutacobranzas where hojaruta_id  = " . $id;
+
+        $t_cobranza = DB::select($query4);
+
+        $totalcobranza = 0;
+        foreach ($t_cobranza as $key => $value) {
+           $totalcobranza  = $value->monto;
+        }
+        /**/
+
+
+        //discriminado por pago
+         $query5="select 'Efectivo' as tipo, ifnull(sum((hrd.precio * hrd.cantidad)), 0) monto from hojarutadetalles hrd
+            where hrd.hojaruta_id = " . $id . " and hrd.estado = 2 and hrd.tipopago = 1
+            union all
+            select 'Cuenta Corriente' as tipo, ifnull(sum((hrd.precio * hrd.cantidad)), 0) monto from hojarutadetalles hrd
+            where hrd.hojaruta_id = " . $id . " and hrd.estado = 2 and hrd.tipopago = 2
+            union all
+            select 'Sin Cargo' as tipo, ifnull(sum((hrd.precio * hrd.cantidad)), 0) monto from hojarutadetalles hrd
+            where hrd.hojaruta_id = " . $id . " and hrd.estado = 2 and hrd.tipopago = 0
+            ";
+
+        $t_tipopago = DB::select($query5);
+        $totalgeneralefectivo = 0;
+        foreach ($t_tipopago as $key => $value) {
+            if($value->tipo == 'Efectivo') {
+                $totalgeneralefectivo =  number_format(($totalcobranza + $value->monto), 2, '.', '');;
+            }
+        }
+        /**/
+
+        //dd($t_por_articulo);
+
+
+        return view('admin.hojarutas.show', compact('hojaruta', 'barrio','cant_barrio', 'detalles','t_por_articulo', 'totalgeneral', 'cantidadgeneral', 'totalcobranza', 't_tipopago', 'totalgeneralefectivo'));
     }
 
     /**
