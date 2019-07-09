@@ -74,8 +74,8 @@
 										<tr>
 										<!--<th width="10px"> ID</th>-->
 											<th> Articulo</th>
-											<th> Cantidad</th>
 											<th> Precio U.</th>
+											<th> Cantidad</th>
 											<th> Subtotal</th>
 										</tr>
 									</thead>
@@ -86,10 +86,11 @@
 											 		{{ $total->articulo }}
 											 	</td>
 											 	<td>
-											 		{{ $total->cantidad }}
+											 		{{ $total->precio }}
+											 	
 											 	</td>
 											 	<td>
-											 		{{ $total->precio }}
+											 		{{ $total->cantidad }}
 											 	</td>
 											 	<td>
 											 		{{ $total->monto }}
@@ -99,16 +100,23 @@
 										@endforeach
 										<tr>
 											<td>
-												Totales
-											</td>
-											<td>
+												<b>
+													Totales
+												</b>
 												
 											</td>
 											<td>
 												
 											</td>
 											<td>
-												{{ $totalgeneral }}
+												<b>
+													{{ $cantidadgeneral }}
+												</b>
+											</td>
+											<td>
+												<b>
+													{{ $totalgeneral }}
+												</b>
 											</td>
 										</tr>
 									</tbody>

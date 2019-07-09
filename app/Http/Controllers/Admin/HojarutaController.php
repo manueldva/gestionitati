@@ -279,13 +279,15 @@ class HojarutaController extends Controller
         $t_general = DB::select($query3);
 
         $totalgeneral = 0;
+        $cantidadgeneral = 0;
         foreach ($t_general as $key => $value) {
            $totalgeneral  = $value->monto;
+           $cantidadgeneral  = $value->cantidad;
         }
         /**/
         //dd($t_por_articulo);
 
-        return view('admin.hojarutas.show', compact('hojaruta', 'barrio','cant_barrio', 'detalles','t_por_articulo', 'totalgeneral'));
+        return view('admin.hojarutas.show', compact('hojaruta', 'barrio','cant_barrio', 'detalles','t_por_articulo', 'totalgeneral', 'cantidadgeneral'));
     }
 
     /**
