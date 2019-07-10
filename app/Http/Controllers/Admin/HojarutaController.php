@@ -566,4 +566,140 @@ class HojarutaController extends Controller
         
     }
 
+
+    public function printhojarutadetalle($id, $fecha)
+    {
+
+        $hojaruta = Hojaruta::find($id);
+
+
+        $hojaruta->fecha = FechaHelper::getFechaInputDate($hojaruta->fecha); 
+
+
+        $query="select ba.descripcion from hojarutas hr
+                inner join hojarutadetalles hrd on hr.id = hrd.hojaruta_id
+                inner join clientedirecciones cd on hrd.clientedireccion_id = cd.id
+                left join barrios ba on ba.id = cd.barrio_id
+                where  hr.id = " . $id . "
+                group by ba.descripcion
+                order by ba.descripcion";
+
+        $data = DB::select($query);
+        $barrio = '';
+        foreach ($data as $key => $value) {
+           if($barrio == ''){
+                $barrio = $value->descripcion;
+           } else {
+                $barrio = $barrio .' - '. $value->descripcion;
+           }
+           
+        }
+
+
+        /* Para cierre*/
+
+        if($fecha) {
+            $query2="select hrd.articulo_id, a.descripcion articulo, sum(hrd.cantidad) cantidad, hrd.precio ,  sum((hrd.precio * hrd.cantidad)) monto from hojarutadetalles hrd
+                inner join articulos a on hrd.articulo_id = a.id
+                where hrd.hojaruta_id = " . $id . " and hrd.estado = 2 and hrd.fechacarga = '" . $fecha . "'
+                group by articulo_id, a.descripcion, hrd.precio
+                order by a.descripcion";
+        } else {
+            $query2="select hrd.articulo_id, a.descripcion articulo, sum(hrd.cantidad) cantidad, hrd.precio ,  sum((hrd.precio * hrd.cantidad)) monto from hojarutadetalles hrd
+                inner join articulos a on hrd.articulo_id = a.id
+                where hrd.hojaruta_id = " . $id . " and hrd.estado = 2
+                group by articulo_id, a.descripcion, hrd.precio
+                order by a.descripcion";
+        }
+
+        $t_por_articulo = DB::select($query2);
+
+
+        //totales generates
+        if($fecha) {
+            $query3="select sum(hrd.cantidad) cantidad,  sum((hrd.precio * hrd.cantidad)) monto from hojarutadetalles hrd
+                where hrd.hojaruta_id = " . $id . " and hrd.estado = 2 and hrd.fechacarga = '" . $fecha. "'";
+        } else {
+            $query3="select sum(hrd.cantidad) cantidad,  sum((hrd.precio * hrd.cantidad)) monto from hojarutadetalles hrd
+                where hrd.hojaruta_id = " . $id . " and hrd.estado = 2";
+        }
+
+        $t_general = DB::select($query3);
+
+        $totalgeneral = 0;
+        $cantidadgeneral = 0;
+        foreach ($t_general as $key => $value) {
+           $totalgeneral  = $value->monto;
+           $cantidadgeneral  = $value->cantidad;
+        }
+        /**/
+        //dd($t_por_articulo);
+
+        //totales cobranzas
+        if($fecha) {
+            $query4="select ifnull(sum(monto), 0) as monto from hojarutacobranzas where fechacobranza = '" . $fecha . "' and hojaruta_id  = " . $id;
+        } else {
+            $query4="select ifnull(sum(monto), 0) as monto from hojarutacobranzas where hojaruta_id  = " . $id;
+        }
+
+        $t_cobranza = DB::select($query4);
+
+        $totalcobranza = 0;
+        foreach ($t_cobranza as $key => $value) {
+           $totalcobranza  = $value->monto;
+        }
+        /**/
+
+
+        //discriminado por pago
+        if($fecha) {
+            $query5="select 'Efectivo' as tipo, ifnull(sum((hrd.precio * hrd.cantidad)), 0) monto from hojarutadetalles hrd
+                where hrd.hojaruta_id = " . $id . " and hrd.estado = 2 and hrd.tipopago = 1 and hrd.fechacarga = '" . $fecha . "'
+                union all
+                select 'Cuenta Corriente' as tipo, ifnull(sum((hrd.precio * hrd.cantidad)), 0) monto from hojarutadetalles hrd
+                where hrd.hojaruta_id = " . $id . " and hrd.estado = 2 and hrd.tipopago = 2 and hrd.fechacarga = '" . $fecha . "'
+                union all
+                select 'Sin Cargo' as tipo, ifnull(sum((hrd.precio * hrd.cantidad)), 0) monto from hojarutadetalles hrd
+                where hrd.hojaruta_id = " . $id . " and hrd.estado = 2 and hrd.tipopago = 0 and hrd.fechacarga = '" . $fecha . "'";
+        } else {
+            $query5="select 'Efectivo' as tipo, ifnull(sum((hrd.precio * hrd.cantidad)), 0) monto from hojarutadetalles hrd
+                where hrd.hojaruta_id = " . $id . " and hrd.estado = 2 and hrd.tipopago = 1
+                union all
+                select 'Cuenta Corriente' as tipo, ifnull(sum((hrd.precio * hrd.cantidad)), 0) monto from hojarutadetalles hrd
+                where hrd.hojaruta_id = " . $id . " and hrd.estado = 2 and hrd.tipopago = 2
+                union all
+                select 'Sin Cargo' as tipo, ifnull(sum((hrd.precio * hrd.cantidad)), 0) monto from hojarutadetalles hrd
+                where hrd.hojaruta_id = " . $id . " and hrd.estado = 2 and hrd.tipopago = 0
+                ";
+
+        }
+
+        //dd($query5);
+
+        $t_tipopago = DB::select($query5);
+        $totalgeneralefectivo = 0;
+        foreach ($t_tipopago as $key => $value) {
+            if($value->tipo == 'Efectivo') {
+                $totalgeneralefectivo =  number_format(($totalcobranza + $value->monto), 2, '.', '');
+            }
+        }
+        /**/
+
+        //dd($t_por_articulo);
+
+        $pdf = PDF::loadView('admin.hojarutas.printhojarutadetallecierre', compact('hojaruta' ,'barrio','t_por_articulo', 'totalgeneral', 'cantidadgeneral', 'totalcobranza', 't_tipopago', 'totalgeneralefectivo', 'fecha'));
+            //$pdf->setPaper('Legal', 'landscape');
+
+        return $pdf->setPaper('Legal', 'landscape')->stream('hojarutadetallecierre.pdf');
+        //return view('admin.hojarutas.show', compact('hojaruta', 'barrio','cant_barrio', 'detalles','t_por_articulo', 'totalgeneral', 'cantidadgeneral', 'totalcobranza', 't_tipopago', 'totalgeneralefectivo'));
+
+        /*$pdf = PDF::loadView('admin.hojarutas.printhojaruta', compact('hojarutas', 'hojaruta', 'cantidad', 'extras'));
+        //$pdf->setPaper('Legal', 'landscape');
+
+        return $pdf->setPaper('Legal', 'landscape')->stream('hojaruta.pdf');*/
+
+        
+    }
+
+
 }

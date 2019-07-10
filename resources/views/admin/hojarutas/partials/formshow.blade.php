@@ -78,12 +78,9 @@
 							                </a>
 										</th>
 										<th>
-											<a type="button" id="imprimir" name="imprimir" class="btn btn btn-primary">
-							                <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
-							                    <span class="fa fa-print">
-							                    </span>
-							                      Imprimir
-							                </a>
+											<a target="_blank" href="#" id="imprimir"> 
+						                        <button  type="button" class="btn btn btn-primary"><span class="glyphicon glyphicon-print"></span> Imprimir</button>
+						                    </a>
 										</th>
 									</tr>
 
@@ -509,10 +506,25 @@
 			});
 
 
+		});
 
+
+		$('#imprimir').on('click', function(e){
+            
+            var id = $("#id").val();
+
+            var fecha = $("#fechacobro").val();
+            //alert(fecha);
+            if (fecha == '')
+            {
+                fecha = '0';
+            }
+
+            e.preventDefault();
+            window.open("{{url('printhojarutadetalle')}}/"+ id +"/"+ fecha);
 			
 
-		});
+        });
 
 	</script>
 
