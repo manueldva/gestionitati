@@ -61,16 +61,44 @@
 			    <!-- /.box-header -->
 			    <div class="box-body">
 			    	<div class="form-group">
-						{{ form::label('fechacobro', 'Fecha Cobro *') }}
-						{{ form::date('fechacobro',null, ['class' => 'form-control', 'id' => 'fechacobro']) }}
+		    			{{ form::label('fechacobro', 'Fecha Cobro *') }}
+						<div class="table-responsive">
+							<table id="table_clientes" class="table table-striped table-hover" data-form="Form">
+								<thead>
+									<tr>
+										<th>
+											{{ form::date('fechacobro',null, ['class' => 'form-control', 'id' => 'fechacobro']) }}
+										</th>
+										<th>
+											<a type="button" id="buscarprocesado" name="buscarprocesado" class="btn btn btn-success">
+							                <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
+							                    <span class="fa fa-search">
+							                    </span>
+							                      Buscar
+							                </a>
+										</th>
+										<th>
+											<a type="button" id="imprimir" name="imprimir" class="btn btn btn-primary">
+							                <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
+							                    <span class="fa fa-print">
+							                    </span>
+							                      Imprimir
+							                </a>
+										</th>
+									</tr>
+
+								</thead>
+							</table>
+						</div>
 					</div>
+
 					<hr>
 					{{ form::label('fechacobro', 'Articulos cargados hasta el momento:') }}
 					<div class="form-group">
 					
 						<div class="form-group">
 							<div class="table-responsive">
-								<table id="table_clientes" class="table table-striped table-hover" data-form="Form">
+								<table id="table_general" class="table table-striped table-hover" data-form="Form">
 									<thead>
 										<tr>
 										<!--<th width="10px"> ID</th>-->
@@ -131,7 +159,7 @@
 					
 						<div class="form-group">
 							<div class="table-responsive">
-								<table id="table_clientes" class="table table-striped table-hover" data-form="Form">
+								<table id="table_pagos" class="table table-striped table-hover" data-form="Form">
 									<thead>
 										<tr>
 										<!--<th width="10px"> ID</th>-->
@@ -165,8 +193,8 @@
 						{{ form::text('cobranza',$totalcobranza, ['class' => 'form-control', 'id' => 'cobranza', 'readonly','style' =>'font-weight: bold;' ]) }}
 					</div>
 					<div class="form-group">
-						{{ form::label('cobranza', 'Efectivo total a recibir:') }}
-						{{ form::text('cobranza',$totalgeneralefectivo, ['class' => 'form-control', 'id' => 'cobranza', 'readonly', 'style' =>'font-weight: bold;  font-size:20px;']) }}
+						{{ form::label('total', 'Efectivo total a recibir:') }}
+						{{ form::text('total',$totalgeneralefectivo, ['class' => 'form-control', 'id' => 'total', 'readonly', 'style' =>'font-weight: bold;  font-size:20px;']) }}
 					</div>
 				</div>
 			<!-- aca agregar el div col-6 -->
@@ -227,6 +255,11 @@
 									<th>
 										<center>
 											<i></i> Cantidad
+										</center>
+									</th>
+									<th>
+										<center>
+											<i></i> Venta
 										</center>
 									</th>
 									<th>
@@ -311,6 +344,11 @@
 									</td>
 									<td>
 										<center>
+										{{ $hojaruta->cantidadfinal }}
+										</center>
+									</td>
+									<td>
+										<center>
 										@if($hojaruta->estado == 2)
 											@if($hojaruta->tipopago == 0)
 												Sin Cargo
@@ -366,7 +404,115 @@
 	<!-- todo lo que tenga que realizar un ajax -->
 	<script type="text/javascript">
 
+		$( "#buscarprocesado" ).click(function() {
 
+			$("#table_general").find("tr:gt(0)").remove();
+
+			$.ajax({
+				dataType: 'json',
+				url: APP_URL + '/api/hojarutashowdetalletotales',
+				async: false,
+				//url: '../api/validardocumento',
+				data: {id: $('#id').val(), fecha: $('#fechacobro').val() }
+			}).done(function(data) {
+				//var $empleado = $('#empleado'); 
+				
+	
+					//variables para guardar en la grilla
+					$.each(data, function(key, value){
+						//alert(value.articulo);
+						$('#table_general tbody').prepend(
+						'<tr>' + 
+						'<td><b>Totales</b></td>' +
+						'<td></td>' +
+						'<td><b>' + value.cantidad + '</b></td>' +
+						'<td><b>' + value.monto + '</b></td>' +
+						'</tr>');
+			    	})							
+				
+			});
+
+			//var fecha = $('#fechacobro').val();
+			$.ajax({
+				dataType: 'json',
+				url: APP_URL + '/api/hojarutashowdetallegeneral',
+				//async: false,
+				//url: '../api/validardocumento',
+				data: {id: $('#id').val(), fecha: $('#fechacobro').val() }
+			}).done(function(data) {
+				//var $empleado = $('#empleado'); 
+				
+	
+					//variables para guardar en la grilla
+					$.each(data, function(key, value){
+						//alert(value.articulo);
+						$('#table_general tbody').prepend(
+						'<tr>' + 
+						'<td>' + value.articulo + '</td>' +
+						'<td>' + value.precio + '</td>' +
+						'<td>' + value.cantidad + '</td>' +
+						'<td>' + value.monto + '</td>' +
+						'</tr>');
+			    	})							
+				
+			});
+
+
+
+			//para cobranza
+			$.ajax({
+				dataType: 'json',
+				url: APP_URL + '/api/hojarutashowdetallecobranza',
+				//async: false,
+				//url: '../api/validardocumento',
+				data: {id: $('#id').val(), fecha: $('#fechacobro').val() }
+			}).done(function(data) {
+				//var $empleado = $('#empleado'); 
+
+				$('#cobranza').val(data.toFixed(2));		
+				
+			});
+
+
+			//var fecha = $('#fechacobro').val();
+			$("#table_pagos").find("tr:gt(0)").remove();
+			$.ajax({
+				dataType: 'json',
+				url: APP_URL + '/api/hojarutashowdetalletipopago',
+				//async: false,
+				//url: '../api/validardocumento',
+				data: {id: $('#id').val(), fecha: $('#fechacobro').val() }
+			}).done(function(data) {
+				//var $empleado = $('#empleado'); 
+				
+	
+					//variables para guardar en la grilla
+					$.each(data, function(key, value){
+						//alert(value.articulo);
+
+						$('#table_pagos tbody').prepend(
+						'<tr>' + 
+						'<td><b>' + value.tipo + '</b></td>' +
+						'<td><b>' + value.monto + '</b></td>' +
+						'</tr>');
+
+						if(value.tipo == 'Efectivo') {
+
+							var temp1 = $("#cobranza").val();
+							var temp2 = parseFloat(temp1) + parseFloat(value.monto);
+							
+
+							$('#total').val(parseFloat(temp2).toFixed(2));		
+						}	
+			    	})							
+				
+			});
+
+
+
+			
+
+		});
 
 	</script>
 

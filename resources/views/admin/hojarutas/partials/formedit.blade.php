@@ -106,7 +106,7 @@
 							</div>
 						</div>
 					</div>
-										<br>
+					<br>
 					<a type="button" id="agregararticulo" name="agregararticulo" class="btn btn btn-success">
 	                <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
 	                    <span class="fa fa-plus-circle">

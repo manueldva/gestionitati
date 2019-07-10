@@ -376,3 +376,117 @@ Route::get('stockarticulo', function() {
 
 
 /*----------*/
+
+
+/*para datos procesados -- hoja de ruta*/
+Route::get('hojarutashowdetallegeneral', function() {
+
+
+    if(request('fecha')) {
+        $query='select hrd.articulo_id, a.descripcion articulo, sum(hrd.cantidad) cantidad, hrd.precio ,  sum((hrd.precio * hrd.cantidad)) monto from hojarutadetalles hrd
+        inner join articulos a on hrd.articulo_id = a.id
+        where hrd.hojaruta_id = ' . request('id') . ' and hrd.estado = 2 and hrd.fechacarga = "' . strval(request('fecha')) . '"
+        group by articulo_id, a.descripcion, hrd.precio
+        order by a.descripcion DESC';
+    } else {
+        $query='select hrd.articulo_id, a.descripcion articulo, sum(hrd.cantidad) cantidad, hrd.precio ,  sum((hrd.precio * hrd.cantidad)) monto from hojarutadetalles hrd
+        inner join articulos a on hrd.articulo_id = a.id
+        where hrd.hojaruta_id = ' . request('id') . ' and hrd.estado = 2
+        group by articulo_id, a.descripcion, hrd.precio
+        order by a.descripcion DESC';
+    }
+   
+   
+
+    //dd($query);
+    $t_por_articulo = DB::select($query);
+
+
+
+    return $t_por_articulo;
+});
+
+Route::get('hojarutashowdetalletotales', function() {
+
+
+    if(request('fecha')) {
+
+        //totales generates
+        $query='select ifnull(sum(hrd.cantidad), 0) cantidad,  ifnull(sum((hrd.precio * hrd.cantidad)), 0.00) monto from hojarutadetalles hrd
+            where hrd.hojaruta_id = ' . request('id') . ' and hrd.estado = 2 and hrd.fechacarga = "' . strval(request('fecha')) . '"';
+
+    } else {
+        $query='select ifnull(sum(hrd.cantidad), 0) cantidad,  ifnull(sum((hrd.precio * hrd.cantidad)), 0.00) monto from hojarutadetalles hrd
+            where hrd.hojaruta_id = ' . request('id') . ' and hrd.estado = 2';
+
+    }
+   
+
+    //dd($query);
+    $t_general = DB::select($query);
+
+
+
+    return $t_general;
+});
+
+
+Route::get('hojarutashowdetallecobranza', function() {
+
+
+    if(request('fecha')) {
+
+       //totales cobranzas
+        $query='select ifnull(sum(monto), 0.00) as monto from hojarutacobranzas where hojaruta_id  = ' . request('id') . ' and fechacobranza = "' . strval(request('fecha')) . '"';
+    } else {
+        $query='select ifnull(sum(monto), 0.00) as monto from hojarutacobranzas where hojaruta_id  = ' . request('id');
+    }
+   
+    $t_cobranza = DB::select($query);
+
+    $totalcobranza = '';
+    foreach ($t_cobranza as $key => $value) {
+       $totalcobranza  = $value->monto;
+    }
+
+    //dd(number_format($totalcobranza, 2, '.', ''));
+    return strval($totalcobranza);
+});
+
+Route::get('hojarutashowdetalletipopago', function() {
+
+
+    if(request('fecha')) {
+
+       //totales cobranzas
+        $query='select "Sin Cargo" as tipo, ifnull(sum((hrd.precio * hrd.cantidad)), 0) monto from hojarutadetalles hrd
+            where hrd.hojaruta_id = ' . request('id') . ' and hrd.estado = 2 and hrd.tipopago = 0  and hrd.fechacarga = "' . strval(request('fecha')) . '"
+            union all
+            select "Cuenta Corriente" as tipo, ifnull(sum((hrd.precio * hrd.cantidad)), 0) monto from hojarutadetalles hrd
+            where hrd.hojaruta_id = ' . request('id') . ' and hrd.estado = 2 and hrd.tipopago = 2  and hrd.fechacarga = "' . strval(request('fecha')) . '"
+            union all
+            select "Efectivo" as tipo, ifnull(sum((hrd.precio * hrd.cantidad)), 0) monto from hojarutadetalles hrd
+            where hrd.hojaruta_id = ' . request('id') . ' and hrd.estado = 2 and hrd.tipopago = 1  and hrd.fechacarga = "' . strval(request('fecha')) . '";
+            ';
+    } else {
+       $query="select 'Sin Cargo' as tipo, ifnull(sum((hrd.precio * hrd.cantidad)), 0) monto from hojarutadetalles hrd
+            where hrd.hojaruta_id = " . request('id') . " and hrd.estado = 2 and hrd.tipopago = 0
+            union all
+            select 'Cuenta Corriente' as tipo, ifnull(sum((hrd.precio * hrd.cantidad)), 0) monto from hojarutadetalles hrd
+            where hrd.hojaruta_id = " . request('id') . " and hrd.estado = 2 and hrd.tipopago = 2
+            union all
+            select 'Efectivo' as tipo, ifnull(sum((hrd.precio * hrd.cantidad)), 0) monto from hojarutadetalles hrd
+            where hrd.hojaruta_id = " . request('id') . " and hrd.estado = 2 and hrd.tipopago = 1
+            ";
+    }
+   
+    $tipopago = DB::select($query);
+
+    //dd(number_format($totalcobranza, 2, '.', ''));
+    return $tipopago;
+});
+
+
+
+
+/*-----------------------------*/

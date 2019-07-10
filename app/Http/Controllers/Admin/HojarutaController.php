@@ -235,7 +235,7 @@ class HojarutaController extends Controller
 
         $query1='select hrd.cliente_id, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, " ",  c.nombre) WHEN 2 THEN c.cliente ELSE "-" END cliente,
         ba.descripcion as barrio, c.tipocliente_id, ca.descripcion as calle, cd.numero, cd.manzana, cd.casa, cd.seccion, cd.lote, cd.edificiotorre, cd.piso, cd.observaciondomicilio, cd.referenciadomicilio,
-        a.descripcion articulo, hrd.cantidad, hrd.estado, hrd.tipopago, DATE_FORMAT(hrd.fechacarga, "%d/%m/%Y") as fechacarga
+        a.descripcion articulo, hrd.cantidad, hrd.estado, hrd.tipopago, DATE_FORMAT(hrd.fechacarga, "%d/%m/%Y") as fechacarga, hrd.cantidadfinal
         from hojarutas hr
         inner join hojarutadetalles hrd on hr.id = hrd.hojaruta_id
         inner join clientes c on hrd.cliente_id = c.id
@@ -284,7 +284,7 @@ class HojarutaController extends Controller
 
 
         //totales generates
-         $query3="select sum(hrd.cantidad) cantidad,  sum((hrd.precio * hrd.cantidad)) monto from hojarutadetalles hrd
+        $query3="select sum(hrd.cantidad) cantidad,  sum((hrd.precio * hrd.cantidad)) monto from hojarutadetalles hrd
             where hrd.hojaruta_id = " . $id . " and hrd.estado = 2";
 
         $t_general = DB::select($query3);
@@ -299,7 +299,7 @@ class HojarutaController extends Controller
         //dd($t_por_articulo);
 
         //totales cobranzas
-         $query4="select ifnull(sum(monto), 0) as monto from hojarutacobranzas where hojaruta_id  = " . $id;
+        $query4="select ifnull(sum(monto), 0) as monto from hojarutacobranzas where hojaruta_id  = " . $id;
 
         $t_cobranza = DB::select($query4);
 
@@ -311,7 +311,7 @@ class HojarutaController extends Controller
 
 
         //discriminado por pago
-         $query5="select 'Efectivo' as tipo, ifnull(sum((hrd.precio * hrd.cantidad)), 0) monto from hojarutadetalles hrd
+        $query5="select 'Efectivo' as tipo, ifnull(sum((hrd.precio * hrd.cantidad)), 0) monto from hojarutadetalles hrd
             where hrd.hojaruta_id = " . $id . " and hrd.estado = 2 and hrd.tipopago = 1
             union all
             select 'Cuenta Corriente' as tipo, ifnull(sum((hrd.precio * hrd.cantidad)), 0) monto from hojarutadetalles hrd
@@ -325,7 +325,7 @@ class HojarutaController extends Controller
         $totalgeneralefectivo = 0;
         foreach ($t_tipopago as $key => $value) {
             if($value->tipo == 'Efectivo') {
-                $totalgeneralefectivo =  number_format(($totalcobranza + $value->monto), 2, '.', '');;
+                $totalgeneralefectivo =  number_format(($totalcobranza + $value->monto), 2, '.', '');
             }
         }
         /**/
