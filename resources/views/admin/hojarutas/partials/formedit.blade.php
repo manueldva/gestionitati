@@ -323,6 +323,8 @@
 								'<td><center>' + value.articulo + '</center></td>' +
 		 						'<td><center><div contenteditable="true"><font color="green">'+value.cantidad+'</font></div></td>' +
 		 						'<td>' + clasificacion + '</td>' +
+		 						"<td><a class='delete btn btn-sm btn-danger' onclick ='deletearticulo_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
+								
 								'</tr>');
 					    	})							
 						}
@@ -343,8 +345,15 @@
 		});
 
 
+		/*borrar filas del listado de articulos*/
+		function deletearticulo_row(row) {
 
-		/*$(document).ready(function(){
+		  	row.closest('tr').remove();
+		  	toastr.info('Registro eliminado de la lista');
+		}
+
+
+		$(document).ready(function(){
 			$("#cliente_id").keypress(function(e) {
 			//no recuerdo la fuente pero lo recomiendan para
 			//mayor compatibilidad entre navegadores.
@@ -354,7 +363,7 @@
 				}
 			});
 		});
-
+		/*
 		$('#cliente_id').focusout(function(e) {
 
 			$('#buscarcliente').click();
@@ -446,6 +455,7 @@
 						'<td><center>' + $('#direccion').val() + '</center></td>' +
 						'<td><center>' + articulo + '</center></td>' +
 						'<td><center>' + cantidad + '</center></td>' +
+						"<td><a class='delete btn btn-sm btn-danger' onclick ='deletearticulo2_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
 						'</tr>');
 			    });
 
@@ -457,6 +467,12 @@
 				toastr.success('Cliente cargado al listado');
 			}
 	    }
+
+	    function deletearticulo2_row(row) {
+
+		  	row.closest('tr').remove();
+		  	toastr.info('Registro eliminado de la lista');
+		}
 
 	    function crear_listado_hojas() {
 		    var listado = '';
