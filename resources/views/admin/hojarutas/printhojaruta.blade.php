@@ -19,7 +19,7 @@
 			<tr>
 	            <th>
 					<center>
-						<i></i>  Nro CLIENTE
+						<i></i>  NRO CLIENTE
 					</center>	
 				</th>
 				<th>
@@ -84,47 +84,44 @@
 					<td >
 						@if($tempid !== $hojaruta->cliente_id)
 							<center>
-								<b>
-									@if(count($cantidad_b) > 1)
-										B° {{ $hojaruta->barrio }}
-									@endif
-									@if($hojaruta->calle)
-										Calle {{ $hojaruta->calle }}
-									@endif
-									@if($hojaruta->numero)
-										Nro. {{ $hojaruta->numero }}
-									@endif
-									@if($hojaruta->manzana)
-										Mz. {{ $hojaruta->manzana }}
-									@endif
-									@if($hojaruta->casa)
-										C. {{ $hojaruta->casa }}
-									@endif
-									@if($hojaruta->seccion)
-										Seccion {{ $hojaruta->seccion }}
-									@endif
-									@if($hojaruta->lote)
-										Lote {{ $hojaruta->lote }}
-									@endif
-									@if($hojaruta->edificiotorre)
-										Edificio {{ $hojaruta->edificiotorre }}
-									@endif
-									@if($hojaruta->piso)
-										Piso/Dpto {{ $hojaruta->piso }}
-									@endif
-									@if($hojaruta->referenciadomicilio)
-										Ref. {{ $hojaruta->referenciadomicilio }}
-									@endif
-								</b>
+								@if(count($cantidad_b) > 1)
+									B° {{ $hojaruta->barrio }}
+								@endif
+								@if($hojaruta->calle)
+									Calle {{ $hojaruta->calle }}
+								@endif
+								@if($hojaruta->numero)
+									Nro. {{ $hojaruta->numero }}
+								@endif
+								@if($hojaruta->manzana)
+									Mz. {{ $hojaruta->manzana }}
+								@endif
+								@if($hojaruta->casa)
+									C. {{ $hojaruta->casa }}
+								@endif
+								@if($hojaruta->seccion)
+									Seccion {{ $hojaruta->seccion }}
+								@endif
+								@if($hojaruta->lote)
+									Lote {{ $hojaruta->lote }}
+								@endif
+								@if($hojaruta->edificiotorre)
+									Edificio {{ $hojaruta->edificiotorre }}
+								@endif
+								@if($hojaruta->piso)
+									Piso/Dpto {{ $hojaruta->piso }}
+								@endif
+								@if($hojaruta->referenciadomicilio)
+									Ref. {{ $hojaruta->referenciadomicilio }}
+								@endif
+
 							</center>
 						@endif
 					</td>
 					<td >
 						@if($tempid !== $hojaruta->cliente_id)
 							<center>
-								<b>
-									{{ $hojaruta->celular }}
-								</b>
+								{{ $hojaruta->celular }}
 							</center>
 						@endif
 					</td>
