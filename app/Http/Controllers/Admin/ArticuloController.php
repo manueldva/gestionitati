@@ -124,6 +124,10 @@ class ArticuloController extends Controller
                 {
                     $articulo->precioherradura = $precio;
                     $articulo->save();
+                }else if ($tipoprecio_id == 5) // precio mojon
+                {
+                    $articulo->preciomojon = $precio;
+                    $articulo->save();
                 }
             }
 
@@ -208,7 +212,6 @@ class ArticuloController extends Controller
         //dd($detalleprecios);
 
         if($articulo->tipoarticulo_id == 1){  // 1 = articulo
-
             if($articulo->precioventa !== '' && $articulo->precioventa !== null && $articulo->precioventa !== '0.00') 
             {
                 $detalleprecios[] = ['tipoprecio_id' => '1' , 'tipoprecio'=> 'Precio Venta', 'precio' => $articulo->precioventa ];
@@ -218,6 +221,20 @@ class ArticuloController extends Controller
             {
                 $detalleprecios[] = ['tipoprecio_id' => '2', 'tipoprecio'=> 'Precio con Reparto', 'precio' => $articulo->precioreparto ];
             }
+
+            if($articulo->preciosucursal  !== '' && $articulo->preciosucursal !== null && $articulo->preciosucursal !== '0.00') 
+            {
+                $detalleprecios[] = ['tipoprecio_id' => '3', 'tipoprecio'=> 'Precio Sucursal', 'precio' => $articulo->preciosucursal ];
+            }
+            if($articulo->precioherradura  !== '' && $articulo->precioherradura !== null && $articulo->precioherradura !== '0.00') 
+            {
+                $detalleprecios[] = ['tipoprecio_id' => '4', 'tipoprecio'=> 'Precio Herradura', 'precio' => $articulo->precioherradura ];
+            }
+            if($articulo->preciomojon  !== '' && $articulo->preciomojon !== null && $articulo->preciomojon !== '0.00') 
+            {
+                $detalleprecios[] = ['tipoprecio_id' => '5', 'tipoprecio'=> 'Precio Mojon F.', 'precio' => $articulo->preciomojon ];
+            }
+
             
         } if($articulo->tipoarticulo_id == 2){  // 2 = plan
 
@@ -280,6 +297,10 @@ class ArticuloController extends Controller
             if($articulo->precioherradura  !== '' && $articulo->precioherradura !== null && $articulo->precioherradura !== '0.00') 
             {
                 $detalleprecios[] = ['tipoprecio_id' => '4', 'tipoprecio'=> 'Precio Herradura', 'precio' => $articulo->precioherradura ];
+            }
+            if($articulo->preciomojon  !== '' && $articulo->preciomojon !== null && $articulo->preciomojon !== '0.00') 
+            {
+                $detalleprecios[] = ['tipoprecio_id' => '5', 'tipoprecio'=> 'Precio Mojon F.', 'precio' => $articulo->preciomojon ];
             }
 
             
@@ -365,6 +386,10 @@ class ArticuloController extends Controller
                 } else if ($tipoprecio_id == 4) // precio herradura
                 {
                     $articulo->precioherradura = $precio;
+                    $articulo->save();
+                }else if ($tipoprecio_id == 5) // precio mojon
+                {
+                    $articulo->preciomojon = $precio;
                     $articulo->save();
                 }
             }

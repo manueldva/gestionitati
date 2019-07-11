@@ -9,7 +9,7 @@ class Articulo extends Model
     //protected $table = 'barrios';
 
 	protected $fillable = [
-    	'descripcion', 'tipoarticulo_id' ,'tipoenvase_id', 'abreviatura', 'caracteristicas', 'precioventa', 'precioreparto','preciosucursal', 'precioherradura' , 'precioplan', 'costo', 'costovendedor', 'clasificacion', 'costorepartidor' ,'condicioniva' , 'stock' ,'usuario_alta', 'hojaruta', 'file', 'fecha_alta', 'usuario_modi', 'fecha_modi', 'estado'
+    	'descripcion', 'tipoarticulo_id' ,'tipoenvase_id', 'abreviatura', 'caracteristicas', 'precioventa', 'precioreparto','preciosucursal', 'precioherradura' , 'precioplan', 'costo', 'costovendedor', 'clasificacion', 'costorepartidor' ,'condicioniva' , 'stock' ,'usuario_alta', 'hojaruta', 'file', 'fecha_alta', 'usuario_modi', 'fecha_modi', 'estado', 'incluirventa', 'preciomojon'
 	];
 
     public function contratoarticulos(){
@@ -36,6 +36,10 @@ class Articulo extends Model
         return $this->HasMany(Hojarutadetalle::class);
     }
 
+
+    public function ventadetalles(){ //vendedor
+        return $this->HasMany(Ventadetalle::class);
+    }
 
 
     public function scopeType($query, $type, $valor, $tipoarticulo) 

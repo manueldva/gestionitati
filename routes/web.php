@@ -61,6 +61,8 @@ route::get('/cobranza/{id}',		'Admin\HojarutaController@cobranza')->name('cobran
 route::put('/updatecobranza/{id}',		'Admin\HojarutaController@updatecobranza')->name('updatecobranza');
 Route::get('/printhojaruta/{id}', 'Admin\HojarutaController@printhojaruta');
 route::get('/printhojarutadetalle/{id}/{fecha}',		'Admin\HojarutaController@printhojarutadetalle')->name('printhojarutadetalle');
+route::resource('ventas', 		'Admin\VentaController');
+
 /*route::resource('tareas', 		'Admin\TareaController');
 route::get('/TA_obtenerbases/{id}',		'Admin\TareaController@TA_obtenerbases')->name('TA_obtenerbases');
 route::resource('informes', 		'Admin\InformeController');

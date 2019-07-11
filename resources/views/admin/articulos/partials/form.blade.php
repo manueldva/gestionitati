@@ -120,6 +120,10 @@
 					  	{{ form::label('hojaruta', 'Incluir en la hoja de ruta') }}
 						{{ form::select('hojaruta', ['1'=>'Si', '0'=>'No'], null, ['class' => 'form-control'] ) }} 
 				  	</div>	
+				  	<div class="form-group" id="ventas">
+					  	{{ form::label('incluirventa', 'Incluir en Ventas') }}
+						{{ form::select('incluirventa', ['1'=>'Si', '0'=>'No'], null, ['class' => 'form-control'] ) }} 
+				  	</div>	
 			      
 					<hr>
 

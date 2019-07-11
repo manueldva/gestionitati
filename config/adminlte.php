@@ -154,6 +154,11 @@ return [
             'text' => 'Hoja_Ruta',
             'url'  => 'hojarutas',
             'icon' => 'list-alt',
+        ],  
+        [
+            'text' => 'Ventas',
+            'url'  => 'ventas',
+            'icon' => 'money',
         ],     
         [
             'text'    => 'Complementos',

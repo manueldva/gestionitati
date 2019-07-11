@@ -58,6 +58,11 @@ class Cliente extends Model
     }
 
 
+    public function ventas(){ //vendedor
+        return $this->HasMany(Venta::class);
+    }
+
+
 
 	public function scopeType($query, $type, $valor, $valor2, $barrios, $tipoclientes, $estados) 
     {
