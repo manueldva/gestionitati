@@ -494,7 +494,7 @@ class HojarutaController extends Controller
 
         $query="select hrd.cliente_id, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END cliente,
         ba.descripcion as barrio, c.tipocliente_id, ca.descripcion as calle, cd.numero, cd.manzana, cd.casa, cd.seccion, cd.lote, cd.edificiotorre, cd.piso, cd.observaciondomicilio, cd.referenciadomicilio,
-        a.descripcion articulo, hrd.cantidad, c.celular
+        ifnull(a.abreviatura,a.descripcion) articulo, hrd.cantidad, c.celular
         from hojarutas hr
         inner join hojarutadetalles hrd on hr.id = hrd.hojaruta_id
         inner join clientes c on hrd.cliente_id = c.id
