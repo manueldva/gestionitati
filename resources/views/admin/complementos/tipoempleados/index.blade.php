@@ -84,6 +84,11 @@
 									{!! Form::close() !!}
 
 			                    </td>
+			                @else
+				                <td width="10px">
+				                </td>
+				                <td width="10px">
+				                </td>
 			                @endif
 	                    @endif
 	                  </tr>
