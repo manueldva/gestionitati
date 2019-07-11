@@ -19,42 +19,42 @@
 			<tr>
 	            <th>
 					<center>
-						<i></i>  NRO CLIENTE
+						<i></i>  Nro Cliente
 					</center>	
 				</th>
 				<th>
 					<center>
-						<i></i> CLIENTE
+						<i></i> Cliente
 					</center>	
 				</th>
 				<th>
 					<center>
-						<i></i> DIRECCIÓN
+						<i></i> Dirección
 					</center>
 				</th>
 				<th>
 					<center>
-						<i></i> CELULAR
+						<i></i> Celular
 					</center>
 				</th>
 				<th>
 					<center>
-						<i></i> ARTICULO
+						<i></i> Articulo
 					</center>
 				</th>
 				<th>
 					<center>
-						<i></i> CANTIDAD
+						<i></i> Cantidad
 					</center>
 				</th>
 				<th>
 					<center>
-						<i></i> VENTA
+						<i></i> Venta
 					</center>
 				</th>
 				<th>
 					<center>
-						<i></i> OBSERVACIÓN
+						<i></i> Observación
 					</center>
 				</th>
 			</tr>
