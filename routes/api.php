@@ -332,9 +332,9 @@ Route::get('hojaruta_cant_docimicilios', function() {
 
 Route::get('detalleclientehojaruta', function() {
 
-   $query="select hrd.id, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END cliente,
+   $query="select hrd.articulo_id, hrd.id, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END cliente,
         ba.descripcion as barrio, c.tipocliente_id, ca.descripcion as calle, cd.numero, cd.manzana, cd.casa, cd.seccion, cd.lote, cd.edificiotorre, cd.piso, cd.observaciondomicilio, cd.referenciadomicilio,
-        a.descripcion articulo, hrd.cantidad, a.clasificacion
+        a.descripcion articulo, hrd.cantidad, a.clasificacion, 0 as tipoproceso
         from hojarutas hr
         inner join hojarutadetalles hrd on hr.id = hrd.hojaruta_id
         inner join clientes c on hrd.cliente_id = c.id
@@ -348,7 +348,58 @@ Route::get('detalleclientehojaruta', function() {
     $data = DB::select($query);
     
     if(!$data){
-        $data = 0;
+        
+        $query1="select *
+        from hojarutadetalles 
+
+        where hojaruta_id = " . request('hoj') . " and estado = 2 and cliente_id = " . request('cli');
+
+        $data1 = DB::select($query1);
+        if(!$data1) {
+            $query2="select articulo_id, id, cliente,barrio, tipocliente_id,  calle, numero, manzana,  casa,  seccion, lote, edificiotorre, piso,  observaciondomicilio, referenciadomicilio,
+                 articulo, sum(cantidad) cantidad  , clasificacion, tipoproceso from 
+
+                ( select a.id as articulo_id, 0 as id, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END cliente,
+                        null as barrio, c.tipocliente_id, null as calle, null as numero,null as manzana, null as casa, null as seccion, null as lote, null as edificiotorre, null as piso,  null as observaciondomicilio, 
+                        null as referenciadomicilio,
+                        a.descripcion articulo, coart.cantidad  , a.clasificacion, 1 as tipoproceso
+                    from clientes c
+                    inner join clientedirecciones cd on c.id = cd.cliente_id
+                    inner join contratos co on cd.id = co.clientedireccion_id
+                    inner join contratoarticulos coart on co.id = coart.contrato_id
+                    inner join articulos a on coart.articulo_id = a.id
+                    left join calles ca on ca.id = cd.calle_id
+                    left join barrios ba on ba.id = cd.barrio_id
+                    where cd.cliente_id = " . request('cli') . " and c.estado = 1 and a.hojaruta = 1 and co.estado = 1 
+                    union all
+                    select a.id as articulo_id, 0 as id, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END cliente,
+                        null as barrio, c.tipocliente_id, null as calle, null as numero,null as manzana, null as casa, null as seccion, null as lote, null as edificiotorre, null as piso,  null as observaciondomicilio, 
+                        null as referenciadomicilio,
+                        a.descripcion articulo, coart.cantidad , a.clasificacion, 1 as tipoproceso
+                    from clientes c
+                    inner join clientedirecciones cd on c.id = cd.cliente_id
+                    inner join contratos co on cd.id = co.clientedireccion_id
+                    inner join contratoarticulos coart on co.id = coart.contrato_id
+                    inner join articuloplandetalles arplan on coart.articulo_id = arplan.plan_id
+                    inner join articulos a on arplan.planarticulo_id = a.id
+                    left join calles ca on ca.id = cd.calle_id
+                    left join barrios ba on ba.id = cd.barrio_id
+                    where cd.cliente_id = " . request('cli') . " and c.estado = 1 and a.hojaruta = 1 and co.estado = 1) as subconsulta
+                    group by articulo_id, id, cliente,barrio, tipocliente_id,  calle, numero, manzana,  casa,  seccion, lote, edificiotorre, piso,  observaciondomicilio, referenciadomicilio,
+                 articulo,  clasificacion, tipoproceso";
+
+            $data = DB::select($query2);
+
+            if(!$data){
+                $data = 1;
+            }
+
+    
+        } else {
+             $data = 0;
+        }
+        
+
     }
 
 
@@ -383,13 +434,13 @@ Route::get('hojarutashowdetallegeneral', function() {
 
 
     if(request('fecha')) {
-        $query='select hrd.articulo_id, a.descripcion articulo, sum(hrd.cantidad) cantidad, hrd.precio ,  sum((hrd.precio * hrd.cantidad)) monto from hojarutadetalles hrd
+        $query='select hrd.articulo_id, a.descripcion articulo, sum(hrd.cantidadfinal) cantidad, hrd.precio ,  sum((hrd.precio * hrd.cantidadfinal)) monto from hojarutadetalles hrd
         inner join articulos a on hrd.articulo_id = a.id
         where hrd.hojaruta_id = ' . request('id') . ' and hrd.estado = 2 and hrd.fechacarga = "' . strval(request('fecha')) . '"
         group by articulo_id, a.descripcion, hrd.precio
         order by a.descripcion DESC';
     } else {
-        $query='select hrd.articulo_id, a.descripcion articulo, sum(hrd.cantidad) cantidad, hrd.precio ,  sum((hrd.precio * hrd.cantidad)) monto from hojarutadetalles hrd
+        $query='select hrd.articulo_id, a.descripcion articulo, sum(hrd.cantidadfinal) cantidad, hrd.precio ,  sum((hrd.precio * hrd.cantidadfinal)) monto from hojarutadetalles hrd
         inner join articulos a on hrd.articulo_id = a.id
         where hrd.hojaruta_id = ' . request('id') . ' and hrd.estado = 2
         group by articulo_id, a.descripcion, hrd.precio
@@ -412,11 +463,11 @@ Route::get('hojarutashowdetalletotales', function() {
     if(request('fecha')) {
 
         //totales generates
-        $query='select ifnull(sum(hrd.cantidad), 0) cantidad,  ifnull(sum((hrd.precio * hrd.cantidad)), 0.00) monto from hojarutadetalles hrd
+        $query='select ifnull(sum(hrd.cantidadfinal), 0) cantidad,  ifnull(sum((hrd.precio * hrd.cantidadfinal)), 0.00) monto from hojarutadetalles hrd
             where hrd.hojaruta_id = ' . request('id') . ' and hrd.estado = 2 and hrd.fechacarga = "' . strval(request('fecha')) . '"';
 
     } else {
-        $query='select ifnull(sum(hrd.cantidad), 0) cantidad,  ifnull(sum((hrd.precio * hrd.cantidad)), 0.00) monto from hojarutadetalles hrd
+        $query='select ifnull(sum(hrd.cantidadfinal), 0) cantidad,  ifnull(sum((hrd.precio * hrd.cantidadfinal)), 0.00) monto from hojarutadetalles hrd
             where hrd.hojaruta_id = ' . request('id') . ' and hrd.estado = 2';
 
     }
@@ -459,23 +510,23 @@ Route::get('hojarutashowdetalletipopago', function() {
     if(request('fecha')) {
 
        //totales cobranzas
-        $query='select "Sin Cargo" as tipo, ifnull(sum((hrd.precio * hrd.cantidad)), 0) monto from hojarutadetalles hrd
+        $query='select "Sin Cargo" as tipo, ifnull(sum((hrd.precio * hrd.cantidadfinal)), 0) monto from hojarutadetalles hrd
             where hrd.hojaruta_id = ' . request('id') . ' and hrd.estado = 2 and hrd.tipopago = 0  and hrd.fechacarga = "' . strval(request('fecha')) . '"
             union all
-            select "Cuenta Corriente" as tipo, ifnull(sum((hrd.precio * hrd.cantidad)), 0) monto from hojarutadetalles hrd
+            select "Cuenta Corriente" as tipo, ifnull(sum((hrd.precio * hrd.cantidadfinal)), 0) monto from hojarutadetalles hrd
             where hrd.hojaruta_id = ' . request('id') . ' and hrd.estado = 2 and hrd.tipopago = 2  and hrd.fechacarga = "' . strval(request('fecha')) . '"
             union all
-            select "Efectivo" as tipo, ifnull(sum((hrd.precio * hrd.cantidad)), 0) monto from hojarutadetalles hrd
+            select "Efectivo" as tipo, ifnull(sum((hrd.precio * hrd.cantidadfinal)), 0) monto from hojarutadetalles hrd
             where hrd.hojaruta_id = ' . request('id') . ' and hrd.estado = 2 and hrd.tipopago = 1  and hrd.fechacarga = "' . strval(request('fecha')) . '";
             ';
     } else {
-       $query="select 'Sin Cargo' as tipo, ifnull(sum((hrd.precio * hrd.cantidad)), 0) monto from hojarutadetalles hrd
+       $query="select 'Sin Cargo' as tipo, ifnull(sum((hrd.precio * hrd.cantidadfinal)), 0) monto from hojarutadetalles hrd
             where hrd.hojaruta_id = " . request('id') . " and hrd.estado = 2 and hrd.tipopago = 0
             union all
-            select 'Cuenta Corriente' as tipo, ifnull(sum((hrd.precio * hrd.cantidad)), 0) monto from hojarutadetalles hrd
+            select 'Cuenta Corriente' as tipo, ifnull(sum((hrd.precio * hrd.cantidadfinal)), 0) monto from hojarutadetalles hrd
             where hrd.hojaruta_id = " . request('id') . " and hrd.estado = 2 and hrd.tipopago = 2
             union all
-            select 'Efectivo' as tipo, ifnull(sum((hrd.precio * hrd.cantidad)), 0) monto from hojarutadetalles hrd
+            select 'Efectivo' as tipo, ifnull(sum((hrd.precio * hrd.cantidadfinal)), 0) monto from hojarutadetalles hrd
             where hrd.hojaruta_id = " . request('id') . " and hrd.estado = 2 and hrd.tipopago = 1
             ";
     }

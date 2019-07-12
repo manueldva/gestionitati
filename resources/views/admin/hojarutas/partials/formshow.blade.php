@@ -281,6 +281,8 @@
 							@foreach ($detalles as $hojaruta)
 								@if($hojaruta->estado == 1)
 				                	<tr  style="color:red">
+								@elseif($hojaruta->especial == 1)
+				                	<tr  style="color:blue">		
 				               	@else
 				               		<tr>
 				               	@endif
@@ -297,7 +299,9 @@
 									<td >
 										<center>
 										@if($cant_barrio > 1)
+											@if($hojaruta->calle)
 											B° {{ $hojaruta->barrio }}
+											@endif
 										@endif
 										@if($hojaruta->calle)
 											Calle {{ $hojaruta->calle }}

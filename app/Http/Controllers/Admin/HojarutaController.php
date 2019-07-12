@@ -235,11 +235,11 @@ class HojarutaController extends Controller
 
         $query1='select hrd.cliente_id, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, " ",  c.nombre) WHEN 2 THEN c.cliente ELSE "-" END cliente,
         ba.descripcion as barrio, c.tipocliente_id, ca.descripcion as calle, cd.numero, cd.manzana, cd.casa, cd.seccion, cd.lote, cd.edificiotorre, cd.piso, cd.observaciondomicilio, cd.referenciadomicilio,
-        a.descripcion articulo, hrd.cantidad, hrd.estado, hrd.tipopago, DATE_FORMAT(hrd.fechacarga, "%d/%m/%Y") as fechacarga, hrd.cantidadfinal
+        a.descripcion articulo, hrd.cantidad, hrd.estado, hrd.tipopago, DATE_FORMAT(hrd.fechacarga, "%d/%m/%Y") as fechacarga, hrd.cantidadfinal, hrd.especial
         from hojarutas hr
         inner join hojarutadetalles hrd on hr.id = hrd.hojaruta_id
         inner join clientes c on hrd.cliente_id = c.id
-        inner join clientedirecciones cd on hrd.clientedireccion_id = cd.id
+        left join clientedirecciones cd on hrd.clientedireccion_id = cd.id
         left join calles ca on ca.id = cd.calle_id
         left join barrios ba on ba.id = cd.barrio_id
         inner join articulos a on hrd.articulo_id = a.id
@@ -274,7 +274,7 @@ class HojarutaController extends Controller
 
         /* Para cierre*/
 
-        $query2="select hrd.articulo_id, a.descripcion articulo, sum(hrd.cantidad) cantidad, hrd.precio ,  sum((hrd.precio * hrd.cantidad)) monto from hojarutadetalles hrd
+        $query2="select hrd.articulo_id, a.descripcion articulo, sum(hrd.cantidadfinal) cantidad, hrd.precio ,  sum((hrd.precio * hrd.cantidadfinal)) monto from hojarutadetalles hrd
             inner join articulos a on hrd.articulo_id = a.id
             where hrd.hojaruta_id = " . $id . " and hrd.estado = 2
             group by articulo_id, a.descripcion, hrd.precio
@@ -284,7 +284,7 @@ class HojarutaController extends Controller
 
 
         //totales generates
-        $query3="select sum(hrd.cantidad) cantidad,  sum((hrd.precio * hrd.cantidad)) monto from hojarutadetalles hrd
+        $query3="select sum(hrd.cantidadfinal) cantidad,  sum((hrd.precio * hrd.cantidadfinal)) monto from hojarutadetalles hrd
             where hrd.hojaruta_id = " . $id . " and hrd.estado = 2";
 
         $t_general = DB::select($query3);
@@ -311,13 +311,13 @@ class HojarutaController extends Controller
 
 
         //discriminado por pago
-        $query5="select 'Efectivo' as tipo, ifnull(sum((hrd.precio * hrd.cantidad)), 0) monto from hojarutadetalles hrd
+        $query5="select 'Efectivo' as tipo, ifnull(sum((hrd.precio * hrd.cantidadfinal)), 0) monto from hojarutadetalles hrd
             where hrd.hojaruta_id = " . $id . " and hrd.estado = 2 and hrd.tipopago = 1
             union all
-            select 'Cuenta Corriente' as tipo, ifnull(sum((hrd.precio * hrd.cantidad)), 0) monto from hojarutadetalles hrd
+            select 'Cuenta Corriente' as tipo, ifnull(sum((hrd.precio * hrd.cantidadfinal)), 0) monto from hojarutadetalles hrd
             where hrd.hojaruta_id = " . $id . " and hrd.estado = 2 and hrd.tipopago = 2
             union all
-            select 'Sin Cargo' as tipo, ifnull(sum((hrd.precio * hrd.cantidad)), 0) monto from hojarutadetalles hrd
+            select 'Sin Cargo' as tipo, ifnull(sum((hrd.precio * hrd.cantidadfinal)), 0) monto from hojarutadetalles hrd
             where hrd.hojaruta_id = " . $id . " and hrd.estado = 2 and hrd.tipopago = 0
             ";
 
@@ -374,20 +374,37 @@ class HojarutaController extends Controller
 
             foreach ($listado_hoja_array as $hoja_text)
             {
-                list($codigo, $tipopago ,$cantidad) = explode('|', $hoja_text);
+                list($codigo, $tipopago ,$cantidad, $tipoproceso, $cliente_id, $articulo_id) = explode('|', $hoja_text);
+                $articulo = Articulo::find($articulo_id);
+                if($tipoproceso == 1) {
+                    $hojadetalle = new Hojarutadetalle();
+                        $hojadetalle->hojaruta_id = $id;
+                        $hojadetalle->cliente_id = $cliente_id;
 
-
-                $detalle = Hojarutadetalle::find($codigo);
-                    $precio = Articulo::where('id', $detalle->articulo_id)->select('precioreparto')->first();
+                        $hojadetalle->cantidad = $cantidad;
+                        $hojadetalle->cantidadfinal = $cantidad;
+                        $hojadetalle->articulo_id = $articulo->id;
+                        $hojadetalle->precio = $articulo->precioreparto;
+                        $hojadetalle->tipopago = $tipopago;
+                        $hojadetalle->fecha = date('Y-m-d H:i:s');
+                        $hojadetalle->fechacarga = $request->input("fechacarga");
+                        $hojadetalle->estado = 2;
+                        $hojadetalle->especial = 1;
+                        $hojadetalle->usuario_alta = Auth::user()->username;
+                        $hojadetalle->fecha_alta = date('Y-m-d H:i:s');
+                    $hojadetalle->save();
+                } else {
+                    $detalle = Hojarutadetalle::find($codigo);
+                        $detalle->cantidadfinal = $cantidad;
+                        $detalle->precio = $articulo->precioreparto;
+                        $detalle->tipopago = $tipopago;
+                        $detalle->fechacarga = $request->input("fechacarga");
+                        $detalle->estado = 2;
+                        $detalle->usuario_modi = Auth::user()->username;
+                        $detalle->fecha_modi = date('Y-m-d H:i:s');
+                    $detalle->save();
+                }
                 
-                    $detalle->cantidadfinal = $cantidad;
-                    $detalle->precio = $precio->precioreparto;
-                    $detalle->tipopago = $tipopago;
-                    $detalle->fechacarga = $request->input("fechacarga");
-                    $detalle->estado = 2;
-                    $detalle->usuario_modi = Auth::user()->username;
-                    $detalle->fecha_modi = date('Y-m-d H:i:s');
-                $detalle->save();
                
             }
 
@@ -600,13 +617,13 @@ class HojarutaController extends Controller
         /* Para cierre*/
 
         if($fecha) {
-            $query2="select hrd.articulo_id, a.descripcion articulo, sum(hrd.cantidad) cantidad, hrd.precio ,  sum((hrd.precio * hrd.cantidad)) monto from hojarutadetalles hrd
+            $query2="select hrd.articulo_id, a.descripcion articulo, sum(hrd.cantidadfinal) cantidad, hrd.precio ,  sum((hrd.precio * hrd.cantidadfinal)) monto from hojarutadetalles hrd
                 inner join articulos a on hrd.articulo_id = a.id
                 where hrd.hojaruta_id = " . $id . " and hrd.estado = 2 and hrd.fechacarga = '" . $fecha . "'
                 group by articulo_id, a.descripcion, hrd.precio
                 order by a.descripcion";
         } else {
-            $query2="select hrd.articulo_id, a.descripcion articulo, sum(hrd.cantidad) cantidad, hrd.precio ,  sum((hrd.precio * hrd.cantidad)) monto from hojarutadetalles hrd
+            $query2="select hrd.articulo_id, a.descripcion articulo, sum(hrd.cantidadfinal) cantidad, hrd.precio ,  sum((hrd.precio * hrd.cantidadfinal)) monto from hojarutadetalles hrd
                 inner join articulos a on hrd.articulo_id = a.id
                 where hrd.hojaruta_id = " . $id . " and hrd.estado = 2
                 group by articulo_id, a.descripcion, hrd.precio
@@ -618,10 +635,10 @@ class HojarutaController extends Controller
 
         //totales generates
         if($fecha) {
-            $query3="select sum(hrd.cantidad) cantidad,  sum((hrd.precio * hrd.cantidad)) monto from hojarutadetalles hrd
+            $query3="select sum(hrd.cantidadfinal) cantidad,  sum((hrd.precio * hrd.cantidadfinal)) monto from hojarutadetalles hrd
                 where hrd.hojaruta_id = " . $id . " and hrd.estado = 2 and hrd.fechacarga = '" . $fecha. "'";
         } else {
-            $query3="select sum(hrd.cantidad) cantidad,  sum((hrd.precio * hrd.cantidad)) monto from hojarutadetalles hrd
+            $query3="select sum(hrd.cantidadfinal) cantidad,  sum((hrd.precio * hrd.cantidadfinal)) monto from hojarutadetalles hrd
                 where hrd.hojaruta_id = " . $id . " and hrd.estado = 2";
         }
 
@@ -654,22 +671,22 @@ class HojarutaController extends Controller
 
         //discriminado por pago
         if($fecha) {
-            $query5="select 'Efectivo' as tipo, ifnull(sum((hrd.precio * hrd.cantidad)), 0) monto from hojarutadetalles hrd
+            $query5="select 'Efectivo' as tipo, ifnull(sum((hrd.precio * hrd.cantidadfinal)), 0) monto from hojarutadetalles hrd
                 where hrd.hojaruta_id = " . $id . " and hrd.estado = 2 and hrd.tipopago = 1 and hrd.fechacarga = '" . $fecha . "'
                 union all
-                select 'Cuenta Corriente' as tipo, ifnull(sum((hrd.precio * hrd.cantidad)), 0) monto from hojarutadetalles hrd
+                select 'Cuenta Corriente' as tipo, ifnull(sum((hrd.precio * hrd.cantidadfinal)), 0) monto from hojarutadetalles hrd
                 where hrd.hojaruta_id = " . $id . " and hrd.estado = 2 and hrd.tipopago = 2 and hrd.fechacarga = '" . $fecha . "'
                 union all
-                select 'Sin Cargo' as tipo, ifnull(sum((hrd.precio * hrd.cantidad)), 0) monto from hojarutadetalles hrd
+                select 'Sin Cargo' as tipo, ifnull(sum((hrd.precio * hrd.cantidadfinal)), 0) monto from hojarutadetalles hrd
                 where hrd.hojaruta_id = " . $id . " and hrd.estado = 2 and hrd.tipopago = 0 and hrd.fechacarga = '" . $fecha . "'";
         } else {
-            $query5="select 'Efectivo' as tipo, ifnull(sum((hrd.precio * hrd.cantidad)), 0) monto from hojarutadetalles hrd
+            $query5="select 'Efectivo' as tipo, ifnull(sum((hrd.precio * hrd.cantidadfinal)), 0) monto from hojarutadetalles hrd
                 where hrd.hojaruta_id = " . $id . " and hrd.estado = 2 and hrd.tipopago = 1
                 union all
-                select 'Cuenta Corriente' as tipo, ifnull(sum((hrd.precio * hrd.cantidad)), 0) monto from hojarutadetalles hrd
+                select 'Cuenta Corriente' as tipo, ifnull(sum((hrd.precio * hrd.cantidadfinal)), 0) monto from hojarutadetalles hrd
                 where hrd.hojaruta_id = " . $id . " and hrd.estado = 2 and hrd.tipopago = 2
                 union all
-                select 'Sin Cargo' as tipo, ifnull(sum((hrd.precio * hrd.cantidad)), 0) monto from hojarutadetalles hrd
+                select 'Sin Cargo' as tipo, ifnull(sum((hrd.precio * hrd.cantidadfinal)), 0) monto from hojarutadetalles hrd
                 where hrd.hojaruta_id = " . $id . " and hrd.estado = 2 and hrd.tipopago = 0
                 ";
 

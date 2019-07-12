@@ -59,7 +59,7 @@
 	                  <!--<th width="10px"> ID</th>-->
 	                  <th> Codigo</th>
 	                  <th> Descripción</th>
-	                  
+	                  <th> Abreviatura</th>
 					  <th> Tipo Producto</th>
 	                  <th colspan="2">&nbsp;</th>
 	                </tr>
@@ -75,6 +75,11 @@
 	                    <td>
 	                    	<a href="{{ route('articulos.show', $articulo->id) }}" style="color:#000000;">
 								{{ $articulo->descripcion }}
+							</a>
+	                    </td>
+	                     <td>
+	                    	<a href="{{ route('articulos.show', $articulo->id) }}" style="color:#000000;">
+								{{ $articulo->abreviatura }}
 							</a>
 	                    </td>
 						<td>

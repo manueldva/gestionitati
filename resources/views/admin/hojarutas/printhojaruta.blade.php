@@ -44,7 +44,7 @@
 				</th>
 				<th>
 					<center>
-						<i></i> Cantidad
+						<i></i> Cant.
 					</center>
 				</th>
 				<th>

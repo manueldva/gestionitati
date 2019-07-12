@@ -97,6 +97,8 @@
 											<th> Articulo</th>
 											<th> Cantidad</th>
 											<th> Tipo Pago</th>
+											<th style="display: none;"> Tipo Proceso</th>
+											<th style="display: none;"> articulo_id</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -186,6 +188,16 @@
 											<i></i> Cantidad
 										</center>
 									</th>
+									<th style="display: none;">
+										<center>
+											<i></i> Tipo Proceso
+										</center>
+									</th>
+									<th style="display: none;">
+										<center>
+											<i></i> articulo_id
+										</center>
+									</th>
 								</tr>
 								<th> </th>
 							</tr>
@@ -257,53 +269,63 @@
 							$("#cliente_id2").val('');
 							toastr.error('Este Cliente ya se encuentra en la listado o fue procesado anteriormente');
 							return false;
+						} else if(data == 1) {
+							$('#cliente').val('');
+							$("#direccion").val('');
+							$("#cliente_id2").val('');
+							toastr.info('Este cliente no tiene articulos en el contrato que puedan ser cargados en esta hoja de ruta');
+							return false;
 						} else {
 			
-										//variables para guardar en la grilla
+							//variables para guardar en la grilla
+
+							var tipoprocesotemp = 0;
 							$.each(data, function(key, value){
 								$('#cliente').val(value.cliente);
-
+								tipoproceso = value.tipoproceso;
 								var direccion = '';
+								if(value.tipoproceso == 0) {
+									direccion = 'B° ' + value.barrio;
 
-								direccion = 'B° ' + value.barrio;
+									if(value.calle){
+										direccion = direccion + ' Calle ' + value.calle;
+									}
 
-								if(value.calle){
-									direccion = direccion + ' Calle ' + value.calle;
+									if(value.numero){
+										direccion = direccion + ' Nro. ' + value.numero;
+									}
+
+									if(value.manzana){
+										direccion = direccion + ' Mz. ' + value.manzana;
+									}
+
+									if(value.casa){
+										direccion = direccion + ' C. ' + value.casa;
+									}
+
+									if(value.seccion){
+										direccion = direccion + ' Seccion ' + value.seccion;
+									}
+
+
+									if(value.lote){
+										direccion = direccion + ' Lote ' + value.lote;
+									}
+
+									if(value.edificiotorre){
+										direccion = direccion + ' Edificio ' + value.edificiotorre;
+									}
+
+									if(value.piso){
+										direccion = direccion + ' Piso/Dpto ' + value.piso;
+									}
+
+									if(value.referenciadomicilio){
+										direccion = direccion + ' Ref. ' + value.referenciadomicilio;
+									}
+
 								}
-
-								if(value.numero){
-									direccion = direccion + ' Nro. ' + value.numero;
-								}
-
-								if(value.manzana){
-									direccion = direccion + ' Mz. ' + value.manzana;
-								}
-
-								if(value.casa){
-									direccion = direccion + ' C. ' + value.casa;
-								}
-
-								if(value.seccion){
-									direccion = direccion + ' Seccion ' + value.seccion;
-								}
-
-
-								if(value.lote){
-									direccion = direccion + ' Lote ' + value.lote;
-								}
-
-								if(value.edificiotorre){
-									direccion = direccion + ' Edificio ' + value.edificiotorre;
-								}
-
-								if(value.piso){
-									direccion = direccion + ' Piso/Dpto ' + value.piso;
-								}
-
-								if(value.referenciadomicilio){
-									direccion = direccion + ' Ref. ' + value.referenciadomicilio;
-								}
-
+								
 								if(value.clasificacion == 0){
 									var clasificacion = '<center><select id="select" class="form-control">'+
 						            '<option value="1" selected>Efectivo</option>' +
@@ -323,10 +345,16 @@
 								'<td><center>' + value.articulo + '</center></td>' +
 		 						'<td><center><div contenteditable="true"><font color="green">'+value.cantidad+'</font></div></td>' +
 		 						'<td>' + clasificacion + '</td>' +
+		 						'<td style="display: none;">' + value.tipoproceso + '</td>' +
+		 						'<td style="display: none;">' + value.articulo_id + '</td>' +
 		 						"<td><a class='delete btn btn-sm btn-danger' onclick ='deletearticulo_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
 								
 								'</tr>');
-					    	})							
+					    	})	
+
+					    	if(tipoproceso == 1){
+					    		toastr.info('Este cliente no se encuentra en la hoja de ruta');		
+					    	}						
 						}
 						
 					});
@@ -445,7 +473,8 @@
 				    articulo = $(this).find("center").eq(1).html();
 				    cantidad = $(this).find("center").eq(2).text();
 				    tipopago =  $(this).find("select").val();
-
+ 					tipoproceso = $(this).find("td").eq(4).html();
+ 					articulo_id = $(this).find("td").eq(5).html();
 				    $('#table_hojaruta tbody').prepend(
 						'<tr>' + 
 						'<td style="display: none;"><center>' + codigo + '</center></td>' +
@@ -455,6 +484,8 @@
 						'<td><center>' + $('#direccion').val() + '</center></td>' +
 						'<td><center>' + articulo + '</center></td>' +
 						'<td><center>' + cantidad + '</center></td>' +
+						'<td style="display: none;"><center>' + tipoproceso + '</center></td>' +
+						'<td style="display: none;"><center>' + articulo_id + '</center></td>' +
 						"<td><a class='delete btn btn-sm btn-danger' onclick ='deletearticulo2_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
 						'</tr>');
 			    });
@@ -484,9 +515,14 @@
 		    $('#table_hojaruta tbody tr').each(function () {	 
 			    codigo = $(this).find("center").eq(0).html();
 			    tipopago = $(this).find("center").eq(1).html();
+			    cliente_id =  $(this).find("center").eq(2).html();
 			    cantidad =  $(this).find("center").eq(6).html();
+			    tipoproceso =  $(this).find("center").eq(7).html();
+			    articulo_id =  $(this).find("center").eq(8).html();
 
-			    listado += codigo + "|" + tipopago + "|" + cantidad + "&&&";
+
+
+			    listado += codigo + "|" + tipopago + "|" + cantidad + "|" + tipoproceso + "|" + cliente_id + "|" + articulo_id + "&&&";
 		    });
 
 			//alert(listado);
