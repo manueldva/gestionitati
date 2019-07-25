@@ -56,6 +56,7 @@
 	                  <!--<th width="10px"> ID</th>-->
 	                  <th> Codigo</th>
 	                  <th> Fecha</th>
+	                  <th> Cliente</th>
 	                  <th colspan="3">&nbsp;</th>
 	                </tr>
 	              </thead>
@@ -67,6 +68,9 @@
 	                    </td>
 	                    <td>
 							{{ $venta->fecha }}	
+	                    </td>
+	                     <td>
+							{{ $venta->cliente_id }}	
 	                    </td>
 						
 	                    @if($permiso == 2) 
