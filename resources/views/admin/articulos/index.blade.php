@@ -40,9 +40,9 @@
 			      <button type="submit" class="form-control btn btn-sm btn-success"><span class="glyphicon glyphicon-search"></span> Buscar</button>
 						&nbsp;
 			      @if($permiso == 2)
-			      <a href="{{ route('articulos.create')}}" class="form-control btn btn-sm btn-primary">
-			        <span class="glyphicon glyphicon-plus"></span> Crear
-			      </a>  
+				      <a href="{{ route('articulos.create')}}" class="form-control btn btn-sm btn-primary">
+				        <span class="glyphicon glyphicon-plus"></span> Crear
+				      </a>  
 			      @endif
 			    </div>
 		    {{ Form::close() }}
@@ -80,7 +80,7 @@
 	                     <td>
 	                    	<a href="{{ route('articulos.show', $articulo->id) }}" style="color:#000000;">
 								{{ $articulo->abreviatura }}
-							</a>
+							</a> 
 	                    </td>
 						<td>
 							<a href="{{ route('articulos.show', $articulo->id) }}" style="color:#000000;">

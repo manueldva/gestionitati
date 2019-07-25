@@ -48,6 +48,7 @@ class AsignarStockController extends Controller
         $modulos = $perfil->modulos()->where('modulo_id', '=', $modulo_actual[0]->id)->get();
         $permiso = $modulos[0]->pivot->permiso;
 
+        dd($perfil);
         //$stockasignaciones = Stockasignacion::type($request->get('type'), $request->get('val'))->paginate(15);
         $stockasignaciones = Stockasignacion::orderBy('id','DESC')->paginate(15);
         foreach($stockasignaciones as $stockasignacion){
