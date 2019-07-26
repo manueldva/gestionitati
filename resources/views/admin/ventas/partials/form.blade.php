@@ -1,5 +1,5 @@
 
-<input type="hidden" name="listado_articulos" id="id_lista_articulos">
+<input type="hidden" name="listado_hoja" id="id_lista_hojarutas">
 <div class="row">
 	<div class="col-md-12">	
 
@@ -18,50 +18,32 @@
 			    <div class="box-header with-border">
 			     
 
-			      <h3 class="box-title">Ingresar los datos del Stock:</h3>
+			      <h3 class="box-title">Datos de la venta:</h3>
 			    </div>
 			    <!-- /.box-header -->
 			    <div class="box-body">
 			    	<div class="form-group">
-						<div class="table-responsive">
-							<table class="table table-striped table-hover" data-form="Form">
-								<thead>
-									<tr>	
-										<td> 
-											{{ form::label('stockminimo', 'Stock Minimo *') }}
-											{{ form::number('stockminimo', null, ['class' => 'form-control', 'id' => 'stockminimo']) }}
-											<div id="stockminimospan" class="form-group has-error" style="display: none">
-												<span class="help-block">Campo Obligatorio</span>
-											</div>
-										</td>
-										<td>
-											{{ form::label('stockmaximo', 'Stock Maximo') }}
-											{{ form::number('stockmaximo', null, ['class' => 'form-control', 'id' => 'stockmaximo']) }}
-										</td>
-									</tr>
-									<tr>	
-										<td> 
-											{{ form::label('tiemporeposicion', 'Tiempo de Reposición') }}
-											{{ form::number('tiemporeposicion', null, ['class' => 'form-control', 'id' => 'tiemporeposicion']) }}
-										</td>
-										<td>
-											{{ form::label('tipotiempo_id', 'Tipo Tiempo') }}
-											{{ form::select('tipotiempo_id',  $tipotiempos, null, ['class' => 'form-control' ,'placeholder' => 'Seleccionar...'] ) }} 
-										</td>
-									</tr>
-								</thead>
-							</table>
-						</div>
+						{{ form::label('codigo', 'Codigo Venta') }}
+						{{ form::text('id', null, ['class' => 'form-control', 'id' => 'id', 'readonly']) }}
 					</div>
 
-				   	<div class="form-group">
-						{{ form::label('sucursal_id', 'Sucursal *') }}
-						{{ form::select('sucursal_id', $sucursales, null, ['class' => 'form-control','placeholder' => 'Seleccionar...'] ) }} 
-						<div id="sucursal_idspan" class="form-group has-error" style="display: none">
-							<span class="help-block">Campo Obligatorio</span>
-						</div>
+			    	<div class="form-group">
+						{{ form::label('empleado_id', 'Vendedor') }}
+						{{ form::text('empleado_id', Auth::user()->username, ['class' => 'form-control', 'id' => 'empleado_id', 'readonly']) }}
 					</div>
-			      
+					<div class="form-group">
+						{{ form::label('fecha', 'Fecha') }}
+						{{ form::date('fecha', \Carbon\Carbon::now(), ['class' => 'form-control', 'id' => 'fecha', 'readonly']) }}
+					</div>
+			      	<div class="form-group">
+						{{ form::label('cliente_id', 'Nro Socio') }}
+						{{ form::number('cliente_id',null, ['class' => 'form-control', 'id' => 'cliente_id']) }}
+					</div>
+					<div class="form-group">
+						{{ form::label('cliente', 'Cliente') }}
+						{{ form::text('cliente',null, ['class' => 'form-control', 'id' => 'cliente', 'readonly']) }}
+					</div>
+					
 			    </div>
 			    <!-- /.box-body -->
 			  <!--</div>-->
@@ -75,17 +57,11 @@
 			    <div class="box-header with-border">
 			      
 
-			      <h3 class="box-title">Articulos del Stock:</h3>
+			      <h3 class="box-title">Detalle Articulos:</h3>
 			    </div>
 			    <!-- /.box-header -->
-				    <div class="box-body">
-						<div class="form-group">
-						{{ form::label('descripcion', 'Descripcion *') }}
-						{{ form::text('descripcion', null, ['class' => 'form-control', 'id' => 'descripcion']) }}
-						<div id="descripcionspan" class="form-group has-error" style="display: none">
-							<span class="help-block">Campo Obligatorio</span>
-						</div>
-					</div>
+				<div class="box-body">
+
 					<div class="form-group">
 					<div class="table-responsive">
 						<table class="table table-striped table-hover" data-form="Form">
@@ -100,19 +76,23 @@
 										<br>
 										{{ form::select('articulo', $articulos,  null, ['class' => 'form-control inline-search', 'id' => 'articulo','placeholder' => 'Seleccionar...'] ) }}
 									</td>
-									<td> 
-										<br>
-										@if($show == 1)
-											<a type="button" id="agregararticulo" name="agregararticulo" class="btn btn btn-success">
-							                <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
-							                    <span class="fa fa-plus-circle">
-							                    </span>
-							                      AGREGAR
-							                </a>
-							            @endif
-									</td>
 								</tr>
 
+								<tr>
+									<td> 
+										{{ form::label('cantidadarticulo', 'Cantidad') }}
+										{{ form::number('cantidadarticulo', null, ['class' => 'form-control', 'id' => 'cantidadarticulo']) }}
+									</td>
+									<td> 
+										<br>
+										<a type="button" id="agregararticulo" name="agregararticulo" class="btn btn btn-success">
+						                <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
+						                    <span class="fa fa-plus-circle">
+						                    </span>
+						                      AGREGAR
+						                  </a>
+									</td>
+								</tr>	
 								
 							</thead>
 						</table>
@@ -124,26 +104,12 @@
 										<!--<th width="10px"> ID</th>-->
 											<th style="display:none;"> Codigo</th>
 											<th> Articulo</th>
+											<th> Cantidad</th>
 											<th> </th>
 										</tr>
 									</thead>
 									<tbody>
-										@isset($stockdetalles)
-											@foreach ($stockdetalles as $stockdetalle)
-							                  <tr>
-							                    <td style="display:none;">{{ $stockdetalle->articulo_id }}</td>
-							                    <td>{{ $stockdetalle->articulo->descripcion }}</td>
-								                    <td>
-								                    	@if($show == 1)
-										                   <a class='delete btn btn-sm btn-danger' onclick ='deletearticulo_row($(this))'>
-										                   	<span class='glyphicon glyphicon-trash'></span>
-										                   </a>
-										                @endif
-								               	    </td>
-							                   
-							                  </tr>
-							                @endforeach
-										@endif
+										
 									</tbody>
 								</table>
 								<div id="table_articulosspan" class="form-group has-error" style="display: none">
@@ -154,7 +120,8 @@
 					</div>
 				  </div>
 
-			    </div>
+				</div>
+
 			    <!-- /.box-body -->
 			</div>
 
@@ -166,7 +133,7 @@
 	<!-- /.col -->
 <!--      segundo div general                              -->
 
-	
+
 	
 
 
@@ -185,6 +152,142 @@
 		
 		var APP_RL = "{{ url('/') }}";
 
+		$( "#buscarcliente" ).click(function() {
+
+			$("#table_clientes").find("tr:gt(0)").remove();
+			
+			if ($('#cliente_id').val() !== '') {
+
+				var temp = 0;
+				$('#table_hojaruta tbody tr').each(function () {	 
+				   codigo = $(this).find("center").eq(2).html();
+				   
+				   if(codigo == $('#cliente_id').val()){
+				   		temp = 1;
+				   }
+   
+			    });
+
+				if(temp !== 1) {
+
+
+					$.ajax({
+						dataType: 'json',
+						url: APP_URL + '/api/detalleclientehojaruta',
+						//async: false,
+						//url: '../api/validardocumento',
+						data: {cli: $('#cliente_id').val(), hoj: $('#id').val()}
+					}).done(function(data) {
+						//var $empleado = $('#empleado'); 
+						if(data == 0) {
+							$('#cliente').val('');
+							$("#direccion").val('');
+							$("#cliente_id2").val('');
+							toastr.error('Este Cliente ya se encuentra en la listado o fue procesado anteriormente');
+							return false;
+						} else if(data == 1) {
+							$('#cliente').val('');
+							$("#direccion").val('');
+							$("#cliente_id2").val('');
+							toastr.info('Este cliente no tiene articulos en el contrato que puedan ser cargados en esta hoja de ruta');
+							return false;
+						} else {
+			
+							//variables para guardar en la grilla
+
+							var tipoprocesotemp = 0;
+							$.each(data, function(key, value){
+								$('#cliente').val(value.cliente);
+								tipoproceso = value.tipoproceso;
+								var direccion = '';
+								if(value.tipoproceso == 0) {
+									direccion = 'B° ' + value.barrio;
+
+									if(value.calle){
+										direccion = direccion + ' Calle ' + value.calle;
+									}
+
+									if(value.numero){
+										direccion = direccion + ' Nro. ' + value.numero;
+									}
+
+									if(value.manzana){
+										direccion = direccion + ' Mz. ' + value.manzana;
+									}
+
+									if(value.casa){
+										direccion = direccion + ' C. ' + value.casa;
+									}
+
+									if(value.seccion){
+										direccion = direccion + ' Seccion ' + value.seccion;
+									}
+
+
+									if(value.lote){
+										direccion = direccion + ' Lote ' + value.lote;
+									}
+
+									if(value.edificiotorre){
+										direccion = direccion + ' Edificio ' + value.edificiotorre;
+									}
+
+									if(value.piso){
+										direccion = direccion + ' Piso/Dpto ' + value.piso;
+									}
+
+									if(value.referenciadomicilio){
+										direccion = direccion + ' Ref. ' + value.referenciadomicilio;
+									}
+
+								}
+								
+								if(value.clasificacion == 0){
+									var clasificacion = '<center><select id="select" class="form-control">'+
+						            '<option value="1" selected>Efectivo</option>' +
+						            '<option value="2">Cuenta C.</option>' +
+						          	'</select></center>';
+								} else {
+									var clasificacion = '<center><select id="select" class="form-control">'+
+						            '<option value="0" selected>Sin Cargo</option>' +
+						          	'</select></center>';
+								}
+
+								$("#direccion").val(direccion);
+								$("#cliente_id2").val($("#cliente_id").val());
+								$('#table_clientes tbody').prepend(
+								'<tr>' + 
+								'<td style="display: none;"><center>' + value.id + '</center></td>' +
+								'<td><center>' + value.articulo + '</center></td>' +
+		 						'<td><center><div contenteditable="true"><font color="green">'+value.cantidad+'</font></div></td>' +
+		 						'<td>' + clasificacion + '</td>' +
+		 						'<td style="display: none;">' + value.tipoproceso + '</td>' +
+		 						'<td style="display: none;">' + value.articulo_id + '</td>' +
+		 						"<td><a class='delete btn btn-sm btn-danger' onclick ='deletearticulo_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
+								
+								'</tr>');
+					    	})	
+
+					    	if(tipoproceso == 1){
+					    		toastr.info('Este cliente no se encuentra en la hoja de ruta');		
+					    	}						
+						}
+						
+					});
+				}else {
+					toastr.info('Este cliente ya se encuentra en el listado final');					
+					return false;
+				}
+			} else {
+				$('#cliente').val('');
+				$("#direccion").val('');
+				$("#cliente_id2").val('');
+			}
+
+			
+
+		});
+
 
 		//buscador articulos
 		function buscarArticulos(articulo_id) {
@@ -202,13 +305,14 @@
 				if(data !== 0) {
 					$("#articulo_id").val(data.id);
 					$("#articulo").val(data.id);
-
+					$("#cantidadarticulo").val(1);
 
 					//$("#empleado").html('').select2({data: [ {id: data.id, text: data.empleado}]}); 
 					//toastr.info('Codigo de vendedor correcto');
 				} else{
 					$("#articulo_id").val('');
 					$("#articulo").val('');
+					$("#cantidadarticulo").val('');
 					
 				}
 				
@@ -216,6 +320,7 @@
 			} else {
 				$("#articulo_id").val('');
 				$("#articulo").val('');
+				$("#cantidadarticulo").val('');
 			}
 		}
 
@@ -248,65 +353,44 @@
 		/*para agregar articulos al listado*/
 		$( "#agregararticulo" ).click(function() {
 
-			//$("#agregararticulo").attr("disabled", true);
-			//$('#agregararticulo').hide();
-			if($('#sucursal_id').val() == '') {
-
-				$('#agregararticulo').show();
-				toastr.error('Debe seleccionar una sucursal para dar de alta los articulos');
-				return false;
-			}
+			
+			if($('#articulo_id').val() == ''  || $("#cantidadarticulo").val() == '') {
 
 
-			if($('#articulo_id').val() == '') {
-
-				$('#agregararticulo').show();
 				toastr.error('No se puede agregar este articulo. Faltan datos');
 				return false;
 			}
 
-			if ($('#articulo_id').val() !== '') {
-				$.ajax({
-					dataType: 'json',
-					url: APP_URL + '/api/stockarticulodetalles',
-					async: false,
-					//url: '../api/validardocumento',
-					data: {q: $('#articulo_id').val(), s: $('#sucursal_id').val()}
-				}).done(function(data) {
-					//var $empleado = $('#empleado'); 
-					if(data !== 0) {
-						
-						toastr.error('Este articulo ya existe en otro stock');
-						return false;
-					} else {
-									//variables para guardar en la grilla
-						var codigo = $('#articulo_id').val();
-						//var descripcion = $("#descripcionarticulo").val();
-						var descripcion =$('select[name="articulo"] option:selected').text();
+			if(parseInt($("#cantidadarticulo").val()) < 1) {
 
 
-						//cargo la grilla
-						$('#table_articulos tbody').prepend(
-							'<tr>' + 
-							'<td style="display:none;">' + codigo + '</td>' +
-							'<td>' + descripcion + '</td>' +
-							"<td><a class='delete btn btn-sm btn-danger' onclick ='deletearticulo_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
-							'</td>' +
-							'</tr>');
-
-							/*$("#articulo_id").val('');
-							$("#articulo").val('');
-							$("#cantidadarticulo").val('');*/
-						
-						buscarArticulos(0);
-
-						toastr.success('Articulo agregado a la lista');
-					}
-					
-				});
+				toastr.error('La cantidad ingresada no puede ser menor a 1');
+				return false;
 			}
 
+			//variables para guardar en la grilla
+			var codigo = $('#articulo_id').val();
+			//var descripcion = $("#descripcionarticulo").val();
+			var descripcion =$('select[name="articulo"] option:selected').text();
+			var cantidad = parseInt($('#cantidadarticulo').val());
+
+			//cargo la grilla
+			$('#table_articulos tbody').prepend(
+				'<tr>' + 
+				'<td style="display:none;">' + codigo + '</td>' +
+				'<td>' + descripcion + '</td>' +
+				'<td>' + cantidad + '</td>' +
+				"<td><a class='delete btn btn-sm btn-danger' onclick ='deletearticulo_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
+				'</td>' +
+				'</tr>');
+
+				/*$("#articulo_id").val('');
+				$("#articulo").val('');
+				$("#cantidadarticulo").val('');*/
 			
+			buscarArticulos(0);
+
+			toastr.success('Articulo agregado a la lista');
 			
 
 		});
@@ -321,96 +405,116 @@
 
 
 		
-		function deletecontrato_row(row) {
-
-		  	 var contrato_id = row.parents("tr").find('td').eq(0).html();
- 			// aqui va codigo para la eliminacion
- 			
-            $.ajax({
-				dataType: 'json',
-				url: APP_URL + '/eliminarcontrato/' + contrato_id
-				//url: '../api/validardocumento',
-				//data: {id: contrato_id}
-			}).done(function(data) {
-				//var $empleado = $('#empleado'); 
-				if(data == 0) {
-					row.closest('tr').remove();
-		  			toastr.info('Articulo eliminado de la lista');
-					
-				}
-				
-			});
-		}
-
-
 
 
 		$( "#guardar" ).click(function() {
 
 
-			estadocampos = 0;
-
-			if ($('#stockminimo').val() == ''){
-      			estadocampos = 1;
-			   	$('#stockminimospan').show();
-      		} else {
-      			$('#stockminimospan').hide();
-      		}
-      		if ($('#sucursal_id').val() == ''){
-      			estadocampos = 1;
-			   	$('#sucursal_idspan').show();
-      		} else {
-      			$('#sucursal_idspan').hide();
-      		}
-
-      		if ($('#descripcion').val() == ''){
-      			estadocampos = 1;
-			   	$('#descripcionspan').show();
-      		} else {
-      			$('#descripcionspan').hide();
-      		}
-
-
-
+			
 		   // listado de articulos
-		    var listado = crear_listado_articulos();
-      		$('#id_lista_articulos').val(listado);
+		    var listado = crear_listado_hojas();
+      		$('#id_lista_hojarutas').val(listado);
 
-      		if ($('#id_lista_articulos').val() == ''){
-      			estadocampos = 1;
-			   	$('#table_articulosspan').show();
-      		} else {
-      			$('#table_articulosspan').hide();
-      		}
+      		//alert(listado);
 
-      		
-      		if(estadocampos == 1) 
-      		{
-      			toastr.error('No se puede guardar el stock. Faltan datos');
+      		if($('#id_lista_hojarutas').val() == ''){
+      			toastr.error('Ocurrio un error, verifique los campos del listado final');
       			return false;
       		} else {
+      			//alert($('#id_lista_stocks').val());
       			$('#form').submit();
       		}
+      		
+      		
+      	
 
 
 		   	//$('#form').submit();
 
 		});
 
-		function crear_listado_articulos() {
+		
+
+	    function listado_cliente() {
+		    var listado = '';
+
+		    var temp = 0;
+		    $('#table_clientes tbody tr').each(function () {	 
+			    codigo = $(this).find("center").eq(0).html();
+			    cantidad = $(this).find("center").eq(2).text();
+			    tipopago =  $(this).find("select").val();
+
+			    if(!$.isNumeric(cantidad)) {
+			    	temp = 1;
+			    } else if(cantidad < 0) {
+			    	temp = 1;
+			    }
+			    listado += codigo + "|" + cantidad + "|" + tipopago + "&&&";
+		    });
+
+			if(temp == 1){
+				toastr.error('Ocurrio un error, verifique los campos del listado');
+      			return false;
+			} else {
+				$('#table_clientes tbody tr').each(function () {	 
+				    codigo = $(this).find("center").eq(0).html();
+				    articulo = $(this).find("center").eq(1).html();
+				    cantidad = $(this).find("center").eq(2).text();
+				    tipopago =  $(this).find("select").val();
+ 					tipoproceso = $(this).find("td").eq(4).html();
+ 					articulo_id = $(this).find("td").eq(5).html();
+				    $('#table_hojaruta tbody').prepend(
+						'<tr>' + 
+						'<td style="display: none;"><center>' + codigo + '</center></td>' +
+						'<td style="display: none;"><center>' + tipopago + '</center></td>' +
+						'<td><center>'  + $('#cliente_id2').val() +  '</center></td>' +
+						'<td><center>' + $('#cliente').val() + '</center></td>' +
+						'<td><center>' + $('#direccion').val() + '</center></td>' +
+						'<td><center>' + articulo + '</center></td>' +
+						'<td><center>' + cantidad + '</center></td>' +
+						'<td style="display: none;"><center>' + tipoproceso + '</center></td>' +
+						'<td style="display: none;"><center>' + articulo_id + '</center></td>' +
+						"<td><a class='delete btn btn-sm btn-danger' onclick ='deletearticulo2_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
+						'</tr>');
+			    });
+
+			    $('#cliente').val('');
+				$("#direccion").val('');
+				$("#cliente_id2").val('');
+				$("#cliente_id").val('');
+				$("#table_clientes").find("tr:gt(0)").remove();
+				toastr.success('Cliente cargado al listado');
+			}
+	    }
+
+	    function deletearticulo2_row(row) {
+
+		  	row.closest('tr').remove();
+		  	toastr.info('Registro eliminado de la lista');
+		}
+
+	    function crear_listado_hojas() {
 		    var listado = '';
 		    
 
-		    $("#id_lista_articulos").val('');
+		    //$("#id_lista_stocks").val('');
 
-		    $('#table_articulos tbody tr').each(function () {	 
-		    articulo_id = $(this).find("td").eq(0).html();
-		    descripcion = $(this).find("td").eq(1).html();
+		    var temp = 0;
+		    $('#table_hojaruta tbody tr').each(function () {	 
+			    codigo = $(this).find("center").eq(0).html();
+			    tipopago = $(this).find("center").eq(1).html();
+			    cliente_id =  $(this).find("center").eq(2).html();
+			    cantidad =  $(this).find("center").eq(6).html();
+			    tipoproceso =  $(this).find("center").eq(7).html();
+			    articulo_id =  $(this).find("center").eq(8).html();
 
-		    listado += articulo_id + "|" + descripcion + "&&&";
+
+
+			    listado += codigo + "|" + tipopago + "|" + cantidad + "|" + tipoproceso + "|" + cliente_id + "|" + articulo_id + "&&&";
 		    });
 
-		      return listado;
+			//alert(listado);
+		    return listado;
 	    }
 
 

@@ -12,7 +12,9 @@ use Alert;
 use App\Models\Modulo;
 use App\Models\Perfil;
 
+use App\Models\Articulo;
 use App\Models\Venta;
+
 
 use DB;
 use Illuminate\Support\Facades\Input;
@@ -59,7 +61,12 @@ class VentaController extends Controller
      */
     public function create()
     {
-        //
+       $articulos  = Articulo::where('tipoarticulo_id', '=', 1)->where('estado', 1)->orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+
+
+        return view('admin.ventas.create', compact('articulos'));
+
     }
 
     /**

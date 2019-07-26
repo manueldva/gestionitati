@@ -96,7 +96,7 @@ class StockController extends Controller
      */
     public function create()
     {
-        $articulos  = Articulo::where('tipoarticulo_id', '=', 1)->orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+        $articulos  = Articulo::where('tipoarticulo_id', '=', 1)->where('estado', 1)->orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
         $sucursales  = Sucursal::orderBy('id')->pluck('descripcion' , 'id');
 

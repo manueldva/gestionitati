@@ -369,7 +369,7 @@ class ContratoController extends Controller
 
         $modelocontratos  = Modelocontrato::orderBy('id', 'ASC')->pluck('modelo' , 'id');
 
-        $articulos  = Articulo::where('tipoarticulo_id', '<>', 3)->orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+        $articulos  = Articulo::where('tipoarticulo_id', '<>', 3)->where('estado', 1)->orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
         // para el listado
         $contratos  = Contrato::where('cliente_id', $id)->orderBy('fechacontrato' , 'DESC')->get();

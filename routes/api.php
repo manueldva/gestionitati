@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\DB;
 
 Route::get('articulos', function() {
 
-    $articulo = App\Models\Articulo::where('id', '=', request('q'))->first();
+    $articulo = App\Models\Articulo::where('id', '=', request('q'))->where('estado', 1)->first();
     if(!$articulo){
     	$articulo = 0;
     }

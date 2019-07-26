@@ -75,7 +75,7 @@ class ArticuloController extends Controller
         $tipoarticulos  = Tipoarticulo::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
         $tipoenvases  = Tipoenvase::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
         $tipoprecios  = Tipoprecio::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
-        $planarticulos  = Articulo::where('tipoarticulo_id', 1)->orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+        $planarticulos  = Articulo::where('tipoarticulo_id', 1)->where('estado', 1)->orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
         return view('admin.articulos.create', compact('tipoarticulos', 'planarticulos', 'tipoprecios', 'tipoenvases'));
     }
@@ -325,7 +325,7 @@ class ArticuloController extends Controller
         $tipoenvases  = Tipoenvase::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
         $tipoprecios  = Tipoprecio::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
-        $planarticulos  = Articulo::where('tipoarticulo_id', 1)->orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+        $planarticulos  = Articulo::where('tipoarticulo_id', 1)->where('estado', 1)->orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
         return view('admin.articulos.edit', compact('articulo','planarticulos' , 'tipoarticulos', 'tipoenvases', 'tipoprecios', 'detalleprecios', 'detalleplanes'));
 

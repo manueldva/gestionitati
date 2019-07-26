@@ -4,7 +4,7 @@
 
 @section('content_header')
     <h1>
-      Gestionar Ajuste de Stock
+      Gestionar Hoja de Ruta
       <!--<small>Listado</small>-->
     </h1>
     <ol class="breadcrumb">
