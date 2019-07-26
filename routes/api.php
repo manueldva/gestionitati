@@ -537,7 +537,24 @@ Route::get('hojarutashowdetalletipopago', function() {
     return $tipopago;
 });
 
+/*-----------------------------*/
 
+
+
+/*venta------------------------*/
+
+Route::get('clienteventa', function() {
+
+    $cliente = App\Models\Cliente::where('id', '=', request('q'))->first();
+
+    if(!$cliente){
+       $cliente = 0;
+    } 
+
+
+    //return $data;
+    return $cliente;
+});
 
 
 /*-----------------------------*/

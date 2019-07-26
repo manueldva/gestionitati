@@ -150,143 +150,61 @@
 	<script type="text/javascript">
 
 		
-		var APP_RL = "{{ url('/') }}";
+		var APP_URL = "{{ url('/') }}";
 
-		$( "#buscarcliente" ).click(function() {
-
-			$("#table_clientes").find("tr:gt(0)").remove();
-			
-			if ($('#cliente_id').val() !== '') {
-
-				var temp = 0;
-				$('#table_hojaruta tbody tr').each(function () {	 
-				   codigo = $(this).find("center").eq(2).html();
-				   
-				   if(codigo == $('#cliente_id').val()){
-				   		temp = 1;
-				   }
-   
-			    });
-
-				if(temp !== 1) {
-
-
-					$.ajax({
-						dataType: 'json',
-						url: APP_URL + '/api/detalleclientehojaruta',
-						//async: false,
-						//url: '../api/validardocumento',
-						data: {cli: $('#cliente_id').val(), hoj: $('#id').val()}
-					}).done(function(data) {
-						//var $empleado = $('#empleado'); 
-						if(data == 0) {
-							$('#cliente').val('');
-							$("#direccion").val('');
-							$("#cliente_id2").val('');
-							toastr.error('Este Cliente ya se encuentra en la listado o fue procesado anteriormente');
-							return false;
-						} else if(data == 1) {
-							$('#cliente').val('');
-							$("#direccion").val('');
-							$("#cliente_id2").val('');
-							toastr.info('Este cliente no tiene articulos en el contrato que puedan ser cargados en esta hoja de ruta');
-							return false;
-						} else {
-			
-							//variables para guardar en la grilla
-
-							var tipoprocesotemp = 0;
-							$.each(data, function(key, value){
-								$('#cliente').val(value.cliente);
-								tipoproceso = value.tipoproceso;
-								var direccion = '';
-								if(value.tipoproceso == 0) {
-									direccion = 'B° ' + value.barrio;
-
-									if(value.calle){
-										direccion = direccion + ' Calle ' + value.calle;
-									}
-
-									if(value.numero){
-										direccion = direccion + ' Nro. ' + value.numero;
-									}
-
-									if(value.manzana){
-										direccion = direccion + ' Mz. ' + value.manzana;
-									}
-
-									if(value.casa){
-										direccion = direccion + ' C. ' + value.casa;
-									}
-
-									if(value.seccion){
-										direccion = direccion + ' Seccion ' + value.seccion;
-									}
-
-
-									if(value.lote){
-										direccion = direccion + ' Lote ' + value.lote;
-									}
-
-									if(value.edificiotorre){
-										direccion = direccion + ' Edificio ' + value.edificiotorre;
-									}
-
-									if(value.piso){
-										direccion = direccion + ' Piso/Dpto ' + value.piso;
-									}
-
-									if(value.referenciadomicilio){
-										direccion = direccion + ' Ref. ' + value.referenciadomicilio;
-									}
-
-								}
-								
-								if(value.clasificacion == 0){
-									var clasificacion = '<center><select id="select" class="form-control">'+
-						            '<option value="1" selected>Efectivo</option>' +
-						            '<option value="2">Cuenta C.</option>' +
-						          	'</select></center>';
-								} else {
-									var clasificacion = '<center><select id="select" class="form-control">'+
-						            '<option value="0" selected>Sin Cargo</option>' +
-						          	'</select></center>';
-								}
-
-								$("#direccion").val(direccion);
-								$("#cliente_id2").val($("#cliente_id").val());
-								$('#table_clientes tbody').prepend(
-								'<tr>' + 
-								'<td style="display: none;"><center>' + value.id + '</center></td>' +
-								'<td><center>' + value.articulo + '</center></td>' +
-		 						'<td><center><div contenteditable="true"><font color="green">'+value.cantidad+'</font></div></td>' +
-		 						'<td>' + clasificacion + '</td>' +
-		 						'<td style="display: none;">' + value.tipoproceso + '</td>' +
-		 						'<td style="display: none;">' + value.articulo_id + '</td>' +
-		 						"<td><a class='delete btn btn-sm btn-danger' onclick ='deletearticulo_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
-								
-								'</tr>');
-					    	})	
-
-					    	if(tipoproceso == 1){
-					    		toastr.info('Este cliente no se encuentra en la hoja de ruta');		
-					    	}						
-						}
-						
-					});
-				}else {
-					toastr.info('Este cliente ya se encuentra en el listado final');					
-					return false;
+		$(document).ready(function(){
+			$("#cliente_id").keypress(function(e) {
+			//no recuerdo la fuente pero lo recomiendan para
+			//mayor compatibilidad entre navegadores.
+				var code = (e.keyCode ? e.keyCode : e.which);
+				if(code==13){
+					cliente_id = $("#cliente_id").val();
+					buscarcliente(cliente_id);
 				}
-			} else {
-				$('#cliente').val('');
-				$("#direccion").val('');
-				$("#cliente_id2").val('');
-			}
+			});
+		});
 
-			
+		$('#cliente_id').focusout(function(e) {
+
+			cliente_id = $("#cliente_id").val();
+			buscarcliente(cliente_id);
 
 		});
+
+
+		function buscarcliente(cliente_id) {
+
+			$.ajax({
+           	dataType: 'json',
+			url: APP_URL + '/api/clienteventa',
+			//url: '../api/validardocumento',
+			data: {q: cliente_id},
+               success: function(data) {
+                  //console.log(data); // As moonwave99 said
+                if(data == 0) {
+                	$("#cliente").val('');
+                	//toastr.error('Sin Datos');
+                } else {
+                	if(data.tipocliente_id == 1) {
+						
+						$("#cliente").val(data.apellido +' '+data.nombre);
+	                }else {
+	                	$("#cliente").val(data.cliente);
+	                }
+	                toastr.success('Cliente encotrado');
+                }
+                  
+               },
+               error: function() {
+               		$("#cliente").val('');
+                	//toastr.error('Sin Datos');
+               }
+	        });
+
+
+		}
+
+
 
 
 		//buscador articulos
@@ -295,28 +213,28 @@
 			//alert(articulo_id);
 
 			if (articulo_id !== '') {
-			$.ajax({
-				dataType: 'json',
-				url: APP_URL + '/api/articulos',
-				//url: '../api/validardocumento',
-				data: {q: articulo_id}
-			}).done(function(data) {
-				//var $empleado = $('#empleado'); 
-				if(data !== 0) {
-					$("#articulo_id").val(data.id);
-					$("#articulo").val(data.id);
-					$("#cantidadarticulo").val(1);
+				$.ajax({
+					dataType: 'json',
+					url: APP_URL + '/api/articulos',
+					//url: '../api/validardocumento',
+					data: {q: articulo_id}
+				}).done(function(data) {
+					//var $empleado = $('#empleado'); 
+					if(data !== 0) {
+						$("#articulo_id").val(data.id);
+						$("#articulo").val(data.id);
+						$("#cantidadarticulo").val(1);
 
-					//$("#empleado").html('').select2({data: [ {id: data.id, text: data.empleado}]}); 
-					//toastr.info('Codigo de vendedor correcto');
-				} else{
-					$("#articulo_id").val('');
-					$("#articulo").val('');
-					$("#cantidadarticulo").val('');
+						//$("#empleado").html('').select2({data: [ {id: data.id, text: data.empleado}]}); 
+						//toastr.info('Codigo de vendedor correcto');
+					} else{
+						$("#articulo_id").val('');
+						$("#articulo").val('');
+						$("#cantidadarticulo").val('');
+						
+					}
 					
-				}
-				
-			});
+				});
 			} else {
 				$("#articulo_id").val('');
 				$("#articulo").val('');
