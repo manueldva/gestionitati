@@ -1,5 +1,5 @@
 
-<input type="hidden" name="listado_hoja" id="id_lista_hojarutas">
+<input type="hidden" name="listado_articulos" id="id_lista_articulos">
 <div class="row">
 	<div class="col-md-12">	
 
@@ -330,12 +330,12 @@
 
 			
 		   // listado de articulos
-		    var listado = crear_listado_hojas();
-      		$('#id_lista_hojarutas').val(listado);
+		    var listado = crear_listado_articulos();
+      		$('#id_lista_articulos').val(listado);
 
       		//alert(listado);
 
-      		if($('#id_lista_hojarutas').val() == ''){
+      		if($('#id_lista_articulos').val() == ''){
       			toastr.error('Ocurrio un error, verifique los campos del listado final');
       			return false;
       		} else {
@@ -353,87 +353,21 @@
 
 		
 
-	    function listado_cliente() {
+	   	function crear_listado_articulos() {
 		    var listado = '';
 
-		    var temp = 0;
-		    $('#table_clientes tbody tr').each(function () {	 
-			    codigo = $(this).find("center").eq(0).html();
-			    cantidad = $(this).find("center").eq(2).text();
-			    tipopago =  $(this).find("select").val();
+		    $("#id_lista_articulos").val('');
 
-			    if(!$.isNumeric(cantidad)) {
-			    	temp = 1;
-			    } else if(cantidad < 0) {
-			    	temp = 1;
-			    }
-			    listado += codigo + "|" + cantidad + "|" + tipopago + "&&&";
+		    $('#table_articulos tbody tr').each(function () {	 
+		    articulo_id = $(this).find("td").eq(0).html();
+		    cantidad = $(this).find("td").eq(2).html();
+
+		    listado += articulo_id + "|" + cantidad + "&&&";
 		    });
 
-			if(temp == 1){
-				toastr.error('Ocurrio un error, verifique los campos del listado');
-      			return false;
-			} else {
-				$('#table_clientes tbody tr').each(function () {	 
-				    codigo = $(this).find("center").eq(0).html();
-				    articulo = $(this).find("center").eq(1).html();
-				    cantidad = $(this).find("center").eq(2).text();
-				    tipopago =  $(this).find("select").val();
- 					tipoproceso = $(this).find("td").eq(4).html();
- 					articulo_id = $(this).find("td").eq(5).html();
-				    $('#table_hojaruta tbody').prepend(
-						'<tr>' + 
-						'<td style="display: none;"><center>' + codigo + '</center></td>' +
-						'<td style="display: none;"><center>' + tipopago + '</center></td>' +
-						'<td><center>'  + $('#cliente_id2').val() +  '</center></td>' +
-						'<td><center>' + $('#cliente').val() + '</center></td>' +
-						'<td><center>' + $('#direccion').val() + '</center></td>' +
-						'<td><center>' + articulo + '</center></td>' +
-						'<td><center>' + cantidad + '</center></td>' +
-						'<td style="display: none;"><center>' + tipoproceso + '</center></td>' +
-						'<td style="display: none;"><center>' + articulo_id + '</center></td>' +
-						"<td><a class='delete btn btn-sm btn-danger' onclick ='deletearticulo2_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
-						'</tr>');
-			    });
-
-			    $('#cliente').val('');
-				$("#direccion").val('');
-				$("#cliente_id2").val('');
-				$("#cliente_id").val('');
-				$("#table_clientes").find("tr:gt(0)").remove();
-				toastr.success('Cliente cargado al listado');
-			}
+		      return listado;
 	    }
 
-	    function deletearticulo2_row(row) {
-
-		  	row.closest('tr').remove();
-		  	toastr.info('Registro eliminado de la lista');
-		}
-
-	    function crear_listado_hojas() {
-		    var listado = '';
-		    
-
-		    //$("#id_lista_stocks").val('');
-
-		    var temp = 0;
-		    $('#table_hojaruta tbody tr').each(function () {	 
-			    codigo = $(this).find("center").eq(0).html();
-			    tipopago = $(this).find("center").eq(1).html();
-			    cliente_id =  $(this).find("center").eq(2).html();
-			    cantidad =  $(this).find("center").eq(6).html();
-			    tipoproceso =  $(this).find("center").eq(7).html();
-			    articulo_id =  $(this).find("center").eq(8).html();
-
-
-
-			    listado += codigo + "|" + tipopago + "|" + cantidad + "|" + tipoproceso + "|" + cliente_id + "|" + articulo_id + "&&&";
-		    });
-
-			//alert(listado);
-		    return listado;
-	    }
 
 
 	</script>
