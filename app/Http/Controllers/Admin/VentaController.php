@@ -14,7 +14,7 @@ use App\Models\Perfil;
 
 use App\Models\Articulo;
 use App\Models\Venta;
-
+use App\Models\Ventadetalle;
 
 use DB;
 use Illuminate\Support\Facades\Input;
@@ -77,7 +77,59 @@ class VentaController extends Controller
      */
     public function store(Request $request)
     {
+         $venta = Venta::create($request->all());
+
+        //$descripciontemp = '';
+
+        $listado_articulos_text = $request->input("listado_articulos");
+
+        if($listado_articulos_text) {
+
+
+            $listado_articulos_array = explode('&&&', $listado_articulos_text);
+            array_pop($listado_articulos_array);
+
+
+
+            foreach ($listado_articulos_array as $articulo_text)
+            {
+                list($codigo, $cantidad) = explode('|', $articulo_text);
+
+                 $articulo = Articulo::find($codigo);
+
+                $ventadetalle = new Ventadetalle();
+                    $ventadetalle->venta_id = $venta->id;
+                    $ventadetalle->articulo_id = $codigo;
+                    $ventadetalle->precio = $articulo->precioventa;
+                    $ventadetalle->cantidad = $cantidad;
+                    $ventadetalle->usuario_alta = Auth::user()->username;
+                    $ventadetalle->fecha_alta = date('Y-m-d H:i:s');
+
+                $ventadetalle->save();
+
+                $stockarticulo = Stockarticulo::find($codigo);
+                    $stockarticulo->stockactual = intval($stockarticulo->stockactual) - intval($cantidad);
+                    $stockarticulo->usuario_modi = Auth::user()->username;
+                    $stockarticulo->fecha_modi = date('Y-m-d H:i:s');
+                $stockarticulo->save();
+
+                /*if($descripciontemp == '')
+                {
+                    $descripciontemp = $descripcion;
+                } else 
+                {
+                    $descripciontemp = $descripciontemp . ' - ' . $descripcion;
+                }*/
+            }
+        }
+
+        //auditoria
+        $stockasignacion->fill(['estado'=> 1, 'usuario_alta' => Auth::user()->username , 'fecha_alta' => date('Y-m-d H:i:s')])->save();
         //
+
+
+        Alert::success('Asiganción creada con exito')->persistent("Cerrar");
+        return redirect()->route('stockasignaciones.index');
     }
 
     /**

@@ -329,7 +329,7 @@
 
 
 			
-		   // listado de articulos
+		    // listado de articulos
 		    var listado = crear_listado_articulos();
       		$('#id_lista_articulos').val(listado);
 
