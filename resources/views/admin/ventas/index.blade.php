@@ -29,7 +29,7 @@
 	       {{ Form::model(Request::only('type', 'val'), array('route' => 'ventas.index', 'method' => 'GET'), array('role' => 'form', 'class' => 'navbar-form pull-right')) }}
 			    <div class="form-group">
 			      {{ form::label('buscar', 'Tipo Busqueda:') }}
-			      {{ form::select('type', config('options.complementotypes'), null, ['class' => 'form-control', 'id' => 'type'] ) }}
+			      {{ form::select('type', config('options.ventatypes'), null, ['class' => 'form-control', 'id' => 'type'] ) }}
 					&nbsp;
 			      {{ form::text('val', null, ['class' => 'form-control', 'id' => 'val']) }}
 			      &nbsp;
@@ -57,6 +57,8 @@
 	                  <th> Codigo</th>
 	                  <th> Fecha</th>
 	                  <th> Cliente</th>
+	                  <th> Cantidad Art.</th>
+	                  <th> Vendedor</th>
 	                  <th colspan="3">&nbsp;</th>
 	                </tr>
 	              </thead>
@@ -69,16 +71,25 @@
 	                    <td>
 							{{ $venta->fecha }}	
 	                    </td>
-	                     <td>
-							{{ $venta->cliente_id }}	
+	                    <td>
+	                     	@if($venta->cliente_id)
+	                     		@if($venta->cliente->tipocliente_id == 1)
+								
+									{{ $venta->cliente->apellido }}	{{ $venta->cliente->nombre }}	
+								@else
+									{{ $venta->cliente->cliente }}
+								@endif
+							@endif
 	                    </td>
-						
+						<td>
+							{{ $venta->usuario_modi }}	
+	                    </td>
+	                    <td>
+							{{ $venta->usuario_alta }}	
+	                    </td>
+
 	                    @if($permiso == 2) 
-	                    <td width="10px">
-	                      <a href="{{ route('ventas.edit', $venta->id) }}" class="btn btn-sm btn-default">
-	                        Editar
-	                      </a>
-	                    </td>
+	                    
 	                    <td width="10px">
 							{!! Form::model($venta, ['method' => 'delete', 'route' => ['ventas.destroy', $venta->id], 'class' =>'form-inline form-delete']) !!}
 							{!! Form::hidden('id', $venta->id) !!}
@@ -116,9 +127,12 @@
 	function searchType(){ 
 		  var type = $('#type').val();
 			
-			if (type == 'descripcion'){
+			if (type == 'codigo'){
 				$('#val').show();
-				$('#val').attr('type','text');
+				$('#val').attr('type','number');
+			} else if (type == 'fecha'){
+				$('#val').show();
+				$('#val').attr('type','date');
 			} else
 			{
 				$('#val').show();

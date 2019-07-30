@@ -25,8 +25,8 @@ class Venta extends Model
     }
 
 
-    /*
-    public function scopeType($query, $type, $valor, $empleado) 
+    
+    public function scopeType($query, $type, $valor) 
     {
         
         if ($type == 'fecha') 
@@ -35,13 +35,13 @@ class Venta extends Model
           
         }else if ($type == 'empleado') 
         {
-            $query->where('empleado_id', '=', $empleado)->orderBy('fecha', 'DESC');
+            $query->where('cliente_id', '=', $valor)->orderBy('fecha', 'DESC');
 
         } else
         {
               $query->orderBy('fecha', 'DESC');
           
         }
-    }*/
+    }
 
 }

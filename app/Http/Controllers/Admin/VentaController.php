@@ -42,8 +42,10 @@ class VentaController extends Controller
         $ventas = Venta::orderBy('id','DESC')->paginate(15);
         foreach($ventas as $venta){
             $venta->fecha = FechaHelper::getFechaImpresion($venta->fecha); 
-        }
 
+            $cant = Ventadetalle::where('venta_id', $venta->id)->sum('cantidad');
+            $venta->usuario_modi = $cant;
+        }
 
 
         $ventas->setPath('ventas');
@@ -107,11 +109,7 @@ class VentaController extends Controller
 
                 $ventadetalle->save();
 
-                $stockarticulo = Stockarticulo::find($codigo);
-                    $stockarticulo->stockactual = intval($stockarticulo->stockactual) - intval($cantidad);
-                    $stockarticulo->usuario_modi = Auth::user()->username;
-                    $stockarticulo->fecha_modi = date('Y-m-d H:i:s');
-                $stockarticulo->save();
+               
 
                 /*if($descripciontemp == '')
                 {
@@ -124,12 +122,12 @@ class VentaController extends Controller
         }
 
         //auditoria
-        $stockasignacion->fill(['estado'=> 1, 'usuario_alta' => Auth::user()->username , 'fecha_alta' => date('Y-m-d H:i:s')])->save();
+        $venta->fill(['usuario_alta' => Auth::user()->username , 'fecha_alta' => date('Y-m-d H:i:s')])->save();
         //
 
 
-        Alert::success('Asiganción creada con exito')->persistent("Cerrar");
-        return redirect()->route('stockasignaciones.index');
+        Alert::success('Venta Registrada con Exito')->persistent("Cerrar");
+        return redirect()->route('ventas.index');
     }
 
     /**
@@ -174,6 +172,12 @@ class VentaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Ventadetalle::where('venta_id', $id)->delete();    
+
+        Venta::find($id)->delete();
+
+        Alert::success('Eliminado correctamente')->persistent('Cerrar');
+        return back();
+
     }
 }

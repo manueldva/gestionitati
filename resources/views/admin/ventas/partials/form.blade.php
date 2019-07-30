@@ -33,7 +33,7 @@
 					</div>
 					<div class="form-group">
 						{{ form::label('fecha', 'Fecha') }}
-						{{ form::date('fecha', \Carbon\Carbon::now(), ['class' => 'form-control', 'id' => 'fecha', 'readonly']) }}
+						{{ form::date('fecha', \Carbon\Carbon::now(), ['class' => 'form-control', 'id' => 'fecha']) }}
 					</div>
 			      	<div class="form-group">
 						{{ form::label('cliente_id', 'Nro Socio') }}
@@ -339,6 +339,10 @@
       			toastr.error('Ocurrio un error, verifique los campos del listado final');
       			return false;
       		} else {
+
+      			if($('#cliente').val() == ''){
+      				$('#cliente_id').val('');
+      			}
       			//alert($('#id_lista_stocks').val());
       			$('#form').submit();
       		}
