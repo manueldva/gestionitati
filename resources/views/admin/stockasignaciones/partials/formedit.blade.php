@@ -350,6 +350,8 @@
 			    	temp = 1;
 			    } else if(devuelve < 0) {
 			    	temp = 1;
+			    } else if(devuelve > cantidad) {
+			    	temp = 1;
 			    }
 			    listado += codigo + "|" + cantidad + "|" + devuelve + "&&&";
 		    });

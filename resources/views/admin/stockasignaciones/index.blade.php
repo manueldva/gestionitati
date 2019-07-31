@@ -73,11 +73,18 @@
 								Procesado
 							@endif
 						</td>
+						<td width="10px">
+	                    	<a  href="{{ asset('printstocksignacion/') . '/' . $stockasignacion->id }}" target="blank_" class='btn btn-sm btn-success' title="Imprimir Hoja de Ruta">
+		                   		<span class='glyphicon glyphicon-print'></span>
+		                   	</a>
+						</td>
+	                    </td>
 	                    <td width="10px">
 	                      <a href="{{ route('stockasignaciones.show', $stockasignacion->id) }}" class="btn btn-sm btn-default">
 	                        Ver
 	                      </a>
 	                    </td>
+	                    
 	                    @if($permiso == 2) 
 		                   
 		                    <td width="10px">

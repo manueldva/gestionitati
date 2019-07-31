@@ -33,7 +33,7 @@ class Venta extends Model
         {
             $query->where('fecha', '=',  $valor)->orderBy('fecha', 'DESC');
           
-        }else if ($type == 'empleado') 
+        }else if ($type == 'codigo') 
         {
             $query->where('cliente_id', '=', $valor)->orderBy('fecha', 'DESC');
 

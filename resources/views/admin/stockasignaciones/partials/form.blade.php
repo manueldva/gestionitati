@@ -32,7 +32,7 @@
 					</div>
 					<div class="form-group">
 						{{ form::label('fecha', 'Fecha *') }}
-						{{ form::date('fecha', null, ['class' => 'form-control', 'id' => 'fecha']) }}
+						{{ form::date('fecha', \Carbon\Carbon::now(), ['class' => 'form-control', 'id' => 'fecha']) }}
 						<div id="fechaspan" class="form-group has-error" style="display: none">
 							<span class="help-block">Campo Obligatorio</span>
 						</div>

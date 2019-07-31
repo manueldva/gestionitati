@@ -89,14 +89,12 @@
 	                    </td>
 
 	                    @if($permiso == 2) 
-	                    
-	                    <td width="10px">
-							{!! Form::model($venta, ['method' => 'delete', 'route' => ['ventas.destroy', $venta->id], 'class' =>'form-inline form-delete']) !!}
-							{!! Form::hidden('id', $venta->id) !!}
-							{!! Form::submit('Eliminar', ['class' => 'btn btn-sm btn-danger delete', 'name' => 'delete_modal']) !!}
-							{!! Form::close() !!}
-
-	                    </td>
+		                    <td width="10px">
+								{!! Form::model($venta, ['method' => 'delete', 'route' => ['ventas.destroy', $venta->id], 'class' =>'form-inline form-delete']) !!}
+								{!! Form::hidden('id', $venta->id) !!}
+								{!! Form::submit('Eliminar', ['class' => 'btn btn-sm btn-danger delete', 'name' => 'delete_modal']) !!}
+								{!! Form::close() !!}
+		                    </td>
 	                    @endif
 	                  </tr>
 	                @endforeach

@@ -20,6 +20,7 @@ use App\Models\Hojarutaarticuloextra;*/
 use App\Models\Distrito;
 use App\Models\Barrio;
 use App\Models\Articulo;
+use App\Models\Venta;
 use App\Models\Stockarticulo;
 use App\Models\Stockarticulodetalle;
 use App\Models\Stockasignacion;
@@ -284,5 +285,26 @@ class AsignarStockController extends Controller
 
         Alert::success('Eliminado correctamente')->persistent('Cerrar');
         return back();
+    }
+
+
+
+    public function printstocksignacion($id)
+    {
+
+        $stockasignacion = Stockasignacion::find($id);
+
+        $stockasignacion->fecha = FechaHelper::getFechaInputDate($stockasignacion->fecha); 
+        
+        $stockasignaciondetalles = Stockasignaciondetalle::where('stockasignacion_id', $id)->get();
+
+        
+        $cantidad = Stockasignaciondetalle::where('stockasignacion_id', $id)->sum('cantidad');
+
+        //dd($cantidad);
+        $pdf = PDF::loadView('admin.stockasignaciones.printstocksignacion', compact('stockasignacion', 'stockasignaciondetalles', 'cantidad'));
+            //$pdf->setPaper('Legal', 'landscape');
+
+            return $pdf->setPaper('Legal', 'landscape')->stream('detalle.pdf');
     }
 }
