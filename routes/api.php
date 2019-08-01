@@ -402,6 +402,19 @@ Route::get('detalleclientehojaruta', function() {
 
     }
 
+    if($data == 1 ){
+        $query3="select 0 articulo_id, 0 id, CASE tipocliente_id WHEN 1 THEN CONCAT(apellido, ' ',  nombre) WHEN 2 THEN cliente ELSE '-' END cliente,
+                '' as barrio, tipocliente_id, '' as calle, '' as numero, '' as manzana, '' as casa, '' as seccion, '' as lote, '' as edificiotorre, '' as piso, '' as observaciondomicilio, '' as referenciadomicilio,
+                '' as articulo, '' as cantidad, 1 as clasificacion, 2 as tipoproceso
+                from clientes 
+                where id = " . request('cli');
+
+        $data = DB::select($query3);
+        if(!$data){
+             $data = 1;
+        }
+    }
+
 
     return $data;
 });

@@ -349,7 +349,9 @@ class HojarutaController extends Controller
 
         $hojaruta->fecha = FechaHelper::getFechaInputDate($hojaruta->fecha); 
 
-        return view('admin.hojarutas.edit', compact('hojaruta'));
+        $articulos  = Articulo::where('tipoarticulo_id', '=', 1)->where('hojaruta',1)->where('estado', 1)->orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+        return view('admin.hojarutas.edit', compact('hojaruta','articulos'));
     }
 
     /**

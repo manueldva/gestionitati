@@ -84,6 +84,32 @@
 							{{ form::text('direccion',null, ['class' => 'form-control', 'id' => 'direccion', 'readonly']) }}
 						</div>
 					</div>
+					<div class="form-group">
+						<div class="table-responsive">
+							<table class="table table-striped table-hover" data-form="Form">
+								<thead>
+									<tr>	
+										<td>
+											{{ form::label('articulo', 'Agregar Articulos') }}
+											<br>
+											{{ form::select('articulo', $articulos,  null, ['class' => 'form-control inline-search', 'id' => 'articulo','placeholder' => 'Seleccionar...'] ) }}
+										</td>
+										<td> 
+											<br>
+											<a type="button" id="agregararticulo1" name="agregararticulo1" class="btn btn btn-success">
+							                <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
+							                    <span class="fa fa-plus-circle">
+							                    </span>
+							                      
+							                </a>
+										</td>
+									</tr>
+
+									
+								</thead>
+							</table>
+						</div>
+					</div>
 					<hr>
 					<div class="form-group">
 					
@@ -337,19 +363,22 @@
 						          	'</select></center>';
 								}
 
+
 								$("#direccion").val(direccion);
 								$("#cliente_id2").val($("#cliente_id").val());
-								$('#table_clientes tbody').prepend(
-								'<tr>' + 
-								'<td style="display: none;"><center>' + value.id + '</center></td>' +
-								'<td><center>' + value.articulo + '</center></td>' +
-		 						'<td><center><div contenteditable="true"><font color="green">'+value.cantidad+'</font></div></td>' +
-		 						'<td>' + clasificacion + '</td>' +
-		 						'<td style="display: none;">' + value.tipoproceso + '</td>' +
-		 						'<td style="display: none;">' + value.articulo_id + '</td>' +
-		 						"<td><a class='delete btn btn-sm btn-danger' onclick ='deletearticulo_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
-								
-								'</tr>');
+								if(value.tipoproceso !== 2){
+									$('#table_clientes tbody').prepend(
+									'<tr>' + 
+									'<td style="display: none;"><center>' + value.id + '</center></td>' +
+									'<td><center>' + value.articulo + '</center></td>' +
+			 						'<td><center><div contenteditable="true"><font color="green">'+value.cantidad+'</font></div></td>' +
+			 						'<td>' + clasificacion + '</td>' +
+			 						'<td style="display: none;">' + value.tipoproceso + '</td>' +
+			 						'<td style="display: none;">' + value.articulo_id + '</td>' +
+			 						"<td><a class='delete btn btn-sm btn-danger' onclick ='deletearticulo_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
+									
+									'</tr>');
+								}
 					    	})	
 
 					    	if(tipoproceso == 1){
@@ -398,6 +427,56 @@
 		});*/
 	
 
+			/*para agregar articulos al listado parcial*/
+		$("#agregararticulo1").click(function() {
+			
+			if($('#articulo').val() == ''){
+				toastr.error('No selecciono ningun articulo');
+				return false;
+			}
+
+			if($('#cliente_id2').val() == ''){
+				toastr.error('Faltan datos del cliente');
+				return false;
+			}
+
+			var temp = 0;
+			$('#table_clientes tbody tr').each(function () {	 
+			   codigo = $(this).find("td").eq(5).html();
+			   
+			   if(codigo == $('#articulo').val()){
+			   		temp = 1;
+			   }
+
+		    });
+
+
+			if(temp == 1){
+				toastr.error('Este articulo ya se encuentra en el listado parcial');
+				return false;
+			}
+
+			var clasificacion = '<center><select id="select" class="form-control">'+
+						            '<option value="1" selected>Efectivo</option>' +
+						            '<option value="2">Cuenta C.</option>' +
+						            '<option value="0">Sin Cargo</option>' +
+						          	'</select></center>';
+
+
+			$('#table_clientes tbody').prepend(
+			'<tr>' + 
+			'<td style="display: none;"><center>' + 0 + '</center></td>' +
+			'<td><center>' + $('select[name="articulo"] option:selected').text() + '</center></td>' +
+				'<td><center><div contenteditable="true"><font color="green">'+ 1 +'</font></div></td>' +
+				'<td>' + clasificacion + '</td>' +
+				'<td style="display: none;">' + 1 + '</td>' +
+				'<td style="display: none;">' + $('#articulo').val() + '</td>' +
+				"<td><a class='delete btn btn-sm btn-danger' onclick ='deletearticulo_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
+			
+			'</tr>');
+
+			toastr.success('Articulo agreado al listao parcial');
+		});
 
 
 		/*para agregar articulos al listado*/
