@@ -58,6 +58,7 @@
 	                  <!--<th width="10px"> ID</th>-->
 	                  <th> Codigo Hoja Ruta</th>
 					  <th> Fecha</th>
+					  <th> Articulo</th>
 	                  <th> Estado</th>
 	                  <th colspan="3">&nbsp;</th>
 	                </tr>
@@ -74,6 +75,11 @@
 						<td>
 							<a href="{{ route('hojarutaarticulos.show', $hojarutaarticulo->id) }}" style="color:#000000;">
 								{{ $hojarutaarticulo->fecha }}
+							</a>
+						</td>
+						<td>
+							<a href="{{ route('hojarutaarticulos.show', $hojarutaarticulo->id) }}" style="color:#000000;">
+								{{ $hojarutaarticulo->articulo->descripcion }}
 							</a>
 						</td>
 						<td>
