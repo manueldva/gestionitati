@@ -159,11 +159,11 @@ return [
                     'url'  => 'manageusers',
                 ],*/
                  [
-                    'text' => 'Por Barrios',
+                    'text' => 'Por Vendedor',
                     'url'  => 'hojarutas',
                 ],
                 [
-                    'text' => 'Por Articulos',
+                    'text' => 'Por Articulo',
                     'url'  => 'hojarutaarticulos',
                 ]
             ]
