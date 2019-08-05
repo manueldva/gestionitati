@@ -41,6 +41,10 @@ class Articulo extends Model
         return $this->HasMany(Ventadetalle::class);
     }
 
+    public function hojarutaarticulos(){ //vendedor
+        return $this->HasMany(Hojarutaarticulo::class);
+    }
+
 
     public function scopeType($query, $type, $valor, $tipoarticulo) 
     {

@@ -92,6 +92,13 @@ return array(
 		/*'name'		=> 'Nombre',
 		'status'	=> 'Estado'*/
 	] ,
+	'hojarutaartoculotypes' => [
+		''    		=> 'Seleccionar',
+		'fecha'  	=> 'Fecha',
+		'codigo' 	=> 'Codigo'
+		/*'name'		=> 'Nombre',
+		'status'	=> 'Estado'*/
+	] ,
 
 
 );

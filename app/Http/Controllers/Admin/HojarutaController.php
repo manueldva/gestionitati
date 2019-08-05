@@ -115,7 +115,6 @@ class HojarutaController extends Controller
         
         $articulos  = Articulo::where('tipoarticulo_id', '=', 1)->orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
-
         $tipoempleado = Tipoempleado::where('descripcion', '=', 'Vendedor')->first();
         if($tipoempleado) {
             $empleados  = Empleado::orderBy('empleado', 'ASC')->where('tipoempleado_id', $tipoempleado->id)->where('Sucursal_id', 1)->pluck('empleado' , 'id');

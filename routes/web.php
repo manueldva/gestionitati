@@ -62,6 +62,10 @@ route::get('/cobranza/{id}',		'Admin\HojarutaController@cobranza')->name('cobran
 route::put('/updatecobranza/{id}',		'Admin\HojarutaController@updatecobranza')->name('updatecobranza');
 Route::get('/printhojaruta/{id}', 'Admin\HojarutaController@printhojaruta');
 route::get('/printhojarutadetalle/{id}/{fecha}',		'Admin\HojarutaController@printhojarutadetalle')->name('printhojarutadetalle');
+
+route::resource('hojarutaarticulos', 		'Admin\HojarutaarticuloController');
+Route::get('/printhojarutaarticulo/{id}', 'Admin\HojarutaarticuloController@printhojarutaarticulo');
+
 route::resource('ventas', 		'Admin\VentaController');
 
 /*route::resource('tareas', 		'Admin\TareaController');

@@ -151,10 +151,28 @@ return [
             ]
         ],  
         [
+            'text'    => 'Hoja_Ruta',
+            'icon'    => 'list-alt',
+            'submenu' => [
+                /*[
+                    'text' => 'Usuarios',
+                    'url'  => 'manageusers',
+                ],*/
+                 [
+                    'text' => 'Por Barrios',
+                    'url'  => 'hojarutas',
+                ],
+                [
+                    'text' => 'Por Articulos',
+                    'url'  => 'hojarutaarticulos',
+                ]
+            ]
+        ],  
+        /*[
             'text' => 'Hoja_Ruta',
             'url'  => 'hojarutas',
             'icon' => 'list-alt',
-        ],  
+        ], */
         [
             'text' => 'Ventas',
             'url'  => 'ventas',
