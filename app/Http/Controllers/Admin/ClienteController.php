@@ -67,13 +67,18 @@ class ClienteController extends Controller
         $permiso = $modulos[0]->pivot->permiso;
 
         $barrios  = Barrio::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+        $calles  = Calle::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
         $tipoclientes  = Tipocliente::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
         $typetemp = $request->get('type');
 
-        if($typetemp == 'barrio')
+
+
+        if($typetemp == 'barrio'  || $typetemp == 'callenumero')
         {
-            $clientes = Clientedireccion::type($request->get('type'), $request->get('barrios'))->paginate(15);
+            $clientes = Clientedireccion::type($request->get('type'), $request->get('barrios'), $request->get('calles'), $request->get('val'))->paginate(15);
+
+             //dd($clientes);
 
             foreach ($clientes as $key => $value) {
 
@@ -172,7 +177,7 @@ class ClienteController extends Controller
             
         }
 
-       
+        //dd($clientes);
 
         $clientes->setPath('clientes');
            
@@ -180,7 +185,7 @@ class ClienteController extends Controller
        
         //dd($clientes);
         
-       return view('admin.clientes.index', compact('clientes', 'barrios', 'tipoclientes','typetemp' ,'permiso'));
+       return view('admin.clientes.index', compact('clientes', 'barrios', 'calles', 'tipoclientes','typetemp' ,'permiso'));
     }
 
     /**

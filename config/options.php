@@ -10,9 +10,10 @@ return array(
 		'nombre'  => 'Nombre',
 		'apellidonombre'  => 'Apellido y Nombre',
 		'nrodocumento'		=> 'Nro Documento',
-		'barrio'	=> 'Barrio',
 		'tipocliente' => 'Tipo de Cliente',
-		'estado' => 'Estado'
+		'estado' => 'Estado',
+		'barrio'	=> 'Barrio',
+		'callenumero'	=> 'Calle y Numero',
 	] ,
 
 

@@ -60,7 +60,7 @@ class Clientedireccion extends Model
 
    
 
-    public function scopeType($query, $type, $barrios) 
+    public function scopeType($query, $type, $barrios,$calle, $numero) 
     {
         
         if ($type == 'barrio')
@@ -70,7 +70,10 @@ class Clientedireccion extends Model
             /*$query->with('cliente')->with(['cliente' => function($query2) {
                 $query2->orderBy('apellido');
             }])->where('barrio_id', '=', $barrios );*/
-       
+        }else if ($type == 'callenumero') 
+        {
+            $query->where('calle_id',  $calle)->where('numero', 'like', '%' . $numero . '%'); 
+
         } else
         {
             $query;

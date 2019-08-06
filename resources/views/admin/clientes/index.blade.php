@@ -26,11 +26,14 @@
 	<div class="box-header with-border box-default">
 	   <strong> Listado Clientes  </strong>
 	   <form class="navbar-form navbar-right" role="search">
-	       {{ Form::model(Request::only('type', 'val', 'val2', 'barrios', 'tipoclientes', 'estados'), array('route' => 'clientes.index', 'method' => 'GET'), array('role' => 'form', 'class' => 'navbar-form pull-right')) }}
+	       {{ Form::model(Request::only('type', 'val', 'val2', 'barrios', 'calles' , 'tipoclientes', 'estados'), array('route' => 'clientes.index', 'method' => 'GET'), array('role' => 'form', 'class' => 'navbar-form pull-right')) }}
 			    <div class="form-group">
 			      {{ form::label('buscar', 'Tipo Busqueda:') }}
 			      {{ form::select('type', config('options.clientetypes'), null, ['class' => 'form-control', 'id' => 'type'] ) }}
 					&nbsp;
+				   <span id="calle" class="form-group">
+						{{ Form::select('calles',$calles, null, ['class'=>'form-control', 'id' => 'calles']) }}
+				  </span>
 			      {{ form::text('val', null, ['class' => 'form-control', 'id' => 'val']) }}
 			      {{ form::text('val2', null, ['class' => 'form-control', 'id' => 'val2']) }}
 			      <span id="barrio" class="form-group">
@@ -90,7 +93,7 @@
 	                @foreach ($clientes as $cliente)
 	                  <tr>
 						<td>
-							@if ($typetemp == 'barrio')
+							@if ($typetemp == 'barrio' || $typetemp == 'callenumero')
 								<a href="{{ route('clientes.show', $cliente->cliente->id) }}" style="color:#000000;">
 									{{ $cliente->cliente->id }}
 								</a>
@@ -101,7 +104,7 @@
 							@endif
 						</td>
 						<td>
-							@if ($typetemp == 'barrio')
+							@if ($typetemp == 'barrio' || $typetemp == 'callenumero')
 								<a href="{{ route('clientes.show', $cliente->cliente->id) }}" style="color:#000000;">
 									@if($cliente->cliente->tipocliente_id == 1)
 										{{ $cliente->cliente->apellido }} {{ $cliente->cliente->nombre }}
@@ -123,7 +126,7 @@
 							
 						</td>
 	                    <td>
-	                    	@if ($typetemp == 'barrio')
+	                    	@if ($typetemp == 'barrio' || $typetemp == 'callenumero')
 		                    	@if($cliente->cliente->tipocliente_id !== null)
 		                    	<a href="{{ route('clientes.show', $cliente->cliente->id) }}" style="color:#000000;">
 		                    	{{ $cliente->cliente->tipocliente->descripcion }}
@@ -138,7 +141,7 @@
 							@endif
 	                    </td>
 	                    <td>
-	                    	@if ($typetemp == 'barrio')
+	                    	@if ($typetemp == 'barrio' || $typetemp == 'callenumero')
 		                    	@if($cliente->usuario_modi !== null)
 		                    	<a href="{{ route('clientes.show', $cliente->cliente->id) }}" style="color:#000000;">
 		                    	{{ $cliente->usuario_modi }}
@@ -153,7 +156,7 @@
 							@endif
 	                    </td>
 						<td>
-							@if ($typetemp == 'barrio')
+							@if ($typetemp == 'barrio' || $typetemp == 'callenumero')
 								<a href="{{ route('clientes.show', $cliente->cliente->id) }}" style="color:#000000;">
 									{{ $cliente->cliente->celular }}
 								</a>
@@ -164,7 +167,7 @@
 							@endif
 						</td>	
 						<td>
-							@if ($typetemp == 'barrio')
+							@if ($typetemp == 'barrio' || $typetemp == 'callenumero')
 								<a href="{{ route('clientes.show', $cliente->cliente->id) }}" style="color:#000000;">
 									@if($cliente->cliente->estado == 0)
 										Inactivo
@@ -187,7 +190,7 @@
 	                    @if($permiso == 2) 
 	                    <td width="10px">
 	                    	@if(!Auth::user()->empleado_id)
-		                    	@if ($typetemp == 'barrio')
+		                    	@if ($typetemp == 'barrio' || $typetemp == 'callenumero')
 				                    <a href="{{ route('clientes.edit', $cliente->cliente->id) }}" class="btn btn-sm btn-default">
 				                      Editar
 				                    </a>
@@ -197,7 +200,7 @@
 				                    </a>
 								@endif
 							@elseif($cliente->sucursal_id == Auth::user()->empleado->sucursal_id)
-								@if ($typetemp == 'barrio')
+								@if ($typetemp == 'barrio' || $typetemp == 'callenumero')
 				                    <a href="{{ route('clientes.edit', $cliente->cliente->id) }}" class="btn btn-sm btn-default">
 				                      Editar
 				                    </a>
@@ -219,7 +222,7 @@
 
 			  <div>
 			  	<strong> <?php echo  'Mostrando ' . $clientes->firstItem() . ' a ' . $clientes->lastItem() . ' de ' . $clientes->total() . ' registros'; ?>	</div>
-	          			{{ $clientes->appends(Request::only(['type', 'val', 'val2' ,'barrios', 'tipoclientes', 'estados']))->render() }}
+	          			{{ $clientes->appends(Request::only(['type', 'val', 'val2' ,'barrios', 'calles', 'tipoclientes', 'estados']))->render() }}
 	      		</strong>
 	        </div>
 	    </div>
@@ -242,7 +245,8 @@
 
 		$('#barrios').select2();
 		$('#tipoclientes').select2();
- 
+ 		$('#calles').select2();
+
 		function searchType(){ 
 		  var type = $('#type').val();
 			
@@ -253,6 +257,8 @@
 				$('#barrio').hide();
 				$('#estado').hide();
 				$('#tipocliente').hide();
+				$('#calle').hide();
+
 				$('#val').attr('type','number');
 			} else if (type == 'apellido')
 			{
@@ -262,6 +268,8 @@
 				$('#barrio').hide();
 				$('#estado').hide();
 				$('#tipocliente').hide();
+				$('#calle').hide();
+
 				$('#val').attr('type','text');
 			} else if (type == 'codigo')
 			{
@@ -271,6 +279,8 @@
 				$('#barrio').hide();
 				$('#estado').hide();
 				$('#tipocliente').hide();
+				$('#calle').hide();
+
 				$('#val').attr('type','number');
 			} else if (type == 'nombre')
 			{
@@ -279,6 +289,8 @@
 				$('#val2').hide();
 				$('#barrio').hide();
 				$('#tipocliente').hide();
+				$('#calle').hide();
+
 				$('#val').attr('type','text');	
 			} else if (type == 'apellidonombre')
 			{
@@ -288,6 +300,8 @@
 				$('#barrio').hide();
 				$('#tipocliente').hide();
 				$('#estado').hide();
+				$('#calle').hide();
+
 				$('#val').attr('type','text');
 			}else if (type == 'barrio')
 			{
@@ -297,6 +311,8 @@
 				$('#barrio').show();
 				$('#tipocliente').hide();
 				$('#estado').hide();
+				$('#calle').hide();
+
 				$('#val').attr('type','text');
 			}else if (type == 'tipocliente')
 			{
@@ -306,6 +322,8 @@
 				$('#barrio').hide();
 				$('#tipocliente').show();
 				$('#estado').hide();
+				$('#calle').hide();
+
 				$('#val').attr('type','text');
 			}else if (type == 'estado')
 			{
@@ -315,7 +333,18 @@
 				$('#barrio').hide();
 				$('#tipocliente').hide();
 				$('#estado').show();
+				$('#calle').hide();
 				$('#val').attr('type','text');
+			}else if (type == 'callenumero')
+			{
+				$('#imprimir').hide();
+				$('#val').show();
+				$('#val2').hide();
+				$('#barrio').hide();
+				$('#tipocliente').hide();
+				$('#estado').hide();
+				$('#calle').show();
+				$('#val').attr('type','number');
 			} else
 			{
 				$('#imprimir').hide();
@@ -323,6 +352,7 @@
 				$('#val2').hide();
 				$('#barrio').hide();
 				$('#tipocliente').hide();
+				$('#calle').hide();
 				$('#estado').hide();
 				$('#val').attr('type','text');
 			}
@@ -338,6 +368,7 @@
 			$('#val').focus();
 			$('#val2').val('');
 			$('#barrios').val('').select2();
+			$('#calles').val('').select2();
 			$('#tipoclientes').val('').select2();
 			//$('#cajas').val($('#cajas option:first').val());
 			
