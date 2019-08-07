@@ -18,6 +18,7 @@ use App\Models\Hojarutadetalle;
 use App\Models\Hojarutaarticuloextra;
 use App\Models\Distrito;
 use App\Models\Barrio;
+use App\Models\Cliente;
 use App\Models\Articulo;
 use App\Models\Stockarticulo;
 use App\Models\Stockarticulodetalle;
@@ -350,7 +351,15 @@ class HojarutaController extends Controller
 
         $articulos  = Articulo::where('tipoarticulo_id', '=', 1)->where('hojaruta',1)->where('estado', 1)->orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
-        return view('admin.hojarutas.edit', compact('hojaruta','articulos'));
+
+        $clientes  = Cliente::select(
+            DB::raw("CONCAT(apellido,' ',nombre) AS cliente"),'id')
+            ->where('estado', 1)
+            ->where('tipocliente_id', 1)
+            ->orderBy('cliente')
+            ->pluck('cliente', 'id');
+
+        return view('admin.hojarutas.edit', compact('hojaruta','articulos', 'clientes'));
     }
 
     /**

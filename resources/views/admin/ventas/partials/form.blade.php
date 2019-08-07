@@ -35,6 +35,10 @@
 						{{ form::label('fecha', 'Fecha') }}
 						{{ form::date('fecha', \Carbon\Carbon::now(), ['class' => 'form-control', 'id' => 'fecha']) }}
 					</div>
+					<div class="form-group">
+			      		{{ form::label('clientes', 'Buscador Clientes') }}
+						{{ form::select('clientes', $clientes, null, ['class' => 'form-control','placeholder' => 'Buscar...'] ) }}
+			      	</div>
 			      	<div class="form-group">
 						{{ form::label('cliente_id', 'Nro Socio') }}
 						{{ form::number('cliente_id',null, ['class' => 'form-control', 'id' => 'cliente_id']) }}
@@ -151,6 +155,26 @@
 
 		
 		var APP_URL = "{{ url('/') }}";
+
+		$("#clientes").select2();
+
+		$( "#clientes" ).change(function() {
+			//alert($('select[name="clientes"] option:selected').val());
+
+			if($('select[name="clientes"] option:selected').val() == '') {
+				$('#cliente_id').val('');
+			}else {
+				$('#cliente_id').val($('select[name="clientes"] option:selected').val());
+				$('#clientes').val('').select2();
+				//Simula que se presiona la tecla enter 
+				$('#cliente_id').trigger({
+				    type: 'keypress',
+				    which: 13
+				});
+				//$('#clientes').val('');
+			}
+		});
+
 
 		$(document).ready(function(){
 			$("#cliente_id").keypress(function(e) {

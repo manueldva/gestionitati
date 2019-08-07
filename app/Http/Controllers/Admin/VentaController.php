@@ -11,7 +11,7 @@ use Alert;
 
 use App\Models\Modulo;
 use App\Models\Perfil;
-
+use App\Models\Cliente;
 use App\Models\Articulo;
 use App\Models\Venta;
 use App\Models\Ventadetalle;
@@ -65,9 +65,14 @@ class VentaController extends Controller
     {
        $articulos  = Articulo::where('tipoarticulo_id', '=', 1)->where('estado', 1)->where('incluirventa', 1)->orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
+        $clientes  = Cliente::select(
+            DB::raw("CONCAT(apellido,' ',nombre) AS cliente"),'id')
+            ->where('estado', 1)
+            ->where('tipocliente_id', 1)
+            ->orderBy('cliente')
+            ->pluck('cliente', 'id');
 
-
-        return view('admin.ventas.create', compact('articulos'));
+        return view('admin.ventas.create', compact('articulos', 'clientes'));
 
     }
 
