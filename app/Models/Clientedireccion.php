@@ -72,8 +72,11 @@ class Clientedireccion extends Model
             }])->where('barrio_id', '=', $barrios );*/
         }else if ($type == 'callenumero') 
         {
-            $query->where('calle_id',  $calle)->where('numero', 'like', '%' . $numero . '%'); 
-
+            if ($numero == null) {
+                $query->where('calle_id',  $calle);//->where('numero', 'like', '%' . $numero . '%'); 
+            } else {
+                $query->where('calle_id',  $calle)->where('numero', 'like', '%' . $numero . '%'); 
+            }
         }else if ($type == 'mzcasa') 
         {
             if($barrios == null) {
