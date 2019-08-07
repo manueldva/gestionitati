@@ -14,6 +14,7 @@ return array(
 		'estado' => 'Estado',
 		'barrio'	=> 'Barrio',
 		'callenumero'	=> 'Calle y Numero',
+		'mzcasa'	=> 'Manzana y Casa',
 	] ,
 
 

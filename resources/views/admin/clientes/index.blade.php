@@ -34,11 +34,12 @@
 				   <span id="calle" class="form-group">
 						{{ Form::select('calles',$calles, null, ['class'=>'form-control', 'id' => 'calles']) }}
 				  </span>
-			      {{ form::text('val', null, ['class' => 'form-control', 'id' => 'val']) }}
-			      {{ form::text('val2', null, ['class' => 'form-control', 'id' => 'val2']) }}
-			      <span id="barrio" class="form-group">
+				   <span id="barrio" class="form-group">
 						{{ Form::select('barrios', $barrios, null, ['class'=>'form-control', 'id' => 'barrios','placeholder' => 'Seleccionar...']) }}
 				  </span>
+			      {{ form::text('val', null, ['class' => 'form-control', 'id' => 'val']) }}
+			      {{ form::text('val2', null, ['class' => 'form-control', 'id' => 'val2']) }}
+			     
 				  <span id="estado" class="form-group">
 						{{ Form::select('estados',['1'=> 'Activo', '0'=>'Inactivo'], null, ['class'=>'form-control', 'id' => 'estados']) }}
 				  </span>
@@ -93,7 +94,7 @@
 	                @foreach ($clientes as $cliente)
 	                  <tr>
 						<td>
-							@if ($typetemp == 'barrio' || $typetemp == 'callenumero')
+							@if ($typetemp == 'barrio' || $typetemp == 'callenumero' || $typetemp == 'mzcasa')
 								<a href="{{ route('clientes.show', $cliente->cliente->id) }}" style="color:#000000;">
 									{{ $cliente->cliente->id }}
 								</a>
@@ -104,7 +105,7 @@
 							@endif
 						</td>
 						<td>
-							@if ($typetemp == 'barrio' || $typetemp == 'callenumero')
+							@if ($typetemp == 'barrio' || $typetemp == 'callenumero' || $typetemp == 'mzcasa')
 								<a href="{{ route('clientes.show', $cliente->cliente->id) }}" style="color:#000000;">
 									@if($cliente->cliente->tipocliente_id == 1)
 										{{ $cliente->cliente->apellido }} {{ $cliente->cliente->nombre }}
@@ -126,7 +127,7 @@
 							
 						</td>
 	                    <td>
-	                    	@if ($typetemp == 'barrio' || $typetemp == 'callenumero')
+	                    	@if ($typetemp == 'barrio' || $typetemp == 'callenumero' || $typetemp == 'mzcasa')
 		                    	@if($cliente->cliente->tipocliente_id !== null)
 		                    	<a href="{{ route('clientes.show', $cliente->cliente->id) }}" style="color:#000000;">
 		                    	{{ $cliente->cliente->tipocliente->descripcion }}
@@ -141,7 +142,7 @@
 							@endif
 	                    </td>
 	                    <td>
-	                    	@if ($typetemp == 'barrio' || $typetemp == 'callenumero')
+	                    	@if ($typetemp == 'barrio' || $typetemp == 'callenumero' || $typetemp == 'mzcasa')
 		                    	@if($cliente->usuario_modi !== null)
 		                    	<a href="{{ route('clientes.show', $cliente->cliente->id) }}" style="color:#000000;">
 		                    	{{ $cliente->usuario_modi }}
@@ -156,7 +157,7 @@
 							@endif
 	                    </td>
 						<td>
-							@if ($typetemp == 'barrio' || $typetemp == 'callenumero')
+							@if ($typetemp == 'barrio' || $typetemp == 'callenumero' || $typetemp == 'mzcasa')
 								<a href="{{ route('clientes.show', $cliente->cliente->id) }}" style="color:#000000;">
 									{{ $cliente->cliente->celular }}
 								</a>
@@ -167,7 +168,7 @@
 							@endif
 						</td>	
 						<td>
-							@if ($typetemp == 'barrio' || $typetemp == 'callenumero')
+							@if ($typetemp == 'barrio' || $typetemp == 'callenumero' || $typetemp == 'mzcasa')
 								<a href="{{ route('clientes.show', $cliente->cliente->id) }}" style="color:#000000;">
 									@if($cliente->cliente->estado == 0)
 										Inactivo
@@ -190,7 +191,7 @@
 	                    @if($permiso == 2) 
 	                    <td width="10px">
 	                    	@if(!Auth::user()->empleado_id)
-		                    	@if ($typetemp == 'barrio' || $typetemp == 'callenumero')
+		                    	@if ($typetemp == 'barrio' || $typetemp == 'callenumero' || $typetemp == 'mzcasa')
 				                    <a href="{{ route('clientes.edit', $cliente->cliente->id) }}" class="btn btn-sm btn-default">
 				                      Editar
 				                    </a>
@@ -200,7 +201,7 @@
 				                    </a>
 								@endif
 							@elseif($cliente->sucursal_id == Auth::user()->empleado->sucursal_id)
-								@if ($typetemp == 'barrio' || $typetemp == 'callenumero')
+								@if ($typetemp == 'barrio' || $typetemp == 'callenumero' || $typetemp == 'mzcasa')
 				                    <a href="{{ route('clientes.edit', $cliente->cliente->id) }}" class="btn btn-sm btn-default">
 				                      Editar
 				                    </a>
@@ -345,6 +346,18 @@
 				$('#estado').hide();
 				$('#calle').show();
 				$('#val').attr('type','number');
+
+			}else if (type == 'mzcasa')
+			{
+				$('#imprimir').hide();
+				$('#val').show();
+				$('#val2').show();
+				$('#barrio').show();
+				$('#tipocliente').hide();
+				$('#estado').hide();
+				$('#calle').hide();
+				$('#val').attr('type','text');
+
 			} else
 			{
 				$('#imprimir').hide();

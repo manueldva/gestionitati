@@ -60,9 +60,9 @@ class Clientedireccion extends Model
 
    
 
-    public function scopeType($query, $type, $barrios,$calle, $numero) 
+    public function scopeType($query, $type, $barrios,$calle, $numero, $numero2) 
     {
-        
+        //dd($numero);
         if ($type == 'barrio')
         {
             $query->where('barrio_id', '=', $barrios );
@@ -73,6 +73,35 @@ class Clientedireccion extends Model
         }else if ($type == 'callenumero') 
         {
             $query->where('calle_id',  $calle)->where('numero', 'like', '%' . $numero . '%'); 
+
+        }else if ($type == 'mzcasa') 
+        {
+            if($barrios == null) {
+             
+                if ($numero2 == null && $numero !== null) {
+                    $query->where('manzana', 'like', '%' . $numero . '%'); 
+                } else if ($numero == null && $numero2 !== null) {
+                    $query->where('casa', 'like', '%' . $numero2 . '%'); 
+                } else if ($numero == null && $numero2 == null) {
+                    $query; 
+                 } else {
+                    $query->where('manzana', 'like', '%' . $numero . '%')->where('casa', 'like', '%' . $numero2 . '%'); 
+                }
+            } else {
+
+
+                if ($numero2 == null && $numero !== null) {
+                    $query->where('manzana', 'like', '%' . $numero . '%')->where('barrio_id', $barrios ); 
+                } else if ($numero == null && $numero2 !== null) {
+                    $query->where('casa', 'like', '%' . $numero2 . '%')->where('barrio_id', $barrios ); 
+                } else if ($numero == null && $numero2 == null) {
+                    $query->where('barrio_id', $barrios ); 
+                 } else {
+                    $query->where('manzana', 'like', '%' . $numero . '%')->where('casa', 'like', '%' . $numero2 . '%')->where('barrio_id', $barrios ); 
+                }
+                 //$query->where('manzana', 'like', '%' . $numero . '%')->where('casa', 'like', '%' . $numero2 . '%')->where('barrio_id', $barrios ); 
+            }
+            //$query->where('manzana', 'like', '%' . $numero . '%')->where('casa', 'like', '%' . $numero2 . '%')->where('barrio_id', $barrios ); 
 
         } else
         {

@@ -74,9 +74,9 @@ class ClienteController extends Controller
 
 
 
-        if($typetemp == 'barrio'  || $typetemp == 'callenumero')
+        if($typetemp == 'barrio'  || $typetemp == 'callenumero' || $typetemp == 'mzcasa')
         {
-            $clientes = Clientedireccion::type($request->get('type'), $request->get('barrios'), $request->get('calles'), $request->get('val'))->paginate(15);
+            $clientes = Clientedireccion::type($request->get('type'), $request->get('barrios'), $request->get('calles'), $request->get('val'), $request->get('val2'))->paginate(15);
 
              //dd($clientes);
 
