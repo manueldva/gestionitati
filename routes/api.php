@@ -424,13 +424,30 @@ Route::get('detalleclientehojaruta', function() {
 
 /*stock*/
 Route::get('stockarticulos', function() {
+    //$articulos = [];
 
-    return App\Models\Stockarticulo::where('sucursal_id', '=', request('sucursal_id'))->orderBy('descripcion')->get();
+    $articulos  = DB::table('articulos')
+            ->join('stockarticulodetalles', 'stockarticulodetalles.articulo_id', '=', 'articulos.id')
+            ->join('stockarticulos', 'stockarticulos.id', '=', 'stockarticulodetalles.stockarticulo_id')
+            ->join('stockventas', 'stockventas.stockarticulo_id', '=', 'stockarticulos.id')
+            ->select('stockarticulos.descripcion', 'stockventas.id')
+            ->where('articulos.tipoarticulo_id', '=', 1)
+            ->groupBy('stockarticulos.descripcion', 'stockventas.id')
+            ->get();
+
+    //dd($temp);
+    /*foreach ($temp as $value) {
+        dd($value->descripcion);
+        $articulos = ['id' => $value->id, 'descripcion' => $value->descripcion];
+    }*/
+
+    return $articulos;
+    //return App\Models\Stockarticulo::where('sucursal_id', '=', request('sucursal_id'))->orderBy('descripcion')->get();
 });
 
 Route::get('stockarticulo', function() {
 
-    $stockarticulo = App\Models\Stockarticulo::where('id', '=', request('q'))->first();
+    $stockarticulo = App\Models\Stockventa::where('id', '=', request('q'))->first();
     if(!$stockarticulo){
         $stockarticulo = 0;
     }

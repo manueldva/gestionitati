@@ -39,4 +39,10 @@ class Stockarticulo extends Model
     }
 
 
+
+    public function stockventas(){
+        return $this->HasMany(Stockventa::class);
+    }
+
+
 }

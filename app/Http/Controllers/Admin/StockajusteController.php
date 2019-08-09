@@ -20,6 +20,7 @@ use App\Models\Proveedorajuste;
 use App\Models\Motivoajuste;
 use App\Models\Stockajuste;
 use App\Models\Stockarticulo;
+use App\Models\Stockventa;
 use App\Models\Stockarticulodetalle;
 
 use DB;
@@ -147,4 +148,53 @@ class StockajusteController extends Controller
     {
         //
     }
+
+
+
+
+
+    public function showajusteventa($id)
+    {
+
+        $stock = Stockarticulo::find($id);
+
+       return view('admin.stockajustes.ajusteventa', compact('stock'));
+    }
+
+
+    public function updateajusteventa(Request $request, $id)
+    {
+
+        $stockventa = Stockventa::where('stockarticulo_id',$id)->first();
+        if(!$stockventa)
+        {
+            $stockventa = new Stockventa();
+    
+                $stockventa->stockactual =  (int)$request->get('cantidad') ;
+                $stockventa->stockarticulo_id = $id ;
+                $stockventa->usuario_alta = Auth::user()->username;
+                $stockventa->fecha_alta = date('Y-m-d H:i:s');
+        }else{
+
+            $stockventa->stockactual =  (int)$stockventa->stockactual + (int)$request->get('cantidad') ;
+            $stockventa->stockarticulo_id = $id ;
+            $stockventa->usuario_modi = Auth::user()->username;
+            $stockventa->fecha_modi = date('Y-m-d H:i:s');
+        }
+        
+
+        $stockventa->save();
+
+        
+        $stock = Stockarticulo::find($id);
+            $stock->stockactual =  (int)$stock->stockactual - (int)$request->get('cantidad') ;
+            $stock->usuario_modi = Auth::user()->username;
+            $stock->fecha_modi = date('Y-m-d H:i:s');
+        $stock->save();
+
+        Alert::success('Ajuste realizado con exito')->persistent("Cerrar");
+        return redirect()->route('showajusteventa', $id);
+
+    }
+
 }

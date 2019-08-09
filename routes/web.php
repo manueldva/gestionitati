@@ -55,6 +55,10 @@ route::get('/eliminarcontrato/{id}',		'Admin\ContratoController@eliminar')->name
 Route::get('/printcontrato/{id}', 'Admin\ContratoController@printcontrato');
 route::resource('stocks', 		'Admin\StockController');
 route::resource('stockajustes', 		'Admin\StockajusteController');
+
+route::get('/showajusteventa/{id}',		'Admin\StockajusteController@showajusteventa')->name('showajusteventa');
+route::put('/updateajusteventa/{id}',		'Admin\StockajusteController@updateajusteventa')->name('updateajusteventa');
+
 route::resource('stockasignaciones', 		'Admin\AsignarStockController');
 Route::get('/printstocksignacion/{id}', 'Admin\AsignarStockController@printstocksignacion');
 route::resource('hojarutas', 		'Admin\HojarutaController');

@@ -39,12 +39,12 @@
 				<tr>
 					<td>
 						<center>
-							{{ $stock->stockarticulo_id }}
+							{{ $stock->stockventa_id }}
 						</center>
 					</td>
 					<td>
 						<center>
-							{{ $stock->stockarticulo->descripcion }}
+							{{ $stock->stockventa->stockarticulo->descripcion }}
 						</center>
 					</td>
 					<td>

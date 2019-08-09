@@ -22,6 +22,7 @@ use App\Models\Barrio;
 use App\Models\Articulo;
 use App\Models\Venta;
 use App\Models\Stockarticulo;
+use App\Models\Stockventa;
 use App\Models\Stockarticulodetalle;
 use App\Models\Stockasignacion;
 use App\Models\Stockasignaciondetalle;
@@ -74,7 +75,7 @@ class AsignarStockController extends Controller
      */
     public function create()
     {
-        $articulos  = Articulo::where('tipoarticulo_id', '=', 1)->orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+        //$articulos  = Articulo::where('tipoarticulo_id', '=', 1)->orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
         $sucursales  = Sucursal::where('id',1)->orderBy('id')->pluck('descripcion' , 'id');
 
 
@@ -87,6 +88,17 @@ class AsignarStockController extends Controller
             $empleados = [];
         }
 
+
+        $articulos  = DB::table('articulos')
+            ->join('stockarticulodetalles', 'stockarticulodetalles.articulo_id', '=', 'articulos.id')
+            ->join('stockarticulos', 'stockarticulos.id', '=', 'stockarticulodetalles.stockarticulo_id')
+            ->join('stockventas', 'stockventas.stockarticulo_id', '=', 'stockarticulos.id')
+            ->select('stockarticulos.descripcion', 'stockarticulos.id')
+            ->where('articulos.tipoarticulo_id', '=', 1)
+            ->pluck('descripcion', 'id');
+           // ->pluck('descripcion', 'id');
+
+        //dd($articulos );
         //$distritos  = Distrito::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
         
@@ -124,18 +136,18 @@ class AsignarStockController extends Controller
 
                 $stockasignaciondetalle = new Stockasignaciondetalle();
                     $stockasignaciondetalle->stockasignacion_id = $stockasignacion->id;
-                    $stockasignaciondetalle->stockarticulo_id = $codigo;
+                    $stockasignaciondetalle->stockventa_id = $codigo;
                     $stockasignaciondetalle->cantidad = $cantidad;
                     $stockasignaciondetalle->usuario_alta = Auth::user()->username;
                     $stockasignaciondetalle->fecha_alta = date('Y-m-d H:i:s');
 
                 $stockasignaciondetalle->save();
 
-                $stockarticulo = Stockarticulo::find($codigo);
-                    $stockarticulo->stockactual = intval($stockarticulo->stockactual) - intval($cantidad);
-                    $stockarticulo->usuario_modi = Auth::user()->username;
-                    $stockarticulo->fecha_modi = date('Y-m-d H:i:s');
-                $stockarticulo->save();
+                $stockventa = Stockventa::find($codigo);
+                    $stockventa->stockactual = intval($stockventa->stockactual) - intval($cantidad);
+                    $stockventa->usuario_modi = Auth::user()->username;
+                    $stockventa->fecha_modi = date('Y-m-d H:i:s');
+                $stockventa->save();
 
                 /*if($descripciontemp == '')
                 {
