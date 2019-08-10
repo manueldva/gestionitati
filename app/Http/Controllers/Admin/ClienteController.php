@@ -73,7 +73,7 @@ class ClienteController extends Controller
         $typetemp = $request->get('type');
 
 
-
+        $temp = '';
         if($typetemp == 'barrio'  || $typetemp == 'callenumero' || $typetemp == 'mzcasa')
         {
             $clientes = Clientedireccion::type($request->get('type'), $request->get('barrios'), $request->get('calles'), $request->get('val'), $request->get('val2'))->paginate(15);
@@ -133,43 +133,46 @@ class ClienteController extends Controller
                 $clientedireccion = Clientedireccion::where('cliente_id', $value->id)->first();
 
                 //$direcciones =  array();
-             
-                if($clientedireccion->barrio_id) {
-                    $temp = 'Bº ' . $clientedireccion->barrio->descripcion;
-                } 
+                if($clientedireccion) {
 
-                if($clientedireccion->calle_id) {
-                    $temp = $temp . ' Calle ' . $clientedireccion->calle->descripcion;
-                } 
 
-                if($clientedireccion->numero) {
-                    $temp = $temp . ' Nro. ' . $clientedireccion->numero;
+                    if($clientedireccion->barrio_id) {
+                        $temp = 'Bº ' . $clientedireccion->barrio->descripcion;
+                    } 
+
+                    if($clientedireccion->calle_id) {
+                        $temp = $temp . ' Calle ' . $clientedireccion->calle->descripcion;
+                    } 
+
+                    if($clientedireccion->numero) {
+                        $temp = $temp . ' Nro. ' . $clientedireccion->numero;
+                    }
+
+                    if($clientedireccion->manzana) {
+                        $temp = $temp . ' Mz. ' . $clientedireccion->manzana;
+                    } 
+
+
+                    if($clientedireccion->casa) {
+                        $temp = $temp . ' C. ' . $clientedireccion->casa;
+                    } 
+
+                    if($clientedireccion->seccion) {
+                        $temp = $temp . ' Seccion ' . $clientedireccion->seccion;
+                    }
+
+                    if($clientedireccion->lote) {
+                        $temp = $temp . ' Lote ' . $clientedireccion->lote;
+                    }
+
+                    if($clientedireccion->edificiotorre) {
+                        $temp = $temp . ' Edificio ' . $clientedireccion->edificiotorre;
+                    } 
+
+                    if($clientedireccion->piso) {
+                        $temp = $temp . ' Piso/Dpto ' . $clientedireccion->piso;
+                    } 
                 }
-
-                if($clientedireccion->manzana) {
-                    $temp = $temp . ' Mz. ' . $clientedireccion->manzana;
-                } 
-
-
-                if($clientedireccion->casa) {
-                    $temp = $temp . ' C. ' . $clientedireccion->casa;
-                } 
-
-                if($clientedireccion->seccion) {
-                    $temp = $temp . ' Seccion ' . $clientedireccion->seccion;
-                }
-
-                if($clientedireccion->lote) {
-                    $temp = $temp . ' Lote ' . $clientedireccion->lote;
-                }
-
-                if($clientedireccion->edificiotorre) {
-                    $temp = $temp . ' Edificio ' . $clientedireccion->edificiotorre;
-                } 
-
-                if($clientedireccion->piso) {
-                    $temp = $temp . ' Piso/Dpto ' . $clientedireccion->piso;
-                } 
 
                 $value->usuario_modi = $temp;
                 
