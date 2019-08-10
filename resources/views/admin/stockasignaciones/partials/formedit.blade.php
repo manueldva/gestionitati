@@ -81,7 +81,7 @@
 											@foreach ($stockasignaciondetalles as $stockasignaciondetalle)
 							                  <tr>
 							                    <td style="display:none;">{{ $stockasignaciondetalle->id }}</td>
-							                    <td>{{ $stockasignaciondetalle->stockarticulo->descripcion }}</td>
+							                    <td>{{ $stockasignaciondetalle->stockventa->stockarticulo->descripcion }}</td>
 							                    <td>{{ $stockasignaciondetalle->cantidad }}</td>
 							                    @if($show == 1)
 							                     	<td>{{ $stockasignaciondetalle->devuelve }}</td>

@@ -259,11 +259,11 @@ class AsignarStockController extends Controller
                     $stockasignaciondetalle->save();
 
                     if($devuelve > 0){
-                        $stockarticulo = Stockarticulo::find($stockasignaciondetalle->stockarticulo_id);
-                            $stockarticulo->stockactual = intval($stockarticulo->stockactual) + intval($devuelve);
-                            $stockarticulo->usuario_modi = Auth::user()->username;
-                            $stockarticulo->fecha_modi = date('Y-m-d H:i:s');
-                        $stockarticulo->save();
+                        $stockventa = Stockventa::find($stockasignaciondetalle->stockventa_id);
+                            $stockventa->stockactual = intval($stockventa->stockactual) + intval($devuelve);
+                            $stockventa->usuario_modi = Auth::user()->username;
+                            $stockventa->fecha_modi = date('Y-m-d H:i:s');
+                        $stockventa->save();
                     }
 
                 /*if($descripciontemp == '')
