@@ -34,6 +34,11 @@
 						{{ form::label('empleado_id', 'Vendedor *') }}
 						{{ form::select('empleado_id',  $empleados, null, ['class' => 'form-control' ,'placeholder' => 'Seleccionar...']) }} 
 					</div>
+
+					<div class="form-group">
+						{{ form::label('sinbarrio_id', 'Sin Barrio') }}
+						{{ form::select('sinbarrio_id',  ['0' => 'Sin Barrio'], null, ['class' => 'form-control' ,'placeholder' => 'Seleccionar...']) }} 
+					</div>
 					
 					<div class="form-group">
 						{{ form::label('barrio_id', 'Barrio') }}					
@@ -469,6 +474,7 @@
 		$( "#guardar" ).click(function() {
 
 
+
 			if($('#empleado_id').val() == '') {
 
 
@@ -476,35 +482,42 @@
 				return false;
 			}
 
-			if($('#barrio_id').val() == '') {
+			if ($('#sinbarrio_id').val() !== '0') {
+
+			
+
+				if($('#barrio_id').val() == '') {
 
 
-				toastr.error('Debe seleccionar un barrio para realizar la busqueda');
-				return false;
-			}
+					toastr.error('Debe seleccionar un barrio para realizar la busqueda');
+					return false;
+				}
 
 
-		   // listado de articulos
-		    var listado = crear_listado_hojaruta();
-      		$('#id_lista_hojaruta').val(listado);
+			   // listado de articulos
+			    var listado = crear_listado_hojaruta();
+	      		$('#id_lista_hojaruta').val(listado);
 
-      		if ($('#id_lista_hojaruta').val() == ''){
-      			estadocampos = 1;
-			   	$('#table_hojarutaspan').show();
-      		} else {
-      			estadocampos = 0;
-      			$('#table_hojarutaspan').hide();
-      		}
+	      		if ($('#id_lista_hojaruta').val() == ''){
+	      			estadocampos = 1;
+				   	$('#table_hojarutaspan').show();
+	      		} else {
+	      			estadocampos = 0;
+	      			$('#table_hojarutaspan').hide();
+	      		}
 
-      		var listado2 = crear_listado_articulos();
-      		$('#id_lista_articulos').val(listado2);
-      		//alert($('#id_lista_hojaruta').val());
+	      		var listado2 = crear_listado_articulos();
+	      		$('#id_lista_articulos').val(listado2);
+	      		//alert($('#id_lista_hojaruta').val());
 
-      		
-      		if(estadocampos == 1) 
-      		{
-      			toastr.error('No se puede guardar la hoja. Faltan datos');
-      			return false;
+	      		
+	      		if(estadocampos == 1) 
+	      		{
+	      			toastr.error('No se puede guardar la hoja. Faltan datos');
+	      			return false;
+	      		} else {
+	      			$('#form').submit();
+      			}
       		} else {
       			$('#form').submit();
       		}

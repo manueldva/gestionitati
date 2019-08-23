@@ -83,7 +83,12 @@
 						</td>
 						<td>
 							<a href="{{ route('hojarutas.show', $hojaruta->id) }}" style="color:#000000;">
-								{{ $hojaruta->usuario_alta }}
+								@if($hojaruta->usuario_alta == '')
+									Sin Barrio
+								@else
+
+									{{ $hojaruta->usuario_alta }}
+								@endif
 							</a>
 						</td>
 						<td>
@@ -101,9 +106,17 @@
 							</a>
 						</td>
 	                    <td width="10px">
-	                    	<a  href="{{ asset('printhojaruta/') . '/' . $hojaruta->id }}" target="blank_" class='btn btn-sm btn-success' title="Imprimir Hoja de Ruta">
+	                    	@if($hojaruta->usuario_alta == '')
+									<a disabled href="#"  class='btn btn-sm btn-success' title="No se pude imprimir">
 						                   		<span class='glyphicon glyphicon-print'></span>
 						                   	</a>
+								@else
+
+									<a  href="{{ asset('printhojaruta/') . '/' . $hojaruta->id }}" target="blank_" class='btn btn-sm btn-success' title="Imprimir Hoja de Ruta">
+						                   		<span class='glyphicon glyphicon-print'></span>
+						                   	</a>
+								@endif
+	                    	
 						</td>
 	                    @if($permiso == 2) 
 	                    	
