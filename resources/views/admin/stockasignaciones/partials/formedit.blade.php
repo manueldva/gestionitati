@@ -74,6 +74,8 @@
 											<th> Stock</th>
 											<th> Cantidad</th>
 											<th> Devuelve</th>
+											<th> Vacios</th>
+											<th> Vacios C.</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -83,6 +85,16 @@
 							                    <td style="display:none;">{{ $stockasignaciondetalle->id }}</td>
 							                    <td>{{ $stockasignaciondetalle->stockventa->stockarticulo->descripcion }}</td>
 							                    <td>{{ $stockasignaciondetalle->cantidad }}</td>
+							                    @if($show == 1)
+							                     	<td>{{ $stockasignaciondetalle->devuelve }}</td>
+							                     @else
+							                    	<td><div class="number-field" contenteditable="true"><font color="black">0</font></div></td>
+							                    @endif
+							                    @if($show == 1)
+							                     	<td>{{ $stockasignaciondetalle->devuelve }}</td>
+							                     @else
+							                    	<td><div class="number-field" contenteditable="true"><font color="black">0</font></div></td>
+							                    @endif
 							                    @if($show == 1)
 							                     	<td>{{ $stockasignaciondetalle->devuelve }}</td>
 							                     @else
