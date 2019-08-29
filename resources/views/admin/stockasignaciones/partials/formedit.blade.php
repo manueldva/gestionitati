@@ -91,12 +91,12 @@
 							                    	<td><div class="number-field" contenteditable="true"><font color="black">0</font></div></td>
 							                    @endif
 							                    @if($show == 1)
-							                     	<td>{{ $stockasignaciondetalle->devuelve }}</td>
+							                     	<td>{{ $stockasignaciondetalle->vacios }}</td>
 							                     @else
 							                    	<td><div class="number-field" contenteditable="true"><font color="black">0</font></div></td>
 							                    @endif
 							                    @if($show == 1)
-							                     	<td>{{ $stockasignaciondetalle->devuelve }}</td>
+							                     	<td>{{ $stockasignaciondetalle->vacioscierrecontrato }}</td>
 							                     @else
 							                    	<td><div class="number-field" contenteditable="true"><font color="black">0</font></div></td>
 							                    @endif
@@ -357,7 +357,8 @@
 			    codigo = $(this).find("td").eq(0).html();
 			    cantidad = $(this).find("td").eq(2).html();
 			    devuelve =  $(this).find("td").eq(3).text();
-
+			    vacios =  $(this).find("td").eq(4).text();
+			    vacioscirre =  $(this).find("td").eq(5).text();
 			    if(!$.isNumeric(devuelve)) {
 			    	temp = 1;
 			    } else if(devuelve < 0) {
@@ -365,7 +366,7 @@
 			    } else if(devuelve > cantidad) {
 			    	temp = 1;
 			    }
-			    listado += codigo + "|" + cantidad + "|" + devuelve + "&&&";
+			    listado += codigo + "|" + cantidad + "|" + devuelve + "|" + vacios + "|" + vacioscirre + "&&&";
 		    });
 
 			if(temp == 1){

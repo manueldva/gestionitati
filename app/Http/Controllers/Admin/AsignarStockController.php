@@ -249,10 +249,12 @@ class AsignarStockController extends Controller
 
             foreach ($listado_stocks_array as $stock_text)
             {
-                list($codigo, $cantidad, $devuelve) = explode('|', $stock_text);
+                list($codigo, $cantidad, $devuelve,$vacios,$vacioscierre) = explode('|', $stock_text);
 
                     $stockasignaciondetalle = Stockasignaciondetalle::find($id);
                         $stockasignaciondetalle->devuelve = $devuelve;
+                        $stockasignaciondetalle->vacios = $vacios;
+                        $stockasignaciondetalle->vacioscierrecontrato = $vacioscierre;
                         $stockasignaciondetalle->usuario_alta = Auth::user()->username;
                         $stockasignaciondetalle->fecha_alta = date('Y-m-d H:i:s');
 
