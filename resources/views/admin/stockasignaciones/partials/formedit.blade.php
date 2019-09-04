@@ -358,7 +358,7 @@
 			    cantidad = $(this).find("td").eq(2).html();
 			    devuelve =  $(this).find("td").eq(3).text();
 			    vacios =  $(this).find("td").eq(4).text();
-			    vacioscirre =  $(this).find("td").eq(5).text();
+			    vacioscierre =  $(this).find("td").eq(5).text();
 			    if(!$.isNumeric(devuelve)) {
 			    	temp = 1;
 			    } else if(devuelve < 0) {
@@ -366,7 +366,7 @@
 			    } else if(devuelve > cantidad) {
 			    	temp = 1;
 			    }
-			    listado += codigo + "|" + cantidad + "|" + devuelve + "|" + vacios + "|" + vacioscirre + "&&&";
+			    listado += codigo + "|" + cantidad + "|" + devuelve + "|" + vacios + "|" + vacioscierre + "&&&";
 		    });
 
 			if(temp == 1){
