@@ -474,21 +474,22 @@
 		$( "#guardar" ).click(function() {
 
 
+			$( "#guardar" ).hide();
 
 			if($('#empleado_id').val() == '') {
 
-
+				$( "#guardar" ).show();
 				toastr.error('Debe seleccionar un vendedor para realizar la busqueda');
 				return false;
 			}
 
 			if ($('#sinbarrio_id').val() !== '0') {
 
-			
+				
 
 				if($('#barrio_id').val() == '') {
 
-
+					$( "#guardar" ).show();
 					toastr.error('Debe seleccionar un barrio para realizar la busqueda');
 					return false;
 				}
@@ -513,6 +514,7 @@
 	      		
 	      		if(estadocampos == 1) 
 	      		{
+	      			$( "#guardar" ).show();
 	      			toastr.error('No se puede guardar la hoja. Faltan datos');
 	      			return false;
 	      		} else {
