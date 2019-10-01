@@ -39,6 +39,10 @@
 			      		{{ form::label('observacion', 'Observacion') }}
 						{{ form::textarea('observacion', null, ['class' => 'form-control', 'id'=>'observacion', 'rows' => 5, 'cols' => 40, 'maxlength' =>'100', 'readonly']) }}
 			      	</div>
+					<div class="form-group">
+			      		{{ form::label('estado', 'Estado') }}
+						{{ form::select('estado', ['1' => 'En Reparticion', '2' => 'Procesado'], null, ['class' => 'form-control'] ) }}
+			      	</div>
 			    </div>
 			    <!-- /.box-body -->
 			  <!--</div>-->
