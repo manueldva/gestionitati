@@ -226,12 +226,13 @@ class AsignarStockController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+        //dd($request->input('estado'));
         $stockasignacion = Stockasignacion::find($id);
 
+        //$articulo->fill($request->all())->save();
 
         //auditoria
-        $stockasignacion->fill(['estado'=> 2, 'usuario_modi' => Auth::user()->username , 'fecha_modi' => date('Y-m-d H:i:s')])->save();
+        $stockasignacion->fill(['estado'=> $request->input('estado'), 'usuario_modi' => Auth::user()->username , 'fecha_modi' => date('Y-m-d H:i:s')])->save();
         //
 
 

@@ -359,15 +359,16 @@
 		    var temp = 0;
 		    $('#table_stocks tbody tr').each(function () {	 
 			    codigo = $(this).find("td").eq(0).html();
-			    cantidad = $(this).find("td").eq(2).html();
+			    cantidad = $(this).find("td").eq(2).text();
 			    devuelve =  $(this).find("td").eq(3).text();
 			    vacios =  $(this).find("td").eq(4).text();
-			    vacioscierre =  $(this).find("td").eq(5).text();
+				vacioscierre =  $(this).find("td").eq(5).text();
+				
 			    if(!$.isNumeric(devuelve)) {
 			    	temp = 1;
 			    } else if(devuelve < 0) {
 			    	temp = 1;
-			    } else if(devuelve > cantidad) {
+			    } else if(parseInt(devuelve) > parseInt(cantidad) ) {
 			    	temp = 1;
 			    }
 			    listado += codigo + "|" + cantidad + "|" + devuelve + "|" + vacios + "|" + vacioscierre + "&&&";
@@ -377,6 +378,7 @@
 				listado = '';
 			}
 
+			//alert(listado);
 		    return listado;
 	    }
 
