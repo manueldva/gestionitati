@@ -88,21 +88,25 @@
 							                  <tr>
 							                    <td style="display:none;">{{ $stockasignaciondetalle->id }}</td>
 							                    <td>{{ $stockasignaciondetalle->stockventa->stockarticulo->descripcion }}</td>
-							                    <td>{{ $stockasignaciondetalle->cantidad }}</td>
+							                     @if($show == 1)
+							                     	<td>{{ $stockasignaciondetalle->cantidad }}</td>
+							                     @else
+							                    	<td><div class="number-field" contenteditable="true"><font color="black">{{ $stockasignaciondetalle->cantidad }}</font></div></td>
+							                    @endif
 							                    @if($show == 1)
 							                     	<td>{{ $stockasignaciondetalle->devuelve }}</td>
 							                     @else
-							                    	<td><div class="number-field" contenteditable="true"><font color="black">0</font></div></td>
+							                    	<td><div class="number-field" contenteditable="true"><font color="black">{{ $stockasignaciondetalle->devuelve }}</font></div></td>
 							                    @endif
 							                    @if($show == 1)
 							                     	<td>{{ $stockasignaciondetalle->vacios }}</td>
 							                     @else
-							                    	<td><div class="number-field" contenteditable="true"><font color="black">0</font></div></td>
+							                    	<td><div class="number-field" contenteditable="true"><font color="black">{{ $stockasignaciondetalle->vacios }}</font></div></td>
 							                    @endif
 							                    @if($show == 1)
 							                     	<td>{{ $stockasignaciondetalle->vacioscierrecontrato }}</td>
 							                     @else
-							                    	<td><div class="number-field" contenteditable="true"><font color="black">0</font></div></td>
+							                    	<td><div class="number-field" contenteditable="true"><font color="black">{{ $stockasignaciondetalle->vacioscierrecontrato }}</font></div></td>
 							                    @endif
 							                  </tr>
 							                @endforeach

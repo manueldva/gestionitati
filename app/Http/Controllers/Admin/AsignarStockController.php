@@ -253,9 +253,10 @@ class AsignarStockController extends Controller
                 list($codigo, $cantidad, $devuelve,$vacios,$vacioscierre) = explode('|', $stock_text);
 
                     $stockasignaciondetalle = Stockasignaciondetalle::find($id);
-                        $stockasignaciondetalle->devuelve = $devuelve;
-                        $stockasignaciondetalle->vacios = $vacios;
-                        $stockasignaciondetalle->vacioscierrecontrato = $vacioscierre;
+                        $stockasignaciondetalle->cantidad = $stockasignaciondetalle->cantidad + ($cantidad - $stockasignaciondetalle->cantidad);
+                        $stockasignaciondetalle->devuelve =  $stockasignaciondetalle->devuelve + ($devuelve - $stockasignaciondetalle->devuelve);
+                        $stockasignaciondetalle->vacios =  $stockasignaciondetalle->vacios + ($vacios - $stockasignaciondetalle->vacios);
+                        $stockasignaciondetalle->vacioscierrecontrato = $stockasignaciondetalle->vacioscierrecontrato + ($vacioscierre - $stockasignaciondetalle->vacioscierrecontrato);
                         $stockasignaciondetalle->usuario_alta = Auth::user()->username;
                         $stockasignaciondetalle->fecha_alta = date('Y-m-d H:i:s');
 
