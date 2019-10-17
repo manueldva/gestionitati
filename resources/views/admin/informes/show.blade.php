@@ -65,7 +65,7 @@
 
                     <div class="form-group">
                         {{ form::label('usuario', 'Asignado *') }}
-                        {{ form::select('usuario', $usuarios,  null, ['class' => 'form-control','placeholder' => 'Todos'] ) }}
+                        {{ form::select('usuario', $usuarios,  null, ['class' => 'form-control','placeholder' => 'Seleccionar'] ) }}
                     </div>
 
 
@@ -103,6 +103,11 @@
             if (usuario == '')
             {
                 usuario = 'Todos';
+            }
+
+            if(usuario == 'Todos') {
+                toastr.error('Debe seleccionar un vendedor para generar el informe');
+      			return false;
             }
             var fechadesde = $("#fechadesde").val();
             var fechahasta = $("#fechahasta").val();

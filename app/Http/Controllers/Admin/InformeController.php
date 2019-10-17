@@ -500,7 +500,23 @@ class InformeController extends Controller
 
     public function informevendedorgeneralprint($usuario, $fechadesde, $fechahasta)
     {
-        echo $usuario;
+        
+
+        $query2="select hrd.articulo_id, a.descripcion articulo, sum(hrd.cantidadfinal) cantidad, hrd.precio ,  sum((hrd.precio * hrd.cantidadfinal)) monto from hojarutadetalles hrd
+            inner join articulos a on hrd.articulo_id = a.id
+            inner join hojarutas hr on hrd.hojaruta_id =  hr.id
+            where hr.empleado_id = " . $usuario . " and hrd.estado = 2 and hrd.fechacarga between '" . $fechadesde . "' and '" . $fechahasta . "'
+            group by articulo_id, a.descripcion, hrd.precio
+            order by a.descripcion";
+       
+        $t_por_articulo = DB::select($query2);
+
+        
+        
+        $pdf = PDF::loadView('admin.informes.informevendedorgeneralprint', compact('t_por_articulo', 'fechadesde', 'fechahasta'));
+            //$pdf->setPaper('Legal', 'landscape');
+
+        return $pdf->setPaper('Legal', 'landscape')->stream('informevendedorgeneral.pdf');
     }
 
 }
