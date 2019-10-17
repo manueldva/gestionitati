@@ -46,7 +46,13 @@ class InformeController extends Controller
         
         return view('admin.informes.show',compact('usuarios'));*/
 
-        return view('admin.informes.index');
+        $perfil = Perfil::find(Auth::user()->perfil_id);
+        $modulo_actual = Modulo::where('valor', '=', 'INFORMES')->get();
+        $modulos = $perfil->modulos()->where('modulo_id', '=', $modulo_actual[0]->id)->get();
+        $permiso = $modulos[0]->pivot->permiso;
+    
+
+        return view('admin.informes.index', compact('permiso'));
 
         //echo "prueba";
     }
