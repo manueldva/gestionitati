@@ -16,6 +16,8 @@ use App\User;
 use App\Models\Articulo;
 use App\Models\Cliente;
 use App\Models\Clientedireccion;
+use App\Models\Tipoempleado;
+use App\Models\Empleado;;
 use App\Models\Contrato;
 use App\Models\Contratoarticulo;
 use App\Models\Barrio;
@@ -39,10 +41,14 @@ class InformeController extends Controller
      */
     public function index(Request $request)
     {
-        $usuarios  = User::orderBy('username', 'ASC')->where('id', '<>', 1)->pluck('username' , 'username');
+        /*$usuarios  = User::orderBy('username', 'ASC')->where('id', '<>', 1)->pluck('username' , 'username');
 
+        
+        return view('admin.informes.show',compact('usuarios'));*/
 
-        return view('admin.informes.show',compact('usuarios'));
+        return view('admin.informes.index');
+
+        //echo "prueba";
     }
 
     /**
@@ -73,7 +79,20 @@ class InformeController extends Controller
      */
     public function show($id)
     {
-        //
+        //$usuarios  = User::orderBy('username', 'ASC')->where('id', '<>', 1)->whereNotNull('username')->pluck('username' , 'username');
+
+        $tipoempleado = Tipoempleado::where('descripcion', '=', 'Vendedor')->first();
+        if($tipoempleado) {
+            $usuarios  = Empleado::orderBy('empleado', 'ASC')->where('tipoempleado_id', $tipoempleado->id)->pluck('empleado' , 'id');
+                
+            if(!$usuarios) $usuarios = [];
+        } else {
+            $usuarios = [];
+        }
+
+        // dd($usuarios);
+        
+        return view('admin.informes.show',compact('usuarios'));
     }
 
     /**
@@ -476,5 +495,12 @@ class InformeController extends Controller
 
     }
 
+
+    /*para informes generales*/
+
+    public function informevendedorgeneralprint($usuario, $fechadesde, $fechahasta)
+    {
+        echo $usuario;
+    }
 
 }

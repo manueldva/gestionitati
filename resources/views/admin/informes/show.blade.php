@@ -10,12 +10,12 @@
 
 @section('content_header')
   <h1>
-     Informes
+     Informe por Vendedor
     <!--<small>Listado</small>-->
   </h1>
   <ol class="breadcrumb">
     <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li><a href="{{ route('informes.index')}}">Informes</a></li>
+    <li><a href="{{ route('informes.index')}}">Informes por Vendedor</a></li>
     <li class="active">Ver</li>
   </ol>
 
@@ -25,7 +25,7 @@
 
 <div class="box box-primary">
 	<div class="box-header with-border box-default">
-	   <strong> Ver Informe </strong>
+	   <strong> Ver Informe por Vendedor </strong>
 	</div>
 		
 	<div class="panel-body">
@@ -107,7 +107,7 @@
             var fechadesde = $("#fechadesde").val();
             var fechahasta = $("#fechahasta").val();
             e.preventDefault();
-            window.open("{{url('informeprint')}}/"+ usuario + "/" + fechadesde + "/" + fechahasta);
+            window.open("{{url('informevendedorgeneralprint')}}/"+ usuario + "/" + fechadesde + "/" + fechahasta);
 
 
         });

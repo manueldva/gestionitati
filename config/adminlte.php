@@ -265,11 +265,11 @@ return [
                 ]
             ]
         ],  
-        /*[
+        [
             'text' => 'Informes',
             'url'  => 'informes',
             'icon' => 'file-pdf-o',
-        ],*/
+        ],
         
         
     ],

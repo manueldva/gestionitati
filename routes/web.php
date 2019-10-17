@@ -25,6 +25,7 @@ route::get('/detalleclienteprint/{barrio}',		'Admin\InformeController@detallecli
 Route::get('/informecontratosbarriosarticulos', 'HomeController@informecontratosbarriosarticulos')->name('informecontratosbarriosarticulos');
 route::get('/informecontratosbarriosarticulosprint/{barrio}/{articulo}',		'Admin\InformeController@informecontratosbarriosarticulosprint')->name('informecontratosbarriosarticulosprint');
 
+
 /*Route::get('/detallemistareasabiertas', 'HomeController@detallemistareasabiertas')->name('detallemistareasabiertas');
 Route::get('/detalleotrastareasabiertas', 'HomeController@detalleotrastareasabiertas')->name('detalleotrastareasabiertas');*/
 
@@ -73,9 +74,9 @@ Route::get('/printhojarutaarticulo/{id}', 'Admin\HojarutaarticuloController@prin
 route::resource('ventas', 		'Admin\VentaController');
 
 /*route::resource('tareas', 		'Admin\TareaController');
-route::get('/TA_obtenerbases/{id}',		'Admin\TareaController@TA_obtenerbases')->name('TA_obtenerbases');
+route::get('/TA_obtenerbases/{id}',		'Admin\TareaController@TA_obtenerbases')->name('TA_obtenerbases');*/
 route::resource('informes', 		'Admin\InformeController');
-route::get('/informeprint/{usuario}/{fechadesde}/{fechahasta}',		'Admin\InformeController@informeprint')->name('informeprint');*/
+route::get('/informevendedorgeneralprint/{usuario}/{fechadesde}/{fechahasta}',		'Admin\InformeController@informevendedorgeneralprint')->name('informevendedorgeneralprint');
 
 //seguridad
 route::resource('modulos', 		'Admin\ModuloController');
