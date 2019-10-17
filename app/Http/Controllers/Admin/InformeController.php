@@ -86,7 +86,7 @@ class InformeController extends Controller
     public function show($id)
     {
         //$usuarios  = User::orderBy('username', 'ASC')->where('id', '<>', 1)->whereNotNull('username')->pluck('username' , 'username');
-        if($id == 1) {
+        if($id == 1) { // ventas por repartidor
             $tipoempleado = Tipoempleado::where('descripcion', '=', 'Vendedor')->first();
             if($tipoempleado) {
                 $usuarios  = Empleado::orderBy('empleado', 'ASC')->where('tipoempleado_id', $tipoempleado->id)->pluck('empleado' , 'id');
@@ -96,9 +96,17 @@ class InformeController extends Controller
                 $usuarios = [];
             }
             
-            return view('admin.informes.show',compact('usuarios'));
-        } else if($id == 2) {
-            echo "2";
+            return view('admin.informes.show1',compact('usuarios'));
+        } else if($id == 2) { // ventas en oficina
+            $tipoempleado = Tipoempleado::where('descripcion', '=', 'Administrativo')->first();
+            if($tipoempleado) {
+                $usuarios  = Empleado::orderBy('empleado', 'ASC')->where('tipoempleado_id', $tipoempleado->id)->pluck('empleado' , 'id');
+                    
+                if(!$usuarios) $usuarios = [];
+            } else {
+                $usuarios = [];
+            }
+            return view('admin.informes.show2',compact('usuarios'));
         }
 
         
@@ -580,6 +588,12 @@ class InformeController extends Controller
             //$pdf->setPaper('Legal', 'landscape');
 
         return $pdf->setPaper('Legal', 'landscape')->stream('informevendedorgeneral.pdf');
+    }
+
+
+    public function informeventaoficinaprint($usuario, $fechadesde, $fechahasta)
+    {
+        echo $usuario;
     }
 
 }
