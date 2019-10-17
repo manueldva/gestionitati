@@ -2,10 +2,10 @@
 
 @section('cuerpo')
 
-<h3><center> Cod. Hoja Ruta: {{ $hojaruta->id }}  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Fecha:  {{ $hojaruta->fecha }}</h3>
-<h3><center>Vendedor:  {{ $hojaruta->empleado->empleado }}</h3>
+<h3><center> Cod. Hoja Ruta: 1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Fecha:  {{date("Y-m-d")}}</h3>
+<h3><center>Vendedor: {{ $empleado->empleado}}</h3>
 
-<h3><center> Barrio:  {{ $barrio}}</h3>
+<h3><center> Barrio: Todos</h3>
 <div class="row">
 	<div class="col-md-12">	
 
@@ -27,12 +27,12 @@
 			    <div class="box-header with-border">
 			      
 
-			      <h3 class="box-title">Datos procesados hasta el momento: @if($fecha) {{ $fecha}} @endif</h3>
+			      <h3 class="box-title">Datos procesados desde @if($fechadesde) {{ $fechadesde}} @endif Hasta  @if($fechahasta) {{ $fechahasta}} @endif</h3>
 			    </div>
 			    <!-- /.box-header -->
 			    <div class="box-body">
 			    	
-					<label>Articulos cargados hasta el momento:</label> 
+					<label>Articulos cargados:</label> 
 					<div class="form-group">
 					
 						<div class="form-group">
@@ -78,12 +78,12 @@
 											</td>
 											<td>
 												<b>
-													{{ $cantidadgeneral }}
+													cantidad total
 												</b>
 											</td>
 											<td>
 												<b>
-													{{ $totalgeneral }}
+													total general
 												</b>
 											</td>
 										</tr>
@@ -110,6 +110,7 @@
 										</tr>
 									</thead>
 									<tbody>
+										
 										@foreach($t_tipopago as $total)
 											<tr>
 											 	<td>
@@ -124,6 +125,7 @@
 											</tr>
 										@endforeach
 										
+										
 									</tbody>
 								</table>
 							</div>
@@ -134,12 +136,12 @@
 					<h3>
 						<div class="form-group">
 							
-							<label>Cobranzas extras: <b>{{ $totalcobranza }} </b> </label>
+							<label>Cobranzas extras: <b> 21231 </b> </label>
 						</div>
 					</h3>
 					<h3>
 						<div class="form-group">
-							<label>Efectivo total a recibir:  <b>{{ $totalgeneralefectivo }} </b> </label>
+							<label>Efectivo total a recibir:  <b>54654 </b> </label>
 
 						</div>
 					</h3>

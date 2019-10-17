@@ -501,6 +501,7 @@ class InformeController extends Controller
     public function informevendedorgeneralprint($usuario, $fechadesde, $fechahasta)
     {
         
+        $empleado = Empleado::find($usuario);
 
         $query2="select hrd.articulo_id, a.descripcion articulo, sum(hrd.cantidadfinal) cantidad, hrd.precio ,  sum((hrd.precio * hrd.cantidadfinal)) monto from hojarutadetalles hrd
             inner join articulos a on hrd.articulo_id = a.id
@@ -511,9 +512,45 @@ class InformeController extends Controller
        
         $t_por_articulo = DB::select($query2);
 
+
+        //cobranza
+         //totales cobranzas
+
+        $query4="select ifnull(sum(monto), 0) as monto from hojarutacobranzas where fechacobranza between '" . $fechadesde . "' and '" . $fechahasta . "'";
+
+
+        $t_cobranza = DB::select($query4);
+
+        $totalcobranza = 0;
+        foreach ($t_cobranza as $key => $value) {
+           $totalcobranza  = $value->monto;
+        }
+        //
+
+        //discriminado por pago
+        $query5="select 'Efectivo' as tipo, ifnull(sum((hrd.precio * hrd.cantidadfinal)), 0) monto from hojarutadetalles hrd
+            inner join hojarutas hr on hrd.hojaruta_id =  hr.id
+            where hr.empleado_id = " . $usuario . " and hrd.estado = 2 and hrd.tipopago = 1 and hrd.fechacarga between '" . $fechadesde . "' and '" . $fechahasta . "'
+            union all
+            select 'Cuenta Corriente' as tipo, ifnull(sum((hrd.precio * hrd.cantidadfinal)), 0) monto from hojarutadetalles hrd
+            inner join hojarutas hr on hrd.hojaruta_id =  hr.id
+            where hr.empleado_id = " . $usuario . " and hrd.estado = 2 and hrd.tipopago = 2 and hrd.fechacarga between '" . $fechadesde . "' and '" . $fechahasta . "'
+            union all
+            select 'Sin Cargo' as tipo, ifnull(sum((hrd.precio * hrd.cantidadfinal)), 0) monto from hojarutadetalles hrd
+            inner join hojarutas hr on hrd.hojaruta_id =  hr.id
+            where hr.empleado_id = " . $usuario . " and hrd.estado = 2 and hrd.tipopago = 3 and hrd.fechacarga between '" . $fechadesde . "' and '" . $fechahasta . "'";
+        //dd($query5);
+
+        $t_tipopago = DB::select($query5);
+        $totalgeneralefectivo = 0;
+        foreach ($t_tipopago as $key => $value) {
+            if($value->tipo == 'Efectivo') {
+                $totalgeneralefectivo =  number_format(($totalcobranza + $value->monto), 2, '.', '');
+            }
+        }
         
         
-        $pdf = PDF::loadView('admin.informes.informevendedorgeneralprint', compact('t_por_articulo', 'fechadesde', 'fechahasta'));
+        $pdf = PDF::loadView('admin.informes.informevendedorgeneralprint', compact('empleado', 't_por_articulo', 'fechadesde', 'fechahasta','totalgeneralefectivo', 't_tipopago', 'totalcobranza'));
             //$pdf->setPaper('Legal', 'landscape');
 
         return $pdf->setPaper('Legal', 'landscape')->stream('informevendedorgeneral.pdf');
