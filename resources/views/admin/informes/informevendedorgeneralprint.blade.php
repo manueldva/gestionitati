@@ -2,10 +2,9 @@
 
 @section('cuerpo')
 
-<h3><center> Cod. Hoja Ruta: 1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Fecha:  {{date("Y-m-d")}}</h3>
 <h3><center>Vendedor: {{ $empleado->empleado}}</h3>
+<h3><center>Datos procesados desde @if($fechadesde) {{ $fechadesde}} @endif Hasta  @if($fechahasta) {{ $fechahasta}} @endif</center></h3>
 
-<h3><center> Barrio: Todos</h3>
 <div class="row">
 	<div class="col-md-12">	
 
@@ -27,7 +26,7 @@
 			    <div class="box-header with-border">
 			      
 
-			      <h3 class="box-title">Datos procesados desde @if($fechadesde) {{ $fechadesde}} @endif Hasta  @if($fechahasta) {{ $fechahasta}} @endif</h3>
+			      <!--<h3 class="box-title">Datos procesados desde @if($fechadesde) {{ $fechadesde}} @endif Hasta  @if($fechahasta) {{ $fechahasta}} @endif</h3>-->
 			    </div>
 			    <!-- /.box-header -->
 			    <div class="box-body">
@@ -78,12 +77,12 @@
 											</td>
 											<td>
 												<b>
-													cantidad total
+													{{ $cantidadgeneral }}
 												</b>
 											</td>
 											<td>
 												<b>
-													total general
+													{{ $totalgeneral }}
 												</b>
 											</td>
 										</tr>
@@ -136,12 +135,12 @@
 					<h3>
 						<div class="form-group">
 							
-							<label>Cobranzas extras: <b> 21231 </b> </label>
+							<label>Cobranzas extras: <b> {{ $totalcobranza }} </b> </label>
 						</div>
 					</h3>
 					<h3>
 						<div class="form-group">
-							<label>Efectivo total a recibir:  <b>54654 </b> </label>
+							<label>Efectivo total a recibir:  <b> {{ $totalgeneralefectivo }} </b> </label>
 
 						</div>
 					</h3>

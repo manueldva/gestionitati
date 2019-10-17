@@ -513,10 +513,27 @@ class InformeController extends Controller
         $t_por_articulo = DB::select($query2);
 
 
+        //totales generates
+        
+        $query3="select sum(hrd.cantidadfinal) cantidad,  sum((hrd.precio * hrd.cantidadfinal)) monto from hojarutadetalles hrd
+        inner join hojarutas hr on hrd.hojaruta_id =  hr.id
+        where hr.empleado_id = " . $usuario . " and hrd.estado = 2 and hrd.fechacarga between '" . $fechadesde . "' and '" . $fechahasta . "'";
+
+        $t_general = DB::select($query3);
+
+        $totalgeneral = 0;
+        $cantidadgeneral = 0;
+        foreach ($t_general as $key => $value) {
+           $totalgeneral  = $value->monto;
+           $cantidadgeneral  = $value->cantidad;
+        }
+
         //cobranza
          //totales cobranzas
 
-        $query4="select ifnull(sum(monto), 0) as monto from hojarutacobranzas where fechacobranza between '" . $fechadesde . "' and '" . $fechahasta . "'";
+        $query4="select ifnull(sum(monto), 0) as monto from hojarutacobranzas hrc
+        inner join hojarutas hr on hrc.hojaruta_id =  hr.id
+        where hr.empleado_id = " . $usuario . " and hrc.fechacobranza between '" . $fechadesde . "' and '" . $fechahasta . "'";
 
 
         $t_cobranza = DB::select($query4);
@@ -550,7 +567,7 @@ class InformeController extends Controller
         }
         
         
-        $pdf = PDF::loadView('admin.informes.informevendedorgeneralprint', compact('empleado', 't_por_articulo', 'fechadesde', 'fechahasta','totalgeneralefectivo', 't_tipopago', 'totalcobranza'));
+        $pdf = PDF::loadView('admin.informes.informevendedorgeneralprint', compact('empleado', 't_por_articulo', 'fechadesde', 'fechahasta','totalgeneralefectivo', 't_tipopago', 'totalcobranza', 'totalgeneral','cantidadgeneral'));
             //$pdf->setPaper('Legal', 'landscape');
 
         return $pdf->setPaper('Legal', 'landscape')->stream('informevendedorgeneral.pdf');
