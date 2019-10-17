@@ -86,19 +86,22 @@ class InformeController extends Controller
     public function show($id)
     {
         //$usuarios  = User::orderBy('username', 'ASC')->where('id', '<>', 1)->whereNotNull('username')->pluck('username' , 'username');
-
-        $tipoempleado = Tipoempleado::where('descripcion', '=', 'Vendedor')->first();
-        if($tipoempleado) {
-            $usuarios  = Empleado::orderBy('empleado', 'ASC')->where('tipoempleado_id', $tipoempleado->id)->pluck('empleado' , 'id');
-                
-            if(!$usuarios) $usuarios = [];
-        } else {
-            $usuarios = [];
+        if($id == 1) {
+            $tipoempleado = Tipoempleado::where('descripcion', '=', 'Vendedor')->first();
+            if($tipoempleado) {
+                $usuarios  = Empleado::orderBy('empleado', 'ASC')->where('tipoempleado_id', $tipoempleado->id)->pluck('empleado' , 'id');
+                    
+                if(!$usuarios) $usuarios = [];
+            } else {
+                $usuarios = [];
+            }
+            
+            return view('admin.informes.show',compact('usuarios'));
+        } else if($id == 2) {
+            echo "2";
         }
 
-        // dd($usuarios);
         
-        return view('admin.informes.show',compact('usuarios'));
     }
 
     /**

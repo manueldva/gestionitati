@@ -32,11 +32,13 @@
 						Informes por vendedores
 					</a>
                 </div> 
-                <!--
-                <div class="form-group">
-                    {{ link_to('/manualusuario/Empresa.pdf', 'Empresa', ['target' => '_blank']) }} 
-                </div>
-
+               
+                <div class="form-group" style="font-size:16pt">
+                    <a href="{{ route('informes.show', 2) }}" style="color:#235B88;">
+						Informes ventas en oficina
+					</a>
+                </div> 
+                 <!--
                 <div class="form-group">
                     {{ link_to('/manualusuario/Empleado.pdf', 'Empleado', ['target' => '_blank']) }} 
                 </div> 
