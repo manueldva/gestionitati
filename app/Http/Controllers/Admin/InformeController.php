@@ -594,12 +594,22 @@ class InformeController extends Controller
     public function informeventaoficinaprint($usuario, $fechadesde, $fechahasta)
     {
         //echo $usuario;
-        $empleado = Empleado::find($usuario);
+        //$empleado = Empleado::find($usuario);
+        $query2="select vd.articulo_id, a.descripcion articulo, sum(vd.cantidad) cantidad, vd.precio ,  sum((vd.precio * vd.cantidad)) monto from ventadetalles vd
+        inner join articulos a on vd.articulo_id = a.id
+        inner join ventas v on vd.venta_id =  v.id
+        where v.fecha between '" . $fechadesde . "' and '" . $fechahasta . "'
+        group by articulo_id, a.descripcion, vd.precio
+        order by a.descripcion";
+
+        $t_por_articulo = DB::select($query2);
+
+        //dd($t_por_articulo);
          
-        $pdf = PDF::loadView('admin.informes.informeventaoficinaprint', compact('empleado', 't_por_articulo', 'fechadesde', 'fechahasta','totalgeneralefectivo', 't_tipopago', 'totalcobranza', 'totalgeneral','cantidadgeneral'));
+        $pdf = PDF::loadView('admin.informes.informeventaenoficinaprint', compact('empleado', 't_por_articulo', 'fechadesde', 'fechahasta','totalgeneralefectivo', 't_tipopago', 'totalcobranza', 'totalgeneral','cantidadgeneral'));
             //$pdf->setPaper('Legal', 'landscape');
 
-        return $pdf->setPaper('Legal', 'landscape')->stream('informevendedorgeneral.pdf');
+        return $pdf->setPaper('Legal', 'landscape')->stream('informeventaoficina.pdf');
     }
 
 }
