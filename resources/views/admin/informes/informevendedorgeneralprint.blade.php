@@ -105,6 +105,7 @@
 										<tr>
 										<!--<th width="10px"> ID</th>-->
 											<th> Tipo Pago</th>
+											
 											<th> Monto</th>
 										</tr>
 									</thead>
