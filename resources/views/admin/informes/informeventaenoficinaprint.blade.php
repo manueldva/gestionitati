@@ -1,8 +1,7 @@
 @extends('layouts.report')
 
 @section('cuerpo')
-
-<h3><center>Vendedor: {{ $empleado->empleado}}</h3>
+<h3><center>Informe Ventas en Oficina</h3>
 <h3><center>Datos procesados desde @if($fechadesde) {{ $fechadesde}} @endif Hasta  @if($fechahasta) {{ $fechahasta}} @endif</center></h3>
 
 <div class="row">
@@ -95,52 +94,13 @@
 				<br>
 				<br>
 				<div class="col-md-6 pull-right">
-					<label>Discriminado por tipo de pago:</label>
-					<div class="form-group">
 					
-						<div class="form-group">
-							<div class="table-responsive">
-								<table id="table_pagos" class="table table-striped table-hover" data-form="Form">
-									<thead>
-										<tr>
-										<!--<th width="10px"> ID</th>-->
-											<th> Tipo Pago</th>
-											<th> Monto</th>
-										</tr>
-									</thead>
-									<tbody>
-										
-										@foreach($t_tipopago as $total)
-											<tr>
-											 	<td>
-											 		
-											 		{{ $total->tipo }}
-											 	</td>
-											 	<td>
-											 		<b>
-											 		{{ $total->monto }}
-											 		</b>
-											 	</td>
-											</tr>
-										@endforeach
-										
-										
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
 					<br>
 					<hr>
+					
 					<h3>
 						<div class="form-group">
-							
-							<label>Cobranzas extras: <b> {{ $totalcobranza }} </b> </label>
-						</div>
-					</h3>
-					<h3>
-						<div class="form-group">
-							<label>Efectivo total a recibir:  <b> {{ $totalgeneralefectivo }} </b> </label>
+							<label>Efectivo total a recibir:  <b> {{ $totalgeneral }} </b> </label>
 
 						</div>
 					</h3>

@@ -604,9 +604,25 @@ class InformeController extends Controller
 
         $t_por_articulo = DB::select($query2);
 
+
+        //totales generates
+        
+        $query3="select sum(vd.cantidad) cantidad,  sum((vd.precio * vd.cantidad)) monto from ventadetalles vd
+        inner join ventas v on vd.venta_id =  v.id
+        where v.fecha between '" . $fechadesde . "' and '" . $fechahasta . "'";
+
+        $t_general = DB::select($query3);
+
+        $totalgeneral = 0;
+        $cantidadgeneral = 0;
+        foreach ($t_general as $key => $value) {
+           $totalgeneral  = $value->monto;
+           $cantidadgeneral  = $value->cantidad;
+        }
+
         //dd($t_por_articulo);
          
-        $pdf = PDF::loadView('admin.informes.informeventaenoficinaprint', compact('empleado', 't_por_articulo', 'fechadesde', 'fechahasta','totalgeneralefectivo', 't_tipopago', 'totalcobranza', 'totalgeneral','cantidadgeneral'));
+        $pdf = PDF::loadView('admin.informes.informeventaenoficinaprint', compact('t_por_articulo', 'fechadesde', 'fechahasta', 'totalgeneral','cantidadgeneral'));
             //$pdf->setPaper('Legal', 'landscape');
 
         return $pdf->setPaper('Legal', 'landscape')->stream('informeventaoficina.pdf');
