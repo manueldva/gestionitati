@@ -593,7 +593,13 @@ class InformeController extends Controller
 
     public function informeventaoficinaprint($usuario, $fechadesde, $fechahasta)
     {
-        echo $usuario;
+        //echo $usuario;
+        $empleado = Empleado::find($usuario);
+         
+        $pdf = PDF::loadView('admin.informes.informeventaoficinaprint', compact('empleado', 't_por_articulo', 'fechadesde', 'fechahasta','totalgeneralefectivo', 't_tipopago', 'totalcobranza', 'totalgeneral','cantidadgeneral'));
+            //$pdf->setPaper('Legal', 'landscape');
+
+        return $pdf->setPaper('Legal', 'landscape')->stream('informevendedorgeneral.pdf');
     }
 
 }
