@@ -107,9 +107,12 @@ class InformeController extends Controller
                 $usuarios = [];
             }
             return view('admin.informes.show2',compact('usuarios'));
-        }
+        } else if($id == 3) { // informe automatico para clientes que no han comprado en mas de 1 mes
+            
+            new DateTime('now')
+            
 
-        
+        }
     }
 
     /**

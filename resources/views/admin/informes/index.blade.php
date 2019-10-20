@@ -38,6 +38,8 @@
 						Informes ventas en oficina
 					</a>
                 </div> 
+
+               
                  <!--
                 <div class="form-group">
                     {{ link_to('/manualusuario/Empleado.pdf', 'Empleado', ['target' => '_blank']) }} 
@@ -62,10 +64,17 @@
                 <div class="form-group">
                     {{ link_to('/manualusuario/Compras.pdf', 'Compras', ['target' => '_blank']) }} 
                 </div> 
-                
+                -->
             </div>
 
             <div class="col-md-6">
+                <br>
+                <div class="form-group" style="font-size:16pt">
+                    <a href="{{ route('informes.show', 3) }}" style="color:#235B88;">
+                        Informe Clientes Sin Compra en el Mes
+                    </a>
+                </div> 
+                <!--
 
                 <div class="form-group">
                     {{ link_to('/manualusuario/Ventas.pdf', 'Ventas', ['target' => '_blank']) }} 

@@ -62,12 +62,12 @@
                             </table>
                         </div>    
                     </div>
-
+                    <!--
                     <div class="form-group">
                         {{ form::label('usuario', 'Asignado *') }}
                         {{ form::select('usuario', $usuarios,  null, ['class' => 'form-control','placeholder' => 'Todos'] ) }}
                     </div>
-
+                    -->
 
                     <br>
                     <!--<a  type="submit"  class="btn btn btn-primary" target="_blank">
@@ -98,12 +98,12 @@
 
 		$('#imprimir').on('click', function(e){
             
-            var usuario = $("#usuario option:selected").attr("value")
+            /*var usuario = $("#usuario option:selected").attr("value")
             //alert(usuario);
             if (usuario == '')
             {
                 usuario = 'Todos';
-            }
+            }*/
 
             /*if(usuario == 'Todos') {
                 toastr.error('Debe seleccionar un vendedor para generar el informe');
@@ -112,7 +112,7 @@
             var fechadesde = $("#fechadesde").val();
             var fechahasta = $("#fechahasta").val();
             e.preventDefault();
-            window.open("{{url('informeventaoficinaprint')}}/"+ usuario + "/" + fechadesde + "/" + fechahasta);
+            window.open("{{url('informeventaoficinaprint')}}/"+ '0' + "/" + fechadesde + "/" + fechahasta);
 
 
         });
