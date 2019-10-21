@@ -1,9 +1,9 @@
 @extends('layouts.report')
 
 @section('cuerpo')
-<h3><center>Informe Ventas en Oficina</h3>
-<h3><center>Datos procesados desde @if($fechadesde) {{ $fechadesde}} @endif Hasta  @if($fechahasta) {{ $fechahasta}} @endif</center></h3>
-
+<h3><center>Informe </h3>
+<h3><center>Clientes que no realizan una compra desde: @if($fechaanterior) {{ $fechaanterior}} @endif</center></h3>
+<h3><center>Cantidad de clientes en la lista: {{ count($resultado) }}</center></h3>
 <div class="row">
 	<div class="col-md-12">	
 
@@ -25,12 +25,11 @@
 			    <div class="box-header with-border">
 			      
 
-			      <!--<h3 class="box-title">Datos procesados desde @if($fechadesde) {{ $fechadesde}} @endif Hasta  @if($fechahasta) {{ $fechahasta}} @endif</h3>-->
 			    </div>
 			    <!-- /.box-header -->
 			    <div class="box-body">
 			    	
-					<label>Articulos cargados:</label> 
+					<label>Clientes:</label> 
 					<div class="form-group">
 					
 						<div class="form-group">
@@ -39,78 +38,49 @@
 									<thead>
 										<tr>
 										<!--<th width="10px"> ID</th>-->
-											<th> Articulo</th>
-											<th> Precio U.</th>
-											<th> Cantidad</th>
-											<th> Subtotal</th>
+											<th> <center>Codigo</center></th>
+											<th> <center>Cliente</center></th>
+											<th> <center>Ultima Compra</center></th>
 										</tr>
 									</thead>
 									<tbody>
-										@foreach($t_por_articulo as $total)
+										@foreach($resultado as $res)
 											<tr>
 											 	<td>
-											 		{{ $total->articulo }}
+												 <center>
+											 		{{ $res->id }}
+											     </center>
 											 	</td>
 											 	<td>
-											 		{{ $total->precio }}
-											 	
+												 <center>
+											 		{{ $res->cliente }}
+											      </center>
 											 	</td>
 											 	<td>
-											 		{{ $total->cantidad }}
+												 <center>
+											 		{{ $res->fecha }}
+												 </center>
 											 	</td>
-											 	<td>
-											 		{{ $total->monto }}
-											 	</td>
-
 											</tr>
 										@endforeach
-										<tr>
-											<td>
-												<b>
-													Totales
-												</b>
-												
-											</td>
-											<td>
-												
-											</td>
-											<td>
-												<b>
-													{{ $cantidadgeneral }}
-												</b>
-											</td>
-											<td>
-												<b>
-													{{ $totalgeneral }}
-												</b>
-											</td>
-										</tr>
+										
 									</tbody>
 								</table>
 							</div>
 						</div>
 					</div>
 				</div>
-				<br>
-				<br>
-				<div class="col-md-6 pull-right">
-					
-					<br>
-					<hr>
-					
-					<h3>
-						<div class="form-group">
-							<label>Efectivo total a recibir:  <b> {{ $totalgeneral }} </b> </label>
 
-						</div>
-					</h3>
-				</div>
+				
 			<!-- aca agregar el div col-6 -->
 			
 			</div>
 	 	</div>
 	    <!-- /.box-body -->
 	  </div>
+	  <br>
+	  <br>
+	  <br>
 	  <!-- /.box -->
 	</div>
 </div>
