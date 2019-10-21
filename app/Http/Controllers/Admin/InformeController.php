@@ -109,8 +109,11 @@ class InformeController extends Controller
             return view('admin.informes.show2',compact('usuarios'));
         } else if($id == 3) { // informe automatico para clientes que no han comprado en mas de 1 mes
             
-            new DateTime('now')
-            
+            $now = new \DateTime('now');
+            $now1 = $now->format('Y-m-d');
+            dd(date("Y-m-d",strtotime($now1."- 1 month")));
+
+            //dd($now->format('Y-m-d'));
 
         }
     }
