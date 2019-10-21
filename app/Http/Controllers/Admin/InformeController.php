@@ -110,10 +110,21 @@ class InformeController extends Controller
         } else if($id == 3) { // informe automatico para clientes que no han comprado en mas de 1 mes
             
             $now = new \DateTime('now');
-            $now1 = $now->format('Y-m-d');
-            dd(date("Y-m-d",strtotime($now1."- 1 month")));
+            $fechaanterior = date("Y-m-d",strtotime($now->format('Y-m-d')."- 2 month"));
+                
+            $query="SELECT c.id, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END cliente , hrd.fecha FROM clientes AS c
+            left join hojarutadetalles hrd on hrd.cliente_id = c.id and hrd.id = (SELECT id FROM hojarutadetalles where cliente_id = c.id order by fecha desc limit 1)
+            where c.estado = 1 and (hrd.fecha <  '" . $fechaanterior . "' or hrd.fecha is null)
+            order by c.apellido, c.nombre";
+    
+            $resultado = DB::select($query);
 
-            //dd($now->format('Y-m-d'));
+            $pdf = PDF::loadView('admin.informes.informeclientessincomprarprint', compact('resultado', 'fechaanterior'));
+            //$pdf->setPaper('Legal', 'landscape');
+
+            return $pdf->setPaper('Legal', 'landscape')->stream('informecliente.pdf');
+
+            //where hr.empleado_id = " . $usuario . " and hrd.estado = 2 and hrd.fechacarga between '" . $fechadesde . "' and '" . $fechahasta . "'
 
         }
     }
