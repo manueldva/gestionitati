@@ -94,7 +94,7 @@
 	  	<div class="box-header with-border">
 	      <i class="fa fa-money"></i>
 
-	      <h3 class="box-title">Monto Deuda Actual:  <b> $ @if($deuda) {{ $deuda}} @endif</b></h3>
+	      <h3 class="box-title">Monto Deuda Actual:  <b> $  {{ $deuda}} </b></h3>
 	    </div>
 
 	    <!-- /.box-header -->
