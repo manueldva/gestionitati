@@ -5,6 +5,23 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use Alert;
+use DB;
+
+use App\Models\Modulo;
+use App\Models\Perfil;
+use Illuminate\Support\Facades\Input;
+
+use App\User;
+use App\Models\Cuentacorriente;
+use App\Models\Cuentacorrientedetalle;
+use App\Models\Cliente;
+use Auth;
+
+use App\Helpers\FechaHelper;
+
+use Barryvdh\DomPDF\Facade as PDF;
+
 class CuentacorrienteController extends Controller
 {
     /**
@@ -57,7 +74,9 @@ class CuentacorrienteController extends Controller
      */
     public function edit($id)
     {
-        echo "string";
+        $cliente = Cliente::find($id);
+
+        return view('admin.cuentacorrientes.edit',compact('cliente'));
     }
 
     /**

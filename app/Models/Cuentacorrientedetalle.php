@@ -9,7 +9,7 @@ class Cuentacorrientedetalle extends Model
         //protected $table = 'clientefamiliares';
 
         protected $fillable = [
-            'cuentacorriente_id', 'monto','fechapago','usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
+            'cuentacorriente_id', 'monto','fechapago','tipopago','usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
         ]; 
     
         public function cuentacorriente(){
