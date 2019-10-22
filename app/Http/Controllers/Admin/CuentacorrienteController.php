@@ -76,7 +76,27 @@ class CuentacorrienteController extends Controller
     {
         $cliente = Cliente::find($id);
 
-        return view('admin.cuentacorrientes.edit',compact('cliente'));
+        $cuentacorriente = Cuentacorriente::where('cliente_id', $cliente->id)->first();
+
+        $permitirpago = 1;
+        if($cuentacorriente){
+            $deuda = $cuentacorriente->monto;
+            $cuentacorrientedetalles = Cuentacorrientedetalle::where('cuentacorriente_id', $cuentacorriente->id)->get();
+            if(count($cuentacorrientedetalles) == 0){
+                $permitirpago = 0;
+            }
+        } else {
+            $deuda = 0;
+            $cuentacorrientedetalles = [];
+            $permitirpago = 0;
+        }
+
+        foreach ($cuentacorrientedetalles as $cuenta) {
+            $cuenta->fechapago = FechaHelper::getFechaImpresion($cuenta->fechapago); 
+        }
+
+
+        return view('admin.cuentacorrientes.edit',compact('cliente', 'cuentacorrientedetalles', 'permitirpago', 'deuda'));
     }
 
     /**
@@ -88,7 +108,32 @@ class CuentacorrienteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
+        $cuentacorriente = Cuentacorriente::where('cliente_id', $id)->first();
+
+        if(!$cuentacorriente) {
+            $cuentacorriente = new Cuentacorriente();
+                $cuentacorriente->cliente_id = $id;
+                $cuentacorriente->monto = 0;
+                $cuentacorriente->usuario_alta = Auth::user()->username;
+                $cuentacorriente->fecha_alta = date('Y-m-d H:i:s');
+            $cuentacorriente->save();
+        }
+
+        $cuentacorrientedetalle = Cuentacorrientedetalle::create($request->all());
+         //auditoria
+        $cuentacorrientedetalle->fill(['cuentacorriente_id'=> $cuentacorriente->id, 'usuario_alta' => Auth::user()->username , 'fecha_alta' => date('Y-m-d H:i:s')])->save();
+         //
+        if($cuentacorrientedetalle->tipopago == 1) {
+            $cuentacorriente->monto = $cuentacorrientedetalle->monto + $cuentacorriente->monto;
+        } else {
+            $cuentacorriente->monto = $cuentacorriente->monto - $cuentacorrientedetalle->monto;
+        }
+        $cuentacorriente->save();
+
+         
+        Alert::success('Cuenta corriente actualizada correctamente')->persistent("Cerrar");
+        return redirect()->route('cuentacorrientes.edit', $id);
     }
 
     /**

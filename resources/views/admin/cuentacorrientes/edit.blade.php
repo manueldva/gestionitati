@@ -26,7 +26,7 @@
   <div class="panel-body">
     <div class="row">
 
-       {!! Form::model($cliente, ['route' => ['update', $cliente->id], 'method' => 'PUT', 'files' => true, 'id' => 'form']) !!}
+       {!! Form::model($cliente, ['route' => ['cuentacorrientes.update', $cliente->id], 'method' => 'PUT', 'files' => true, 'id' => 'form']) !!}
   
         <div class="col-md-12" >
           <div class="row col-md-12">
@@ -68,7 +68,7 @@
   </div>
 </div>
 
-@include('admin.hojarutas.partials.formcobranza')
+@include('admin.cuentacorrientes.partials.form')
 
 {!! Form::close() !!}
 
