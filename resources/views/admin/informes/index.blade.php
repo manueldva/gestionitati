@@ -29,7 +29,12 @@
                 <br>
                 <div class="form-group" style="font-size:16pt">
                     <a href="{{ route('informes.show', 1) }}" style="color:#235B88;">
-						Informes por vendedores
+						Informes vendedores Hoja De Ruta
+					</a>
+                </div>
+                <div class="form-group" style="font-size:16pt">
+                    <a href="{{ route('informes.show', 3) }}" style="color:#235B88;">
+						Informes vendedores Stock
 					</a>
                 </div> 
                
@@ -70,8 +75,8 @@
             <div class="col-md-6">
                 <br>
                 <div class="form-group" style="font-size:16pt">
-                    <a target="_blank" href="{{ route('informes.show', 3) }}" style="color:#235B88;">
-                        Informe Clientes Sin Compra en el Mes
+                    <a target="_blank" href="{{ route('informes.show', 4) }}" style="color:#235B88;">
+                        Informe Clientes Sin Comprar por un Mes
                     </a>
                 </div> 
                 <!--

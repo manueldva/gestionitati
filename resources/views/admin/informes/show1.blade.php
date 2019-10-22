@@ -10,7 +10,7 @@
 
 @section('content_header')
   <h1>
-     Informe por Vendedor
+     Informe Vendedor Hoja Ruta
     <!--<small>Listado</small>-->
   </h1>
   <ol class="breadcrumb">
@@ -25,7 +25,7 @@
 
 <div class="box box-primary">
 	<div class="box-header with-border box-default">
-	   <strong> Ver Informe por Vendedor </strong>
+	   <strong> Ver Informe Vendedor Hoja Ruta </strong>
 	</div>
 		
 	<div class="panel-body">

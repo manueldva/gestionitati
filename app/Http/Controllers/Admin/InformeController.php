@@ -107,7 +107,7 @@ class InformeController extends Controller
                 $usuarios = [];
             }
             return view('admin.informes.show2',compact('usuarios'));
-        } else if($id == 3) { // informe automatico para clientes que no han comprado en mas de 1 mes
+        } else if($id == 4) { // informe automatico para clientes que no han comprado en mas de 1 mes
             
             $now = new \DateTime('now');
             $fechaanterior = date("Y-m-d",strtotime($now->format('Y-m-d')."- 2 month"));
@@ -138,6 +138,17 @@ class InformeController extends Controller
 
 
             return view('admin.informes.informeclientessincomprarprint',compact('resultado', 'fechaanterior'));
+        } else if($id == 3) { // ventas en oficina
+            $tipoempleado = Tipoempleado::where('descripcion', '=', 'Administrativo')->first();
+            if($tipoempleado) {
+                $usuarios  = Empleado::orderBy('empleado', 'ASC')->where('tipoempleado_id', $tipoempleado->id)->pluck('empleado' , 'id');
+                    
+                if(!$usuarios) $usuarios = [];
+            } else {
+                $usuarios = [];
+            }
+            return view('admin.informes.show3',compact('usuarios'));
+           
         }
     }
 
