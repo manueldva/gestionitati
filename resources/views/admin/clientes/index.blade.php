@@ -86,7 +86,7 @@
 	                  <th>Direccion</th>
 	                  <th>Celular</th>
 	                  <th>Estado</th>
-	                  <th colspan="1">&nbsp;</th>
+	                  <th colspan="2">&nbsp;</th>
 	                </tr>
 	              </thead>
 	              <tbody>
@@ -189,31 +189,42 @@
 
 	                    
 	                    @if($permiso == 2) 
-	                    <td width="10px">
-	                    	@if(!Auth::user()->empleado_id)
-		                    	@if ($typetemp == 'barrio' || $typetemp == 'callenumero' || $typetemp == 'mzcasa')
-				                    <a href="{{ route('clientes.edit', $cliente->cliente->id) }}" class="btn btn-sm btn-default">
-				                      Editar
-				                    </a>
-				                @else
-									<a href="{{ route('clientes.edit', $cliente->id) }}" class="btn btn-sm btn-default">
-				                      Editar
-				                    </a>
+							<td width="10px">
+								@if(!Auth::user()->empleado_id)
+									@if ($typetemp == 'barrio' || $typetemp == 'callenumero' || $typetemp == 'mzcasa')
+										<a href="{{ route('clientes.edit', $cliente->cliente->id) }}" class="btn btn-sm btn-default">
+										Editar
+										</a>
+									@else
+										<a href="{{ route('clientes.edit', $cliente->id) }}" class="btn btn-sm btn-default">
+										Editar
+										</a>
+									@endif
+								@elseif($cliente->sucursal_id == Auth::user()->empleado->sucursal_id)
+									@if ($typetemp == 'barrio' || $typetemp == 'callenumero' || $typetemp == 'mzcasa')
+										<a href="{{ route('clientes.edit', $cliente->cliente->id) }}" class="btn btn-sm btn-default">
+										Editar
+										</a>
+									@else
+										<a href="{{ route('clientes.edit', $cliente->id) }}" class="btn btn-sm btn-default">
+										Editar
+										</a>
+									@endif
 								@endif
-							@elseif($cliente->sucursal_id == Auth::user()->empleado->sucursal_id)
-								@if ($typetemp == 'barrio' || $typetemp == 'callenumero' || $typetemp == 'mzcasa')
-				                    <a href="{{ route('clientes.edit', $cliente->cliente->id) }}" class="btn btn-sm btn-default">
-				                      Editar
-				                    </a>
-				                @else
-									<a href="{{ route('clientes.edit', $cliente->id) }}" class="btn btn-sm btn-default">
-				                      Editar
-				                    </a>
+							</td>
+							<td  width="10px">
+								@if($cliente->estado !== 0)
+									@if ($typetemp == 'barrio' || $typetemp == 'callenumero' || $typetemp == 'mzcasa')
+										<a href="{{ route('cuentacorrientes.edit', $cliente->cliente->id) }}" class="btn btn-sm btn-default">
+											Cuenta C.
+										</a>
+									@else
+										<a href="{{ route('cuentacorrientes.edit', $cliente->id) }}" class="btn btn-sm btn-default">
+											Cuenta C.
+										</a>
+									@endif
 								@endif
-							@endif
-	                    </td>
-	                   
-	                   
+							</td>
 	                    @endif
 	                  </tr>
 	                @endforeach

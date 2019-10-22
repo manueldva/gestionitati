@@ -63,6 +63,12 @@ class Cliente extends Model
     }
 
 
+    public function cuentacorrientes(){
+        return $this->HasMany(Cuentacorriente::class);
+    }
+
+
+
 
 	public function scopeType($query, $type, $valor, $valor2, $barrios, $tipoclientes, $estados) 
     {

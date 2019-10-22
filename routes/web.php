@@ -46,6 +46,7 @@ Route::get('autocompleteempleado', function() {
 route::resource('clientes', 		'Admin\ClienteController');
 route::get('/editdireccion/{id}',		'Admin\ClienteController@editdireccion')->name('editdireccion');
 route::put('/updatedireccion/{id}',		'Admin\ClienteController@updatedireccion')->name('updatedireccion');
+route::resource('cuentacorrientes', 		'Admin\CuentacorrienteController');
 route::resource('articulos', 		'Admin\ArticuloController');
 route::resource('empleados', 		'Admin\EmpleadoController');
 route::get('/empleadotransferir/{id}',		'Admin\EmpleadoController@empleadotransferir')->name('empleadotransferir');
