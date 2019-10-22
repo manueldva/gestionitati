@@ -139,7 +139,7 @@ class InformeController extends Controller
 
             return view('admin.informes.informeclientessincomprarprint',compact('resultado', 'fechaanterior'));
         } else if($id == 3) { // ventas en oficina
-            $tipoempleado = Tipoempleado::where('descripcion', '=', 'Administrativo')->first();
+            $tipoempleado = Tipoempleado::where('descripcion', '=', 'Vendedor')->first();
             if($tipoempleado) {
                 $usuarios  = Empleado::orderBy('empleado', 'ASC')->where('tipoempleado_id', $tipoempleado->id)->pluck('empleado' , 'id');
                     
@@ -628,6 +628,27 @@ class InformeController extends Controller
             //$pdf->setPaper('Legal', 'landscape');
 
         return $pdf->setPaper('Legal', 'landscape')->stream('informevendedorgeneral.pdf');
+    }
+
+    public function informevendedorstockprint($usuario, $fechadesde, $fechahasta)
+    {
+        
+        $empleado = Empleado::find($usuario);
+
+        $query2="select DATE_FORMAT(sa.fecha, '%Y-%m-%d') as fecha, sa2.descripcion, sad.cantidad, sad.devuelve, sad.vacios, sad.vacioscierrecontrato from stockasignaciondetalles sad
+        inner join stockasignaciones sa on sad.stockasignacion_id = sa.id
+        inner join stockventas sv on sad.stockventa_id =  sv.id
+        inner join stockarticulos sa2 on sv.stockarticulo_id =  sa2.id 
+        where  sa.empleado_id = 1  and sa.fecha between  '" . $fechadesde . "' and '" . $fechahasta . "'";
+       
+        $t_por_articulo = DB::select($query2);
+
+        //dd($t_por_articulo );
+
+        $pdf = PDF::loadView('admin.informes.informevendedorstockprint', compact('empleado', 't_por_articulo', 'fechadesde', 'fechahasta'));
+        //$pdf->setPaper('Legal', 'landscape');
+
+        return $pdf->setPaper('Legal', 'landscape')->stream('informevendedorstock.pdf');
     }
 
 

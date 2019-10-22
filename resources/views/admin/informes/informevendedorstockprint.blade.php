@@ -31,7 +31,7 @@
 			    <!-- /.box-header -->
 			    <div class="box-body">
 			    	
-					<label>Articulos cargados:</label> 
+					<label>Stock Asignado:</label> 
 					<div class="form-group">
 					
 						<div class="form-group">
@@ -40,27 +40,35 @@
 									<thead>
 										<tr>
 										<!--<th width="10px"> ID</th>-->
+											<th> Fecha</th>
 											<th> Articulo</th>
-											<th> Precio U.</th>
 											<th> Cantidad</th>
-											<th> Subtotal</th>
+											<th> Devuelve</th>
+											<th> Vacios</th>
+											<th> Vacios C.</th>
 										</tr>
 									</thead>
 									<tbody>
 										@foreach($t_por_articulo as $total)
 											<tr>
-											 	<td>
-											 		{{ $total->articulo }}
+												<td>
+											 		{{ $total->fecha }}
 											 	</td>
 											 	<td>
-											 		{{ $total->precio }}
-											 	
+											 		{{ $total->descripcion }}
 											 	</td>
 											 	<td>
 											 		{{ $total->cantidad }}
+											 	
 											 	</td>
 											 	<td>
-											 		{{ $total->monto }}
+											 		{{ $total->devuelve }}
+											 	</td>
+											 	<td>
+											 		{{ $total->vacios }}
+											 	</td>
+												 <td>
+											 		{{ $total->vacioscierrecontrato }}
 											 	</td>
 
 											</tr>
@@ -77,12 +85,22 @@
 											</td>
 											<td>
 												<b>
-													{{ $cantidadgeneral }}
+													
 												</b>
 											</td>
 											<td>
 												<b>
-													{{ $totalgeneral }}
+													
+												</b>
+											</td>
+											<td>
+												<b>
+													
+												</b>
+											</td>
+											<td>
+												<b>
+													
 												</b>
 											</td>
 										</tr>
@@ -95,6 +113,7 @@
 				<br>
 				<br>
 				<div class="col-md-6 pull-right">
+				<!--
 					<label>Discriminado por tipo de pago:</label>
 					<div class="form-group">
 					
@@ -103,26 +122,13 @@
 								<table id="table_pagos" class="table table-striped table-hover" data-form="Form">
 									<thead>
 										<tr>
-										<!--<th width="10px"> ID</th>-->
+
 											<th> Tipo Pago</th>
 											<th> Monto</th>
 										</tr>
 									</thead>
 									<tbody>
 										
-										@foreach($t_tipopago as $total)
-											<tr>
-											 	<td>
-											 		
-											 		{{ $total->tipo }}
-											 	</td>
-											 	<td>
-											 		<b>
-											 		{{ $total->monto }}
-											 		</b>
-											 	</td>
-											</tr>
-										@endforeach
 										
 										
 									</tbody>
@@ -135,16 +141,16 @@
 					<h3>
 						<div class="form-group">
 							
-							<label>Cobranzas extras: <b> {{ $totalcobranza }} </b> </label>
+							<label>Cobranzas extras: <b>  </b> </label>
 						</div>
 					</h3>
 					<h3>
 						<div class="form-group">
-							<label>Efectivo total a recibir:  <b> {{ $totalgeneralefectivo }} </b> </label>
+							<label>Efectivo total a recibir:  <b> </b> </label>
 
 						</div>
 					</h3>
-				</div>
+				</div>-->
 			<!-- aca agregar el div col-6 -->
 			
 			</div>

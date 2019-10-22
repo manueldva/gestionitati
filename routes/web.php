@@ -78,6 +78,7 @@ route::resource('ventas', 		'Admin\VentaController');
 route::get('/TA_obtenerbases/{id}',		'Admin\TareaController@TA_obtenerbases')->name('TA_obtenerbases');*/
 route::resource('informes', 		'Admin\InformeController');
 route::get('/informevendedorgeneralprint/{usuario}/{fechadesde}/{fechahasta}',		'Admin\InformeController@informevendedorgeneralprint')->name('informevendedorgeneralprint');
+route::get('/informevendedorstockprint/{usuario}/{fechadesde}/{fechahasta}',		'Admin\InformeController@informevendedorstockprint')->name('informevendedorstockprint');
 route::get('/informeventaoficinaprint/{usuario}/{fechadesde}/{fechahasta}',		'Admin\InformeController@informeventaoficinaprint')->name('informeventaoficinaprint');
 
 //seguridad
