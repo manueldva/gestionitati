@@ -117,13 +117,17 @@ class InformeController extends Controller
             where c.estado = 1 and (hrd.fecha <  '" . $fechaanterior . "' or hrd.fecha is null)
             order by c.apellido, c.nombre";*/
             
-            $query="SELECT c.id, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END cliente  , DATE_FORMAT(hrd.fechacarga, '%Y-%m-%d') as fecha FROM clientes AS c
+            $query="SELECT c.id, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END cliente  , DATE_FORMAT(hrd.fechacarga, '%Y-%m-%d') as fecha, b.descripcion as barrio, e.empleado FROM clientes AS c
             left join hojarutadetalles hrd on hrd.cliente_id = c.id and hrd.fechacarga = (SELECT fechacarga FROM hojarutadetalles where cliente_id = c.id order by fechacarga desc limit 1)
             inner join contratos co on c.id = co.cliente_id and co.estado = 1
-            where c.estado = 1 and (hrd.fechacarga < '" . $fechaanterior . "' or hrd.fechacarga is null)
+            inner join clientedirecciones cd on c.id = cd.cliente_id
+            left join barrios b on cd.barrio_id = b.id
+            inner join empleados e on cd.empleado_id = e.id
+            where c.estado = 1 and (hrd.fechacarga < '" . $fechaanterior . "' or hrd.fechacarga is null)  and c.sucursal_id = 1
             group by  c.id, 
              CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END,
-            hrd.fechacarga order by CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido,' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END ";
+            hrd.fechacarga,b.descripcion,e.empleado 
+            order by e.empleado, b.descripcion, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END ";
 
             $resultado = DB::select($query);
 
