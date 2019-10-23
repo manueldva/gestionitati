@@ -334,7 +334,7 @@ Route::get('detalleclientehojaruta', function() {
 
    $query="select hrd.articulo_id, hrd.id, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END cliente,
         ba.descripcion as barrio, c.tipocliente_id, ca.descripcion as calle, cd.numero, cd.manzana, cd.casa, cd.seccion, cd.lote, cd.edificiotorre, cd.piso, cd.observaciondomicilio, cd.referenciadomicilio,
-        a.descripcion articulo, hrd.cantidad, a.clasificacion, 0 as tipoproceso
+        a.descripcion articulo, hrd.cantidad, a.clasificacion, 0 as tipoproceso, c.cuentac
         from hojarutas hr
         inner join hojarutadetalles hrd on hr.id = hrd.hojaruta_id
         inner join clientes c on hrd.cliente_id = c.id
@@ -357,12 +357,12 @@ Route::get('detalleclientehojaruta', function() {
         $data1 = DB::select($query1);
         if(!$data1) {
             $query2="select articulo_id, id, cliente,barrio, tipocliente_id,  calle, numero, manzana,  casa,  seccion, lote, edificiotorre, piso,  observaciondomicilio, referenciadomicilio,
-                 articulo, sum(cantidad) cantidad  , clasificacion, tipoproceso from 
+                 articulo, sum(cantidad) cantidad  , clasificacion, tipoproceso , cuentac from 
 
                 ( select a.id as articulo_id, 0 as id, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END cliente,
                         null as barrio, c.tipocliente_id, null as calle, null as numero,null as manzana, null as casa, null as seccion, null as lote, null as edificiotorre, null as piso,  null as observaciondomicilio, 
                         null as referenciadomicilio,
-                        a.descripcion articulo, coart.cantidad  , a.clasificacion, 1 as tipoproceso
+                        a.descripcion articulo, coart.cantidad  , a.clasificacion, 1 as tipoproceso, c.cuentac
                     from clientes c
                     inner join clientedirecciones cd on c.id = cd.cliente_id
                     inner join contratos co on cd.id = co.clientedireccion_id
@@ -375,7 +375,7 @@ Route::get('detalleclientehojaruta', function() {
                     select a.id as articulo_id, 0 as id, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END cliente,
                         null as barrio, c.tipocliente_id, null as calle, null as numero,null as manzana, null as casa, null as seccion, null as lote, null as edificiotorre, null as piso,  null as observaciondomicilio, 
                         null as referenciadomicilio,
-                        a.descripcion articulo, coart.cantidad , a.clasificacion, 1 as tipoproceso
+                        a.descripcion articulo, coart.cantidad , a.clasificacion, 1 as tipoproceso, c.cuentac
                     from clientes c
                     inner join clientedirecciones cd on c.id = cd.cliente_id
                     inner join contratos co on cd.id = co.clientedireccion_id
@@ -386,7 +386,7 @@ Route::get('detalleclientehojaruta', function() {
                     left join barrios ba on ba.id = cd.barrio_id
                     where cd.cliente_id = " . request('cli') . " and c.estado = 1 and a.hojaruta = 1 and co.estado = 1) as subconsulta
                     group by articulo_id, id, cliente,barrio, tipocliente_id,  calle, numero, manzana,  casa,  seccion, lote, edificiotorre, piso,  observaciondomicilio, referenciadomicilio,
-                 articulo,  clasificacion, tipoproceso";
+                 articulo,  clasificacion, tipoproceso, cuentac";
 
             $data = DB::select($query2);
 
@@ -405,7 +405,7 @@ Route::get('detalleclientehojaruta', function() {
     if($data == 1 ){
         $query3="select 0 articulo_id, 0 id, CASE tipocliente_id WHEN 1 THEN CONCAT(apellido, ' ',  nombre) WHEN 2 THEN cliente ELSE '-' END cliente,
                 '' as barrio, tipocliente_id, '' as calle, '' as numero, '' as manzana, '' as casa, '' as seccion, '' as lote, '' as edificiotorre, '' as piso, '' as observaciondomicilio, '' as referenciadomicilio,
-                '' as articulo, '' as cantidad, 1 as clasificacion, 2 as tipoproceso
+                '' as articulo, '' as cantidad, 1 as clasificacion, 2 as tipoproceso, cuentac
                 from clientes 
                 where id = " . request('cli');
 

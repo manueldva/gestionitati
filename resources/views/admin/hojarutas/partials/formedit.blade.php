@@ -377,11 +377,29 @@
 
 								}
 								
-								if(value.clasificacion == 0){
+								/*if(value.clasificacion == 0){
 									var clasificacion = '<center><select id="select" class="form-control">'+
 						            '<option value="1" selected>Efectivo</option>' +
 						            '<option value="2">Cuenta C.</option>' +
 						          	'</select></center>';
+								} else {
+									var clasificacion = '<center><select id="select" class="form-control">'+
+						            '<option value="0" selected>Sin Cargo</option>' +
+						          	'</select></center>';
+								}*/
+								if(value.clasificacion == 0){
+									if(value.cuentac == 1) { // para traer seleccionado cuenta corriente por defecto
+										var clasificacion = '<center><select id="select" class="form-control">'+
+						            '<option value="1" >Efectivo</option>' +
+						            '<option value="2" selected>Cuenta C.</option>' +
+						          	'</select></center>';
+									} else {
+										var clasificacion = '<center><select id="select" class="form-control">'+
+										'<option value="1" selected>Efectivo</option>' +
+										'<option value="2">Cuenta C.</option>' +
+										'</select></center>';
+									}
+
 								} else {
 									var clasificacion = '<center><select id="select" class="form-control">'+
 						            '<option value="0" selected>Sin Cargo</option>' +
