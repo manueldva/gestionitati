@@ -215,11 +215,11 @@
 							<td  width="10px">
 								@if($cliente->estado !== 0)
 									@if ($typetemp == 'barrio' || $typetemp == 'callenumero' || $typetemp == 'mzcasa')
-										<a href="{{ route('cuentacorrientes.edit', $cliente->cliente->id) }}" class="btn btn-sm btn-default">
+										<a href="{{ route('cuentacorrientes.edit', $cliente->cliente->id) }}" class="btn btn-sm @if($cliente->cuentac == 1) echo btn-success @else btn-default @endif">
 											Cuenta C.
 										</a>
 									@else
-										<a href="{{ route('cuentacorrientes.edit', $cliente->id) }}" class="btn btn-sm btn-default">
+										<a href="{{ route('cuentacorrientes.edit', $cliente->id) }}" class="btn btn-sm @if($cliente->cuentac == 1) echo btn-success @else btn-default @endif">
 											Cuenta C.
 										</a>
 									@endif
