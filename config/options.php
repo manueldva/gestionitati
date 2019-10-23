@@ -9,6 +9,7 @@ return array(
 		'apellido'  => 'Apellido',
 		'nombre'  => 'Nombre',
 		'apellidonombre'  => 'Apellido y Nombre',
+		'cliente'  => 'Razon Social',
 		'nrodocumento'		=> 'Nro Documento',
 		'tipocliente' => 'Tipo de Cliente',
 		'estado' => 'Estado',

@@ -283,6 +283,17 @@
 				$('#calle').hide();
 
 				$('#val').attr('type','text');
+			} else if (type == 'cliente')
+			{
+				$('#imprimir').hide();
+				$('#val').show();
+				$('#val2').hide();
+				$('#barrio').hide();
+				$('#estado').hide();
+				$('#tipocliente').hide();
+				$('#calle').hide();
+
+				$('#val').attr('type','text');
 			} else if (type == 'codigo')
 			{
 				$('#imprimir').hide();

@@ -114,6 +114,15 @@
 										{{ form::label('motivoestado', 'Motivo') }}
 										{{ form::text('motivoestado', null, ['class' => 'form-control', 'id' => 'motivoestado']) }}
 									</td>
+								</tr>
+								<tr>
+									<td>
+										{{ form::label('cuentac', 'Cuenta Corriente Activa') }}
+										{{ form::select('cuentac', ['0' => 'No', '1' => 'SI'], null, ['class' => 'form-control'] ) }}
+									</td>
+									<td>
+									</td>
+								</tr>
 							</thead>
 						</table>
 					</div>

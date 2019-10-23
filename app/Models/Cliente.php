@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Cliente extends Model
 {
     protected $fillable = [
-        'tipocliente_id', 'cliente', 'apellido', 'nombre', 'referente', 'tipodocumento_id', 'numerodocumento', 'tipoiva_id','telefonoparticular','celular', 'direcciones','companiatelefonica_id','email', 'estado','motivoestado','usuario_alta','fecha_alta','usuario_modi','fecha_modi', 'sucursal_id',
+        'tipocliente_id', 'cliente', 'apellido', 'nombre', 'referente', 'tipodocumento_id', 'numerodocumento', 'tipoiva_id','telefonoparticular','celular', 'direcciones','companiatelefonica_id','email', 'estado','motivoestado','usuario_alta','fecha_alta','usuario_modi','fecha_modi', 'sucursal_id', 'cuentac'
 	];
 
 
@@ -83,6 +83,10 @@ class Cliente extends Model
         }else if ($type == 'nombre') 
         {
             $query->where('nombre', 'like', '%' . $valor . '%')->orderBy('apellido');
+        
+        }else if ($type == 'cliente') 
+        {
+            $query->where('cliente', 'like', '%' . $valor . '%')->orderBy('cliente');
 
         }else if ($type == 'codigo') 
         {
