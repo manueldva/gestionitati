@@ -476,15 +476,15 @@ class ArticuloController extends Controller
             return back();
         }
 
-        $existe = Articuloplandetalle::where('planarticulo_id', $id)->count();
+        /*$existe = Articuloplandetalle::where('plan_id', $id)->count();
 
         if($existe > 0) 
         {
             Alert::error('No se puede eliminar el registro')->persistent("Cerrar");
             return back();
-        }
+        }*/
 
-        
+        Articuloplandetalle::where('plan_id', $id)->delete();
         Articulo::find($id)->delete();
 
         Alert::success('Eliminado correctamente')->persistent("Cerrar");
