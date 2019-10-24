@@ -54,16 +54,16 @@
 											 		{{ $total->articulo }}
 											 	</td>
 											 	<td>
-											 		{{ $total->precio }}
+													$ {{ $total->precio }}
 											 	
 											 	</td>
 											 	<td>
 											 		{{ $total->cantidad }}
 											 	</td>
 											 	<td>
-											 		{{ $total->monto }}
+												 	$ {{ $total->monto }}
 											 	</td>
-												 <td>
+												<td>$
 												 	@if($total->clasificacion == 1)
 													 	{{ round($total->final2, 2) }}
 
@@ -90,17 +90,17 @@
 											</td>
 											<td>
 												<b>
-													{{ $cantidadgeneral }}
+													$ {{ $cantidadgeneral }}
 												</b>
 											</td>
 											<td>
 												<b>
-													{{ $totalgeneral }}
+												$ {{ $totalgeneral }}
 												</b>
 											</td>
 											<td>
 												<b>
-													{{ round($totalcomisionvendedor, 2) }}
+												$ {{ round($totalcomisionvendedor, 2) }}
 												</b>
 											</td>
 										</tr>
@@ -127,7 +127,6 @@
 										</tr>
 									</thead>
 									<tbody>
-										
 										@foreach($t_tipopago as $total)
 											<tr>
 											 	<td>
@@ -136,13 +135,11 @@
 											 	</td>
 											 	<td>
 											 		<b>
-											 		{{ $total->monto }}
+											 		$ {{ $total->monto }}
 											 		</b>
 											 	</td>
 											</tr>
 										@endforeach
-										
-										
 									</tbody>
 								</table>
 							</div>
@@ -153,12 +150,19 @@
 					<h3>
 						<div class="form-group">
 							
-							<label>Cobranzas extras: <b> {{ $totalcobranza }} </b> </label>
+							<label>Cobranzas extras: <b> $ {{ $totalcobranza }} @if($totalcobranza > 0) (Comision Vendedor: $ {{ $totalcobranza * 0.03 }} ) @endif </b> </label>
+							<?php $totalcomisionvendedor = $totalcomisionvendedor + ($totalcobranza * 0.03); ?>
 						</div>
 					</h3>
 					<h3>
 						<div class="form-group">
-							<label>Efectivo total a recibir:  <b> {{ $totalgeneralefectivo }} </b> </label>
+							<label>Efectivo total a recibir:  <b> $ {{ $totalgeneralefectivo }} </b> </label>
+
+						</div>
+					</h3>
+					<h3>
+						<div class="form-group">
+							<label>Total Comsision del Vendedor:  <b> $ {{ round($totalcomisionvendedor, 2)  }} </b> </label>
 
 						</div>
 					</h3>
