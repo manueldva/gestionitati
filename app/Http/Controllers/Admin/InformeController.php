@@ -560,15 +560,16 @@ class InformeController extends Controller
         
         $empleado = Empleado::find($usuario);
 
-        $query2="select hrd.articulo_id, a.descripcion articulo, sum(hrd.cantidadfinal) cantidad, hrd.precio ,  sum((hrd.precio * hrd.cantidadfinal)) monto from hojarutadetalles hrd
+        $query2="select a.clasificacion, hrd.articulo_id, a.descripcion articulo, sum(hrd.cantidadfinal) cantidad, hrd.precio ,  sum((hrd.precio * hrd.cantidadfinal)) monto,  (sum((hrd.precio * hrd.cantidadfinal)) * 0.03) final, (sum((a.precioreparto * hrd.cantidadfinal)) * 0.03) final2 from hojarutadetalles hrd
             inner join articulos a on hrd.articulo_id = a.id
             inner join hojarutas hr on hrd.hojaruta_id =  hr.id
             where hr.empleado_id = " . $usuario . " and hrd.estado = 2 and hrd.fechacarga between '" . $fechadesde . "' and '" . $fechahasta . "'
-            group by articulo_id, a.descripcion, hrd.precio
+            group by a.clasificacion, articulo_id, a.descripcion, hrd.precio
             order by a.descripcion";
        
         $t_por_articulo = DB::select($query2);
 
+        //dd($t_por_articulo);
 
         //totales generates
         
@@ -623,8 +624,10 @@ class InformeController extends Controller
             }
         }
         
+        //variables extras
+        $totalcomisionvendedor = 0;
         
-        $pdf = PDF::loadView('admin.informes.informevendedorgeneralprint', compact('empleado', 't_por_articulo', 'fechadesde', 'fechahasta','totalgeneralefectivo', 't_tipopago', 'totalcobranza', 'totalgeneral','cantidadgeneral'));
+        $pdf = PDF::loadView('admin.informes.informevendedorgeneralprint', compact('empleado', 't_por_articulo', 'fechadesde', 'fechahasta','totalgeneralefectivo', 't_tipopago', 'totalcobranza', 'totalgeneral','cantidadgeneral', 'totalcomisionvendedor'));
             //$pdf->setPaper('Legal', 'landscape');
 
         return $pdf->setPaper('Legal', 'landscape')->stream('informevendedorgeneral.pdf');

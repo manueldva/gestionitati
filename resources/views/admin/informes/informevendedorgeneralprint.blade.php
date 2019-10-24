@@ -44,6 +44,7 @@
 											<th> Precio U.</th>
 											<th> Cantidad</th>
 											<th> Subtotal</th>
+											<th> Comision Vendedor</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -62,8 +63,20 @@
 											 	<td>
 											 		{{ $total->monto }}
 											 	</td>
+												 <td>
+												 	@if($total->clasificacion == 1)
+													 	{{ round($total->final2, 2) }}
+
+														<?php $totalcomisionvendedor = $totalcomisionvendedor + $total->final2; ?>
+													@else
+											 			{{ round($total->final, 2) }}
+														 <?php $totalcomisionvendedor = $totalcomisionvendedor + $total->final2; ?>
+													@endif
+													
+											 	</td>
 
 											</tr>
+											
 										@endforeach
 										<tr>
 											<td>
@@ -83,6 +96,11 @@
 											<td>
 												<b>
 													{{ $totalgeneral }}
+												</b>
+											</td>
+											<td>
+												<b>
+													{{ round($totalcomisionvendedor, 2) }}
 												</b>
 											</td>
 										</tr>
