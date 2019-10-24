@@ -394,7 +394,11 @@ class HojarutaController extends Controller
                         $hojadetalle->cantidad = $cantidad;
                         $hojadetalle->cantidadfinal = $cantidad;
                         $hojadetalle->articulo_id = $articulo->id;
-                        $hojadetalle->precio = $articulo->precioreparto;
+                        if($articulo->clasificacion == 0){
+                            $hojadetalle->precio = $articulo->precioreparto;
+                        } else {
+                            $hojadetalle->precio = 0;
+                        }
                         $hojadetalle->tipopago = $tipopago;
                         $hojadetalle->fecha = date('Y-m-d H:i:s');
                         $hojadetalle->fechacarga = $request->input("fechacarga");
