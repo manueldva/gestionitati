@@ -90,7 +90,7 @@
 											</td>
 											<td>
 												<b>
-													$ {{ $cantidadgeneral }}
+													{{ $cantidadgeneral }}
 												</b>
 											</td>
 											<td>
