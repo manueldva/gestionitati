@@ -9,7 +9,7 @@
   </h1>
   <ol class="breadcrumb">
     <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li><a href="{{ route('barrios.index')}}">Barrios</a></li>
+    <li><a href="{{ route('gastos.index')}}">Barrios</a></li>
     <li class="active">Ver</li>
   </ol>
 
@@ -27,7 +27,7 @@
 			<div class="col-md-12">
 				<div class="row col-md-12">
 					<div class="form-group pull-right">
-								<a href="{{ route('barrios.index') }}" type="button" class="btn btn btn-default">
+								<a href="{{ route('gastos.index') }}" type="button" class="btn btn btn-default">
 									<span class="fa fa-list">
 									</span>
 										Listado
@@ -37,30 +37,27 @@
 			</div>
 			<div class="col-md-6">
 
-				<p> <strong>Codigo:</strong> {{ $barrio->id }}</p>
+				<p> <strong>Codigo:</strong> {{ $gasto->id }}</p>
 
-				<p> <strong>Provincia:</strong> {{ $barrio->provincia->descripcion }}</p>
+				<p> <strong>Fecha:</strong> {{ $gasto->fecha }}</p>
 
-				<p> <strong>departamento:</strong> {{ $barrio->departamento->descripcion }}</p>
+				<p> <strong>Tipo Comprobante:</strong> 
+				
+					@if($gasto->tipocomprobante_id)
+						{{ $gasto->tipocomprobante->descripcion  }}
+					@endif
+				
+				</p>
 
-				<p> <strong>Localidad:</strong> {{ $barrio->localidad->descripcion }}</p>
-				@if($barrio->distrito_id)
-					<p> <strong>Zona:</strong> {{ $barrio->distrito->descripcion }}</p>
-				@endif
-
-				<p> <strong>Barrio:</strong> {{ $barrio->descripcion }}</p>
-
-
-				<p> <strong>Posee Calle:</strong> 
-					@if($barrio->sincalle == 0)
-						SI
-					@else
-						NO
+				<p> <strong>Tipo Gasto:</strong> 
+					@if($gasto->rubrogasto_id)
+						{{ $gasto->rubrogasto->descripcion  }}
 					@endif
 				</p>
 
+				<p> <strong>Detalle:</strong> {{ $gasto->detalle }}</p>
 
-				<p> <strong>Fecha Alta:</strong> {{ $barrio->fecha_alta }}</p>
+				<p> <strong>Monto:</strong> {{ $gasto->monto }}</p>
 			</div>
 		</div>
 	</div>

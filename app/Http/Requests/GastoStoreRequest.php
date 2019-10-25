@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProveedorStoreRequest extends FormRequest
+class GastoStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,9 +25,8 @@ class ProveedorStoreRequest extends FormRequest
     {
 
         return [
-            'nombre' => 'required|max:200|unique:proveedores,nombre',
-            'estado'    => 'required|in:Activo,Inactivo'
-
+            'fecha' => 'required',
+            'monto'    => 'required'
 
         ];
     }

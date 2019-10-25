@@ -177,6 +177,11 @@ return [
             'text' => 'Ventas',
             'url'  => 'ventas',
             'icon' => 'money',
+        ], 
+        [
+            'text' => 'Gastos',
+            'url'  => 'gastos',
+            'icon' => 'money',
         ],     
         [
             'text'    => 'Complementos',

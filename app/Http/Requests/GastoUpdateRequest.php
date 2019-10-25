@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProveedorUpdateRequest extends FormRequest
+class GastoUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,10 +23,11 @@ class ProveedorUpdateRequest extends FormRequest
      */
     public function rules()
     {
-
+ 
         return [
-            'nombre' => 'required|max:200|unique:proveedores,nombre,' . $this->proveedore,
-            'estado'    => 'required|in:Activo,Inactivo'
+            'fecha' => 'required',
+            'monto'    => 'required'
+
         ];
     }
 }

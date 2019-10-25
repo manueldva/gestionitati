@@ -73,7 +73,7 @@ route::resource('hojarutaarticulos', 		'Admin\HojarutaarticuloController');
 Route::get('/printhojarutaarticulo/{id}', 'Admin\HojarutaarticuloController@printhojarutaarticulo');
 
 route::resource('ventas', 		'Admin\VentaController');
-route::resource('gastos', 	'Admin\GastoController');
+route::resource('gastos', 	'Admin\GastosController');
 
 /*route::resource('tareas', 		'Admin\TareaController');
 route::get('/TA_obtenerbases/{id}',		'Admin\TareaController@TA_obtenerbases')->name('TA_obtenerbases');*/
