@@ -15,6 +15,11 @@ class CreateRubrogastosTable extends Migration
     {
         Schema::create('rubrogastos', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('descripcion',300)->nullable();
+            $table->string('usuario_alta',50)->nullable();
+            $table->dateTime('fecha_alta')->nullable();
+            $table->string('usuario_modi',50)->nullable();
+            $table->dateTime('fecha_modi')->nullable();
             $table->timestamps();
         });
     }

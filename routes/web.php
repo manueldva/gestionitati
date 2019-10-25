@@ -73,6 +73,7 @@ route::resource('hojarutaarticulos', 		'Admin\HojarutaarticuloController');
 Route::get('/printhojarutaarticulo/{id}', 'Admin\HojarutaarticuloController@printhojarutaarticulo');
 
 route::resource('ventas', 		'Admin\VentaController');
+route::resource('gastos', 	'Admin\GastoController');
 
 /*route::resource('tareas', 		'Admin\TareaController');
 route::get('/TA_obtenerbases/{id}',		'Admin\TareaController@TA_obtenerbases')->name('TA_obtenerbases');*/
@@ -107,6 +108,8 @@ route::resource('tipoempleados', 		'Admin\Complementos\TipoempleadoController');
 route::resource('tipofamiliares', 		'Admin\Complementos\TipofamiliarController');
 route::resource('companiatelefonicas', 		'Admin\Complementos\CompaniatelefonicaController');
 route::resource('sucursales', 		'Admin\Complementos\SucursalController');
+route::resource('tipocomprobantes', 		'Admin\Complementos\TipocomprobanteController');
+route::resource('rubrogastos', 		'Admin\Complementos\RubrogastoController');
 
 
 // servicios
