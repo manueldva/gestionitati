@@ -15,6 +15,17 @@ class CreateGastosTable extends Migration
     {
         Schema::create('gastos', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('tipocomprobante_id')->unsigned()->nullable();
+            $table->foreign('tipocomprobante_id')->references('id')->on('tipocomprobantes');
+            $table->integer('rubrogasto_id')->unsigned()->nullable();
+            $table->foreign('rubrogasto_id')->references('id')->on('rubrogastos');
+            $table->string('detalle',300)->nullable();
+            $table->dateTime('fecha')->nullable();
+            $table->decimal('monto',14,2)->default(0)->nullable();
+            $table->string('usuario_alta',50)->nullable();
+            $table->dateTime('fecha_alta')->nullable();
+            $table->string('usuario_modi',50)->nullable();
+            $table->dateTime('fecha_modi')->nullable();
             $table->timestamps();
         });
     }

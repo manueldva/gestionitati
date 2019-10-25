@@ -7,7 +7,7 @@
 		      		Guardar
 		      </button>
 
-		      <a href="{{ route('tipoivas.index') }}" type="button" class="btn btn btn-default">
+		      <a href="{{ route('tipocomprobantes.index') }}" type="button" class="btn btn btn-default">
 		      	<span class="fa fa-list">
 		      	</span>
 		      		Listado

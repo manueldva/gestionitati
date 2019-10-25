@@ -4,7 +4,7 @@ namespace App\Http\Requests\Complementos;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TipoivaStoreRequest extends FormRequest
+class RubrogastoStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,7 @@ class TipoivaStoreRequest extends FormRequest
     {
 
         return [
-            'descripcion' => 'required|max:200|unique:tipoivas,descripcion'
+            'descripcion' => 'required|max:300|unique:rubrogastos,descripcion'
         ];
     }
 }

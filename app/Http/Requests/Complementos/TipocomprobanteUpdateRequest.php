@@ -4,7 +4,7 @@ namespace App\Http\Requests\Complementos;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TipoivaUpdateRequest extends FormRequest
+class TipocomprobanteUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,7 @@ class TipoivaUpdateRequest extends FormRequest
     {
 
         return [
-            'descripcion' => 'required|max:200|unique:tipoivas,descripcion,' . $this->tipoiva,
+            'descripcion' => 'required|max:300|unique:tipocomprobantes,descripcion,' . $this->tipocomprobante,
         ];
     }
 }

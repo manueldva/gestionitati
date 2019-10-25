@@ -1,15 +1,15 @@
 @extends('adminlte::page')
 
-@section('title', 'Gestión - Tipo Ivas')
+@section('title', 'Gestión - Tipo Comprobantes')
 
 @section('content_header')
   <h1>
-    Gestionar Tipo Ivas
+    Gestionar Tipo Comprobantes
     <!--<small>Listado</small>-->
   </h1>
   <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li><a href="{{ route('tipoivas.index')}}">Tipo Ivas</a></li>
+    <li><a href="{{ route('tipocomprobantes.index')}}">Tipo Comprobantes</a></li>
     <li class="active">Listado</li>
   </ol>
 
@@ -26,7 +26,7 @@
 	<div class="box-header with-border box-default">
 	   <strong> Listado Tipo Ivas </strong>
 	   <form class="navbar-form navbar-right" role="search">
-	       {{ Form::model(Request::only('type', 'val'), array('route' => 'tipoivas.index', 'method' => 'GET'), array('role' => 'form', 'class' => 'navbar-form pull-right')) }}
+	       {{ Form::model(Request::only('type', 'val'), array('route' => 'tipocomprobantes.index', 'method' => 'GET'), array('role' => 'form', 'class' => 'navbar-form pull-right')) }}
 			    <div class="form-group">
 			      {{ form::label('buscar', 'Tipo Busqueda:') }}
 			      {{ form::select('type', config('options.complementotypes'), null, ['class' => 'form-control', 'id' => 'type'] ) }}
@@ -36,7 +36,7 @@
 			      <button type="submit" class="form-control btn btn-sm btn-success"><span class="glyphicon glyphicon-search"></span> Buscar</button>
 						&nbsp;
 			      @if($permiso == 2)
-			      <a href="{{ route('tipoivas.create')}}" class="form-control btn btn-sm btn-primary">
+			      <a href="{{ route('tipocomprobantes.create')}}" class="form-control btn btn-sm btn-primary">
 			        <span class="glyphicon glyphicon-plus"></span> Crear
 			      </a>  
 			      @endif
@@ -55,30 +55,30 @@
 	                  <!--<th width="10px"> ID</th>-->
 	                  <th> Codigo</th>
 	                  <th> descripción</th>
-					  				<th> Fecha Alta</th>
+						<th> Fecha Alta</th>
 	                  <th colspan="3">&nbsp;</th>
 	                </tr>
 	              </thead>
 	              <tbody>
-	                @foreach ($tipoivas as $tipoiva)
+	                @foreach ($tipocomprobantes as $tipocomprobante)
 	                  <tr>
-	                    <td>{{ $tipoiva->id }}</td>
-	                    <td>{{ $tipoiva->descripcion }}</td>
-											<td>{{ $tipoiva->fecha_alta }}</td>
+	                    <td>{{ $tipocomprobante->id }}</td>
+	                    <td>{{ $tipocomprobante->descripcion }}</td>
+											<td>{{ $tipocomprobante->fecha_alta }}</td>
 	                    <td width="10px">
-	                      <a href="{{ route('tipoivas.show', $tipoiva->id) }}" class="btn btn-sm btn-default">
+	                      <a href="{{ route('tipocomprobantes.show', $tipocomprobante->id) }}" class="btn btn-sm btn-default">
 	                        Ver
 	                      </a>
 	                    </td>
 	                    @if($permiso == 2) 
 	                    <td width="10px">
-	                      <a href="{{ route('tipoivas.edit', $tipoiva->id) }}" class="btn btn-sm btn-default">
+	                      <a href="{{ route('tipocomprobantes.edit', $tipocomprobante->id) }}" class="btn btn-sm btn-default">
 	                        Editar
 	                      </a>
 	                    </td>
 	                    <td width="10px">
-							{!! Form::model($tipoiva, ['method' => 'delete', 'route' => ['tipoivas.destroy', $tipoiva->id], 'class' =>'form-inline form-delete']) !!}
-							{!! Form::hidden('id', $tipoiva->id) !!}
+							{!! Form::model($tipocomprobante, ['method' => 'delete', 'route' => ['tipocomprobantes.destroy', $tipocomprobante->id], 'class' =>'form-inline form-delete']) !!}
+							{!! Form::hidden('id', $tipocomprobante->id) !!}
 							{!! Form::submit('Eliminar', ['class' => 'btn btn-sm btn-danger delete', 'name' => 'delete_modal']) !!}
 							{!! Form::close() !!}
 
@@ -89,8 +89,8 @@
 	              </tbody>
 	            </table>
 	          </div>  
-						<div> <?php echo  'Mostrando ' . $tipoivas->firstItem() . ' a ' . $tipoivas->lastItem() . ' de ' . $tipoivas->total() . ' registros'; ?>	</div>
-	          {{ $tipoivas->appends(Request::only(['type', 'val']))->render() }}
+						<div> <?php echo  'Mostrando ' . $tipocomprobantes->firstItem() . ' a ' . $tipocomprobantes->lastItem() . ' de ' . $tipocomprobantes->total() . ' registros'; ?>	</div>
+	          {{ $tipocomprobantes->appends(Request::only(['type', 'val']))->render() }}
 	        </div>
 	    </div>
     </div>

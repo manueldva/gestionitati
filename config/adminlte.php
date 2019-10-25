@@ -240,6 +240,21 @@ return [
                             ]
                         ],
                     ],
+                    [
+                        'text'    => 'Gastos',
+                        'url'     => '#',
+                           'submenu' => [
+                                 
+                                [
+                                    'text' => 'Tipo Comprobantes',
+                                    'url'  => 'tipocomprobantes',
+                                ],
+                                [
+                                    'text' => 'Rubro Gasto',
+                                    'url'  => 'rubrogastos',
+                                ]
+                            ],
+                        ],
                
                 /*[
                     'text' => 'Tipo Empleado',
