@@ -10,7 +10,7 @@
 
 @section('content_header')
   <h1>
-     Informe Vendedor Hoja Ruta
+    Informe Clientes Sin Comprar por Mes
     <!--<small>Listado</small>-->
   </h1>
   <ol class="breadcrumb">
@@ -43,29 +43,15 @@
             </div>
             <div class="col-md-6">
                 {!! Form::open() !!}
-                    <div class="form-group">
-                        <div class="table-responsive" >
-                            <table class="table table-striped table-hover tablesorter">
-                                <thead>
-                                <td>
-                                    {{ form::label('fechadesde', 'Fecha Desde*') }}
-                                    {{ form::date('fechadesde', \Carbon\Carbon::now(), ['class' => 'form-control', 'id' => 'fechadesde']) }}
-                                </td>
-                                <td>
-                                    &nbsp;&nbsp;
-                                </td>
-                                <td>
-                                    {{ form::label('fechahasta', 'Fecha Hasta*') }}
-                                    {{ form::date('fechahasta', \Carbon\Carbon::now(), ['class' => 'form-control', 'id' => 'fechahasta']) }}
-                                </td>
-                                </thead>
-                            </table>
-                        </div>    
-                    </div>
 
                     <div class="form-group">
                         {{ form::label('usuario', 'Vendedor *') }}
-                        {{ form::select('usuario', $usuarios,  null, ['class' => 'form-control','placeholder' => 'Seleccionar'] ) }}
+                        {{ form::select('usuario', $usuarios,  null, ['class' => 'form-control','placeholder' => 'Todos'] ) }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form::label('tipo', 'Tipo Informe ') }}
+                        {{ form::select('tipo', ['1'=>'Excel'],  null, ['class' => 'form-control','placeholder' => 'General'] ) }}
                     </div>
 
 
@@ -98,7 +84,7 @@
 
 		$('#imprimir').on('click', function(e){
             
-            var usuario = $("#usuario option:selected").attr("value")
+            /*var usuario = $("#usuario option:selected").attr("value")
             //alert(usuario);
             if (usuario == '')
             {
@@ -111,8 +97,23 @@
             }
             var fechadesde = $("#fechadesde").val();
             var fechahasta = $("#fechahasta").val();
+            */
+            var usuario = $("#usuario option:selected").attr("value");
+            var tipo = $("#tipo option:selected").attr("value");
+
+            if (tipo == '')
+            {
+                tipo = '0';
+            }
+
+            if (usuario == '')
+            {
+                usuario = 'Todos';
+            }
+
+
             e.preventDefault();
-            window.open("{{url('informevendedorgeneralprint')}}/"+ usuario + "/" + fechadesde + "/" + fechahasta);
+            window.open("{{url('informesincomprarprint')}}/"+ usuario + "/" + tipo);
 
 
         });

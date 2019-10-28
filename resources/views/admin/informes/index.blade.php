@@ -74,11 +74,19 @@
 
             <div class="col-md-6">
                 <br>
+                <!--
                 <div class="form-group" style="font-size:16pt">
                     <a target="_blank" href="{{ route('informes.show', 4) }}" style="color:#235B88;">
                         Informe Clientes Sin Comprar por un Mes
                     </a>
                 </div> 
+                -->
+                 <div class="form-group" style="font-size:16pt">
+                    <a href="{{ route('informes.show', 4) }}" style="color:#235B88;">
+                        Informe Clientes Sin Comprar por Mes
+                    </a>
+                </div> 
+
                 <!--
 
                 <div class="form-group">

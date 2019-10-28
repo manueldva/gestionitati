@@ -64,7 +64,7 @@
                     </div>
 
                     <div class="form-group">
-                        {{ form::label('usuario', 'Asignado *') }}
+                        {{ form::label('usuario', 'Vendedor *') }}
                         {{ form::select('usuario', $usuarios,  null, ['class' => 'form-control','placeholder' => 'Seleccionar'] ) }}
                     </div>
 

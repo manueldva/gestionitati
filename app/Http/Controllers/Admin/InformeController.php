@@ -27,6 +27,7 @@ use App\Helpers\FechaHelper;
 
 use Barryvdh\DomPDF\Facade as PDF;
 
+
 class InformeController extends Controller
 {
     public function __construct()
@@ -95,8 +96,8 @@ class InformeController extends Controller
             } else {
                 $usuarios = [];
             }
-            
             return view('admin.informes.show1',compact('usuarios'));
+
         } else if($id == 2) { // ventas en oficina
             $tipoempleado = Tipoempleado::where('descripcion', '=', 'Administrativo')->first();
             if($tipoempleado) {
@@ -108,36 +109,19 @@ class InformeController extends Controller
             }
             return view('admin.informes.show2',compact('usuarios'));
         } else if($id == 4) { // informe automatico para clientes que no han comprado en mas de 1 mes
-            
-            $now = new \DateTime('now');
-            $fechaanterior = date("Y-m-d",strtotime($now->format('Y-m-d')."- 2 month"));
-                
-            /*$query="SELECT c.id, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END cliente , DATE_FORMAT(hrd.fechacarga, '%d/%m/%Y') as fecha FROM clientes AS c
-            left join hojarutadetalles hrd on hrd.cliente_id = c.id and hrd.id = (SELECT id FROM hojarutadetalles where cliente_id = c.id order by fecha desc limit 1)
-            where c.estado = 1 and (hrd.fecha <  '" . $fechaanterior . "' or hrd.fecha is null)
-            order by c.apellido, c.nombre";*/
-            
-            $query="SELECT c.id, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END cliente  , DATE_FORMAT(hrd.fechacarga, '%Y-%m-%d') as fecha, b.descripcion as barrio, e.empleado FROM clientes AS c
-            left join hojarutadetalles hrd on hrd.cliente_id = c.id and hrd.fechacarga = (SELECT fechacarga FROM hojarutadetalles where cliente_id = c.id order by fechacarga desc limit 1)
-            inner join contratos co on c.id = co.cliente_id and co.estado = 1
-            inner join clientedirecciones cd on c.id = cd.cliente_id
-            left join barrios b on cd.barrio_id = b.id
-            inner join empleados e on cd.empleado_id = e.id
-            where c.estado = 1 and (hrd.fechacarga < '" . $fechaanterior . "' or hrd.fechacarga is null)  and c.sucursal_id = 1
-            group by  c.id, 
-             CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END,
-            hrd.fechacarga,b.descripcion,e.empleado 
-            order by e.empleado, b.descripcion, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END ";
+            /*
+           
+            */
+            $tipoempleado = Tipoempleado::where('descripcion', '=', 'Vendedor')->first();
+            if($tipoempleado) {
+                $usuarios  = Empleado::orderBy('empleado', 'ASC')->where('tipoempleado_id', $tipoempleado->id)->pluck('empleado' , 'id');
+                    
+                if(!$usuarios) $usuarios = [];
+            } else {
+                $usuarios = [];
+            }
+            return view('admin.informes.show4',compact('usuarios'));
 
-            $resultado = DB::select($query);
-
-            /*$pdf = PDF::loadView('admin.informes.informeclientessincomprarprint', compact('resultado', 'fechaanterior'));
-            //$pdf->setPaper('Legal', 'landscape');
-
-            return $pdf->setPaper('A4')->stream('informecliente.pdf');*/
-
-
-            return view('admin.informes.informeclientessincomprarprint',compact('resultado', 'fechaanterior'));
         } else if($id == 3) { // ventas en oficina
             $tipoempleado = Tipoempleado::where('descripcion', '=', 'Vendedor')->first();
             if($tipoempleado) {
@@ -690,6 +674,51 @@ class InformeController extends Controller
             //$pdf->setPaper('Legal', 'landscape');
 
         return $pdf->setPaper('Legal', 'landscape')->stream('informeventaoficina.pdf');
+    }
+
+
+    public function informesincomprarprint($usuario, $tipo)
+    {
+
+        if($usuario == 'Todos'){
+            $now = new \DateTime('now');
+            $fechaanterior = date("Y-m-d",strtotime($now->format('Y-m-d')."- 2 month"));
+            
+            $query="SELECT c.id, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END cliente  , DATE_FORMAT(hrd.fechacarga, '%Y-%m-%d') as fecha, b.descripcion as barrio, e.empleado FROM clientes AS c
+            left join hojarutadetalles hrd on hrd.cliente_id = c.id and hrd.fechacarga = (SELECT fechacarga FROM hojarutadetalles where cliente_id = c.id order by fechacarga desc limit 1)
+            inner join contratos co on c.id = co.cliente_id and co.estado = 1
+            inner join clientedirecciones cd on c.id = cd.cliente_id
+            left join barrios b on cd.barrio_id = b.id
+            inner join empleados e on cd.empleado_id = e.id
+            where c.estado = 1 and (hrd.fechacarga < '" . $fechaanterior . "' or hrd.fechacarga is null)  and c.sucursal_id = 1
+            group by  c.id, 
+             CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END,
+            hrd.fechacarga,b.descripcion,e.empleado 
+            order by e.empleado, b.descripcion, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END ";
+        } else {
+            $now = new \DateTime('now');
+            $fechaanterior = date("Y-m-d",strtotime($now->format('Y-m-d')."- 2 month"));
+            
+            $query="SELECT c.id, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END cliente  , DATE_FORMAT(hrd.fechacarga, '%Y-%m-%d') as fecha, b.descripcion as barrio, e.empleado FROM clientes AS c
+            left join hojarutadetalles hrd on hrd.cliente_id = c.id and hrd.fechacarga = (SELECT fechacarga FROM hojarutadetalles where cliente_id = c.id order by fechacarga desc limit 1)
+            inner join contratos co on c.id = co.cliente_id and co.estado = 1
+            inner join clientedirecciones cd on c.id = cd.cliente_id
+            left join barrios b on cd.barrio_id = b.id
+            inner join empleados e on cd.empleado_id = e.id
+            where e.id = '" . $usuario . "' and c.estado = 1 and (hrd.fechacarga < '" . $fechaanterior . "' or hrd.fechacarga is null)  and c.sucursal_id = 1
+            group by  c.id, 
+             CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END,
+            hrd.fechacarga,b.descripcion,e.empleado 
+            order by e.empleado, b.descripcion, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END ";
+        }
+            
+
+        $resultado = DB::select($query);
+        
+
+        return view('admin.informes.informeclientessincomprarprint',compact('resultado', 'fechaanterior'));
+        
+
     }
 
 }
