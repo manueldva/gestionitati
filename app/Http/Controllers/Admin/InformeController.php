@@ -26,7 +26,7 @@ use Auth;
 use App\Helpers\FechaHelper;
 
 use Barryvdh\DomPDF\Facade as PDF;
-
+use Maatwebsite\Excel\Facades\Excel;
 
 class InformeController extends Controller
 {
@@ -684,7 +684,7 @@ class InformeController extends Controller
             $now = new \DateTime('now');
             $fechaanterior = date("Y-m-d",strtotime($now->format('Y-m-d')."- 2 month"));
             
-            $query="SELECT c.id, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END cliente  , DATE_FORMAT(hrd.fechacarga, '%Y-%m-%d') as fecha, b.descripcion as barrio, e.empleado FROM clientes AS c
+            $query="SELECT c.id as Codigo, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END Cliente  , DATE_FORMAT(hrd.fechacarga, '%Y-%m-%d') as Fecha, b.descripcion as Barrio, e.empleado as Vendedor FROM clientes AS c
             left join hojarutadetalles hrd on hrd.cliente_id = c.id and hrd.fechacarga = (SELECT fechacarga FROM hojarutadetalles where cliente_id = c.id order by fechacarga desc limit 1)
             inner join contratos co on c.id = co.cliente_id and co.estado = 1
             inner join clientedirecciones cd on c.id = cd.cliente_id
@@ -699,7 +699,7 @@ class InformeController extends Controller
             $now = new \DateTime('now');
             $fechaanterior = date("Y-m-d",strtotime($now->format('Y-m-d')."- 2 month"));
             
-            $query="SELECT c.id, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END cliente  , DATE_FORMAT(hrd.fechacarga, '%Y-%m-%d') as fecha, b.descripcion as barrio, e.empleado FROM clientes AS c
+            $query="SELECT c.id as Codigo, CASE c.tipocliente_id WHEN 1 THEN CONCAT(c.apellido, ' ',  c.nombre) WHEN 2 THEN c.cliente ELSE '-' END Cliente  , DATE_FORMAT(hrd.fechacarga, '%Y-%m-%d') as Fecha, b.descripcion as Barrio, e.empleado as Vendedor FROM clientes AS c
             left join hojarutadetalles hrd on hrd.cliente_id = c.id and hrd.fechacarga = (SELECT fechacarga FROM hojarutadetalles where cliente_id = c.id order by fechacarga desc limit 1)
             inner join contratos co on c.id = co.cliente_id and co.estado = 1
             inner join clientedirecciones cd on c.id = cd.cliente_id
@@ -714,10 +714,28 @@ class InformeController extends Controller
             
 
         $resultado = DB::select($query);
-        
+        //$result = DB::select($sql);
+        $arr = [];
+        foreach($resultado as $row)
+        {
+            $arr[] = (array) $row;
+        }
 
-        return view('admin.informes.informeclientessincomprarprint',compact('resultado', 'fechaanterior'));
+        //dd($resultado);
         
+        if($tipo == 1){
+            Excel::create('Informe Sin Comprar', function($excel)  use($arr) {
+                $excel->sheet('Excel sheet', function($sheet)  use($arr) {
+                    //otra opción -> $products = Product::select('name')->get();
+                    //$products = Product::all();             
+                    $sheet->fromArray($arr);
+                    $sheet->setOrientation('landscape');
+                });
+            })->export('xls');
+        } else {
+            return view('admin.informes.informeclientessincomprarprint',compact('resultado', 'fechaanterior'));
+        }
+       
 
     }
 

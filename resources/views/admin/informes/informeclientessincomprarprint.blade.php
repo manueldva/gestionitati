@@ -50,27 +50,27 @@
 											<tr>
 											<td>
 												 <center>
-											 		{{ $res->empleado }}
+											 		{{ $res->Vendedor }}
 											     </center>
 											 	</td>
 											 	<td>
 												 <center>
-											 		{{ $res->id }}
+											 		{{ $res->Codigo }}
 											     </center>
 											 	</td>
 											 	<td>
 												 <center>
-											 		{{ $res->cliente }}
+											 		{{ $res->Cliente }}
 											      </center>
 											 	</td>
 												 <td>
 												 <center>
-											 		{{ $res->barrio }}
+											 		{{ $res->Barrio }}
 											      </center>
 											 	</td>
 											 	<td>
 												 <center>
-											 		{{ $res->fecha }}
+											 		{{ $res->Fecha }}
 												 </center>
 											 	</td>
 											</tr>
