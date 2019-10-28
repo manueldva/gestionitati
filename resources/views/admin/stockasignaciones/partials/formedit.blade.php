@@ -65,6 +65,40 @@
 							{{ form::text('sucursal_id', $stockasignacion->empleado->sucursal->descripcion, ['class' => 'form-control', 'id' => 'sucursal_id', 'readonly']) }}
 						</div>
 					</div>
+					<div class="box-body">
+						<div class="table-responsive">
+								<table   id="table_temp" class="table table-striped table-hover" data-form="Form">
+									<tbody>
+										<tr>
+											<td>
+												{{ form::label('stock', 'Stock') }}
+													<select id="stock_id" name="stock_id" class="form-control">
+													<option value='0' selected>Seleccionar</option>
+													@isset($stockasignaciondetalles)
+														@foreach ($stockasignaciondetalles as $stockasignaciondetalle)
+															<option value="{{ $stockasignaciondetalle->id }}">{{ $stockasignaciondetalle->stockventa->stockarticulo->descripcion }}</option>
+														@endforeach
+													@endif
+											</td>
+											<td> 
+												{{ form::label('sumarcantidad', 'Cantidad a Sumar') }}
+												{{ form::number('sumarcantidad', null, ['class' => 'form-control', 'id' => 'sumarcantidad']) }}
+											</td>
+											<td> 
+												<br>
+												<a type="button" id="agregarcantidad" name="agregarcantidad" class="btn btn btn-success">
+													<span class="fa fa-plus-circle">
+													</span>
+													AGREGAR
+												</a>
+											</td>
+										</tr>
+										
+									</thead>
+								</table>
+						</div>	
+							
+					</div>
 					<hr>
 					<div class="form-group">
 					
@@ -76,10 +110,11 @@
 										<!--<th width="10px"> ID</th>-->
 											<th style="display:none;"> Codigo</th>
 											<th> Stock</th>
-											<th> Cantidad</th>
-											<th> Devuelve</th>
-											<th> Vacios</th>
-											<th> Vacios C.</th>
+											<th> Retiro</th>
+											<th> Dev. Carg.</th>
+											<th> Dev. Vac.</th>
+											<th> Contrato</th>
+											<th> Recuperado</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -92,17 +127,22 @@
 							                    @if($show == 1)
 							                     	<td>{{ $stockasignaciondetalle->devuelve }}</td>
 							                     @else
-							                    	<td><div class="number-field" contenteditable="true"><font color="black">0</font></div></td>
+							                    	<td><div class="number-field" contenteditable="true"><font color="black">{{ $stockasignaciondetalle->devuelve }}</font></div></td>
 							                    @endif
 							                    @if($show == 1)
 							                     	<td>{{ $stockasignaciondetalle->vacios }}</td>
 							                     @else
-							                    	<td><div class="number-field" contenteditable="true"><font color="black">0</font></div></td>
+							                    	<td><div class="number-field" contenteditable="true"><font color="black">{{ $stockasignaciondetalle->vacios }}</font></div></td>
 							                    @endif
 							                    @if($show == 1)
 							                     	<td>{{ $stockasignaciondetalle->vacioscierrecontrato }}</td>
 							                     @else
-							                    	<td><div class="number-field" contenteditable="true"><font color="black">0</font></div></td>
+							                    	<td><div class="number-field" contenteditable="true"><font color="black">{{ $stockasignaciondetalle->contrato }}</font></div></td>
+							                    @endif
+												@if($show == 1)
+							                     	<td>{{ $stockasignaciondetalle->vacioscierrecontrato }}</td>
+							                     @else
+							                    	<td><div class="number-field" contenteditable="true"><font color="black">{{ $stockasignaciondetalle->vacioscierrecontrato }}</font></div></td>
 							                    @endif
 							                  </tr>
 							                @endforeach
@@ -162,148 +202,48 @@
 			
 			
 		});
-
-		//buscador articulos
-		function buscarstocks(stock_id) {
-
-			//alert(articulo_id);
-
-			if ($('#sucursal_id').val() !== ''  &&  stock_id !== '') {
-			$.ajax({
-				dataType: 'json',
-				url: APP_URL + '/api/stockarticulo',
-				//url: '../api/validardocumento',
-				data: {q: stock_id}
-			}).done(function(data) {
-				//var $empleado = $('#empleado'); 
-				if(data !== 0) {
-					$("#stock_id").val(data.id);
-					$("#stock").val(data.id);
-					$("#stockactual").val(data.stockactual);
-					$("#cantidadstock").val(1);
-
-					//$("#empleado").html('').select2({data: [ {id: data.id, text: data.empleado}]}); 
-					//toastr.info('Codigo de vendedor correcto');
-				} else{
-					$("#stock_id").val('');
-					$("#stock").val('');
-					$("#stockactual").val('');
-					$("#cantidadstock").val('');
-					
-				}
-				
-			});
-			} else {
-				$("#stock_id").val('');
-				$("#stock").val('');
-				$("#stockactual").val('');
-				$("#cantidadstock").val('');
-			}
-		}
-
-
-		$('#stock_id').focusout(function(e) {
-
-			buscarstocks($('#stock_id').val());
-
-		});
-
-		$(document).ready(function(){
-			$("#stock_id").keypress(function(e) {
-			//no recuerdo la fuente pero lo recomiendan para
-			//mayor compatibilidad entre navegadores.
-			var code = (e.keyCode ? e.keyCode : e.which);
-				if(code==13){
-					if ($('#stock_id').val() == '') $('#stock').val(''); 
-					buscarstocks($('#stock_id').val());
-
-				}
-			});
-		});
-
-		$('#stock').on('change', function(e){
-			if ($('#stock').val() == '') $('#stock_id').val(''); 
-			buscarstocks($('#stock').val());
-		});
-
-
-		/*para agregar articulos al listado*/
-		$( "#agregarstock" ).click(function() {
-
+		
+		
+		$( "#agregarcantidad" ).click(function() {
 			
-			if($('#stock_id').val() == ''  || $("#cantidadstock").val() == '') {
+			tipostock = $('select[name="stock_id"] option:selected').val();
 
-
-				toastr.error('No se puede agregar este stock. Faltan datos');
-				return false;
-			}
-
-			if(parseInt($("#cantidadstock").val()) < 1) {
-
-
-				toastr.error('La cantidad ingresada no puede ser menor a 1');
-				return false;
-			}
-
-			if(parseInt($("#cantidadstock").val()) > parseInt($("#stockactual").val())) {
-
-
-				toastr.error('La cantidad ingresada no puede ser mayor al stock actual');
-				return false;
-			}
-
-			//variables para guardar en la grilla
-			var codigo = $('#stock_id').val();
-
-			var existe = 0;
-			$('#table_stocks tbody tr').each(function () {	 
-		    	temp = $(this).find("td").eq(0).html();
-		   		if(temp == codigo){
-		   			existe = 1;
-		   		}	
-		    });
-
-		    if(existe == 1){
-	   			toastr.error('Este stock ya se encuentra en la lista');
+			if(tipostock == 0){
+	   			toastr.error('Debe selecionar una opcion del combo');
 	   			return false;
 	   		}
 
-			//var descripcion = $("#descripcionarticulo").val();
-			var descripcion =$('select[name="stock"] option:selected').text();
-			var cantidad = parseInt($('#cantidadstock').val());
-
-
-
-			//cargo la grilla
-			$('#table_stocks tbody').prepend(
-				'<tr>' + 
-				'<td style="display:none;">' + codigo + '</td>' +
-				'<td>' + descripcion + '</td>' +
-				'<td>' + cantidad + '</td>' +
-				"<td><a class='delete btn btn-sm btn-danger' onclick ='deletestock_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
-				'</td>' +
-				'</tr>');
-
-				/*$("#articulo_id").val('');
-				$("#articulo").val('');
-				$("#cantidadarticulo").val('');*/
+			sumarcantidad = $('#sumarcantidad').val();
 			
-			buscarstocks(0);
-
-			toastr.success('Stock agregado a la lista');
 			
+			if(sumarcantidad < 1){
+	   			toastr.error('La cantidad a sumar es incorrecta');
+	   			return false;
+	   		}
+			
+
+			$('#table_stocks tbody tr').each(function () {	 
+
+				codigo = $(this).find("td").eq(0).text();
+			    cantidad = $(this).find("td").eq(2).text();
+
+				if(codigo == tipostock){
+					suma = Math.round(cantidad) + Math.round(sumarcantidad);
+					$(this).find("td").eq(2).text(suma);
+					toastr.success('Cantidad agregada');
+				}
+
+				$('#sumarcantidad').val('');
+				$('#stock_id').val('0');
+				
+		    });
+
+
+
+			//alert(sumarcantidad);   
+
 
 		});
-
-
-		/*borrar filas del listado de articulos*/
-		function deletestock_row(row) {
-
-		  	row.closest('tr').remove();
-		  	toastr.info('Stock eliminado de la lista');
-		}
-
-		
 		
 
 
@@ -356,13 +296,16 @@
 
 		    $("#id_lista_stocks").val('');
 
+
 		    var temp = 0;
 		    $('#table_stocks tbody tr').each(function () {	 
 			    codigo = $(this).find("td").eq(0).html();
 			    cantidad = $(this).find("td").eq(2).text();
 			    devuelve =  $(this).find("td").eq(3).text();
 			    vacios =  $(this).find("td").eq(4).text();
-				vacioscierre =  $(this).find("td").eq(5).text();
+				contrato =  $(this).find("td").eq(5).text();
+				vacioscierre =  $(this).find("td").eq(6).text();
+
 				
 			    if(!$.isNumeric(devuelve)) {
 			    	temp = 1;
@@ -371,7 +314,8 @@
 			    } else if(parseInt(devuelve) > parseInt(cantidad) ) {
 			    	temp = 1;
 			    }
-			    listado += codigo + "|" + cantidad + "|" + devuelve + "|" + vacios + "|" + vacioscierre + "&&&";
+			    listado += codigo + "|" + cantidad + "|" + devuelve + "|" + vacios + "|" + contrato + "|" + vacioscierre + "&&&";
+
 		    });
 
 			if(temp == 1){
