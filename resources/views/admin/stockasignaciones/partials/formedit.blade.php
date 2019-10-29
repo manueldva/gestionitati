@@ -67,35 +67,44 @@
 					</div>
 					<div class="box-body">
 						<div class="table-responsive">
-								<table   id="table_temp" class="table table-striped table-hover" data-form="Form">
-									<tbody>
-										<tr>
-											<td>
-												{{ form::label('stock', 'Stock') }}
-													<select id="stock_id" name="stock_id" class="form-control">
-													<option value='0' selected>Seleccionar</option>
-													@isset($stockasignaciondetalles)
-														@foreach ($stockasignaciondetalles as $stockasignaciondetalle)
-															<option value="{{ $stockasignaciondetalle->id }}">{{ $stockasignaciondetalle->stockventa->stockarticulo->descripcion }}</option>
-														@endforeach
-													@endif
-											</td>
-											<td> 
-												{{ form::label('sumarcantidad', 'Cantidad a Sumar') }}
-												{{ form::number('sumarcantidad', null, ['class' => 'form-control', 'id' => 'sumarcantidad']) }}
-											</td>
-											<td> 
-												<br>
-												<a type="button" id="agregarcantidad" name="agregarcantidad" class="btn btn btn-success">
-													<span class="fa fa-plus-circle">
-													</span>
-													AGREGAR
-												</a>
-											</td>
-										</tr>
-										
-									</thead>
-								</table>
+							<table class="table table-striped table-hover" data-form="Form">
+								<thead>
+									<tr>	
+										<td class="col-md-3"> 
+											{{ form::label('stock_id', 'Cod.') }}
+											{{ form::number('stock_id', null, ['class' => 'form-control', 'id' => 'stock_id']) }}
+										</td>
+										<td>
+											{{ form::label('stock', 'Stock Articulo') }}
+											<br>
+											{{ form::select('stock', [],  null, ['class' => 'form-control inline-search', 'id' => 'stock','placeholder' => 'Seleccionar...'] ) }}
+										</td>
+									</tr>
+									<tr>
+										<td > 
+											{{ form::label('stockactual', 'Stock Actual') }}
+											{{ form::number('stockactual', null, ['class' => 'form-control', 'id' => 'stockactual', 'readonly']) }}
+										</td>
+										<td> 
+											{{ form::label('cantidadstock', 'Cantidad') }}
+											{{ form::number('cantidadstock', null, ['class' => 'form-control', 'id' => 'cantidadstock']) }}
+										</td>
+										<td> 
+											<br>
+											<a type="button" id="agregarstock" name="agregarstock" class="btn btn btn-success">
+											<!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
+												<span class="fa fa-plus-circle">
+												</span>
+												AGREGAR
+											</a>
+										</td>
+									</tr>
+									<tr>
+
+									</tr>
+									
+								</thead>
+							</table>
 						</div>	
 							
 					</div>
@@ -115,6 +124,7 @@
 											<th> Dev. Vac.</th>
 											<th> Contrato</th>
 											<th> Recuperado</th>
+											<th style="display:none;"> stockventa</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -144,6 +154,7 @@
 							                     @else
 							                    	<td><div class="number-field" contenteditable="true"><font color="black">{{ $stockasignaciondetalle->vacioscierrecontrato }}</font></div></td>
 							                    @endif
+												<td style="display:none;">{{ $stockasignaciondetalle->stockventa_id }}</td>
 							                  </tr>
 							                @endforeach
 										@endif
@@ -184,39 +195,96 @@
 		
 		var APP_RL = "{{ url('/') }}";
 
+		$.get('{{ url("/") }}/api/stockarticulos?sucursal_id=' + 1,function(data) {
 
-		$('#sucursal_id').on('change', function(e){
+			$('#stock').empty();
+			$('#stock').append('<option value="" disable="true" selected="true">Seleccionar...</option>');
 
-			console.log(e);
-		    var sucursal_id = e.target.value;
-			$.get('{{ url("/") }}/api/stockarticulos?sucursal_id=' + sucursal_id,function(data) {
-
-			  	$('#stock').empty();
-			  	$('#stock').append('<option value="" disable="true" selected="true">Seleccionar...</option>');
-
-		      	$.each(data, function(fetch, stock){
-		        	console.log(data);
-		        	$('#stock').append('<option value="'+ stock.id +'">'+ stock.descripcion +'</option>');
-		      	})
-		    });
-			
-			
+			$.each(data, function(fetch, stock){
+				console.log(data);
+				$('#stock').append('<option value="'+ stock.id +'">'+ stock.descripcion +'</option>');
+			})
 		});
+
+		//buscador articulos
+		function buscarstocks(stock_id) {
+
+		//alert(articulo_id);
+
+			if (stock_id !== '') {
+				$.ajax({
+					dataType: 'json',
+					url: APP_URL + '/api/stockarticulo',
+					//url: '../api/validardocumento',
+					data: {q: stock_id}
+				}).done(function(data) {
+				//var $empleado = $('#empleado'); 
+				if(data !== 0) {
+					$("#stock_id").val(data.id);
+					$("#stock").val(data.id);
+					$("#stockactual").val(data.stockactual);
+					$("#cantidadstock").val(1);
+
+					//$("#empleado").html('').select2({data: [ {id: data.id, text: data.empleado}]}); 
+					//toastr.info('Codigo de vendedor correcto');
+				} else{
+					$("#stock_id").val('');
+					$("#stock").val('');
+					$("#stockactual").val('');
+					$("#cantidadstock").val('');
+					
+				}
+				
+			});
+			} else {
+				$("#stock_id").val('');
+				$("#stock").val('');
+				$("#stockactual").val('');
+				$("#cantidadstock").val('');
+			}
+		}
+
+
+		$('#stock_id').focusout(function(e) {
+
+			buscarstocks($('#stock_id').val());
+
+		});
+
+		$(document).ready(function(){
+			$("#stock_id").keypress(function(e) {
+			//no recuerdo la fuente pero lo recomiendan para
+			//mayor compatibilidad entre navegadores.
+			var code = (e.keyCode ? e.keyCode : e.which);
+				if(code==13){
+					if ($('#stock_id').val() == '') $('#stock').val(''); 
+					buscarstocks($('#stock_id').val());
+
+				}
+			});
+		});
+
+		$('#stock').on('change', function(e){
+			if ($('#stock').val() == '') $('#stock_id').val(''); 
+			buscarstocks($('#stock').val());
+		});
+
+
 		
 		
-		$( "#agregarcantidad" ).click(function() {
+		$( "#agregarstock" ).click(function() {
 			
-			tipostock = $('select[name="stock_id"] option:selected').val();
+			tipostock = $('select[name="stock"] option:selected').val();
 
 			if(tipostock == 0){
 	   			toastr.error('Debe selecionar una opcion del combo');
 	   			return false;
 	   		}
 
-			sumarcantidad = $('#sumarcantidad').val();
+			cantidadstock = $('#cantidadstock').val();
 			
-			
-			if(sumarcantidad < 1){
+			//alert(cantidadstock);
+			if(cantidadstock < 1){
 	   			toastr.error('La cantidad a sumar es incorrecta');
 	   			return false;
 	   		}
@@ -224,23 +292,25 @@
 
 			$('#table_stocks tbody tr').each(function () {	 
 
-				codigo = $(this).find("td").eq(0).text();
 			    cantidad = $(this).find("td").eq(2).text();
-
+				codigo = $(this).find("td").eq(7).text();
+			
 				if(codigo == tipostock){
-					suma = Math.round(cantidad) + Math.round(sumarcantidad);
+					suma = Math.round(cantidad) + Math.round(cantidadstock);
 					$(this).find("td").eq(2).text(suma);
 					toastr.success('Cantidad agregada');
+					
 				}
 
-				$('#sumarcantidad').val('');
-				$('#stock_id').val('0');
+				$('#cantidadstock').val('');
+				$('#stock_id').val('');
+				buscarstocks($('#stock_id').val());
 				
 		    });
 
 
 
-			//alert(sumarcantidad);   
+			//alert(cantidadstock);   
 
 
 		});
@@ -250,8 +320,6 @@
 
 		$( "#guardar" ).click(function() {
 
-
-			
 
 		   // listado de articulos
 		    var listado = crear_listado_stocks();
