@@ -69,7 +69,7 @@
 								{{ $gasto->rubrogasto->descripcion  }}
 							@endif
 						</td>
-	                    <td>{{ $gasto->detalle }}</td>
+	                    <td>{{ $gasto->monto }}</td>
 	                    <td width="10px">
 	                      <a href="{{ route('gastos.show', $gasto->id) }}" class="btn btn-sm btn-default">
 	                        Ver

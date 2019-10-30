@@ -10,7 +10,7 @@ class Gasto extends Model
 
 
     protected $fillable = [
-        'rubrogasto_id', 'tipocomprobante_id', 'monto' , 'fecha', 'detalle', 'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
+        'rubrogasto_id', 'tipocomprobante_id', 'mediopago_id', 'tipopago_id', 'monto' , 'fecha', 'detalle', 'usuario_alta', 'fecha_alta', 'usuario_modi', 'fecha_modi'
     ];
 
 

@@ -28,8 +28,18 @@
         </div>
 
         <div class="form-group">
-          {{ form::label('rubrogasto_id', 'Tipo Gasto ') }}
+          {{ form::label('rubrogasto_id', 'Tipo Gasto') }}
           {{ form::select('rubrogasto_id', $rubrogastos,  null, ['class' => 'form-control', 'id' => 'rubrogasto_id','placeholder' => 'Seleccionar...'] ) }}
+        </div>
+
+        <div class="form-group">
+          {{ form::label('tipopago_id', 'Tipo de Pago ') }}
+          {{ form::select('tipopago_id', $tipopagos,  null, ['class' => 'form-control', 'id' => 'tipopago_id'] ) }}
+        </div>
+
+        <div class="form-group">
+          {{ form::label('mediopago_id', 'Medio de Pago ') }}
+          {{ form::select('mediopago_id', $mediopagos,  null, ['class' => 'form-control', 'id' => 'mediopago_id'] ) }}
         </div>
 
         <div class="form-group">
