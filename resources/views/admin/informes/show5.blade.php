@@ -127,6 +127,13 @@
             var cliente_id = $("#cliente_id").val();
             var fechadesde = $("#fechadesde").val();
             var fechahasta = $("#fechahasta").val();
+
+
+            if(cliente_id == '') {
+                toastr.error('Debe ingresar un Nro de Socio');
+      			return false;
+            }
+
             e.preventDefault();
             window.open("{{url('informemovimientoclienteprint')}}/"+ cliente_id + "/" + fechadesde + "/" + fechahasta);
 
