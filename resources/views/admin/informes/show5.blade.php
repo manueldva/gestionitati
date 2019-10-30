@@ -10,7 +10,7 @@
 
 @section('content_header')
   <h1>
-     Informe Vendedor Hoja Ruta
+     Informe Movimientos Cliente
     <!--<small>Listado</small>-->
   </h1>
   <ol class="breadcrumb">
@@ -25,7 +25,7 @@
 
 <div class="box box-primary">
 	<div class="box-header with-border box-default">
-	   <strong> Ver Informe Vendedor Hoja Ruta </strong>
+	   <strong> Ver Informe Movimientos Cliente </strong>
 	</div>
 		
 	<div class="panel-body">
@@ -64,9 +64,14 @@
                     </div>
 
                     <div class="form-group">
-                        {{ form::label('usuario', 'Vendedor *') }}
-                        {{ form::select('usuario', $usuarios,  null, ['class' => 'form-control','placeholder' => 'Seleccionar'] ) }}
-                    </div>
+			      		{{ form::label('clientes', 'Buscador Clientes') }}
+						{{ form::select('clientes', $clientes, null, ['class' => 'form-control','placeholder' => 'Buscar...'] ) }}
+			      	</div>
+
+			      	<div class="form-group">
+						{{ form::label('cliente_id', 'Nro Socio *') }}
+						{{ form::number('cliente_id',null, ['class' => 'form-control', 'id' => 'cliente_id']) }}
+					</div>
 
 
                     <br>
@@ -96,23 +101,34 @@
 
 	<script type="text/javascript">
 
+        $('#clientes').select2();
+
+        $( "#clientes" ).change(function() {
+			//alert($('select[name="clientes"] option:selected').val());
+
+			if($('select[name="clientes"] option:selected').val() == '') {
+				$('#cliente_id').val('');
+			}else {
+				$('#cliente_id').val($('select[name="clientes"] option:selected').val());
+				$('#clientes').val('').select2();
+				//Simula que se presiona la tecla enter 
+				/*$('#cliente_id').trigger({
+				    type: 'keypress',
+				    which: 13
+				});*/
+				//$('#clientes').val('');
+			}
+		});
+        
+
+
 		$('#imprimir').on('click', function(e){
             
-            var usuario = $("#usuario option:selected").attr("value")
-            //alert(usuario);
-            if (usuario == '')
-            {
-                usuario = 'Todos';
-            }
-
-            if(usuario == 'Todos') {
-                toastr.error('Debe seleccionar un vendedor para generar el informe');
-      			return false;
-            }
+            var cliente_id = $("#cliente_id").val();
             var fechadesde = $("#fechadesde").val();
             var fechahasta = $("#fechahasta").val();
             e.preventDefault();
-            window.open("{{url('informevendedorgeneralprint')}}/"+ usuario + "/" + fechadesde + "/" + fechahasta);
+            window.open("{{url('informemovimientoclienteprint')}}/"+ cliente_id + "/" + fechadesde + "/" + fechahasta);
 
 
         });

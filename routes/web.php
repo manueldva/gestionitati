@@ -86,6 +86,8 @@ route::get('/informeventaoficinaprint/{usuario}/{fechadesde}/{fechahasta}',		'Ad
 
 route::get('/informesincomprarprint/{usuario}/{tipo}',		'Admin\InformeController@informesincomprarprint')->name('informesincomprarprint');
 
+route::get('/informemovimientoclienteprint/{cliente_id}/{fechadesde}/{fechahasta}',		'Admin\InformeController@informemovimientoclienteprint')->name('informemovimientoclienteprint');
+
 //seguridad
 route::resource('modulos', 		'Admin\ModuloController');
 route::resource('perfiles', 	'Admin\PerfilController');

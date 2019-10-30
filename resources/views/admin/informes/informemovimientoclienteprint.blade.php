@@ -1,9 +1,10 @@
 @extends('layouts.report')
 
 @section('cuerpo')
-<h3><center>Informe </h3>
-<h3><center>Clientes que no realizan una compra desde: @if($fechaanterior) {{ $fechaanterior}} @endif</center></h3>
-<h3><center>Cantidad de clientes en la lista: {{ count($resultado) }}</center></h3>
+<h3><center>Informe Movimientos Cliente </h3>
+<h3><center>Codigo: {{ $cliente->id }}</h3>
+<h3><center>Cliente: @if($cliente->tipocliente_id == 1) {{ $cliente->apellido }} {{ $cliente->nombre }} @else {{ $cliente->cliente }}  @endif </center></h3>
+
 <div class="row">
 	<div class="col-md-12">	
 
@@ -29,7 +30,7 @@
 			    <!-- /.box-header -->
 			    <div class="box-body">
 			    	
-					<label>Clientes:</label> 
+					<label>Datos procesados desde @if($fechadesde) {{ $fechadesde}} @endif Hasta  @if($fechahasta) {{ $fechahasta}} @endif</label> 
 					<div class="form-group">
 					
 						<div class="form-group">
@@ -38,44 +39,95 @@
 									<thead>
 										<tr>
 										<!--<th width="10px"> ID</th>-->
-											<th> <center>Vendedor</center></th>
-											<th> <center>Codigo Cliente</center></th>
-											<th> <center>Cliente</center></th>
-											<th> <center>Barrio</center></th>
-											<th> <center>Ultima Compra</center></th>
+											<th> <center>Fecha</center></th>
+											<th> <center>Articulo</center></th>
+											<th> <center>Precio</center></th>
+											<th> <center>Cantidad</center></th>
+											<th> <center>Subtotal</center></th>
+											<th> <center>Tipo Pago</center></th>
 										</tr>
 									</thead>
 									<tbody>
-										@foreach($resultado as $res)
+										@foreach($t_por_articulo as $res)
 											<tr>
 											<td>
 												 <center>
-											 		{{ $res->Vendedor }}
+											 		{{ $res->fecha }}
 											     </center>
 											 	</td>
 											 	<td>
 												 <center>
-											 		{{ $res->Codigo }}
+											 		{{ $res->articulo }}
 											     </center>
 											 	</td>
-											 	<td>
+												 <td>
 												 <center>
-											 		{{ $res->Cliente }}
+											 		${{ $res->precio }}
 											      </center>
 											 	</td>
 												 <td>
 												 <center>
-											 		{{ $res->Barrio }}
+											 		{{ $res->cantidad }}
 											      </center>
 											 	</td>
+
 											 	<td>
 												 <center>
-											 		{{ $res->Fecha }}
+											 		${{ $res->subtotal }}
+												 </center>
+											 	</td>
+												 <td>
+												 <center>
+											 		@if($res->tipopago == 1)
+													 	Eectivo
+													@elseif($res->tipopago == 2)
+														Cuenta Corriente
+													@else
+														Sin Cargo
+													@endif
 												 </center>
 											 	</td>
 											</tr>
 										@endforeach
-										
+										<tr>
+											<td>
+												<center>
+												<b>
+													Totales
+												</b>
+												</center>
+												
+											</td>
+											<td>
+												
+											</td>
+											<td>
+												
+											</td>
+											<td>
+												<center>
+
+												<b>
+													{{ $cantidadgeneral }}
+												</b>
+												</center>
+
+											</td>
+											<td>
+												<center>
+
+												<b>
+												$ {{ $totalgeneral }}
+												</b>
+												</center>
+
+											</td>
+											<td>
+												<b>
+												
+												</b>
+											</td>
+										</tr>
 									</tbody>
 								</table>
 							</div>

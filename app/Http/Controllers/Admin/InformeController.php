@@ -108,6 +108,19 @@ class InformeController extends Controller
                 $usuarios = [];
             }
             return view('admin.informes.show2',compact('usuarios'));
+        
+
+        } else if($id == 3) { // ventas en oficina
+            $tipoempleado = Tipoempleado::where('descripcion', '=', 'Vendedor')->first();
+            if($tipoempleado) {
+                $usuarios  = Empleado::orderBy('empleado', 'ASC')->where('tipoempleado_id', $tipoempleado->id)->pluck('empleado' , 'id');
+                    
+                if(!$usuarios) $usuarios = [];
+            } else {
+                $usuarios = [];
+            }
+            return view('admin.informes.show3',compact('usuarios'));
+           
         } else if($id == 4) { // informe automatico para clientes que no han comprado en mas de 1 mes
             /*
            
@@ -121,18 +134,18 @@ class InformeController extends Controller
                 $usuarios = [];
             }
             return view('admin.informes.show4',compact('usuarios'));
+        } else if($id == 5) { // informe automatico para clientes que no han comprado en mas de 1 mes
 
-        } else if($id == 3) { // ventas en oficina
-            $tipoempleado = Tipoempleado::where('descripcion', '=', 'Vendedor')->first();
-            if($tipoempleado) {
-                $usuarios  = Empleado::orderBy('empleado', 'ASC')->where('tipoempleado_id', $tipoempleado->id)->pluck('empleado' , 'id');
-                    
-                if(!$usuarios) $usuarios = [];
-            } else {
-                $usuarios = [];
-            }
-            return view('admin.informes.show3',compact('usuarios'));
-           
+            
+
+            $clientes  = Cliente::select(
+                DB::raw("CONCAT(apellido,' ',nombre) AS cliente"),'id')
+                ->where('estado', 1)
+                ->where('tipocliente_id', 1)
+                ->orderBy('cliente')
+                ->pluck('cliente', 'id');
+
+            return view('admin.informes.show5',compact('clientes'));
         }
     }
 
@@ -738,5 +751,45 @@ class InformeController extends Controller
        
 
     }
+
+    public function informemovimientoclienteprint($cliente_id, $fechadesde, $fechahasta)
+    {
+
+        $cliente = Cliente::find($cliente_id);
+
+        $query2="select  DATE_FORMAT(hrd.fechacarga, '%Y-%m-%d') as fecha, a.descripcion articulo, hrd.cantidadfinal cantidad, hrd.precio, ( hrd.cantidadfinal * hrd.precio) subtotal, 
+        hrd.tipopago from hojarutadetalles hrd
+        inner join articulos a on hrd.articulo_id = a.id
+        where hrd.cliente_id = " . $cliente_id . " and hrd.estado = 2 and hrd.fechacarga between '" . $fechadesde . "' and '" . $fechahasta . "'
+        order by  hrd.fechacarga Desc";
+
+       
+        $t_por_articulo = DB::select($query2);
+
+        //dd($t_por_articulo);
+
+        //totales generates
+        
+        $query3="select sum(hrd.cantidadfinal) cantidad,  sum((hrd.precio * hrd.cantidadfinal)) monto from hojarutadetalles hrd
+        inner join hojarutas hr on hrd.hojaruta_id =  hr.id
+        where hrd.cliente_id = " . $cliente_id . " and hrd.estado = 2 and hrd.fechacarga between '" . $fechadesde . "' and '" . $fechahasta . "'";
+
+        $t_general = DB::select($query3);
+
+        $totalgeneral = 0;
+        $cantidadgeneral = 0;
+        foreach ($t_general as $key => $value) {
+           $totalgeneral  = $value->monto;
+           $cantidadgeneral  = $value->cantidad;
+        }
+
+       
+        
+        $pdf = PDF::loadView('admin.informes.informemovimientoclienteprint', compact('cliente', 't_por_articulo', 'fechadesde', 'fechahasta','totalgeneral','cantidadgeneral'));
+            //$pdf->setPaper('Legal', 'landscape');
+
+        return $pdf->setPaper('Legal', 'landscape')->stream('informevendedorgeneral.pdf');
+    }
+
 
 }
