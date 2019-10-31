@@ -101,6 +101,15 @@
 
 	<script type="text/javascript">
 
+        $('#cliente_id').on('keyup keypress', function(e) {
+        var keyCode = e.keyCode || e.which;
+        if (keyCode === 13) { 
+            e.preventDefault();
+            $("#imprimir").click();
+            return false;
+        }
+        });
+
         $('#clientes').select2();
 
         $( "#clientes" ).change(function() {
