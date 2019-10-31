@@ -29,4 +29,10 @@ class Stockasignaciondetalle extends Model
     }
 
 
+    public function asignarstockagregados(){ //vendedor
+        return $this->HasMany(Asignarstockagregado::class);
+    }
+
+
+
 }

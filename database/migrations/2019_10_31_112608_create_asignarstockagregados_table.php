@@ -15,6 +15,14 @@ class CreateAsignarstockagregadosTable extends Migration
     {
         Schema::create('asignarstockagregados', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('stockasignaciondetalle_id')->unsigned()->nullable();
+            $table->foreign('stockasignaciondetalle_id')->references('id')->on('stockasignaciondetalles');
+            $table->integer('carga')->nullable()->default(0);
+            $table->integer('cantidad')->nullable()->default(0);
+            $table->string('usuario_alta',50)->nullable();
+            $table->dateTime('fecha_alta')->nullable();
+            $table->string('usuario_modi',50)->nullable();
+            $table->dateTime('fecha_modi')->nullable();
             $table->timestamps();
         });
     }

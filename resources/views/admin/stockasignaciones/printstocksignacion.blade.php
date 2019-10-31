@@ -4,7 +4,7 @@
 
 <h3><center> Cod. Asignación: {{ $stockasignacion->id }}  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Fecha:  {{ $stockasignacion->fecha }}</h3>
 <h3><center>Vendedor:  {{ $stockasignacion->empleado->empleado }}</h3>
-<h3><center> Cantidad total de articulos:  {{ $cantidad }} </h3>
+<h3><center> Cantidad total de articulos:  {{ $cantidad }} - Carga Nro {{ $carga }}</h3>
 
 <div class="portlet-body">
 	<table id="clientes" class="table table-striped table-bordered table-advance table-hover table-responsive tablesorter">
@@ -26,12 +26,13 @@
 						<i></i>  Cantidad
 					</center>	
 				</th>
+				<!--
 				<th>
 					<center>
 						<i></i> Devuelve
 					</center>	
 				</th>
-				
+				-->
 			</tr>
 		</thead>
 		<tbody>
@@ -44,7 +45,7 @@
 					</td>
 					<td>
 						<center>
-							{{ $stock->stockventa->stockarticulo->descripcion }}
+							{{ $stock->descripcion }}
 						</center>
 					</td>
 					<td>
@@ -52,19 +53,42 @@
 							{{ $stock->cantidad }}
 						</center>
 					</td>
+					<!--
 					<td>
 						<center>
 							@if($stockasignacion->estado == 2)
 								{{ $stock->devuelve }}
 							@endif
 						</center>
-					</td>
+					</td>-->
 				</tr>
 
 			@endforeach
 		</tbody>
 	</table>				
 </div>
+
+@isset($show)
+@if($show == 1)
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+
+	<footer>
+		<div class="row">
+			<center><p><font size=3>_________________________________</font></p></center>
+			<center><p><font size=3>Firma Entrega</font></p></center>
+		</div>
+
+		<div class="row">
+			<center><p><font size=3>_________________________________</font></p></center>
+			<center><p><font size=3>Firma Vendedor</font></p></center>
+		</div>
+	</footer>
+@endif
+@endif
 
 @endsection
 

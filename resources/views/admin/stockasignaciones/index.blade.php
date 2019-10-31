@@ -57,7 +57,7 @@
 	                  <th> Empleado</th>
 					  <th> Fecha</th>
 					  <th> Estado</th>
-	                  <th colspan="3">&nbsp;</th>
+	                  <th colspan="2">&nbsp;</th>
 	                </tr>
 	              </thead>
 	              <tbody>
@@ -73,11 +73,13 @@
 								Procesado
 							@endif
 						</td>
+						<!--
 						<td width="10px">
 	                    	<a  href="{{ asset('printstocksignacion/') . '/' . $stockasignacion->id }}" target="blank_" class='btn btn-sm btn-success' title="Imprimir Hoja de Ruta">
 		                   		<span class='glyphicon glyphicon-print'></span>
 		                   	</a>
 						</td>
+						-->
 	                    </td>
 	                    <td width="10px">
 	                      <a href="{{ route('stockasignaciones.show', $stockasignacion->id) }}" class="btn btn-sm btn-default">

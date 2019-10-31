@@ -26,6 +26,7 @@ use App\Models\Stockventa;
 use App\Models\Stockarticulodetalle;
 use App\Models\Stockasignacion;
 use App\Models\Stockasignaciondetalle;
+use App\Models\Asignarstockagregado;
 
 use DB;
 use Illuminate\Support\Facades\Input;
@@ -148,6 +149,17 @@ class AsignarStockController extends Controller
                     $stockventa->usuario_modi = Auth::user()->username;
                     $stockventa->fecha_modi = date('Y-m-d H:i:s');
                 $stockventa->save();
+                
+                $asignarstockagregado = new Asignarstockagregado();
+                    $asignarstockagregado->stockasignaciondetalle_id = $stockasignaciondetalle->id;
+                    $asignarstockagregado->carga = 1;
+                    $asignarstockagregado->cantidad = $cantidad;
+                    $asignarstockagregado->usuario_alta = Auth::user()->username;
+                    $asignarstockagregado->fecha_alta = date('Y-m-d H:i:s');
+
+                $asignarstockagregado->save();
+                
+                
 
                 /*if($descripciontemp == '')
                 {
@@ -182,6 +194,17 @@ class AsignarStockController extends Controller
 
         $stockasignaciondetalles = Stockasignaciondetalle::where('stockasignacion_id',$id)->get();
 
+        /** para cargas */
+        /* para  guardar historial */        
+        $query="select asa.carga from stockasignaciones sa
+        inner join stockasignaciondetalles sad on sa.id = sad.stockasignacion_id
+        inner join asignarstockagregados asa on asa.stockasignaciondetalle_id = sad.id
+        where sa.id =" . $id . " 
+        group by asa.carga";
+
+        $cargas = DB::select($query);
+
+
         //dd( $stockasignaciondetalles);
         $stockasignacion->fecha = FechaHelper::getFechaInputDate($stockasignacion->fecha); 
 
@@ -190,7 +213,7 @@ class AsignarStockController extends Controller
         
         //$barrios  = Barrio::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
-        return view('admin.stockasignaciones.show', compact('stockasignacion' , 'stockasignaciondetalles', 'show'));
+        return view('admin.stockasignaciones.show', compact('stockasignacion' , 'stockasignaciondetalles', 'show', 'cargas'));
     }
 
     /**
@@ -235,8 +258,20 @@ class AsignarStockController extends Controller
         $stockasignacion->fill(['estado'=> $request->input('estado'), 'usuario_modi' => Auth::user()->username , 'fecha_modi' => date('Y-m-d H:i:s')])->save();
         //
 
+        /* para  guardar historial */        
+        $query="select (max(asa.carga) + 1) maximo from stockasignaciones sa
+        inner join stockasignaciondetalles sad on sa.id = sad.stockasignacion_id
+        inner join asignarstockagregados asa on asa.stockasignaciondetalle_id = sad.id
+        where sa.id =" . $id . " 
+        limit 1";
 
-        //$descripciontemp = '';
+        $tempcarga = DB::select($query);
+        $carga = 0;
+        foreach ($tempcarga as $key => $value) {
+           $carga  = $value->maximo;
+        }
+        //dd($carga);
+        /*para  guardar historial*/
 
         $listado_stocks_text = $request->input("listado_stocks");
 
@@ -252,7 +287,9 @@ class AsignarStockController extends Controller
             {
                 list($codigo, $cantidad, $devuelve,$vacios,$contrato,$vacioscierre) = explode('|', $stock_text);
 
+                    $tempcantidad = 0;
                     $stockasignaciondetalle = Stockasignaciondetalle::find($codigo);
+                        $tempcantidad =  $stockasignaciondetalle->cantidad; //para guardar el historial
                         $stockasignaciondetalle->cantidad = $cantidad;
                         $stockasignaciondetalle->devuelve = $devuelve;
                         $stockasignaciondetalle->vacios = $vacios;
@@ -266,6 +303,25 @@ class AsignarStockController extends Controller
                     if($devuelve > 0 and $request->input('estado') == 2){
                         $stockventa = Stockventa::find($stockasignaciondetalle->stockventa_id);
                             $stockventa->stockactual = intval($stockventa->stockactual) + intval($devuelve);
+                            $stockventa->usuario_modi = Auth::user()->username;
+                            $stockventa->fecha_modi = date('Y-m-d H:i:s');
+                        $stockventa->save();
+                    }
+
+                    if($tempcantidad < $cantidad) {
+
+                        $asignarstockagregado = new Asignarstockagregado();
+                            $asignarstockagregado->stockasignaciondetalle_id = $stockasignaciondetalle->id;
+                            $asignarstockagregado->carga = $carga;
+                            $asignarstockagregado->cantidad = intval($cantidad) - intval($tempcantidad);
+                            $asignarstockagregado->usuario_alta = Auth::user()->username;
+                            $asignarstockagregado->fecha_alta = date('Y-m-d H:i:s');
+
+                        $asignarstockagregado->save();
+
+
+                        $stockventa = Stockventa::find($stockasignaciondetalle->stockventa_id);
+                            $stockventa->stockactual = intval($stockventa->stockactual) - intval($asignarstockagregado->cantidad);
                             $stockventa->usuario_modi = Auth::user()->username;
                             $stockventa->fecha_modi = date('Y-m-d H:i:s');
                         $stockventa->save();
@@ -306,20 +362,47 @@ class AsignarStockController extends Controller
 
 
 
-    public function printstocksignacion($id)
+    public function printstocksignacion($id, $carga)
     {
 
         $stockasignacion = Stockasignacion::find($id);
 
         $stockasignacion->fecha = FechaHelper::getFechaInputDate($stockasignacion->fecha); 
         
-        $stockasignaciondetalles = Stockasignaciondetalle::where('stockasignacion_id', $id)->get();
+        //$stockasignaciondetalles = Stockasignaciondetalle::where('stockasignacion_id', $id)->get();
 
         
-        $cantidad = Stockasignaciondetalle::where('stockasignacion_id', $id)->sum('cantidad');
+        //$cantidad = Stockasignaciondetalle::where('stockasignacion_id', $id)->sum('cantidad');
+
+        /* para  guardar historial */        
+        $query="select sum(asa.cantidad) suma from stockasignaciones sa
+        inner join stockasignaciondetalles sad on sa.id = sad.stockasignacion_id
+        inner join asignarstockagregados asa on asa.stockasignaciondetalle_id = sad.id
+        inner join stockventas sv on sad.stockventa_id = sv.id
+        inner join  stockarticulos sa1 on sv.stockarticulo_id = sa1.id
+        where sa.id  = " . $id . "  and asa.carga  = " . $carga . "";
+
+        $tempcantidad = DB::select($query);
+        $cantidad = 0;
+        foreach ($tempcantidad as $key => $value) {
+            $cantidad  = $value->suma;
+        }
+
+        $show = 1;
+
+        $query2="select sad.stockventa_id,sa1.descripcion, asa.cantidad from stockasignaciones sa
+        inner join stockasignaciondetalles sad on sa.id = sad.stockasignacion_id
+        inner join asignarstockagregados asa on asa.stockasignaciondetalle_id = sad.id
+        inner join stockventas sv on sad.stockventa_id = sv.id
+        inner join  stockarticulos sa1 on sv.stockarticulo_id = sa1.id
+        where sa.id  = " . $id . "  and asa.carga  = " . $carga . "";
+
+        $stockasignaciondetalles = DB::select($query2);
+
+
 
         //dd($cantidad);
-        $pdf = PDF::loadView('admin.stockasignaciones.printstocksignacion', compact('stockasignacion', 'stockasignaciondetalles', 'cantidad'));
+        $pdf = PDF::loadView('admin.stockasignaciones.printstocksignacion', compact('stockasignacion', 'stockasignaciondetalles', 'cantidad', 'carga', 'show'));
             //$pdf->setPaper('Legal', 'landscape');
 
             return $pdf->setPaper('Legal', 'landscape')->stream('detalle.pdf');

@@ -43,6 +43,41 @@
 			      		{{ form::label('estado', 'Estado') }}
 						{{ form::select('estado', ['1' => 'En Reparticion', '2' => 'Procesado'], null, ['class' => 'form-control'] ) }}
 			      	</div>
+					@if($show == 1)
+					<hr>
+					<br>	
+					<div class="form-group">
+					  <h3 class="box-title">Impresion Comprobantes:</h3>
+						<div class="form-group">
+							<div class="table-responsive">
+								<table   id="table_stocks" class="table table-striped table-hover" data-form="Form">
+									<thead>
+										<tr>
+										<!--<th width="10px"> ID</th>-->
+											<th> <center>Descripción</center></th>
+											<th> <center>Acccion</center></th>
+						
+										</tr>
+									</thead>
+									<tbody>
+										@isset($cargas)
+											@foreach ($cargas as $carga)
+							                  <tr>
+							                    <td><center>Carga Nro {{ $carga->carga }}</center></td>
+												<td><center>
+													<a  href="{{ asset('printstocksignacion/') . '/' . $stockasignacion->id . '/' . $carga->carga }}" target="blank_" class='btn btn-sm btn-success' title="Imprimir Hoja de Ruta">
+														<span class='glyphicon glyphicon-print'></span>
+													</a></center>
+												</td>
+							                  </tr>
+							                @endforeach
+										@endif
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					@endif
 			    </div>
 			    <!-- /.box-body -->
 			  <!--</div>-->
