@@ -10,7 +10,7 @@
     </h1>
     <ol class="breadcrumb">
       <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="{{ route('stockasignaciones.index')}}">Sucursales</a></li>
+      <li><a href="{{ route('stockasignaciones.index')}}">Asignar Stock</a></li>
       <li class="active">Procesar</li>
     </ol>
 
