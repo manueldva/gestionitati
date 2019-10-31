@@ -68,27 +68,19 @@
 	</table>				
 </div>
 
-@isset($show)
-@if($show == 1)
 	<br>
 	<br>
 	<br>
 	<br>
 	<br>
-
-	<footer>
+	<div class="container">
 		<div class="row">
-			<center><p><font size=3>_________________________________</font></p></center>
-			<center><p><font size=3>Firma Entrega</font></p></center>
+			<p style="text-align: left"><font size=3>_________________________________&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_________________________________</font></p>
+			<p  style="text-align: left"><font size=3>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Firma Entrega &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Firma Recibe</font></p>
 		</div>
+		
+	</div>
 
-		<div class="row">
-			<center><p><font size=3>_________________________________</font></p></center>
-			<center><p><font size=3>Firma Vendedor</font></p></center>
-		</div>
-	</footer>
-@endif
-@endif
 
 @endsection
 
