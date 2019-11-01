@@ -293,6 +293,12 @@
 			
 			if ($('#cliente_id').val() !== '') {
 
+				if($("#cliente_id").val() == '0') {
+					$("#cliente_id2").val('0');
+					$('#cliente').val('Consumidor Final');
+					return false;
+				}
+
 				var temp = 0;
 				$('#table_hojaruta tbody tr').each(function () {	 
 				   codigo = $(this).find("center").eq(2).html();
@@ -314,6 +320,7 @@
 						data: {cli: $('#cliente_id').val(), hoj: $('#id').val()}
 					}).done(function(data) {
 						//var $empleado = $('#empleado'); 
+
 						if(data == 0) {
 							$('#cliente').val('');
 							$("#direccion").val('');
