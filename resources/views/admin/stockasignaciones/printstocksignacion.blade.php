@@ -23,7 +23,7 @@
 				</th>
 				<th>
 					<center>
-						<i></i>  Cantidad
+						<i></i> Retiro
 					</center>	
 				</th>
 				<!--

@@ -158,7 +158,7 @@
 											<th> Dev. Carg.</th>
 											<th> Dev. Vac.</th>
 											<th> Contrato</th>
-											<th> Recuperado</th>
+											<th style="display:none;"> Recuperado</th>
 											<th style="display:none;"> stockventa</th>
 										</tr>
 									</thead>
@@ -180,14 +180,14 @@
 							                    	<td><div class="number-field" contenteditable="true"><font color="black">{{ $stockasignaciondetalle->vacios }}</font></div></td>
 							                    @endif
 							                    @if($show == 1)
-							                     	<td>{{ $stockasignaciondetalle->vacioscierrecontrato }}</td>
+							                     	<td>{{ $stockasignaciondetalle->contrato }}</td>
 							                     @else
 							                    	<td><div class="number-field" contenteditable="true"><font color="black">{{ $stockasignaciondetalle->contrato }}</font></div></td>
 							                    @endif
 												@if($show == 1)
 							                     	<td>{{ $stockasignaciondetalle->vacioscierrecontrato }}</td>
 							                     @else
-							                    	<td><div class="number-field" contenteditable="true"><font color="black">{{ $stockasignaciondetalle->vacioscierrecontrato }}</font></div></td>
+							                    	<td style="display:none;"><div class="number-field" contenteditable="true"><font color="black">{{ $stockasignaciondetalle->vacioscierrecontrato }}</font></div></td>
 							                    @endif
 												<td style="display:none;">{{ $stockasignaciondetalle->stockventa_id }}</td>
 							                  </tr>
