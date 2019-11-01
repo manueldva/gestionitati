@@ -185,7 +185,7 @@
 							                    	<td><div class="number-field" contenteditable="true"><font color="black">{{ $stockasignaciondetalle->contrato }}</font></div></td>
 							                    @endif
 												@if($show == 1)
-							                     	<td>{{ $stockasignaciondetalle->vacioscierrecontrato }}</td>
+							                     	<td style="display:none;">{{ $stockasignaciondetalle->vacioscierrecontrato }}</td>
 							                     @else
 							                    	<td style="display:none;"><div class="number-field" contenteditable="true"><font color="black">{{ $stockasignaciondetalle->vacioscierrecontrato }}</font></div></td>
 							                    @endif
