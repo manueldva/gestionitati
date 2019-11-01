@@ -317,12 +317,22 @@
 	   		}
 
 			cantidadstock = $('#cantidadstock').val();
+			stockactual = $('#stockactual').val();
 			
-			//alert(cantidadstock);
-			if(cantidadstock < 1){
-	   			toastr.error('La cantidad a sumar es incorrecta');
-	   			return false;
-	   		}
+			
+			if(parseInt($("#cantidadstock").val()) < 1) {
+
+
+				toastr.error('La cantidad ingresada no puede ser menor a 1');
+				return false;
+			}
+
+	   		if(parseInt($("#cantidadstock").val()) > parseInt($("#stockactual").val())) {
+
+
+				toastr.error('La cantidad ingresada no puede ser mayor al stock actual');
+				return false;
+			}
 			
 
 			$('#table_stocks tbody tr').each(function () {	 
