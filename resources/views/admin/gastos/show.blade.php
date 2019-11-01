@@ -55,6 +55,28 @@
 					@endif
 				</p>
 
+				<p> <strong>Tipo Pago:</strong> 
+				
+					@if($gasto->tipopago_id == 1)
+						Gasto
+					@elseif($gasto->tipopago_id == 2)
+						Compra
+					@endif
+				
+				</p>
+
+				<p> <strong>Medio Pago:</strong> 
+				
+					@if($gasto->tipopago_id == 1)
+						Efectivo
+					@elseif($gasto->tipopago_id == 2)
+						Cheque
+					@elseif($gasto->tipopago_id == 3)
+						Transferencia
+					@endif
+				
+				</p>
+
 				<p> <strong>Detalle:</strong> {{ $gasto->detalle }}</p>
 
 				<p> <strong>Monto:</strong> {{ $gasto->monto }}</p>
