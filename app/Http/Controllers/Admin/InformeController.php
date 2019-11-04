@@ -136,8 +136,6 @@ class InformeController extends Controller
             return view('admin.informes.show4',compact('usuarios'));
         } else if($id == 5) { // informe automatico para clientes que no han comprado en mas de 1 mes
 
-            
-
             $clientes  = Cliente::select(
                 DB::raw("CONCAT(apellido,' ',nombre) AS cliente"),'id')
                 ->where('estado', 1)
@@ -146,6 +144,17 @@ class InformeController extends Controller
                 ->pluck('cliente', 'id');
 
             return view('admin.informes.show5',compact('clientes'));
+        }else if($id == 6) { // informe Infome para stock venta
+
+            /*$clientes  = Cliente::select(
+                DB::raw("CONCAT(apellido,' ',nombre) AS cliente"),'id')
+                ->where('estado', 1)
+                ->where('tipocliente_id', 1)
+                ->orderBy('cliente')
+                ->pluck('cliente', 'id');
+
+            return view('admin.informes.show5',compact('clientes'));*/
+            echo "En Construccion";
         }
     }
 
