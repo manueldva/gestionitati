@@ -1,15 +1,15 @@
 @extends('adminlte::page')
 
-@section('title', 'Gestión - Sucursales')
+@section('title', 'Gestión - Proveedor Gastos')
 
 @section('content_header')
   <h1>
-    Gestionar Sucursales
+    Gestionar Proveedor Gastos
     <!--<small>Listado</small>-->
   </h1>
   <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li><a href="{{ route('sucursales.index')}}">Sucursales</a></li>
+    <li><a href="{{ route('proveedorgastos.index')}}">Proveedor Gastos</a></li>
     <li class="active">Listado</li>
   </ol>
 
@@ -24,9 +24,9 @@
 
 <div class="box box-primary">
 	<div class="box-header with-border box-default">
-	   <strong> Listado Sucursales </strong>
+	   <strong> Listado Proveedor Gastos </strong>
 	   <form class="navbar-form navbar-right" role="search">
-	       {{ Form::model(Request::only('type', 'val'), array('route' => 'sucursales.index', 'method' => 'GET'), array('role' => 'form', 'class' => 'navbar-form pull-right')) }}
+	       {{ Form::model(Request::only('type', 'val'), array('route' => 'proveedorgastos.index', 'method' => 'GET'), array('role' => 'form', 'class' => 'navbar-form pull-right')) }}
 			    <div class="form-group">
 			      {{ form::label('buscar', 'Tipo Busqueda:') }}
 			      {{ form::select('type', config('options.complementotypes'), null, ['class' => 'form-control', 'id' => 'type'] ) }}
@@ -36,7 +36,7 @@
 			      <button type="submit" class="form-control btn btn-sm btn-success"><span class="glyphicon glyphicon-search"></span> Buscar</button>
 						&nbsp;
 			      @if($permiso == 2)
-			      <a href="{{ route('sucursales.create')}}" class="form-control btn btn-sm btn-primary">
+			      <a href="{{ route('proveedorgastos.create')}}" class="form-control btn btn-sm btn-primary">
 			        <span class="glyphicon glyphicon-plus"></span> Crear
 			      </a>  
 			      @endif
@@ -60,31 +60,29 @@
 	                </tr>
 	              </thead>
 	              <tbody>
-	                @foreach ($sucursales as $sucursal)
+	                @foreach ($proveedorgastos as $proveedorgasto)
 	                  <tr>
-	                    <td>{{ $sucursal->id }}</td>
-	                    <td>{{ $sucursal->descripcion }}</td>
-						<td>{{ $sucursal->fecha_alta }}</td>
+	                    <td>{{ $proveedorgasto->id }}</td>
+	                    <td>{{ $proveedorgasto->descripcion }}</td>
+						<td>{{ $proveedorgasto->fecha_alta }}</td>
 	                    <td width="10px">
-	                      <a href="{{ route('sucursales.show', $sucursal->id) }}" class="btn btn-sm btn-default">
+	                      <a href="{{ route('proveedorgastos.show', $proveedorgasto->id) }}" class="btn btn-sm btn-default">
 	                        Ver
 	                      </a>
 	                    </td>
 	                    @if($permiso == 2) 
 		                   
 			                    <td width="10px">
-			                      <a href="{{ route('sucursales.edit', $sucursal->id) }}" class="btn btn-sm btn-default">
+			                      <a href="{{ route('proveedorgastos.edit', $proveedorgasto->id) }}" class="btn btn-sm btn-default">
 			                        Editar
 			                      </a>
 			                    </td>
 			               
 			                    <td width="10px">
-			                    @if($sucursal->id !== 1)
-									{!! Form::model($sucursal, ['method' => 'delete', 'route' => ['sucursales.destroy', $sucursal->id], 'class' =>'form-inline form-delete']) !!}
-									{!! Form::hidden('id', $sucursal->id) !!}
+									{!! Form::model($proveedorgasto, ['method' => 'delete', 'route' => ['proveedorgastos.destroy', $proveedorgasto->id], 'class' =>'form-inline form-delete']) !!}
+									{!! Form::hidden('id', $proveedorgasto->id) !!}
 									{!! Form::submit('Eliminar', ['class' => 'btn btn-sm btn-danger delete', 'name' => 'delete_modal']) !!}
 									{!! Form::close() !!}
-								@endif
 			                    </td>
 			                
 	                    @endif
@@ -93,8 +91,8 @@
 	              </tbody>
 	            </table>
 	          </div>  
-						<div> <?php echo  'Mostrando ' . $sucursales->firstItem() . ' a ' . $sucursales->lastItem() . ' de ' . $sucursales->total() . ' registros'; ?>	</div>
-	          {{ $sucursales->appends(Request::only(['type', 'val']))->render() }}
+						<div> <?php echo  'Mostrando ' . $proveedorgastos->firstItem() . ' a ' . $proveedorgastos->lastItem() . ' de ' . $proveedorgastos->total() . ' registros'; ?>	</div>
+	          {{ $proveedorgastos->appends(Request::only(['type', 'val']))->render() }}
 	        </div>
 	    </div>
     </div>

@@ -1,15 +1,15 @@
 @extends('adminlte::page')
 
-@section('title', 'Gestión - Sucursales')
+@section('title', 'Gestión - Proveedor Gastos')
 
 @section('content_header')
     <h1>
-      Gestionar Sucursales
+      Gestionar Proveedor Gastos
       <!--<small>Listado</small>-->
     </h1>
     <ol class="breadcrumb">
       <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="{{ route('sucursales.index')}}">Sucursales</a></li>
+      <li><a href="{{ route('proveedorgastos.index')}}">Proveedor Gastos</a></li>
       <li class="active">Nuevo</li>
     </ol>
 
@@ -20,15 +20,15 @@
 
 <div id="create" class="box box-primary">
   <div class="box-header with-border box-default">
-    <strong>Nuevo Sucursal</strong>
+    <strong>Nuevo Proveedor Gasto</strong>
   </div>
     
   <div class="panel-body">
     <div class="row">
 
-			{!! Form::open(['route' => 'sucursales.store']) !!}
+			{!! Form::open(['route' => 'proveedorgastos.store']) !!}
 
-				@include('admin.complementos.sucursales.partials.form')
+				@include('admin.complementos.proveedorgastos.partials.form')
 
 			{!! Form::close() !!}
 		</div>

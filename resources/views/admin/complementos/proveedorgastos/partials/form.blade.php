@@ -7,7 +7,7 @@
 		      		Guardar
 		      </button>
 
-		      <a href="{{ route('sucursales.index') }}" type="button" class="btn btn btn-default">
+		      <a href="{{ route('proveedorgastos.index') }}" type="button" class="btn btn btn-default">
 		      	<span class="fa fa-list">
 		      	</span>
 		      		Listado

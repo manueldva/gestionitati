@@ -257,6 +257,10 @@ return [
                                 [
                                     'text' => 'Rubro Gasto',
                                     'url'  => 'rubrogastos',
+                                ],
+                                [
+                                    'text' => 'Proveedor Gasto',
+                                    'url'  => 'proveedorgastos',
                                 ]
                             ],
                         ],

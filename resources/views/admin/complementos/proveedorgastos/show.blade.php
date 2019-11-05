@@ -1,15 +1,15 @@
 @extends('adminlte::page')
 
-@section('title', 'Gestión - Sucursales')
+@section('title', 'Gestión - Proveedor Gastos')
 
 @section('content_header')
   <h1>
-    Gestionar Sucursales
+    Gestionar Proveedor Gastos
     <!--<small>Listado</small>-->
   </h1>
   <ol class="breadcrumb">
     <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li><a href="{{ route('sucursales.index')}}">Sucursales</a></li>
+    <li><a href="{{ route('proveedorgastos.index')}}">Proveedor Gastos</a></li>
     <li class="active">Ver</li>
   </ol>
 
@@ -19,7 +19,7 @@
 
 <div class="box box-primary">
 	<div class="box-header with-border box-default">
-	   <strong> Ver Sucursal </strong>
+	   <strong> Ver Proveedor Gasto </strong>
 	</div>
 		
 	<div class="panel-body">
@@ -27,7 +27,7 @@
 			<div class="col-md-12">
 				<div class="row col-md-12">
 					<div class="form-group pull-right">
-								<a href="{{ route('sucursales.index') }}" type="button" class="btn btn btn-default">
+								<a href="{{ route('proveedorgastos.index') }}" type="button" class="btn btn btn-default">
 									<span class="fa fa-list">
 									</span>
 										Listado
@@ -37,11 +37,11 @@
 			</div>
 			<div class="col-md-6">
 
-				<p> <strong>Codigo:</strong> {{ $sucursal->id }}</p>
+				<p> <strong>Codigo:</strong> {{ $proveedorgasto->id }}</p>
 
-				<p> <strong>Descripción:</strong> {{ $sucursal->descripcion }}</p>
+				<p> <strong>Descripción:</strong> {{ $proveedorgasto->descripcion }}</p>
 
-				<p> <strong>Fecha Alta:</strong> {{ $sucursal->fecha_alta }}</p>
+				<p> <strong>Fecha Alta:</strong> {{ $proveedorgasto->fecha_alta }}</p>
 			</div>
 		</div>
 	</div>

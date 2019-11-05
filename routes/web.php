@@ -116,6 +116,7 @@ route::resource('companiatelefonicas', 		'Admin\Complementos\CompaniatelefonicaC
 route::resource('sucursales', 		'Admin\Complementos\SucursalController');
 route::resource('tipocomprobantes', 		'Admin\Complementos\TipocomprobanteController');
 route::resource('rubrogastos', 		'Admin\Complementos\RubrogastoController');
+route::resource('proveedorgastos', 		'Admin\Complementos\ProveedorgastoController');
 
 
 // servicios
