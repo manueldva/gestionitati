@@ -110,7 +110,7 @@ class InformeController extends Controller
             return view('admin.informes.show2',compact('usuarios'));
         
 
-        } else if($id == 3) { // ventas en oficina
+        } else if($id == 3) { // movimientos stock
             $tipoempleado = Tipoempleado::where('descripcion', '=', 'Vendedor')->first();
             if($tipoempleado) {
                 $usuarios  = Empleado::orderBy('empleado', 'ASC')->where('tipoempleado_id', $tipoempleado->id)->pluck('empleado' , 'id');
@@ -144,17 +144,6 @@ class InformeController extends Controller
                 ->pluck('cliente', 'id');
 
             return view('admin.informes.show5',compact('clientes'));
-        }else if($id == 6) { // informe Infome para stock venta
-
-            /*$clientes  = Cliente::select(
-                DB::raw("CONCAT(apellido,' ',nombre) AS cliente"),'id')
-                ->where('estado', 1)
-                ->where('tipocliente_id', 1)
-                ->orderBy('cliente')
-                ->pluck('cliente', 'id');
-
-            return view('admin.informes.show5',compact('clientes'));*/
-            echo "En Construccion";
         }
     }
 
@@ -644,7 +633,7 @@ class InformeController extends Controller
         
         $empleado = Empleado::find($usuario);
 
-        $query2="select DATE_FORMAT(sa.fecha, '%Y-%m-%d') as fecha, sa2.descripcion, sad.cantidad, sad.devuelve, sad.vacios, sad.vacioscierrecontrato from stockasignaciondetalles sad
+        $query2="select DATE_FORMAT(sa.fecha, '%Y-%m-%d') as fecha, sa2.descripcion, sad.cantidad, sad.devuelve, sad.vacios, sad.contrato from stockasignaciondetalles sad
         inner join stockasignaciones sa on sad.stockasignacion_id = sa.id
         inner join stockventas sv on sad.stockventa_id =  sv.id
         inner join stockarticulos sa2 on sv.stockarticulo_id =  sa2.id 

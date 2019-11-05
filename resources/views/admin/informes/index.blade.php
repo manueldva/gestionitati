@@ -90,12 +90,7 @@
                     <a href="{{ route('informes.show', 5) }}" style="color:#235B88;">
                         Informe Movimientos del Cliente
                     </a>
-                </div> 
-                 <div class="form-group" style="font-size:16pt">
-                    <a href="{{ route('informes.show', 6) }}" style="color:#235B88;">
-                        Informe Movimientos Stock Venta
-                    </a>
-                </div> 
+                </div>  
 
                 <!--
 

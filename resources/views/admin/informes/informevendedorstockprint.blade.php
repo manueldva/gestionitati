@@ -41,11 +41,14 @@
 										<tr>
 										<!--<th width="10px"> ID</th>-->
 											<th> Fecha</th>
-											<th> Articulo</th>
-											<th> Cantidad</th>
-											<th> Devuelve</th>
-											<th> Vacios</th>
-											<th> Vacios C.</th>
+											<th> Stock</th>
+											<th> Retiro</th>
+											<th> Dev. Carg.</th>
+											<th> Dev. Vac.</th>
+											<th> Contrato</th>
+											<th> Recuperado</th>
+											<th> Faltante</th>
+											<th> Volvio</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -68,42 +71,24 @@
 											 		{{ $total->vacios }}
 											 	</td>
 												 <td>
-											 		{{ $total->vacioscierrecontrato }}
+											 		{{ $total->contrato }}
 											 	</td>
-
+												<td>
+												@if($total->cantidad < ($total->devuelve + $total->vacios + $total->contrato))
+											 		{{ ($total->devuelve + $total->vacios + $total->contrato) - $total->cantidad }}
+												@endif
+											 	</td>
+												<td>
+												@if($total->cantidad > ($total->devuelve + $total->vacios + $total->contrato))
+											 		{{ $total->cantidad - ($total->devuelve + $total->vacios + $total->contrato) }}
+												@endif
+											 	</td>
+												 <td>
+											 		{{ ($total->devuelve + $total->vacios + $total->contrato) }}
+											 	</td>
 											</tr>
 										@endforeach
-										<tr>
-											<td>
-												<b>
-													Totales
-												</b>
-												
-											</td>
-											<td>
-												
-											</td>
-											<td>
-												<b>
-													
-												</b>
-											</td>
-											<td>
-												<b>
-													
-												</b>
-											</td>
-											<td>
-												<b>
-													
-												</b>
-											</td>
-											<td>
-												<b>
-													
-												</b>
-											</td>
-										</tr>
+										
 									</tbody>
 								</table>
 							</div>
