@@ -41,6 +41,10 @@
           {{ form::label('mediopago_id', 'Medio de Pago ') }}
           {{ form::select('mediopago_id', $mediopagos,  null, ['class' => 'form-control', 'id' => 'mediopago_id'] ) }}
         </div>
+        <div class="form-group">
+          {{ form::label('proveedorgasto_id', 'Proveedor ') }}
+          {{ form::select('proveedorgasto_id', $proveedorgastos,  null, ['class' => 'form-control', 'id' => 'proveedorgasto_id','placeholder' => 'Seleccionar...'] ) }}
+        </div>
 
         <div class="form-group">
           {{ form::label('detalle', 'Detalle') }}

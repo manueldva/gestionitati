@@ -11,6 +11,7 @@ use Alert;
 
 use App\Models\Tipocomprobante;
 use App\Models\Rubrogasto;
+use App\Models\Proveedorgasto;
 use App\Models\Gasto;
 use App\Models\Modulo;
 use App\Models\Perfil;
@@ -64,11 +65,12 @@ class GastosController extends Controller
     {
         $tipocomprobantes  = Tipocomprobante::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
         $rubrogastos  = Rubrogasto::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+        $proveedorgastos  = Proveedorgasto::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
         $mediopagos  = ['1'=>'Efectivo', '2'=>'Cheque', '3'=>'Transferencia'];
         $tipopagos  = ['1'=>'Gasto', '2'=>'Compra'];
 
-        return view('admin.gastos.create', compact('tipocomprobantes','rubrogastos', 'mediopagos', 'tipopagos'));
+        return view('admin.gastos.create', compact('tipocomprobantes','rubrogastos', 'mediopagos', 'tipopagos', 'proveedorgastos'));
     }
 
     /**
@@ -120,10 +122,12 @@ class GastosController extends Controller
 
         $rubrogastos  = Rubrogasto::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
 
+        $proveedorgastos  = Proveedorgasto::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
         $mediopagos  = ['1'=>'Efectivo', '2'=>'Cheque', '3'=>'Transferencia'];
         $tipopagos  = ['1'=>'Gasto', '2'=>'Compra'];
 
-        return view('admin.gastos.edit', compact('gasto', 'tipocomprobantes', 'rubrogastos', 'mediopagos', 'tipopagos'));
+        return view('admin.gastos.edit', compact('gasto', 'tipocomprobantes', 'rubrogastos', 'mediopagos', 'tipopagos', 'proveedorgastos'));
     }
 
     /**

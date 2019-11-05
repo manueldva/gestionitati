@@ -4,7 +4,7 @@ namespace App\Http\Requests\Complementos;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SucursalStoreRequest extends FormRequest
+class ProveedorgastoStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,7 @@ class SucursalStoreRequest extends FormRequest
     {
 
         return [
-            'descripcion' => 'required|max:300|unique:sucursales,descripcion'
+            'descripcion' => 'required|max:300|unique:proveedorgastos,descripcion'
         ];
     }
 }

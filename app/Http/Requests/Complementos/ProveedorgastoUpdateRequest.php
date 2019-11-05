@@ -4,7 +4,7 @@ namespace App\Http\Requests\Complementos;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SucursalUpdateRequest extends FormRequest
+class ProveedorgastoUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,7 @@ class SucursalUpdateRequest extends FormRequest
     {
 
         return [
-            'descripcion' => 'required|max:300|unique:sucursales,descripcion,' . $this->sucursale,
+            'descripcion' => 'required|max:300|unique:proveedorgastos,descripcion,' . $this->proveedorgasto,
         ];
     }
 }

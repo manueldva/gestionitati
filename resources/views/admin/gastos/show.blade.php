@@ -1,15 +1,15 @@
 @extends('adminlte::page')
 
-@section('title', 'Gestión - Barrios')
+@section('title', 'Gestión - Gastos')
 
 @section('content_header')
   <h1>
-    Gestionar Barrios
+    Gestionar Gastos
     <!--<small>Listado</small>-->
   </h1>
   <ol class="breadcrumb">
     <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li><a href="{{ route('gastos.index')}}">Barrios</a></li>
+    <li><a href="{{ route('gastos.index')}}">Gastos</a></li>
     <li class="active">Ver</li>
   </ol>
 
@@ -19,7 +19,7 @@
 
 <div class="box box-primary">
 	<div class="box-header with-border box-default">
-	   <strong> Ver Barrio </strong>
+	   <strong> Ver Gasto </strong>
 	</div>
 		
 	<div class="panel-body">
@@ -76,6 +76,13 @@
 					@endif
 				
 				</p>
+
+				<p> <strong>Proveedor:</strong> 
+					@if($gasto->proveedorgasto_id)
+						{{ $gasto->proveedorgasto->descripcion  }}
+					@endif
+				</p>
+
 
 				<p> <strong>Detalle:</strong> {{ $gasto->detalle }}</p>
 
