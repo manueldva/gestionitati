@@ -3,7 +3,7 @@
 @section('cuerpo')
 
 <h3><center>Vendedor: {{ $empleado->empleado}}</h3>
-<h3><center>Datos procesados desde @if($fechadesde) {{ $fechadesde}} @endif Hasta  @if($fechahasta) {{ $fechahasta}} @endif</center></h3>
+<h3><center>Fecha de los Datos procesados @if($fecha) {{ $fecha}} @endif</center></h3>
 
 <div class="row">
 	<div class="col-md-12">	
@@ -26,7 +26,7 @@
 			    <div class="box-header with-border">
 			      
 
-			      <!--<h3 class="box-title">Datos procesados desde @if($fechadesde) {{ $fechadesde}} @endif Hasta  @if($fechahasta) {{ $fechahasta}} @endif</h3>-->
+			     
 			    </div>
 			    <!-- /.box-header -->
 			    <div class="box-body">
@@ -40,7 +40,7 @@
 									<thead>
 										<tr>
 										<!--<th width="10px"> ID</th>-->
-											<th> Fecha</th>
+											
 											<th> Stock</th>
 											<th> Retiro</th>
 											<th> Dev. Carg.</th>
@@ -54,9 +54,7 @@
 									<tbody>
 										@foreach($t_por_articulo as $total)
 											<tr>
-												<td>
-											 		{{ $total->fecha }}
-											 	</td>
+											
 											 	<td>
 											 		{{ $total->descripcion }}
 											 	</td>

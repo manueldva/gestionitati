@@ -48,16 +48,10 @@
                             <table class="table table-striped table-hover tablesorter">
                                 <thead>
                                 <td>
-                                    {{ form::label('fechadesde', 'Fecha Desde*') }}
-                                    {{ form::date('fechadesde', \Carbon\Carbon::now(), ['class' => 'form-control', 'id' => 'fechadesde']) }}
+                                    {{ form::label('fecha', 'Fecha*') }}
+                                    {{ form::date('fecha', \Carbon\Carbon::now(), ['class' => 'form-control', 'id' => 'fecha']) }}
                                 </td>
-                                <td>
-                                    &nbsp;&nbsp;
-                                </td>
-                                <td>
-                                    {{ form::label('fechahasta', 'Fecha Hasta*') }}
-                                    {{ form::date('fechahasta', \Carbon\Carbon::now(), ['class' => 'form-control', 'id' => 'fechahasta']) }}
-                                </td>
+                                
                                 </thead>
                             </table>
                         </div>    
@@ -109,10 +103,10 @@
                 toastr.error('Debe seleccionar un vendedor para generar el informe');
       			return false;
             }
-            var fechadesde = $("#fechadesde").val();
-            var fechahasta = $("#fechahasta").val();
+            var fechadesde = $("#fecha").val();
+            //var fechahasta = $("#fechahasta").val();
             e.preventDefault();
-            window.open("{{url('informevendedorstockprint')}}/"+ usuario + "/" + fechadesde + "/" + fechahasta);
+            window.open("{{url('informevendedorstockprint')}}/"+ usuario + "/" + fechadesde);
 
 
         });
