@@ -40,6 +40,9 @@
 			        <span class="glyphicon glyphicon-plus"></span> Crear
 			      </a>  
 			      @endif
+				  <a target="_blank" href="{{ asset('printstockventaactual/') }}" class="form-control btn btn-sm btn-warning" data-toggle="tooltip" title="Ver Stock Actual">
+			        <span class="glyphicon glyphicon-print"></span>
+			      </a> 
 			    </div>
 		    {{ Form::close() }}
       </form>

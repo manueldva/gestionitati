@@ -407,4 +407,24 @@ class AsignarStockController extends Controller
 
             return $pdf->setPaper('Legal', 'landscape')->stream('detalle.pdf');
     }
+
+
+    public function printstockventaactual()
+    {
+        
+        $query2="select sa.descripcion stockventa, sv.stockactual,  DATE_FORMAT(sv.fecha_modi, '%Y-%m-%d') ultimamodifiacion, sv.usuario_modi from stockventas sv
+        inner join  stockarticulos sa on sv.stockarticulo_id = sa.id;
+        
+        ";
+
+        $stockventaactual = DB::select($query2);
+
+
+
+        //dd($cantidad);
+        $pdf = PDF::loadView('admin.stockasignaciones.printstockventaactualprint', compact('stockventaactual'));
+            //$pdf->setPaper('Legal', 'landscape');
+
+        return $pdf->setPaper('Legal', 'landscape')->stream('detalle.pdf');
+    }
 }

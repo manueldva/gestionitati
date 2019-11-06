@@ -63,6 +63,7 @@ route::put('/updateajusteventa/{id}',		'Admin\StockajusteController@updateajuste
 
 route::resource('stockasignaciones', 		'Admin\AsignarStockController');
 Route::get('/printstocksignacion/{id}/{carga}', 'Admin\AsignarStockController@printstocksignacion');
+Route::get('/printstockventaactual', 'Admin\AsignarStockController@printstockventaactual'); //nuevo
 route::resource('hojarutas', 		'Admin\HojarutaController');
 route::get('/cobranza/{id}',		'Admin\HojarutaController@cobranza')->name('cobranza');
 route::put('/updatecobranza/{id}',		'Admin\HojarutaController@updatecobranza')->name('updatecobranza');
