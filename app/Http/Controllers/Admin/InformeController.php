@@ -647,9 +647,43 @@ class InformeController extends Controller
        
         $t_por_articulo = DB::select($query2);
 
-        //dd($t_por_articulo );
 
-        $pdf = PDF::loadView('admin.informes.informevendedorstockprint', compact('empleado', 't_por_articulo', 'fecha'));
+        
+        //discriminado por pago
+        $query5="select 'Efectivo' as tipo,  ifnull(sum(hrd.cantidadfinal), 0)  cantidad, ifnull(sum((hrd.precio * hrd.cantidadfinal)), 0) monto from hojarutadetalles hrd
+            inner join hojarutas hr on hrd.hojaruta_id =  hr.id
+            where hr.empleado_id = " . $usuario . " and hrd.estado = 2 and hrd.tipopago = 1 and hrd.fechacarga = '" . $fecha . "'
+            union all
+            select 'Cuenta Corriente' as tipo, ifnull(sum(hrd.cantidadfinal), 0)  cantidad, ifnull(sum((hrd.precio * hrd.cantidadfinal)), 0) monto from hojarutadetalles hrd
+            inner join hojarutas hr on hrd.hojaruta_id =  hr.id
+            where hr.empleado_id = " . $usuario . " and hrd.estado = 2 and hrd.tipopago = 2 and hrd.fechacarga = '" . $fecha . "'
+            union all
+            select 'Sin Cargo' as tipo,  ifnull(sum(hrd.cantidadfinal), 0)  cantidad, ifnull(sum((hrd.precio * hrd.cantidadfinal)), 0) monto from hojarutadetalles hrd
+            inner join hojarutas hr on hrd.hojaruta_id =  hr.id
+            where hr.empleado_id = " . $usuario . " and hrd.estado = 2 and hrd.tipopago = 3 and hrd.fechacarga = '" . $fecha . "'";
+        //dd($query5);
+
+        $t_tipopago = DB::select($query5);
+
+        //dd($t_tipopago);
+        /*$totalgeneralefectivo = 0;
+        $totalgeneralcc = 0;
+        $totalgeneralsc = 0;
+        foreach ($t_tipopago as $key => $value) {
+            if($value->tipo == 'Efectivo') {
+                $totalgeneralefectivo = $value->cantidad;
+            }
+            if($value->tipo == 'Cuenta Corriente') {
+                $totalgeneralcc = $value->cantidad;
+            }
+            if($value->tipo == 'Sin Cargo') {
+                $totalgeneralsc = $value->cantidad;
+            }
+
+        }*/
+        
+
+        $pdf = PDF::loadView('admin.informes.informevendedorstockprint', compact('empleado', 't_por_articulo', 'fecha','t_tipopago'));
         //$pdf->setPaper('Legal', 'landscape');
 
         return $pdf->setPaper('Legal', 'landscape')->stream('informevendedorstock.pdf');

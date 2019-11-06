@@ -95,8 +95,9 @@
 				</div>
 				<br>
 				<br>
+				<hr>
 				<div class="col-md-6 pull-right">
-				<!--
+					<h3>Datos Extraidos de la Hoja de Ruta</h3>
 					<label>Discriminado por tipo de pago:</label>
 					<div class="form-group">
 					
@@ -105,15 +106,31 @@
 								<table id="table_pagos" class="table table-striped table-hover" data-form="Form">
 									<thead>
 										<tr>
-
+										<!--<th width="10px"> ID</th>-->
 											<th> Tipo Pago</th>
+											<th> Cantidad</th>
 											<th> Monto</th>
 										</tr>
 									</thead>
 									<tbody>
-										
-										
-										
+										@foreach($t_tipopago as $total)
+											<tr>
+											 	<td>
+											 		
+											 		{{ $total->tipo }}
+											 	</td>
+												 <td>
+											 		<b>
+											 		 {{ $total->cantidad }}
+											 		</b>
+											 	</td>
+											 	<td>
+											 		<b>
+											 		$ {{ $total->monto }}
+											 		</b>
+											 	</td>
+											</tr>
+										@endforeach
 									</tbody>
 								</table>
 							</div>
@@ -121,19 +138,8 @@
 					</div>
 					<br>
 					<hr>
-					<h3>
-						<div class="form-group">
-							
-							<label>Cobranzas extras: <b>  </b> </label>
-						</div>
-					</h3>
-					<h3>
-						<div class="form-group">
-							<label>Efectivo total a recibir:  <b> </b> </label>
-
-						</div>
-					</h3>
-				</div>-->
+					
+				</div>
 			<!-- aca agregar el div col-6 -->
 			
 			</div>
