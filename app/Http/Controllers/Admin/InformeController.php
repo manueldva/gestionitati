@@ -643,7 +643,8 @@ class InformeController extends Controller
         inner join stockasignaciones sa on sad.stockasignacion_id = sa.id
         inner join stockventas sv on sad.stockventa_id =  sv.id
         inner join stockarticulos sa2 on sv.stockarticulo_id =  sa2.id 
-        where  sa.empleado_id = 1  and sa.fecha =  '" . $fecha ."'";
+        where  sa.empleado_id = " . $usuario . "  and sa.fecha =  '" . $fecha ."'";
+        //dd($query2);
        
         $t_por_articulo = DB::select($query2);
 
