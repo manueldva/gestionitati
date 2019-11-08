@@ -24,9 +24,12 @@
         
           <div class="form-group">
 
-            <a target="_blank" href="#" id="imprimir"> 
-                <button  type="button" class="form-control btn btn btn-default"><span class="glyphicon glyphicon-list"></span> Listado</button>
-            </a>
+            <a href="{{ route('stocks.index') }}" type="button" class="btn btn btn-default">
+                <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
+                    <span class="fa fa-list">
+                    </span>
+                      Listado
+              </a>
               &nbsp;&nbsp;&nbsp;
             <a href=" {{ route('stockajustes.edit', $stock->id) }}" type="button" class="btn btn btn-default">
           <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->

@@ -92,17 +92,19 @@
 		$( "#guardar" ).click(function() {
 
 
-
+			$( "#guardar" ).hide();
 
       		if(parseInt($('#cantidad').val()) < 1 || $('#cantidad').val() == "")
       		{
 				toastr.error('La cantidad ingresada debe ser mayor a 0.');
+				$( "#guardar" ).show();
       			return false;
       		}
 
       		if(parseInt($('#cantidad').val()) > parseInt($('#stockactual').val()))
       		{
 				toastr.error('La cantidad ingresada no puede ser mayor al stock de Producción.');
+				$( "#guardar" ).show();
       			return false;
       		}
 
