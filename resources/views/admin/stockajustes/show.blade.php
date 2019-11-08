@@ -50,16 +50,22 @@
                     <th><center>Fecha/Hora Ajuste</center></th>
                     <th><center>Usuario</center></th>
                     <th><center>Tipo Ajuste</center></th>
+                    <th><center>Motico Ajuste</center></th>
                     <th><center>Cantidad</center></th>
                   </tr>
                 </thead>
                 <tbody>
                   @foreach ($stockajustes as $dt)
                    
-                      <tr>
+                        @if($dt->tipoajuste_id == 1)
+                          <tr  style="color:green">
+                        @else
+                          <tr  style="color:red">	
+                        @endif
                         <td><center>{{ $dt->fecha_alta }}</center></td>
                         <td><center>{{ $dt->usuario_alta }}</center></td>
                         <td><center>{{ $dt->tipoajuste->descripcion }}</center></td>
+                        <td><center>@if($dt->motivoajuste_id) {{ $dt->motivoajuste->descripcion }} @endif</center></td>
                         <td><center>{{ $dt->cantidad }}</center></td>
                       </tr>
                     @endforeach

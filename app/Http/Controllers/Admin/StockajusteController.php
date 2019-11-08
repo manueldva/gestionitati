@@ -192,6 +192,16 @@ class StockajusteController extends Controller
             $stock->fecha_modi = date('Y-m-d H:i:s');
         $stock->save();
 
+        $stockajuste = new Stockajuste();
+                $stockajuste->cantidad =  (int)$request->get('cantidad') ;
+                $stockajuste->stockarticulo_id = $id ;
+                $stockajuste->tipoajuste_id = 2 ; //negativo
+                $stockajuste->motivoajuste_id = 4 ; //a ventas
+                $stockajuste->usuario_alta = Auth::user()->username;
+                $stockajuste->fecha_alta = date('Y-m-d H:i:s');
+        $stockajuste->save();
+
+
         Alert::success('Ajuste realizado con exito')->persistent("Cerrar");
         return redirect()->route('showajusteventa', $id);
 
