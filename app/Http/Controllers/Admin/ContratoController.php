@@ -72,7 +72,7 @@ class ContratoController extends Controller
         $direcciones =  array();
 
         $temp = '';
-        
+
         foreach ($clientedirecciones as $key => $value) {
              
             if($value->barrio_id) {
@@ -125,6 +125,7 @@ class ContratoController extends Controller
         $contratos  = Contrato::where('cliente_id', $id)->orderBy('fechacontrato' , 'DESC')->get();
 
         $temp = '';
+        $temp2 = '';
         foreach ($contratos as $key => $value) {
 
 
@@ -380,6 +381,7 @@ class ContratoController extends Controller
         $contratos  = Contrato::where('cliente_id', $id)->orderBy('fechacontrato' , 'DESC')->get();
 
         $temp = '';
+        $temp2 = '';
         foreach ($contratos as $key => $value) {
 
 
