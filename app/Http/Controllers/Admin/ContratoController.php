@@ -71,6 +71,8 @@ class ContratoController extends Controller
 
         $direcciones =  array();
 
+        $temp = '';
+        
         foreach ($clientedirecciones as $key => $value) {
              
             if($value->barrio_id) {
@@ -323,12 +325,15 @@ class ContratoController extends Controller
 
         $direcciones =  array();
 
+        
+        $temp = '';
+
         foreach ($clientedirecciones as $key => $value) {
              
             if($value->barrio_id) {
                 $temp = 'Bº ' . $value->barrio->descripcion;
             } 
-
+            
             if($value->calle_id) {
                 $temp = $temp . ' Calle ' . $value->calle->descripcion;
             } 
