@@ -18,6 +18,7 @@ use App\Models\Tipotiempo;
 use App\Models\Tipoajuste;
 use App\Models\Proveedorajuste;
 use App\Models\Stockarticulo;
+use App\Models\Stockajuste;
 use App\Models\Stockarticulodetalle;
 use App\Models\Stockasignaciondetalle;
 
@@ -278,6 +279,14 @@ class StockController extends Controller
      */
     public function destroy($id)
     {
+
+        $existe = stockajuste::where('stockarticulo_id', $id)->count();
+
+        if($existe > 0) 
+        {
+            Alert::error('No se puede eliminar el registro')->persistent("Cerrar");
+            return back();
+        }
 
         $existe = Stockasignaciondetalle::where('stockarticulo_id', $id)->count();
 
