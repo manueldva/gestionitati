@@ -66,9 +66,9 @@
 					<div class="form-group">
 			      		{{ form::label('tipopago', 'Tipo') }}
 						@if($permitirpago == 1)
-							{{ form::select('tipopago', ['1' => 'Deuda', '2' => 'Pago'], null, ['class' => 'form-control'] ) }}
+							{{ form::select('tipopago', ['2' => 'Pago'], null, ['class' => 'form-control'] ) }}
 						@else
-							{{ form::select('tipopago', ['1' => 'Deuda'], null, ['class' => 'form-control'] ) }}
+							{{ form::select('tipopago', [], null, ['class' => 'form-control'] ) }}
 						@endif
 			      	</div>
 

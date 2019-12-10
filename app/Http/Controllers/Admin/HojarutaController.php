@@ -23,6 +23,8 @@ use App\Models\Articulo;
 use App\Models\Stockarticulo;
 use App\Models\Stockarticulodetalle;
 use App\Models\Hojarutacobranza;
+use App\Models\Cuentacorriente;
+use App\Models\Cuentacorrientedetalle;
 use DB;
 use Illuminate\Support\Facades\Input;
 
@@ -399,6 +401,7 @@ class HojarutaController extends Controller
                         } else {
                             $hojadetalle->precio = 0;
                         }
+
                         $hojadetalle->tipopago = $tipopago;
                         $hojadetalle->fecha = date('Y-m-d H:i:s');
                         $hojadetalle->fechacarga = $request->input("fechacarga");
@@ -418,8 +421,33 @@ class HojarutaController extends Controller
                         $detalle->fecha_modi = date('Y-m-d H:i:s');
                     $detalle->save();
                 }
-                
-               
+
+                //para cuenta corriente
+                if($tipopago == 2){
+                    $cuentacorriente = Cuentacorriente::where('cliente_id', $cliente_id)->first();
+
+                    if(!$cuentacorriente) {
+                        $cuentacorriente = new Cuentacorriente();
+                            $cuentacorriente->cliente_id = $cliente_id;
+                            $cuentacorriente->monto = 0;
+                            $cuentacorriente->usuario_alta = Auth::user()->username;
+                            $cuentacorriente->fecha_alta = date('Y-m-d H:i:s');
+                        $cuentacorriente->save();
+                    }
+
+                    $cuentacorrientedetalle = new Cuentacorrientedetalle();
+                        $cuentacorrientedetalle->fechapago = date('Y-m-d H:i:s');
+                        $cuentacorrientedetalle->cuentacorriente_id = $cuentacorriente->id;
+                        $cuentacorrientedetalle->monto = ($cantidad * $articulo->precioreparto);
+                        $cuentacorrientedetalle->tipopago = 1;
+                        $cuentacorrientedetalle->usuario_alta = Auth::user()->username;
+                        $cuentacorrientedetalle->fecha_alta = date('Y-m-d H:i:s');
+                    $cuentacorrientedetalle->save();
+    
+                    $cuentacorriente->monto = $cuentacorriente->monto + $cuentacorrientedetalle->monto;
+                    $cuentacorriente->save();
+                }
+                //   
             }
 
         }
