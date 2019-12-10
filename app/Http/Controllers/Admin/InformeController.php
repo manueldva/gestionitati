@@ -21,6 +21,8 @@ use App\Models\Empleado;;
 use App\Models\Contrato;
 use App\Models\Contratoarticulo;
 use App\Models\Barrio;
+use App\Models\Cuentacorriente;
+use App\Models\Cuentacorrientedetalle;
 use Auth;
 
 use App\Helpers\FechaHelper;
@@ -144,6 +146,19 @@ class InformeController extends Controller
                 ->pluck('cliente', 'id');
 
             return view('admin.informes.show5',compact('clientes'));
+
+        } else if($id == 6) { // informe automatico para clientes que no han comprado en mas de 1 mes
+
+            $clientes  = Cliente::select(DB::raw("CASE tipocliente_id WHEN 1 THEN CONCAT(apellido, ' ',  nombre) WHEN 2 THEN cliente ELSE '-' END as cliente"),'id')
+                ->where('estado', 1)
+                //->where('tipocliente_id', 1)
+                ->where('cuentac', 1)
+                ->orderBy('cliente')
+                ->pluck('cliente', 'id');
+
+            //dd($clientes);
+
+            return view('admin.informes.show6',compact('clientes'));
         }
     }
 
@@ -825,6 +840,60 @@ class InformeController extends Controller
        
         
         $pdf = PDF::loadView('admin.informes.informemovimientoclienteprint', compact('cliente', 't_por_articulo', 'fechadesde', 'fechahasta','totalgeneral','cantidadgeneral'));
+            //$pdf->setPaper('Legal', 'landscape');
+
+        return $pdf->setPaper('Legal', 'landscape')->stream('informevendedorgeneral.pdf');
+    }
+
+    public function informemovimientoccprint($cliente_id, $fechadesde, $fechahasta)
+    {
+
+        /*$cliente = Cliente::find($cliente_id);
+
+        $query2="select  DATE_FORMAT(hrd.fechacarga, '%Y-%m-%d') as fecha, a.descripcion articulo, hrd.cantidadfinal cantidad, hrd.precio, ( hrd.cantidadfinal * hrd.precio) subtotal, 
+        hrd.tipopago from hojarutadetalles hrd
+        inner join articulos a on hrd.articulo_id = a.id
+        where hrd.cliente_id = " . $cliente_id . " and hrd.estado = 2 and hrd.fechacarga between '" . $fechadesde . "' and '" . $fechahasta . "'
+        order by  hrd.fechacarga Desc";
+
+
+       
+        $t_por_articulo = DB::select($query2);
+
+        //dd($t_por_articulo);
+
+        //totales generates
+        
+        $query3="select sum(hrd.cantidadfinal) cantidad,  sum((hrd.precio * hrd.cantidadfinal)) monto from hojarutadetalles hrd
+        inner join hojarutas hr on hrd.hojaruta_id =  hr.id
+        where hrd.cliente_id = " . $cliente_id . " and hrd.estado = 2 and hrd.fechacarga between '" . $fechadesde . "' and '" . $fechahasta . "'";
+
+        $t_general = DB::select($query3);
+
+        $totalgeneral = 0;
+        $cantidadgeneral = 0;
+        foreach ($t_general as $key => $value) {
+           $totalgeneral  = $value->monto;
+           $cantidadgeneral  = $value->cantidad;
+        }*/
+
+       $cliente = Cliente::find($cliente_id);
+
+        $cuentacorriente = Cuentacorriente::where('cliente_id', $cliente->id)->first();
+
+        if($cuentacorriente){
+            $deuda = $cuentacorriente->monto;
+            $cuentacorrientedetalles = Cuentacorrientedetalle::where('cuentacorriente_id', $cuentacorriente->id)->get();
+        } else {
+            $deuda = 0;
+            $cuentacorrientedetalles = [];
+        }
+
+        foreach ($cuentacorrientedetalles as $cuenta) {
+            $cuenta->fechapago = FechaHelper::getFechaImpresion($cuenta->fechapago); 
+        }
+        
+        $pdf = PDF::loadView('admin.informes.informmovimientoccprint', compact('cliente', 'deuda', 'fechadesde', 'fechahasta','cuentacorriente' , 'cuentacorrientedetalles'));
             //$pdf->setPaper('Legal', 'landscape');
 
         return $pdf->setPaper('Legal', 'landscape')->stream('informevendedorgeneral.pdf');
