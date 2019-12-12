@@ -883,7 +883,10 @@ class InformeController extends Controller
 
         if($cuentacorriente){
             $deuda = $cuentacorriente->monto;
-            $cuentacorrientedetalles = Cuentacorrientedetalle::where('cuentacorriente_id', $cuentacorriente->id)->get();
+            $cuentacorrientedetalles = Cuentacorrientedetalle::where('cuentacorriente_id', $cuentacorriente->id)
+            ->where('fechapago', '>=' , $fechadesde)
+            ->where('fechapago', '<=' , $fechahasta)
+            ->get();
         } else {
             $deuda = 0;
             $cuentacorrientedetalles = [];
