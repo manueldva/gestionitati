@@ -419,6 +419,20 @@ Route::get('detalleclientehojaruta', function() {
     return $data;
 });
 
+Route::get('detalleclientehojaruta2', function() {
+
+   $query="select count(*) cantidad from hojarutadetalles
+        where hojaruta_id = " . request('hoj') . " and estado = 1 and cliente_id = " . request('cli') . "";
+
+    $temp = DB::select($query);
+
+    foreach ($temp as $key => $value) {
+       $data = $value->cantidad;
+    }
+    
+    return $data;
+});
+
 
 /*--------------------*/
 

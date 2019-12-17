@@ -437,6 +437,21 @@
 						}
 						
 					});
+					//para verificar si son mas de 2 direcciones
+					$.ajax({
+						dataType: 'json',
+						url: APP_URL + '/api/detalleclientehojaruta2',
+						//async: false,
+						//url: '../api/validardocumento',
+						data: {cli: $('#cliente_id').val(), hoj: $('#id').val()}
+					}).done(function(data) {
+						//var $empleado = $('#empleado'); 
+						//alert(data);
+						if(data > 1) {
+							swal("2 o mas direcciones encontradas", "Se visualizaran todos los articulos de ambas direcciones en esta carga pero solo se vera una de las direcciones. Al guardar todo se cargara cada articulo en su respetiva direccion para su posterior reflejo en el informe.");
+						}
+					});
+					//
 				}else {
 					toastr.info('Este cliente ya se encuentra en el listado final');					
 					return false;
