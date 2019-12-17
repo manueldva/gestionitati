@@ -876,16 +876,16 @@ class InformeController extends Controller
            $totalgeneral  = $value->monto;
            $cantidadgeneral  = $value->cantidad;
         }*/
-
-       $cliente = Cliente::find($cliente_id);
+        //dd($fechahasta);
+        $cliente = Cliente::find($cliente_id);
 
         $cuentacorriente = Cuentacorriente::where('cliente_id', $cliente->id)->first();
 
         if($cuentacorriente){
             $deuda = $cuentacorriente->monto;
             $cuentacorrientedetalles = Cuentacorrientedetalle::where('cuentacorriente_id', $cuentacorriente->id)
-            ->where('fechapago', '>=' , $fechadesde)
-            ->where('fechapago', '<=' , $fechahasta)
+            ->where('fechapago', '>=' , $fechadesde . ' 00:00:01')
+            ->where('fechapago', '<=' , $fechahasta . ' 23:59:59')
             ->get();
         } else {
             $deuda = 0;
