@@ -9,7 +9,7 @@
     </h1>
     <ol class="breadcrumb">
       <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="{{ route('hojarutas.index')}}">Hoja de Ruta</a></li>
+      <li><a href="{{ route('hojarutaarticulos.index')}}">Hoja de Ruta</a></li>
       <li class="active">Cerrar Hoja</li>
     </ol>
 
@@ -26,14 +26,14 @@
   <div class="panel-body">
     <div class="row">
 
-      {!! Form::model($hojaruta, ['route' => ['hojarutas.show', $hojaruta->id], 'method' => 'GET']) !!}
+      {!! Form::model($hojarutaarticulo, ['route' => ['hojarutaarticulos.show', $hojarutaarticulo->id], 'method' => 'GET']) !!}
   
         <div class="col-md-12" >
           <div class="row col-md-12">
             <div class="form-group" style="text-align: center">
 
               
-                <a href="{{ route('hojarutas.index') }}" type="button" class="btn btn btn-default">
+                <a href="{{ route('hojarutaarticulos.index') }}" type="button" class="btn btn btn-default">
                 <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
                     <span class="fa fa-list">
                     </span>
@@ -49,7 +49,7 @@
   </div>
 </div>
 
-@include('admin.hojarutas.partials.formshow')
+@include('admin.hojarutaarticulos.partials.formshow')
 
 {!! Form::close() !!}
 

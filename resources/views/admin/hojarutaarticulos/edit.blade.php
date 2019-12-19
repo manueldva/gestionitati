@@ -26,7 +26,7 @@
   <div class="panel-body">
     <div class="row">
 
-      {!! Form::model($hojaruta, ['route' => ['hojarutas.update', $hojaruta->id], 'method' => 'PUT', 'files' => true, 'id' => 'form']) !!}
+      {!! Form::model($hojarutaarticulo, ['route' => ['hojarutaarticulos.update', $hojarutaarticulo->id], 'method' => 'PUT', 'files' => true, 'id' => 'form']) !!}
   
         <div class="col-md-12" >
           <div class="row col-md-12">
@@ -52,7 +52,7 @@
                      Baja definitiva
                 </a>-->
                 &nbsp;&nbsp;&nbsp;
-                <a href="{{ route('hojarutas.index') }}" type="button" class="btn btn btn-default">
+                <a href="{{ route('hojarutaarticulos.index') }}" type="button" class="btn btn btn-default">
                 <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
                     <span class="fa fa-list">
                     </span>
