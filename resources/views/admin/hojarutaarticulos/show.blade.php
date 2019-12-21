@@ -1,16 +1,16 @@
 @extends('adminlte::page')
 
-@section('title', 'Gestión - Hoja de Ruta')
+@section('title', 'Gestión - Hoja de Ruta Por Articulo')
 
 @section('content_header')
-    <h1>
-      Gestionar Hoja de Ruta
+    <h1> 
+      Gestionar Hoja de Ruta Por Articulo
       <!--<small>Listado</small>-->
     </h1>
     <ol class="breadcrumb">
       <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="{{ route('hojarutaarticulos.index')}}">Hoja de Ruta</a></li>
-      <li class="active">Cerrar Hoja</li>
+      <li><a href="{{ route('hojarutaarticulos.index')}}">Hoja de Ruta Por Articulo</a></li>
+      <li class="active">Ver Hoja Por Articulo</li>
     </ol>
 
 @stop
@@ -20,7 +20,7 @@
 
 <div class="box box-primary">
   <div class="box-header with-border box-default">
-    <strong>Cerrar Hoja de Ruta</strong>
+    <strong>Ver Hoja de Ruta Por Articulo</strong>
   </div>
     
   <div class="panel-body">

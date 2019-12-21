@@ -20,7 +20,7 @@
 
 <div class="box box-primary">
   <div class="box-header with-border box-default">
-    <strong>Cerrar Hoja de Ruta</strong>
+    <strong>Procesar Hoja de Ruta</strong>
   </div>
     
   <div class="panel-body">

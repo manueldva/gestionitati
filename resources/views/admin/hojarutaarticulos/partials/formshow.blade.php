@@ -40,7 +40,7 @@
 						{{ form::select('estado', ['1' => 'En Reparticion', '2' => 'Procesado'], null, ['class' => 'form-control', 'readonly'] ) }}
 			      	</div>
 			      	<div class="form-group">
-						{{ form::label('cant_cli', 'Articulo') }}
+						{{ form::label('cant_cli', 'Cantidad de Clientes') }}
 						{{ form::text('cant_cli', $cant_cli, ['class' => 'form-control', 'id' => 'cant_cli', 'readonly']) }}
 					</div>
 			    </div>
@@ -191,12 +191,7 @@
 									</td>
 									<td >
 										<center>
-										
-										</center>
-									</td>
-				                    <td>
-										<center>
-											
+											Sin Cobrar
 										</center>
 									</td>
 				                </tr>
