@@ -85,7 +85,7 @@
 						<td>
 							<a href="{{ route('hojarutaarticulos.show', $hojarutaarticulo->id) }}" style="color:#000000;">
 								@if($hojarutaarticulo->estado == 1)
-									Abierta
+									En Reparticion
 								@else
 									Cerrada
 								@endif

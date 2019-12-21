@@ -28,8 +28,8 @@
 					</div>
 
 			    	<div class="form-group">
-						{{ form::label('empleado_id', 'Vendedor') }}
-						{{ form::text('empleado_id', $hojaruta->empleado->empleado, ['class' => 'form-control', 'id' => 'empleado_id', 'readonly']) }}
+						{{ form::label('articulo_id', 'Articulo') }}
+						{{ form::text('articulo_id', $hojarutaarticulo->articulo->descripcion, ['class' => 'form-control', 'id' => 'articulo_id', 'readonly']) }}
 					</div>
 					<div class="form-group">
 						{{ form::label('fecha', 'Fecha') }}
@@ -40,10 +40,9 @@
 						{{ form::select('estado', ['1' => 'En Reparticion', '2' => 'Procesado'], null, ['class' => 'form-control', 'readonly'] ) }}
 			      	</div>
 			      	<div class="form-group">
-						{{ form::label('barrio', 'barrio/s') }}
-						{{ form::text('barrio',$barrio, ['class' => 'form-control', 'id' => 'barrio', 'readonly']) }}
+						{{ form::label('cant_cli', 'Articulo') }}
+						{{ form::text('cant_cli', $cant_cli, ['class' => 'form-control', 'id' => 'cant_cli', 'readonly']) }}
 					</div>
-					
 			    </div>
 			    <!-- /.box-body -->
 			  <!--</div>-->
@@ -53,150 +52,9 @@
 			<div class="col-md-6 pull-right">
 			  <!--<div class="box box-default">-->
 			    
-			    <div class="box-header with-border">
-			      
-
-			      <h3 class="box-title">Datos procesados hasta el momento:</h3>
-			    </div>
-			    <!-- /.box-header -->
-			    <div class="box-body">
-			    	<div class="form-group">
-		    			{{ form::label('fechacobro', 'Fecha Cobro *') }}
-						<div class="table-responsive">
-							<table id="table_clientes" class="table table-striped table-hover" data-form="Form">
-								<thead>
-									<tr>
-										<th>
-											{{ form::date('fechacobro',null, ['class' => 'form-control', 'id' => 'fechacobro']) }}
-										</th>
-										<th>
-											<a type="button" id="buscarprocesado" name="buscarprocesado" class="btn btn btn-success">
-							                <!--<a href="{{ route('clientes.index') }}" type="button" class="btn btn btn-default">-->
-							                    <span class="fa fa-search">
-							                    </span>
-							                      Buscar
-							                </a>
-										</th>
-										<th>
-											<a target="_blank" href="#" id="imprimir"> 
-						                        <button  type="button" class="btn btn btn-primary"><span class="glyphicon glyphicon-print"></span> Imprimir</button>
-						                    </a>
-										</th>
-									</tr>
-
-								</thead>
-							</table>
-						</div>
-					</div>
-
-					<hr>
-					{{ form::label('fechacobro', 'Articulos cargados hasta el momento:') }}
-					<div class="form-group">
-					
-						<div class="form-group">
-							<div class="table-responsive">
-								<table id="table_general" class="table table-striped table-hover" data-form="Form">
-									<thead>
-										<tr>
-										<!--<th width="10px"> ID</th>-->
-											<th> Articulo</th>
-											<th> Precio U.</th>
-											<th> Cantidad</th>
-											<th> Subtotal</th>
-										</tr>
-									</thead>
-									<tbody>
-										@foreach($t_por_articulo as $total)
-											<tr>
-											 	<td>
-											 		{{ $total->articulo }}
-											 	</td>
-											 	<td>
-											 		{{ $total->precio }}
-											 	
-											 	</td>
-											 	<td>
-											 		{{ $total->cantidad }}
-											 	</td>
-											 	<td>
-											 		{{ $total->monto }}
-											 	</td>
-
-											</tr>
-										@endforeach
-										<tr>
-											<td>
-												<b>
-													Totales
-												</b>
-												
-											</td>
-											<td>
-												
-											</td>
-											<td>
-												<b>
-													{{ $cantidadgeneral }}
-												</b>
-											</td>
-											<td>
-												<b>
-													{{ $totalgeneral }}
-												</b>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
-					<hr>
-					{{ form::label('fechacobro', 'Discriminado por tipo de pago:') }}
-					<div class="form-group">
-					
-						<div class="form-group">
-							<div class="table-responsive">
-								<table id="table_pagos" class="table table-striped table-hover" data-form="Form">
-									<thead>
-										<tr>
-										<!--<th width="10px"> ID</th>-->
-											<th> Tipo Pago</th>
-											<th> Monto</th>
-										</tr>
-									</thead>
-									<tbody>
-										@foreach($t_tipopago as $total)
-											<tr>
-											 	<td>
-											 		
-											 		{{ $total->tipo }}
-											 	</td>
-											 	<td>
-											 		<b>
-											 		{{ $total->monto }}
-											 		</b>
-											 	</td>
-											</tr>
-										@endforeach
-										
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
-					<hr>
-					<div class="form-group">
-						{{ form::label('cobranza', 'Cobranzas extras:') }}
-						{{ form::text('cobranza',$totalcobranza, ['class' => 'form-control', 'id' => 'cobranza', 'readonly','style' =>'font-weight: bold;' ]) }}
-					</div>
-					<div class="form-group">
-						{{ form::label('total', 'Efectivo total a recibir:') }}
-						{{ form::text('total',$totalgeneralefectivo, ['class' => 'form-control', 'id' => 'total', 'readonly', 'style' =>'font-weight: bold;  font-size:20px;']) }}
-					</div>
-				</div>
+			</div>
 			<!-- aca agregar el div col-6 -->
-			
-</div>
+		
 	 	</div>
 	    <!-- /.box-body -->
 	  </div>
@@ -246,24 +104,15 @@
 									</th>
 									<th>
 										<center>
-											<i></i> Articulo
-										</center>
-									</th>
-									<th>
-										<center>
 											<i></i> Cantidad
 										</center>
 									</th>
 									<th>
 										<center>
-											<i></i> Venta
+											<i></i> Cobro
 										</center>
 									</th>
-									<th>
-										<center>
-											Tipo Pago
-										</center>
-									</th>
+									
 									<th>
 										<center>
 											Fecha de Carga
@@ -279,13 +128,7 @@
 						</thead>
 						<tbody>
 							@foreach ($detalles as $hojaruta)
-								@if($hojaruta->estado == 1)
-				                	<tr  style="color:red">
-								@elseif($hojaruta->especial == 1)
-				                	<tr  style="color:blue">		
-				               	@else
-				               		<tr>
-				               	@endif
+								<tr>
 				                  	<td >
 				                  		<center>
 										{{ $hojaruta->cliente_id }}
@@ -298,10 +141,8 @@
 									</td>
 									<td >
 										<center>
-										@if($cant_barrio > 1)
-											@if($hojaruta->calle)
+										@if($hojaruta->barrio)
 											B° {{ $hojaruta->barrio }}
-											@endif
 										@endif
 										@if($hojaruta->calle)
 											Calle {{ $hojaruta->calle }}
@@ -333,11 +174,6 @@
 
 										</center>
 									</td>
-									<td >
-										<center>
-										{{ $hojaruta->articulo }}
-										</center>
-									</td>
 									<td>
 										<center>
 										{{ $hojaruta->cantidad }}
@@ -345,35 +181,22 @@
 									</td>
 									<td>
 										<center>
-										{{ $hojaruta->cantidadfinal }}
+										
 										</center>
 									</td>
 									<td>
 										<center>
-										@if($hojaruta->estado == 2)
-											@if($hojaruta->tipopago == 0)
-												Sin Cargo
-											@elseif($hojaruta->tipopago == 1)
-												Efectivo
-											@else
-												Cuenta Corriente
-											@endif
-										@endif
+										
 										</center>
 									</td>
 									<td >
 										<center>
-										{{ $hojaruta->fechacarga }}
+										
 										</center>
 									</td>
 				                    <td>
 										<center>
-											@if($hojaruta->estado == 1)
-												Sin Entregar
-											@else
-												Entregado
 											
-											@endif
 										</center>
 									</td>
 				                </tr>
