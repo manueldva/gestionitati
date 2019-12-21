@@ -166,7 +166,7 @@ class HojarutaarticuloController extends Controller
      */
     public function edit($id)
     {
-        //
+        echo "string";
     }
 
     /**

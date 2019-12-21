@@ -139,44 +139,43 @@
 										{{ $hojaruta->cliente }}
 										</center>
 									</td>
-									<td >
+									<td>
 										<center>
-										@if($hojaruta->barrio)
-											B° {{ $hojaruta->barrio }}
-										@endif
-										@if($hojaruta->calle)
-											Calle {{ $hojaruta->calle }}
-										@endif
-										@if($hojaruta->numero)
-											Nro. {{ $hojaruta->numero }}
-										@endif
-										@if($hojaruta->manzana)
-											Mz. {{ $hojaruta->manzana }}
-										@endif
-										@if($hojaruta->casa)
-											C. {{ $hojaruta->casa }}
-										@endif
-										@if($hojaruta->seccion)
-											Seccion {{ $hojaruta->seccion }}
-										@endif
-										@if($hojaruta->lote)
-											Lote {{ $hojaruta->lote }}
-										@endif
-										@if($hojaruta->edificiotorre)
-											Edificio {{ $hojaruta->edificiotorre }}
-										@endif
-										@if($hojaruta->piso)
-											Piso/Dpto {{ $hojaruta->piso }}
-										@endif
-										@if($hojaruta->referenciadomicilio)
-											Ref. {{ $hojaruta->referenciadomicilio }}
-										@endif
-
+											@if($hojaruta->barrio)
+												B° {{ $hojaruta->barrio }}
+											@endif
+											@if($hojaruta->calle)
+												Calle {{ $hojaruta->calle }}
+											@endif
+											@if($hojaruta->numero)
+												Nro. {{ $hojaruta->numero }}
+											@endif
+											@if($hojaruta->manzana)
+												Mz. {{ $hojaruta->manzana }}
+											@endif
+											@if($hojaruta->casa)
+												C. {{ $hojaruta->casa }}
+											@endif
+											@if($hojaruta->seccion)
+												Seccion {{ $hojaruta->seccion }}
+											@endif
+											@if($hojaruta->lote)
+												Lote {{ $hojaruta->lote }}
+											@endif
+											@if($hojaruta->edificiotorre)
+												Edificio {{ $hojaruta->edificiotorre }}
+											@endif
+											@if($hojaruta->piso)
+												Piso/Dpto {{ $hojaruta->piso }}
+											@endif
+											@if($hojaruta->referenciadomicilio)
+												Ref. {{ $hojaruta->referenciadomicilio }}
+											@endif
 										</center>
 									</td>
 									<td>
 										<center>
-										{{ $hojaruta->cantidad }}
+											{{ $hojaruta->cantidad }}
 										</center>
 									</td>
 									<td>
