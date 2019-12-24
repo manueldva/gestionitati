@@ -38,7 +38,7 @@
 										<tr>
 										<!--<th width="10px"> ID</th>-->
 											<th> <center>Fecha</center></th>
-											<th> <center>Comprobante</center></th>
+											<th> <center>Tipo Comprobante</center></th>
 											<th> <center>Tipo Gasto</center></th>
 											<th> <center>Monto</center></th>
 											<th> <center>Detalle</center></th>
