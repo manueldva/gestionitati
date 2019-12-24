@@ -922,12 +922,12 @@ class InformeController extends Controller
 
         if($rubrogasto_id == 0) 
         {
-            $gastos = Gasto::where('fecha', '>=' , $fechadesde . ' 00:00:01')
+            $gastos = Gasto::where('fecha', '>=' , $fechadesde . ' 00:00:00')
             ->where('Fecha', '<=' , $fechahasta . ' 23:59:59')
             ->get();
         } else {
             $gastos = Gasto::where('rubrogasto_id', $rubrogasto_id)
-            ->where('fecha', '>=' , $fechadesde . ' 00:00:01')
+            ->where('fecha', '>=' , $fechadesde . ' 00:00:00')
             ->where('Fecha', '<=' , $fechahasta . ' 23:59:59')
             ->get();
         }
