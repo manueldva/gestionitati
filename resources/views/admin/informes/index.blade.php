@@ -96,6 +96,11 @@
                         Informe Movimientos Cuenta Corriente del Cliente
                     </a>
                 </div>  
+                <div class="form-group" style="font-size:16pt">
+                    <a href="{{ route('informes.show', 7) }}" style="color:#235B88;">
+                        Informe Gastos
+                    </a>
+                </div>  
 
                 <!--
 

@@ -17,10 +17,12 @@ use App\Models\Articulo;
 use App\Models\Cliente;
 use App\Models\Clientedireccion;
 use App\Models\Tipoempleado;
+use App\Models\Rubrogasto;
 use App\Models\Empleado;;
 use App\Models\Contrato;
 use App\Models\Contratoarticulo;
 use App\Models\Barrio;
+use App\Models\Gasto;
 use App\Models\Cuentacorriente;
 use App\Models\Cuentacorrientedetalle;
 use Auth;
@@ -159,7 +161,19 @@ class InformeController extends Controller
             //dd($clientes);
 
             return view('admin.informes.show6',compact('clientes'));
+
+        } else if($id == 7) { // informe para gastos
+
+            $tipogastos  = Rubrogasto::orderBy('descripcion', 'ASC')->pluck('descripcion' , 'id');
+
+
+            //dd($clientes);
+
+            return view('admin.informes.show7',compact('tipogastos'));
+
+            //echo "string";
         }
+
     }
 
     /**
@@ -900,6 +914,34 @@ class InformeController extends Controller
             //$pdf->setPaper('Legal', 'landscape');
 
         return $pdf->setPaper('Legal', 'landscape')->stream('informevendedorgeneral.pdf');
+    }
+
+
+    public function informegastoprint($rubrogasto_id, $fechadesde, $fechahasta)
+    {
+
+        if($rubrogasto_id == 0) 
+        {
+            $gastos = Gasto::where('fecha', '>=' , $fechadesde . ' 00:00:01')
+            ->where('Fecha', '<=' , $fechahasta . ' 23:59:59')
+            ->get();
+        } else {
+            $gastos = Gasto::where('rubrogasto_id', $rubrogasto_id)
+            ->where('fecha', '>=' , $fechadesde . ' 00:00:01')
+            ->where('Fecha', '<=' , $fechahasta . ' 23:59:59')
+            ->get();
+        }
+       
+
+        foreach ($gastos as $gasto) {
+            $gasto->fecha = FechaHelper::getFechaImpresion($gasto->fecha); 
+        }
+        
+        
+        $pdf = PDF::loadView('admin.informes.informegastoprint', compact('gastos', 'fechadesde', 'fechahasta'));
+            //$pdf->setPaper('Legal', 'landscape');
+
+        return $pdf->setPaper('Legal', 'landscape')->stream('informegastoprint.pdf');
     }
 
 

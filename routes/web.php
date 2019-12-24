@@ -91,6 +91,8 @@ route::get('/informemovimientoclienteprint/{cliente_id}/{fechadesde}/{fechahasta
 
 route::get('/informemovimientoccprint/{cliente_id}/{fechadesde}/{fechahasta}',		'Admin\InformeController@informemovimientoccprint')->name('informemovimientoccprint');
 
+route::get('/informegastoprint/{rubrogasto_id}/{fechadesde}/{fechahasta}',		'Admin\InformeController@informegastoprint')->name('informegastoprint');
+
 //seguridad
 route::resource('modulos', 		'Admin\ModuloController');
 route::resource('perfiles', 	'Admin\PerfilController');
