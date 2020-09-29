@@ -162,7 +162,7 @@
 					</h3>
 					<h3>
 						<div class="form-group">
-							<label>Total Comsision del Vendedor:  <b> $ {{ round($totalcomisionvendedor, 2)  }} </b> </label>
+							<label>Total Comision del Vendedor:  <b> $ {{ round($totalcomisionvendedor, 2)  }} </b> </label>
 
 						</div>
 					</h3>
