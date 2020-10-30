@@ -270,7 +270,7 @@ class ClienteController extends Controller
                     $barrio_id, $calle_id, $numero, $manzana, $casa, 
                     $edificiotorre, $piso, $seccion, $lote, $codigopostal, 
                     $referencia, $observacion, $empleado_id, $horariovisita,
-                    $horadesde, $horahasta, $direccion_id) = explode('|', $direccion_text);
+                    $horadesde, $horahasta, $direccion_id, $ubicacion) = explode('|', $direccion_text);
 
                 $clientedireccion = new Clientedireccion();
                     $clientedireccion->cliente_id = $cliente->id;
@@ -293,6 +293,7 @@ class ClienteController extends Controller
                     if($horariovisita !== '') $clientedireccion->horariovisita = $horariovisita;
                     if($horadesde !== '') $clientedireccion->horadesde = $horadesde;
                     if($horahasta !== '') $clientedireccion->horahasta = $horahasta;
+                    if($ubicacion !== '') $clientedireccion->ubicacion = $ubicacion;
                     $clientedireccion->usuario_alta = Auth::user()->username;
                     $clientedireccion->fecha_alta = date('Y-m-d H:i:s');
 
@@ -561,7 +562,7 @@ class ClienteController extends Controller
                     $barrio_id, $calle_id, $numero, $manzana, $casa, 
                     $edificiotorre, $piso, $seccion, $lote, $codigopostal, 
                     $referencia, $observacion, $empleado_id, $horariovisita,
-                    $horadesde, $horahasta, $direccion_id) = explode('|', $direccion_text);
+                    $horadesde, $horahasta, $direccion_id, $ubicacion) = explode('|', $direccion_text);
                 
                 //alert($direccion_id);
                 if($direccion_id == 0)
@@ -587,6 +588,7 @@ class ClienteController extends Controller
                         if($horariovisita !== '') $clientedireccion->horariovisita = $horariovisita;
                         if($horadesde !== '')$clientedireccion->horadesde = $horadesde;
                         if($horahasta !== '') $clientedireccion->horahasta = $horahasta;
+                        if($ubicacion !== '') $clientedireccion->ubicacion = $ubicacion;
                         $clientedireccion->usuario_alta = Auth::user()->username;
                         $clientedireccion->fecha_alta = date('Y-m-d H:i:s');
 

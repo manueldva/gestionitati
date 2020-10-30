@@ -10,7 +10,7 @@ class Clientedireccion extends Model
     protected $table = 'clientedirecciones';
 
     protected $fillable = [
-        'cliente_id', 'provincia_id','departamento_id', 'localidad_id','barrio_id', 'calle_id', 'manzana', 'casa', 'numero','edificiotorre','piso','seccion','lote','codigopostal','referenciadomicilio','observaciondomicilio','empleado_id', 'horariovisita', 'horadesde','horahasta','usuario_alta','fecha_alta','usuario_modi','fecha_modi',
+        'cliente_id', 'provincia_id','departamento_id', 'localidad_id','barrio_id', 'calle_id', 'manzana', 'casa', 'numero','edificiotorre','piso','seccion','lote','codigopostal','referenciadomicilio','observaciondomicilio','empleado_id', 'horariovisita', 'horadesde','horahasta','usuario_alta','fecha_alta','usuario_modi','fecha_modi','longitud','latitud','ubicacion'
 	];
 
 

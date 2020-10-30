@@ -315,6 +315,23 @@
 							<span class="help-block">Campo Obligatorio</span>
 						</div>
 					</div>
+					<br>
+					<hr>
+					<div class="form-group">
+						{{ form::label('ubicacion', 'Ubicación') }}
+						@isset($clientedirecciones)
+							@if($cliente->direcciones == 0)
+								{{ form::text('ubicacion', $clientedirecciones['0']['ubicacion'], ['class' => 'form-control', 'id' => 'ubicacion', 'maxlength' =>'4000']) }}
+							@else
+								{{ form::text('ubicacion', null, ['class' => 'form-control', 'id' => 'ubicacion', 'maxlength' =>'4000']) }}
+							@endif
+						@else
+							{{ form::text('ubicacion', null, ['class' => 'form-control', 'id' => 'ubicacion', 'maxlength' =>'4000']) }}
+						@endif	
+						<div id="calle_idspan" class="form-group has-error" style="display: none">
+							<span class="help-block">Campo Obligatorio</span>
+						</div>
+					</div>
 			    </div>
 			    <!-- /.box-body -->
 			  <!--</div>-->
@@ -605,6 +622,7 @@
 									<th style="display:none;"> calle_id</th>
 									<th style="display:none;"> direccion_id</th>
 									<th> Vendedor</th>
+									<th style="display:none;"> Ubicacion</th>
 									<th colspan="">&nbsp;</th>
 
 								</tr>
@@ -705,6 +723,11 @@
 					                    @endif
 					                    <td style="display:none;">{{ $clientedireccion->id }}</td>
 					                    <td>{{ $clientedireccion->empleado->empleado }}</td>
+										@if($clientedireccion->ubicacion)
+					                    	<td style="display:none;">{{ $clientedireccion->ubicacion }}</td>
+					                    @else
+					                    	<td style="display:none;"></td>
+					                    @endif
 					                    @if($editshow == 3) 
 						                    <td>
 							                   <a class='delete btn btn-sm btn-danger' onclick ='deletedireccion_row($(this))'>
@@ -1324,6 +1347,7 @@
 								var horahasta = $('#horahasta').val();
 								var direccion_id = $('#direccion_id').val();
 								var empleado = $('select[name="empleado"] option:selected').text();
+								var ubicacion = $('#ubicacion').val();
 
 
 								//cargo la grilla
@@ -1352,6 +1376,7 @@
 									'<td style="display:none;">' + calle_id + '</td>' +
 									'<td style="display:none;">' + direccion_id + '</td>' +
 									'<td>' + empleado + '</td>' +
+									'<td style="display:none;">' + ubicacion + '</td>' +
 									"<td><a class='delete btn btn-sm btn-danger' onclick ='deletedireccion_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
 									'</td>' +
 									'</tr>');
@@ -1376,6 +1401,7 @@
 								$('#horahasta').val('');
 								$('#cargarobservacionspan').hide();
 								$("#observaciondomicilio").prop("disabled", true);
+								$('#ubicacion').val('');
 								toastr.success('Direccion agregada a la lista');
 
 
@@ -1417,7 +1443,7 @@
 					var horahasta = $('#horahasta').val();
 					var direccion_id = $('#direccion_id').val();
 					var empleado = $('select[name="empleado"] option:selected').text();
-
+					var ubicacion = $('#ubicacion').val();
 
 					//cargo la grilla
 					$('#table_direcciones tbody').prepend(
@@ -1445,6 +1471,7 @@
 						'<td style="display:none;">' + calle_id + '</td>' +
 						'<td style="display:none;">' + direccion_id + '</td>' +
 						'<td>' + empleado + '</td>' +
+						'<td style="display:none;">' + ubicacion + '</td>' +
 						"<td><a class='delete btn btn-sm btn-danger' onclick ='deletedireccion_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
 						'</td>' +
 						'</tr>');
@@ -1476,6 +1503,7 @@
 					$('#horadesde').val('');
 					$('#horahasta').val('');
 					$('#cargarobservacionspan').hide();
+					$('#ubicacion').val('');
 					$("#observaciondomicilio").prop("disabled", true);
 
 					toastr.success('Direccion agregada a la lista');
@@ -1648,6 +1676,7 @@
 				$('#cargarobservacionspan').hide();
 				$("#observaciondomicilio").prop("disabled", true);
 				$('#direccion_id').val('0');
+				$('#ubicacion').val('');
 		    }
 
 
@@ -2050,10 +2079,10 @@
 		   	barrio_id = $(this).find("td").eq(19).html();
 		    calle_id = $(this).find("td").eq(20).html();
 		    direccion_id = $(this).find("td").eq(21).html();
+			ubicacion = $(this).find("td").eq(23).html();
 
 
-
-		    listado += provincia_id + "|" + departamento_id + "|" + localidad_id + "|" + barrio_id + "|" + calle_id + "|" + numero + "|" + manzana + "|" + casa + "|" + edificiotorre + "|" + piso + "|" + seccion + "|" + lote + "|" + codigopostal + "|" + referencia + "|" + observacion + "|" + empleado_id + "|" + horariovisita + "|" + horadesde + "|" + horahasta + "|" + direccion_id + "&&&";
+		    listado += provincia_id + "|" + departamento_id + "|" + localidad_id + "|" + barrio_id + "|" + calle_id + "|" + numero + "|" + manzana + "|" + casa + "|" + edificiotorre + "|" + piso + "|" + seccion + "|" + lote + "|" + codigopostal + "|" + referencia + "|" + observacion + "|" + empleado_id + "|" + horariovisita + "|" + horadesde + "|" + horahasta + "|" + direccion_id + "|" + ubicacion + "&&&";
 		    });
 
 
