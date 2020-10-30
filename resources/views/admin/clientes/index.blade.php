@@ -84,6 +84,7 @@
 					  <th> Cliente</th>
 	                  <th> Tipo Cliente</th>
 	                  <th>Direccion</th>
+	                  <th>Ubicación</th>
 	                  <th>Celular</th>
 	                  <th>Estado</th>
 	                  <th colspan="2">&nbsp;</th>
@@ -152,6 +153,21 @@
 								@if($cliente->usuario_modi !== null)
 		                    	<a href="{{ route('clientes.show', $cliente->id) }}" style="color:#000000;">
 		                    	{{ $cliente->usuario_modi }}
+		                    	</a>
+		                    	@endif
+							@endif
+	                    </td>
+	                    <td>
+	                    	@if ($typetemp == 'barrio' || $typetemp == 'callenumero' || $typetemp == 'mzcasa')
+		                    	@if($cliente->usuario_alta !== null)
+		                    	<a href="{{ $cliente->usuario_alta }}" style="color:#000000;">
+		                    		<img src="{{url('imagedefeult/maps.png')}}"  width="30" height="30">
+		                    	</a>
+		                    	@endif
+		                     @else
+								@if($cliente->usuario_alta !== null)
+		                    	<a target="_blank" href="{{ $cliente->usuario_alta }}" style="color:#000000;">
+		                    	 	<img src="{{url('imagedefeult/maps.png')}}"  width="30" height="30">
 		                    	</a>
 		                    	@endif
 							@endif

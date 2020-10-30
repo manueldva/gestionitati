@@ -155,6 +155,22 @@
                     </td>
 
                   </tr>
+                  <tr>
+                    <td> 
+                      {{ form::label('ubicacion', 'Ubicación') }}
+                      {{ form::text('ubicacion', null, ['class' => 'form-control', 'id' => 'ubicacion', 'maxlength' =>'4000']) }}
+                    </td>
+                  <tr>
+                    <td> 
+                      {{ form::label('latitud', 'Latitud') }}
+                      {{ form::text('latitud', null, ['class' => 'form-control', 'id' => 'latitud', 'maxlength' =>'100']) }}
+                    </td>
+                    <td> 
+                      {{ form::label('longitud', 'Longitud') }}
+                      {{ form::text('longitud', null, ['class' => 'form-control', 'id' => 'longitud', 'maxlength' =>'100']) }}
+                    </td>
+
+                  </tr>
                 </thead>
               </table>
             </div>

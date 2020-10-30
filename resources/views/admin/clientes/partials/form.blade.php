@@ -328,8 +328,39 @@
 						@else
 							{{ form::text('ubicacion', null, ['class' => 'form-control', 'id' => 'ubicacion', 'maxlength' =>'4000']) }}
 						@endif	
-						<div id="calle_idspan" class="form-group has-error" style="display: none">
-							<span class="help-block">Campo Obligatorio</span>
+					</div>
+					<div class="form-group">
+						<div class="table-responsive">
+						<table  class="table">
+							<tbody>
+								<tr>
+									<td>
+										{{ form::label('latitud', 'Latitud') }}
+										@isset($clientedirecciones)
+											@if($cliente->direcciones == 0)
+												{{ form::text('latitud', $clientedirecciones['0']['latitud'], ['class' => 'form-control', 'id' => 'latitud', 'maxlength' =>'100']) }}
+											@else
+												{{ form::text('latitud', null, ['class' => 'form-control', 'id' => 'latitud', 'maxlength' =>'100']) }}
+											@endif
+										@else
+											{{ form::text('latitud', null, ['class' => 'form-control', 'id' => 'latitud', 'maxlength' =>'100']) }}
+										@endif	
+									</td>
+									<td>
+										{{ form::label('longitud', 'Longitud') }}
+										@isset($clientedirecciones)
+											@if($cliente->direcciones == 0)
+												{{ form::text('longitud', $clientedirecciones['0']['longitud'], ['class' => 'form-control', 'id' => 'longitud', 'maxlength' =>'100']) }}
+											@else
+												{{ form::text('longitud', null, ['class' => 'form-control', 'id' => 'longitud', 'maxlength' =>'100']) }}
+											@endif
+										@else
+											{{ form::text('longitud', null, ['class' => 'form-control', 'id' => 'longitud', 'maxlength' =>'100']) }}
+										@endif	
+									</td>
+								</tr>
+							</tbody>
+						</table>
 						</div>
 					</div>
 			    </div>
@@ -623,6 +654,8 @@
 									<th style="display:none;"> direccion_id</th>
 									<th> Vendedor</th>
 									<th style="display:none;"> Ubicacion</th>
+									<th style="display:none;"> Latitud</th>
+									<th style="display:none;"> Longitud</th>
 									<th colspan="">&nbsp;</th>
 
 								</tr>
@@ -725,6 +758,16 @@
 					                    <td>{{ $clientedireccion->empleado->empleado }}</td>
 										@if($clientedireccion->ubicacion)
 					                    	<td style="display:none;">{{ $clientedireccion->ubicacion }}</td>
+					                    @else
+					                    	<td style="display:none;"></td>
+					                    @endif
+					                    @if($clientedireccion->latitud)
+					                    	<td style="display:none;">{{ $clientedireccion->latitud }}</td>
+					                    @else
+					                    	<td style="display:none;"></td>
+					                    @endif
+					                    @if($clientedireccion->longitud)
+					                    	<td style="display:none;">{{ $clientedireccion->longitud }}</td>
 					                    @else
 					                    	<td style="display:none;"></td>
 					                    @endif
@@ -1348,6 +1391,8 @@
 								var direccion_id = $('#direccion_id').val();
 								var empleado = $('select[name="empleado"] option:selected').text();
 								var ubicacion = $('#ubicacion').val();
+								var latitud = $('#latitud').val();
+								var longitud = $('#longitud').val();
 
 
 								//cargo la grilla
@@ -1377,6 +1422,8 @@
 									'<td style="display:none;">' + direccion_id + '</td>' +
 									'<td>' + empleado + '</td>' +
 									'<td style="display:none;">' + ubicacion + '</td>' +
+									'<td style="display:none;">' + latitud + '</td>' +
+									'<td style="display:none;">' + longitud + '</td>' +
 									"<td><a class='delete btn btn-sm btn-danger' onclick ='deletedireccion_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
 									'</td>' +
 									'</tr>');
@@ -1402,6 +1449,8 @@
 								$('#cargarobservacionspan').hide();
 								$("#observaciondomicilio").prop("disabled", true);
 								$('#ubicacion').val('');
+								$('#latitud').val('');
+								$('#longitud').val('');
 								toastr.success('Direccion agregada a la lista');
 
 
@@ -1444,6 +1493,8 @@
 					var direccion_id = $('#direccion_id').val();
 					var empleado = $('select[name="empleado"] option:selected').text();
 					var ubicacion = $('#ubicacion').val();
+					var latitud = $('#latitud').val();
+					var longitud = $('#longitud').val();
 
 					//cargo la grilla
 					$('#table_direcciones tbody').prepend(
@@ -1472,6 +1523,8 @@
 						'<td style="display:none;">' + direccion_id + '</td>' +
 						'<td>' + empleado + '</td>' +
 						'<td style="display:none;">' + ubicacion + '</td>' +
+						'<td style="display:none;">' + latitud + '</td>' +
+						'<td style="display:none;">' + longitud + '</td>' +
 						"<td><a class='delete btn btn-sm btn-danger' onclick ='deletedireccion_row($(this))'><span class='glyphicon glyphicon-trash'></span></a></td>" +
 						'</td>' +
 						'</tr>');
@@ -1504,6 +1557,8 @@
 					$('#horahasta').val('');
 					$('#cargarobservacionspan').hide();
 					$('#ubicacion').val('');
+					$('#latitud').val('');
+					$('#longitud').val('');
 					$("#observaciondomicilio").prop("disabled", true);
 
 					toastr.success('Direccion agregada a la lista');
@@ -1677,6 +1732,8 @@
 				$("#observaciondomicilio").prop("disabled", true);
 				$('#direccion_id').val('0');
 				$('#ubicacion').val('');
+				$('#latitud').val('');
+				$('#longitud').val('');
 		    }
 
 
@@ -2080,9 +2137,11 @@
 		    calle_id = $(this).find("td").eq(20).html();
 		    direccion_id = $(this).find("td").eq(21).html();
 			ubicacion = $(this).find("td").eq(23).html();
+			latitud = $(this).find("td").eq(24).html();
+			longitud = $(this).find("td").eq(25).html();
 
 
-		    listado += provincia_id + "|" + departamento_id + "|" + localidad_id + "|" + barrio_id + "|" + calle_id + "|" + numero + "|" + manzana + "|" + casa + "|" + edificiotorre + "|" + piso + "|" + seccion + "|" + lote + "|" + codigopostal + "|" + referencia + "|" + observacion + "|" + empleado_id + "|" + horariovisita + "|" + horadesde + "|" + horahasta + "|" + direccion_id + "|" + ubicacion + "&&&";
+		    listado += provincia_id + "|" + departamento_id + "|" + localidad_id + "|" + barrio_id + "|" + calle_id + "|" + numero + "|" + manzana + "|" + casa + "|" + edificiotorre + "|" + piso + "|" + seccion + "|" + lote + "|" + codigopostal + "|" + referencia + "|" + observacion + "|" + empleado_id + "|" + horariovisita + "|" + horadesde + "|" + horahasta + "|" + direccion_id + "|" + ubicacion + "|" + latitud + "|" + longitud + "&&&";
 		    });
 
 

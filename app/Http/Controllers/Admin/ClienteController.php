@@ -74,6 +74,7 @@ class ClienteController extends Controller
 
 
         $temp = '';
+
         if($typetemp == 'barrio'  || $typetemp == 'callenumero' || $typetemp == 'mzcasa')
         {
             $clientes = Clientedireccion::type($request->get('type'), $request->get('barrios'), $request->get('calles'), $request->get('val'), $request->get('val2'))->paginate(15);
@@ -122,6 +123,9 @@ class ClienteController extends Controller
                 } 
 
                 $value->usuario_modi = $temp;
+
+                $value->usuario_alta = $value->ubicacion;
+
 
             }
 
@@ -175,6 +179,8 @@ class ClienteController extends Controller
                 }
 
                 $value->usuario_modi = $temp;
+
+                $value->usuario_alta = $clientedireccion->ubicacion;
                 
             }
             
@@ -270,7 +276,7 @@ class ClienteController extends Controller
                     $barrio_id, $calle_id, $numero, $manzana, $casa, 
                     $edificiotorre, $piso, $seccion, $lote, $codigopostal, 
                     $referencia, $observacion, $empleado_id, $horariovisita,
-                    $horadesde, $horahasta, $direccion_id, $ubicacion) = explode('|', $direccion_text);
+                    $horadesde, $horahasta, $direccion_id, $ubicacion, $latitud, $longitud) = explode('|', $direccion_text);
 
                 $clientedireccion = new Clientedireccion();
                     $clientedireccion->cliente_id = $cliente->id;
@@ -294,6 +300,8 @@ class ClienteController extends Controller
                     if($horadesde !== '') $clientedireccion->horadesde = $horadesde;
                     if($horahasta !== '') $clientedireccion->horahasta = $horahasta;
                     if($ubicacion !== '') $clientedireccion->ubicacion = $ubicacion;
+                    if($latitud !== '') $clientedireccion->latitud = $latitud;
+                    if($longitud !== '') $clientedireccion->longitud = $longitud;
                     $clientedireccion->usuario_alta = Auth::user()->username;
                     $clientedireccion->fecha_alta = date('Y-m-d H:i:s');
 
@@ -562,7 +570,7 @@ class ClienteController extends Controller
                     $barrio_id, $calle_id, $numero, $manzana, $casa, 
                     $edificiotorre, $piso, $seccion, $lote, $codigopostal, 
                     $referencia, $observacion, $empleado_id, $horariovisita,
-                    $horadesde, $horahasta, $direccion_id, $ubicacion) = explode('|', $direccion_text);
+                    $horadesde, $horahasta, $direccion_id, $ubicacion, $latitud, $longitud) = explode('|', $direccion_text);
                 
                 //alert($direccion_id);
                 if($direccion_id == 0)
@@ -589,6 +597,8 @@ class ClienteController extends Controller
                         if($horadesde !== '')$clientedireccion->horadesde = $horadesde;
                         if($horahasta !== '') $clientedireccion->horahasta = $horahasta;
                         if($ubicacion !== '') $clientedireccion->ubicacion = $ubicacion;
+                        if($latitud !== '') $clientedireccion->latitud = $longitud;
+                        if($longitud !== '') $clientedireccion->longitud = $longitud;
                         $clientedireccion->usuario_alta = Auth::user()->username;
                         $clientedireccion->fecha_alta = date('Y-m-d H:i:s');
 
