@@ -429,7 +429,7 @@ class ClienteController extends Controller
 
 
 
-        return view('admin.clientes.show', compact('cliente','companiatelefonicas', 'estadoclientes', 'provincias','departamentos' , 'localidades', 'barrios', 'calles', 'tipoivas', 'tipoclientes', 'tipodocumentos', 'articulos', 'empleados', 'tipofamiliar', 'clientefamiliares', 'clientedirecciones' , 'editshow'));
+        return view('admin.clientes.show', compact('cliente','companiatelefonicas', 'estadoclientes', 'provincias','departamentos' , 'localidades', 'barrios', 'calles', 'tipoivas', 'tipoclientes', 'tipodocumentos', 'empleados', 'tipofamiliar', 'clientefamiliares', 'clientedirecciones' , 'editshow'));
 
        
 
@@ -519,7 +519,7 @@ class ClienteController extends Controller
 
 
 
-        return view('admin.clientes.edit', compact('cliente','companiatelefonicas', 'estadoclientes', 'provincias', 'departamentos', 'localidades', 'barrios', 'calles', 'tipoivas', 'tipoclientes', 'tipodocumentos', 'articulos', 'empleados', 'tipofamiliar', 'clientefamiliares', 'clientedirecciones','sinbarrio', 'sincalle', 'editshow'));
+        return view('admin.clientes.edit', compact('cliente','companiatelefonicas', 'estadoclientes', 'provincias', 'departamentos', 'localidades', 'barrios', 'calles', 'tipoivas', 'tipoclientes', 'tipodocumentos', 'empleados', 'tipofamiliar', 'clientefamiliares', 'clientedirecciones','sinbarrio', 'sincalle', 'editshow'));
     }
 
     /**
