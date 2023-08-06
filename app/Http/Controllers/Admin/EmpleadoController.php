@@ -17,6 +17,7 @@ use App\Models\Tipodocumento;
 use App\Models\Companiatelefonica;
 use App\Models\Estadocivil;
 use App\Models\Localidad;
+use App\Models\Barrio;
 
 use App\Models\Clientedireccion;
 use App\Models\Modulo;
@@ -267,6 +268,51 @@ class EmpleadoController extends Controller
         //dd($contratosdesde);
 
        
+        return redirect()->route('empleados.index');
+    }
+
+    public function empleadoabarrio($id)
+    {
+        
+
+        $empleado = Empleado::where('id',$id)->pluck('empleado' , 'id');
+
+        
+        //$barrios  = Barrio::orderBy('descripcion')->get();
+        $barrios = Barrio::select('id', 'descripcion', 'localidad_id')
+                 ->with('localidad:id,descripcion')
+                 ->orderBy('descripcion')
+                 ->get();
+
+        //
+        //dd(json_encode($barrios->toArray()));
+
+        return view('admin.empleados.barrios', compact('empleado', 'barrios'));
+    }
+
+
+
+    // Ejemplo en el controlador
+    public function empleadoabarrioStore(Request $request)
+    {
+        // Obtener los IDs de los barrios seleccionados del formulario
+        $barriosSeleccionados = $request->input('barrios', []);
+
+        $empleado_id = $request->input('empleado_id');
+
+    
+        $cantidad = 0;
+
+        // Guardar los IDs en otra tabla (por ejemplo, la tabla "barrio_user")
+        foreach ($barriosSeleccionados as $barrioId) {
+            
+            $cantidad += Clientedireccion::where('barrio_id', $barrioId)->count();
+
+            ClienteDireccion::where('barrio_id', $barrioId)
+                ->update(['empleado_id' => $empleado_id]);
+        }
+
+        Alert::success('Se actualizaron '. $cantidad . ' Contratos a un nuevo empleado de reparto')->persistent("Cerrar");
         return redirect()->route('empleados.index');
     }
 

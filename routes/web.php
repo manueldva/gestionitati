@@ -51,6 +51,11 @@ route::resource('articulos', 		'Admin\ArticuloController');
 route::resource('empleados', 		'Admin\EmpleadoController');
 route::get('/empleadotransferir/{id}',		'Admin\EmpleadoController@empleadotransferir')->name('empleadotransferir');
 route::post('/empleadotransferirstore',		'Admin\EmpleadoController@empleadotransferirstore')->name('empleadotransferirstore');
+
+
+route::get('/empleadoabarrio/{id}',		'Admin\EmpleadoController@empleadoabarrio')->name('empleadoabarrio');
+route::post('/empleadoabarriostore',		'Admin\EmpleadoController@empleadoabarriostore')->name('empleadoabarriostore');
+
 route::resource('modelocontratos', 	'Admin\ModelocontratoController');
 route::resource('contratos', 		'Admin\ContratoController');
 route::get('/eliminarcontrato/{id}',		'Admin\ContratoController@eliminar')->name('eliminarcontrato');

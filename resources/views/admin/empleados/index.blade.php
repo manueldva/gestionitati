@@ -103,9 +103,16 @@
 						</td>
 						@if($permiso == 2) 
 							<td width="10px">
-		                      @if($empleado->tipoempleado_id == 1)
+								@if ($empleado->tipoempleado_id == 1)
 			                      <a href="{{ route('empleadotransferir', $empleado->id) }}" class="btn btn-sm btn-default">
 			                        Transferir C.
+			                      </a>
+			                    @endif
+		                    </td>
+		                    <td width="10px">
+		                    	@if ($empleado->tipoempleado_id == 1)
+			                      <a href="{{ route('empleadoabarrio', $empleado->id) }}" class="btn btn-sm btn-default">
+			                        Barrios
 			                      </a>
 			                    @endif
 		                    </td>
